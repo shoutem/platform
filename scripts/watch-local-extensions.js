@@ -6,15 +6,9 @@ const watch = require('node-watch');
 const globToRegExp = require('glob-to-regexp');
 const parseGitignore = require('parse-gitignore');
 const _ = require('lodash');
-const shelljs = require('shelljs');
 
 const getLocalExtensions = require('./helpers/get-local-extensions.js');
-// eslint-disable-next-line import/no-unresolved
 const configJsonPath = path.resolve('config.json');
-
-// eslint-disable-next-line max-len
-const PACKAGER_DEFAULTS_JS_PATH = path.resolve(path.join('node_modules', 'react-native', 'packager', 'defaults.js'));
-const defaultsReplacePlaceholder = 'exports.providesModuleNodeModules = [';
 
 function getIgnoreListForPath(folder) {
   const gitignorePatterns = parseGitignore(path.join(folder, '.gitignore'));
@@ -22,21 +16,9 @@ function getIgnoreListForPath(folder) {
   return _.union(gitignorePatterns, npmignorePatterns);
 }
 
-function rewritePackagerDefaultsJs(watchedPackages) {
-  const defaultsContent = fs.readFileSync(PACKAGER_DEFAULTS_JS_PATH, 'utf8');
-  const nodeModules = `${defaultsReplacePlaceholder}\n  '${watchedPackages.join(`', \n  '`)}',`;
-  const rewrittenDefaultsContent = defaultsContent.replace(defaultsReplacePlaceholder, nodeModules);
-  fs.writeFileSync(PACKAGER_DEFAULTS_JS_PATH, rewrittenDefaultsContent, 'utf8');
-}
-
-function getExtensionIds(extensions) {
-  return _.map(extensions, (extension) => extension.id);
-}
-
 function watchWorkingDirectories() {
   const config = fs.readJsonSync(configJsonPath);
   const localExtensions = getLocalExtensions(config.workingDirectories);
-  rewritePackagerDefaultsJs(getExtensionIds(localExtensions));
   localExtensions.forEach((extension) => {
     const packageName = extension.id;
     const packagePath = extension.path;

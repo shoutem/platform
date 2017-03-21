@@ -13,6 +13,7 @@ const cli = commandLineArgs([
   { name: 'configPath', type: String },
   { name: 'appId', type: Number },
   { name: 'serverApiEndpoint', type: String },
+  { name: 'legacyApiEndpoint', type: String },
   { name: 'production', type: Boolean },
   { name: 'offlineMode', type: Boolean },
   { name: 'configurationFilePath', type: String },
@@ -21,7 +22,10 @@ const cli = commandLineArgs([
   { name: 'platform', type: String },
   { name: 'authorization', type: String },
   { name: 'excludePackages', type: String, multiple: true },
+  { name: 'binaryVersionName', type: String },
+  { name: 'binaryVersionCode', type: String },
   { name: 'skipNativeDependencies', type: String },
+  { name: 'bundleIdSuffix', type: String, defaultValue: '' },
 ]);
 
 const cliArgs = cli.parse();

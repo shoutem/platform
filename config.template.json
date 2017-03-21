@@ -1,6 +1,7 @@
 {
   "appId": 2080,
   "serverApiEndpoint": "apps.dev.sauros.hr",
+  "legacyApiEndpoint": "api.dev.sauros.hr",
   "authorization": "",
   "production": false,
   "offlineMode": false,
@@ -12,5 +13,7 @@
   "baseAppId": 2470,
   "cacheFolder": "./cached-bundles",
   "cacheBaseApp": false,
+  "binaryVersionName": null,
+  "binaryVersionCode": null,
   "skipNativeDependencies": false
 }

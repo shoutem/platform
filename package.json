@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/mobile-app",
-  "version": "0.43.0",
+  "version": "0.44.0",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "watch": "node scripts/watch-local-extensions.js",
@@ -8,16 +8,17 @@
     "lint": "eslint .",
     "configure": "node scripts/configure",
     "run": "node scripts/run",
-    "bundle": "node scripts/bundle"
+    "bundle": "node scripts/bundle",
+    "build": "node scripts/build"
   },
   "dependencies": {
     "@shoutem/animation": "^0.8.10",
-    "@shoutem/core": "0.0.43",
+    "@shoutem/core": "0.0.44",
     "@shoutem/redux-composers": "0.1.0-beta.4",
     "@shoutem/redux-io": "0.2.11-alpha.11",
     "@shoutem/theme": "^0.8.10",
-    "@shoutem/ui": "0.10.8",
-    "@shoutem/ui-addons": "0.0.6",
+    "@shoutem/ui": "0.10.9",
+    "@shoutem/ui-addons": "0.0.7",
     "lodash": "^4.10.1",
     "moment": "^2.13.0",
     "whatwg-fetch": "1.0.0",

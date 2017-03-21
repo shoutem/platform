@@ -2,10 +2,9 @@
 /* global require needs to be enabled because files to be required are
  * determined dynamically
 */
-
 'use strict';
 
-const shell = require('shelljs');
+const spawn = require('superspawn').spawn;
 const fs = require('fs-extra');
 const path = require('path');
 const _ = require('lodash');
@@ -13,13 +12,21 @@ const rimraf = require('rimraf');
 const process = require('process');
 const request = require('request');
 
-
+const AppBinaryConfigurator = require('./app-binary-configurator');
 const getLocalExtensions = require('./../helpers/get-local-extensions');
 const ExtensionsInstaller = require('./extensions-installer.js');
 const buildApiEndpoint = require('./../helpers/build-api-endpoint');
 const getExtensionsFromConfiguration = require('./../helpers/get-extensions-from-configuration');
 
-const reactNativeLocalCli = `node node_modules/react-native/local-cli/cli.js`;
+function rewritePackagerDefaultsJs() {
+  const defaultsJsPath = path.join('node_modules', 'react-native', 'packager', 'defaults.js');
+  const PACKAGER_DEFAULTS_JS_PATH = path.resolve(defaultsJsPath);
+  const defaultsReplacePlaceholder = 'exports.providesModuleNodeModules = [';
+  const defaultsContent = fs.readFileSync(PACKAGER_DEFAULTS_JS_PATH, 'utf8');
+  const nodeModules = `${defaultsReplacePlaceholder}\n  '.*',`;
+  const rewrittenDefaultsContent = defaultsContent.replace(defaultsReplacePlaceholder, nodeModules);
+  fs.writeFileSync(PACKAGER_DEFAULTS_JS_PATH, rewrittenDefaultsContent, 'utf8');
+}
 
 /**
  * AppConfigurator configure application for running other steps (app bundling, run or build)
@@ -43,9 +50,9 @@ class AppConfigurator {
     const serverApiEndpoint = this.buildConfig.serverApiEndpoint;
     const appId = this.buildConfig.appId;
     const production = this.buildConfig.production;
-    const path = `configurations/current`;
+    const apiPath = 'configurations/current';
 
-    return buildApiEndpoint(serverApiEndpoint, appId, path, production);
+    return buildApiEndpoint(serverApiEndpoint, appId, apiPath, production);
   }
 
   downloadConfiguration() {
@@ -84,14 +91,18 @@ class AppConfigurator {
     );
 
     return installer.installExtensions(this.buildConfig.production)
-      .then((extensions) => {
-        const extensionsJs = installer.createExtensionsJs(extensions);
-        const preBuild = this.executeBuildLifecycleHook(extensions, 'preBuild');
+      .then((installedExts) => {
+        const extensionsJs = installer.createExtensionsJs(installedExts);
+        const preBuild = this.executeBuildLifecycleHook(installedExts, 'preBuild');
         let installNativeDependencies;
 
         if (!this.buildConfig.skipNativeDependencies) {
-          installNativeDependencies = installer.installNativeDependencies(extensions, platform)
-            .then(() => this.runReactNativeLink());
+          installNativeDependencies = installer.installNativeDependencies(installedExts, platform)
+            .then(() => this.runReactNativeLink())
+            .then(() => {
+              const appBinaryConfigurator = new AppBinaryConfigurator(this.buildConfig);
+              return appBinaryConfigurator.configureApp();
+            });
         }
 
         return Promise.all([extensionsJs, preBuild, installNativeDependencies]);
@@ -157,15 +168,7 @@ class AppConfigurator {
   }
 
   runReactNativeLink() {
-    return new Promise((resolve, reject) => {
-      shell.exec(`${reactNativeLocalCli} link`,  (error) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve();
-        }
-      });
-    });
+    return spawn('react-native', ['link'], { stderr: 'inherit', stdio: 'inherit' });
   }
 
   run() {
@@ -176,6 +179,7 @@ class AppConfigurator {
     return this.prepareConfiguration()
       .then(() => this.buildExtensions())
       .then(() => {
+        rewritePackagerDefaultsJs();
         console.timeEnd('build time');
         if (this.buildConfig.workingDirectories.length) {
           const runWatchInNewWindow = require('./../helpers/run-watch-in-new-window.js');

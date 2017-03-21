@@ -40,7 +40,7 @@
 	<key>CodePushDeploymentKey</key>
 	<string>ImWEX3C5l0r1PLXGLlM3VtfB15dfVyQ9naUsl</string>
 	<key>LSApplicationCategoryType</key>
-	<string></string>
+	<string>Lifestyle</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<string>preview</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -53,7 +53,7 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>Used to manage events</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>The app will make use of your location to present more relevant content or provide you with directions to a certain location.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>rubicon-icon-font.ttf</string>
