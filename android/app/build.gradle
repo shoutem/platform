@@ -152,10 +152,11 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-calendar-manager')
+    compile project(':react-native-fbsdk')
     compile project(':react-native-maps')
     compile project(':react-native-restart')
     compile project(':react-native-google-analytics-bridge')
-    compile project(':react-native-calendar-manager')
     compile project(':react-native-share')
     compile project(':react-native-video')
     compile project(':react-native-vector-icons')

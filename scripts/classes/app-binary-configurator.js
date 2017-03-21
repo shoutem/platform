@@ -135,8 +135,8 @@ class AppBinaryConfigurator {
     // we use this prefix for e.g. building apps with wildcard application identifier
     const bundlePrefix = this.config.bundleIdPrefix ? `${this.config.bundleIdPrefix}.` : '';
     const bundleId = `${bundlePrefix}${this.publishingProperties.iphone_bundle_id}`;
-    infoPlist.CFBundleName = this.publishingProperties.iphone_title;
-    infoPlist.CFBundleDisplayName = this.publishingProperties.iphone_title;
+    infoPlist.CFBundleName = this.publishingProperties.iphone_name;
+    infoPlist.CFBundleDisplayName = this.publishingProperties.iphone_name;
     infoPlist.CFBundleIdentifier = bundleId;
     infoPlist.CFBundleShortVersionString = this.getBinaryVersionName();
     infoPlist.LSApplicationCategoryType = this.publishingProperties.primary_category_name;
@@ -152,7 +152,7 @@ class AppBinaryConfigurator {
       .replace(/\sapplicationId\s.*/g, ` applicationId '${applicationId}'`)
       .replace(/\sversionCode\s.*/g, ` versionCode ${this.getBinaryVersionCode()}`)
       .replace(/\sversionName\s.*/g, ` versionName '${this.getBinaryVersionName()}'`)
-      .replace(/ShoutemApplicationName/g, this.publishingProperties.android_title);
+      .replace(/ShoutemApplicationName/g, this.publishingProperties.android_name);
     fs.writeFileSync(buildGradlePath, newBuildGradle);
   }
 
