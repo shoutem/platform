@@ -10,10 +10,11 @@
 #import "AppDelegate.h"
 #import "CodePush.h"
 #import <AVFoundation/AVFoundation.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
 
 #import "RCTBundleURLProvider.h"
 #import "RCTRootView.h"
-#import "RCTLinkingManager.h"
 
 @implementation AppDelegate
 
@@ -54,14 +55,19 @@
   [self.window makeKeyAndVisible];
   rootView.frame = backgroundView.frame;
 
+  [[FBSDKApplicationDelegate sharedInstance] application:application
+                           didFinishLaunchingWithOptions:launchOptions];
+
   return YES;
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-  return [RCTLinkingManager application:application openURL:url
-                      sourceApplication:sourceApplication annotation:annotation];
+  return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                        openURL:url
+                                              sourceApplication:sourceApplication
+                                                     annotation:annotation];
 }
 
 //NativeModuleInjectionMark-appDelegate-body

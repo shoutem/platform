@@ -18,22 +18,8 @@
 	<string>1.0.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleURLSchemes</key>
-	<array>
-		<string>preview</string>
-	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>preview</string>
-			</array>
-		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
@@ -41,8 +27,19 @@
 	<string>ImWEX3C5l0r1PLXGLlM3VtfB15dfVyQ9naUsl</string>
 	<key>LSApplicationCategoryType</key>
 	<string>Lifestyle</string>
+  	<key>FacebookAppID</key>
+  	<string>{facebook-app-id}</string>
+  	<key>FacebookDisplayName</key>
+  	<string>{facebook-app-name}</string>
+  	<key>FacebookAutoLogAppEventsEnabled</key>
+  	<false/>
 	<key>LSApplicationQueriesSchemes</key>
-	<string>preview</string>
+	<array>
+    		<string>fbapi</string>
+    		<string>fb-messenger-api</string>
+    		<string>fbauth2</string>
+    		<string>fbshareextension</string>
+  	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
