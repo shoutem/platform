@@ -3,8 +3,8 @@
 const _ = require('lodash');
 const fs = require('fs-extra');
 const request = require('request');
-const sharp = require('sharp');
 const plist = require('plist');
+const Jimp = require('jimp');
 
 const iosBinarySettings = require('../configs/iosBinarySettings');
 const androidBinarySettings = require('../configs/androidBinarySettings');
@@ -36,14 +36,16 @@ function downloadAndResizeImage(imageUrl, downloadPath, resizeConfig, production
   return downloadImage(imageUrl, downloadPath, resizeConfig).then((imagePath) => {
     const resizingPromises = _.map(resizeConfig.images, (image) =>
       new Promise((resolve, reject) => {
-        sharp(imagePath)
-          .resize(image.width, image.height)
-          .png()
-          .toFile(image.savePath)
+        Jimp.read(imagePath)
+          .then((imageFile) =>
+            imageFile
+              .cover(image.width, image.height)
+              .write(image.savePath)
+          )
           .then(() => resolve())
           .catch((error) => {
-            if(production) {
-              reject(error)
+            if (production) {
+              reject(error);
             }
             resolve();
           });
@@ -97,8 +99,9 @@ class AppBinaryConfigurator {
     const launchScreen = this.getLaunchScreenUrl();
     const resizeConfig = this.binarySettings.launchScreen;
     const production = this.config.production;
+    const launchScreenPath = './assets/launchScreen.png';
     console.log('Configuring launch screen...');
-    return downloadAndResizeImage(launchScreen, './assets/launchScreen.png', resizeConfig, production);
+    return downloadAndResizeImage(launchScreen, launchScreenPath, resizeConfig, production);
   }
 
   getAppIconUrl() {
@@ -129,8 +132,9 @@ class AppBinaryConfigurator {
     const infoPlistPath = './ios/ShoutemApp/Info.plist';
     const infoPlistFile = fs.readFileSync(infoPlistPath, 'utf8');
     const infoPlist = plist.parse(infoPlistFile);
-    const bundleSuffix = this.config.bundleIdSuffix ? `.${this.config.bundleIdSuffix}` : '';
-    const bundleId = `${this.publishingProperties.iphone_bundle_id}${bundleSuffix}`;
+    // we use this prefix for e.g. building apps with wildcard application identifier
+    const bundlePrefix = this.config.bundleIdPrefix ? `${this.config.bundleIdPrefix}.` : '';
+    const bundleId = `${bundlePrefix}${this.publishingProperties.iphone_bundle_id}`;
     infoPlist.CFBundleName = this.publishingProperties.iphone_title;
     infoPlist.CFBundleDisplayName = this.publishingProperties.iphone_title;
     infoPlist.CFBundleIdentifier = bundleId;
