@@ -14,7 +14,7 @@ const config = {
    */
   getBlacklistRE(platform) {
     return blacklist(platform, [
-      /scripts\/.*/,
+      /\.\/scripts\/.*/,
     ]);
   },
 };

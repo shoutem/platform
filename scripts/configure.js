@@ -25,7 +25,7 @@ const cli = commandLineArgs([
   { name: 'binaryVersionName', type: String },
   { name: 'binaryVersionCode', type: String },
   { name: 'skipNativeDependencies', type: String },
-  { name: 'bundleIdSuffix', type: String, defaultValue: '' },
+  { name: 'bundleIdPrefix', type: String },
 ]);
 
 const cliArgs = cli.parse();

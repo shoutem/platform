@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/mobile-app",
-  "version": "0.44.0",
+  "version": "0.49.0",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "watch": "node scripts/watch-local-extensions.js",
@@ -26,7 +26,7 @@
     "react-native": "0.39.2",
     "react-native-browser-polyfill": "^0.1.1",
     "react-native-calendar-manager": "git+https://git@bitbucket.org/fiveminutes/react-native-calendar-manager.git",
-    "react-native-code-push": "^1.14.6-beta",
+    "react-native-code-push": "^1.16.1-beta",
     "react-native-google-analytics-bridge": "4.0.3",
     "react-native-restart": "0.0.1",
     "react-native-share": "1.0.13",

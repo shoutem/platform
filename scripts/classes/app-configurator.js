@@ -18,6 +18,8 @@ const ExtensionsInstaller = require('./extensions-installer.js');
 const buildApiEndpoint = require('./../helpers/build-api-endpoint');
 const getExtensionsFromConfiguration = require('./../helpers/get-extensions-from-configuration');
 
+const reactNativeCli = path.join('node_modules', 'react-native', 'local-cli', 'cli.js');
+
 function rewritePackagerDefaultsJs() {
   const defaultsJsPath = path.join('node_modules', 'react-native', 'packager', 'defaults.js');
   const PACKAGER_DEFAULTS_JS_PATH = path.resolve(defaultsJsPath);
@@ -168,7 +170,7 @@ class AppConfigurator {
   }
 
   runReactNativeLink() {
-    return spawn('react-native', ['link'], { stderr: 'inherit', stdio: 'inherit' });
+    return spawn('node', [reactNativeCli, 'link'], { stdio: 'inherit', cwd: process.cwd() });
   }
 
   run() {

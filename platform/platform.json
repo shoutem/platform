@@ -1,11 +1,45 @@
 {
-	"version":"1.0.10",
-  "mobileAppVersion": "0.45.0",
-  "releaseNotes": "Android support for Code Push introduced",
+  "version":"1.0.14",
+  "mobileAppVersion": "0.49.1",
+  "releaseNotes": "Enterprise build supported",
   "settings": {
-	  "appetizeKey":"j4vrr4mvn6a13ewjm5yjy97hgc"
+    "DEV-appetizeKey":"f2cvzg9ynt3n1rn9bjg943y9z4",
+    "QA-appetizeKey":"aqaj1kr6drzm99q4eqb5041ymc",
+    "Production-appetizeKey": "8cheqkm0rqpmqx2ghx0rv63xzc"
   },
-	"dependencies": {
-    "shoutem.code-push": ">=0.2.0"
+  "dependencies": {
+    "shoutem.about": "^0.9.1",
+    "shoutem.analytics": "^0.1.7",
+    "shoutem.application": "^0.2.8",
+    "shoutem.arno-theme": "^0.0.23",
+    "shoutem.auth": "^0.4.10",
+    "shoutem.books": "^0.2.9",
+    "shoutem.cms": "^0.10.8",
+    "shoutem.code-push": "^0.2.0",
+    "shoutem.events": "^0.9.2",
+    "shoutem.favorites": "^0.1.7",
+    "shoutem.folder": "^0.2.7",
+    "shoutem.google-analytics": "^0.1.7",
+    "shoutem.layouts": "^0.1.9",
+    "shoutem.menu": "^0.10.9",
+    "shoutem.navigation": "^0.5.12",
+    "shoutem.news": "^0.2.4",
+    "shoutem.people": "^0.10.9",
+    "shoutem.persist": "^0.1.7",
+    "shoutem.photos": "^0.1.8",
+    "shoutem.places": "^0.9.11",
+    "shoutem.platform-analytics": "^0.1.7",
+    "shoutem.preview": "^0.1.7",
+    "shoutem.products": "^0.9.9",
+    "shoutem.push-notifications": "^0.1.7",
+    "shoutem.rss": "^0.2.8",
+    "shoutem.rss-news": "^0.9.6",
+    "shoutem.rss-videos": "^0.10.7",
+    "shoutem.rubicon-noir-theme": "^0.0.13",
+    "shoutem.rubicon-rose-theme": "^0.0.13",
+    "shoutem.rubicon-theme": "^0.1.25",
+    "shoutem.theme": "^0.1.7",
+    "shoutem.video": "^0.10.8",
+    "shoutem.web-view": "^0.5.7"
   }
 }

@@ -17,7 +17,7 @@ function npmInstall(dependencies) {
   const dependenciesArray = [].concat(dependencies);
   // eslint-disable-next-line prefer-template
   console.log(`Installing dependencies${dependencies ? ': ' + dependenciesArray.join(' ') : ''}`);
-  return spawn('npm', ['install', `--save ${dependenciesArray.join(' ')}`], {
+  return spawn('npm', ['install', '--save', `${dependenciesArray.join(' ')}`], {
     stdio: 'inherit',
     stderr: 'inherit',
   });
