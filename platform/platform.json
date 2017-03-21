@@ -1,0 +1,11 @@
+{
+	"version":"1.0.10",
+  "mobileAppVersion": "0.45.0",
+  "releaseNotes": "Android support for Code Push introduced",
+  "settings": {
+	  "appetizeKey":"j4vrr4mvn6a13ewjm5yjy97hgc"
+  },
+	"dependencies": {
+    "shoutem.code-push": ">=0.2.0"
+  }
+}

@@ -118,12 +118,13 @@ android {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             buildConfigField "String", "CODE_PUSH_APP_KEY", CUSTOM_CODE_PUSH_APP_KEY
-            signingConfig signingConfigs.release
+            manifestPlaceholders = [appName: "ShoutemApplicationName"]
         }
 
         // TODO(Vladimir): remove this config when CodePush viabliity testing is over
         debug {
             buildConfigField "String", "CODE_PUSH_APP_KEY", CUSTOM_CODE_PUSH_APP_KEY
+            manifestPlaceholders = [appName: "ShoutemApplicationName"]
         }
     }
     // applicationVariants are e.g. debug, release

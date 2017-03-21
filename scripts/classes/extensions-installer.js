@@ -2,7 +2,7 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const shell = require('shelljs');
+const spawn = require('superspawn').spawn;
 const _ = require('lodash');
 const glob = require('glob');
 const packageJsonTemplate = fs.readJsonSync(path.resolve('package.template.json'));
@@ -17,14 +17,9 @@ function npmInstall(dependencies) {
   const dependenciesArray = [].concat(dependencies);
   // eslint-disable-next-line prefer-template
   console.log(`Installing dependencies${dependencies ? ': ' + dependenciesArray.join(' ') : ''}`);
-  return new Promise((resolve, reject) => {
-    shell.exec(`npm install --save ${dependenciesArray.join(' ')}`, (error) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve();
-      }
-    });
+  return spawn('npm', ['install', `--save ${dependenciesArray.join(' ')}`], {
+    stdio: 'inherit',
+    stderr: 'inherit',
   });
 }
 
@@ -41,15 +36,7 @@ function installLocalExtension(extension) {
 function yarnInstall() {
   console.log('Installing dependencies:');
   console.log(JSON.stringify(packageJsonTemplate.dependencies, null, 2));
-  return new Promise((resolve, reject) => {
-    shell.exec('yarn install', (error) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve();
-      }
-    });
-  });
+  return spawn('yarn', ['install'], { stderr: 'inherit', stdio: 'inherit' });
 }
 
 function installNpmExtension(extension) {
@@ -163,16 +150,7 @@ class ExtensionsInstaller {
       const podFileContent = podFileTemplate.replace(extensionsPlaceholderRegExp, pods.join('\n'));
       fs.writeFileSync('ios/Podfile', podFileContent);
 
-      return new Promise((resolve, reject) => {
-        shell.exec('cd ios && pod install', (error) => {
-          if (error) {
-            reject(error);
-          } else {
-            console.timeEnd('Installing pods');
-            resolve();
-          }
-        });
-      });
+      return spawn('pod', ['install'], { stderr: 'inherit', stdio: 'inherit', cwd: 'ios' });
     }
     return Promise.resolve();
   }

@@ -1,0 +1,22 @@
+{
+  "name": "@shoutem/app-build-script",
+  "version": "0.0.1-alpha.5",
+  "dependencies": {
+    "command-line-args": "^2.1.6",
+    "es6-symbol": "^3.0.2",
+    "fs-extra": "1.0.0",
+    "glob": "^7.0.3",
+    "glob-to-regexp": "^0.3.0",
+    "lodash": "^4.10.1",
+    "node-watch": "^0.3.5",
+    "parse-gitignore": "^0.3.1",
+    "plist": "^2.0.1",
+    "ps-node": "^0.1.4",
+    "request": "^2.72.0",
+    "rimraf": "^2.5.4",
+    "sharp": "^0.17.1",
+    "shelljs": "^0.7.4",
+    "superspawn": "^0.1.0",
+    "xcode": "^0.9.1"
+  }
+}
