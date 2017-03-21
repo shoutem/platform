@@ -3,7 +3,6 @@ extensions.js
 config.json
 temp
 cached-bundles
-package.json
 yarn.lock
 Podfile
 
