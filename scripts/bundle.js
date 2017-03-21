@@ -22,4 +22,5 @@ validateArgsWithConfig(cliArgs, config);
 const buildConfig = _.merge(config, cliArgs);
 const bundler = new AppBundler(buildConfig);
 
-bundler.createReactNativeBundle();
+bundler.createReactNativeBundle()
+  .catch(() => process.exit(1));
