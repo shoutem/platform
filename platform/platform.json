@@ -1,7 +1,7 @@
 {
-  "version": "1.0.21",
-  "mobileAppVersion": "0.54.0",
-  "releaseNotes": "Updated navigation and UI toolkit",
+  "version": "1.0.22",
+  "mobileAppVersion": "0.55.0",
+  "releaseNotes": "Adds jumbo mode for Android",
   "settings": {
     "DEV-appetizeKey": "f0ca4p1qj0gwn1kte22fmw725w",
     "QA-appetizeKey": "warprc5rbx332vuna62nzf403m",
@@ -12,7 +12,7 @@
     "shoutem.analytics": "^0.1.9",
     "shoutem.application": "^0.2.11",
     "shoutem.arno-theme": "^0.0.47",
-    "shoutem.auth": "^0.6.2",
+    "shoutem.auth": "^0.6.3",
     "shoutem.books": "^0.2.15",
     "shoutem.cms": "^0.10.12",
     "shoutem.code-push": "^0.2.2",
@@ -22,7 +22,7 @@
     "shoutem.layouts": "^0.1.15",
     "shoutem.menu": "^0.10.12",
     "shoutem.navigation": "^0.5.28",
-    "shoutem.news": "^0.9.14",
+    "shoutem.news": "^0.9.15",
     "shoutem.people": "^0.10.14",
     "shoutem.persist": "^0.1.8",
     "shoutem.photos": "^0.9.6",
