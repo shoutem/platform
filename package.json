@@ -12,7 +12,7 @@
     "build": "node scripts/build"
   },
   "dependencies": {
-    "@shoutem/animation": "^0.9.2",
+    "@shoutem/animation": "^0.10.2",
     "@shoutem/core": "0.0.48",
     "@shoutem/redux-composers": "0.1.0-beta.4",
     "@shoutem/redux-io": "1.0.3",
