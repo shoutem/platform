@@ -94,6 +94,11 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
+
+        dexOptions {
+        	jumboMode = true
+    	}
+
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
