@@ -1,7 +1,7 @@
 {
-  "version": "1.0.22",
-  "mobileAppVersion": "0.55.0",
-  "releaseNotes": "Adds jumbo mode for Android",
+  "version": "1.0.23",
+  "mobileAppVersion": "0.56.0",
+  "releaseNotes": "Adds multi dex support for older Android APIs (< 5.0)",
   "settings": {
     "DEV-appetizeKey": "f0ca4p1qj0gwn1kte22fmw725w",
     "QA-appetizeKey": "warprc5rbx332vuna62nzf403m",
