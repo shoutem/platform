@@ -33,7 +33,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     }
 
     @Override
-    protected boolean getUseDeveloperSupport() {
+    public boolean getUseDeveloperSupport() {
       return BuildConfig.DEBUG;
     }
 
