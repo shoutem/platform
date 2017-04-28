@@ -2,6 +2,7 @@
     package="com.shoutemapp" xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <application tools:replace="android:label"
       android:name=".MainApplication"
@@ -14,7 +15,8 @@
         android:label="${appName}"
         android:launchMode="singleTask"
         android:screenOrientation="portrait"
-        android:configChanges="keyboard|keyboardHidden|orientation|screenSize">
+        android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+        android:windowSoftInputMode="adjustResize">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
