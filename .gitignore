@@ -5,6 +5,7 @@ temp
 cached-bundles
 yarn.lock
 Podfile
+ios/Pods
 
 # Logs
 logs
