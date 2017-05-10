@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/mobile-app",
-  "version": "0.56.0",
+  "version": "0.56.1",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "watch": "node scripts/watch-local-extensions.js",
@@ -12,7 +12,7 @@
     "build": "node scripts/build"
   },
   "dependencies": {
-    "@shoutem/animation": "^0.10.2",
+    "@shoutem/animation": "^0.11.0",
     "@shoutem/core": "0.0.48",
     "@shoutem/redux-composers": "0.1.0-beta.4",
     "@shoutem/redux-io": "1.0.4",
