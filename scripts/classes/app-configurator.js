@@ -73,7 +73,7 @@ class AppConfigurator {
           this.configuration = configuration;
           resolve(configuration);
         } else {
-          reject('Configuration download failed!');
+          reject(`Configuration download failed! Error code: ${response.statusCode}`);
         }
       }).on('error', err => {
         reject(err);

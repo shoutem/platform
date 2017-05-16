@@ -4,7 +4,6 @@ import android.support.multidex.MultiDexApplication;
 
 import com.facebook.react.ReactApplication;
 import com.shoutem.calendar.CalendarManagerPackage;
-import com.airbnb.android.react.maps.MapsPackage;
 import com.avishayil.rnrestart.ReactNativeRestartPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -33,7 +32,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     }
 
     @Override
-    protected boolean getUseDeveloperSupport() {
+    public boolean getUseDeveloperSupport() {
       return BuildConfig.DEBUG;
     }
 
@@ -42,7 +41,6 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new CalendarManagerPackage(),
-            new MapsPackage(),
             new ReactNativeRestartPackage(),
             new GoogleAnalyticsBridgePackage(),
             new VectorIconsPackage(),
