@@ -13,7 +13,7 @@ const configJsonPath = path.resolve('config.json');
 function getIgnoreListForPath(folder) {
   const gitignorePatterns = parseGitignore(path.join(folder, '.gitignore'));
   const npmignorePatterns = parseGitignore(path.join(folder, '.npmignore'));
-  return _.union(gitignorePatterns, npmignorePatterns);
+  return _.union(gitignorePatterns, npmignorePatterns, '.git');
 }
 
 function watchWorkingDirectories() {
@@ -31,7 +31,7 @@ function watchWorkingDirectories() {
       );
     console.log(`Watching: ${packageName}`);
     watch(packagePath, (filename) => {
-      const localPath = filename.split(packagePath).pop();
+      const localPath = path.relative(packagePath, filename);
       const destination = path.join(installedExtensionPath, localPath);
       if (shouldCopyFile(filename)) {
         console.log(`Copying ${filename} to ${destination}`);

@@ -1,10 +1,9 @@
 package com.shoutemapp;
 
-import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 
 import com.facebook.react.ReactApplication;
 import com.shoutem.calendar.CalendarManagerPackage;
-import com.airbnb.android.react.maps.MapsPackage;
 import com.avishayil.rnrestart.ReactNativeRestartPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -21,7 +20,7 @@ import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainApplication extends Application implements ReactApplication {
+public class MainApplication extends MultiDexApplication implements ReactApplication {
 
   private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
 
@@ -33,7 +32,7 @@ public class MainApplication extends Application implements ReactApplication {
     }
 
     @Override
-    protected boolean getUseDeveloperSupport() {
+    public boolean getUseDeveloperSupport() {
       return BuildConfig.DEBUG;
     }
 
@@ -42,7 +41,6 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new CalendarManagerPackage(),
-            new MapsPackage(),
             new ReactNativeRestartPackage(),
             new GoogleAnalyticsBridgePackage(),
             new VectorIconsPackage(),
