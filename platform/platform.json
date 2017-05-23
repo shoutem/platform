@@ -1,11 +1,11 @@
 {
-  "version": "1.0.23",
-  "mobileAppVersion": "0.56.0",
-  "releaseNotes": "Adds multi dex support for older Android APIs (< 5.0)",
+  "version": "1.1.0",
+  "mobileAppVersion": "0.57.0",
+  "releaseNotes": "Upgrade React Native (0.43.0)",
   "settings": {
-    "DEV-appetizeKey": "f0ca4p1qj0gwn1kte22fmw725w",
-    "QA-appetizeKey": "warprc5rbx332vuna62nzf403m",
-    "Production-appetizeKey": "kdv3td72qvmra9mukxftczxd3m"
+    "DEV-appetizeKey": "vdavzmvqgw0vz3a8wed98evwg0",
+    "QA-appetizeKey": "7xbpyp44zzwgfk06yhxfw4ukgm",
+    "Production-appetizeKey": "eahg1ye3u6bdx2zhxqnr44up68"
   },
   "dependencies": {
     "shoutem.about": "^0.9.12",
