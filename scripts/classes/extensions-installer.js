@@ -14,7 +14,6 @@ function addDependencyToPackageJson(packageJson, name, version) {
 }
 
 function isDependencyInPackageJson(packageJson, name) {
-  // eslint-disable-next-line no-param-reassign
   return !_.isEmpty(packageJson.dependencies[name]);
 }
 
