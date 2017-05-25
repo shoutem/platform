@@ -4,15 +4,6 @@ import android.support.multidex.MultiDexApplication;
 
 import com.facebook.react.ReactApplication;
 import com.airbnb.android.react.maps.MapsPackage;
-import com.imagepicker.ImagePickerPackage;
-import com.reactnative.photoview.PhotoViewPackage;
-import com.BV.LinearGradient.LinearGradientPackage;
-import com.shoutem.calendar.CalendarManagerPackage;
-import com.avishayil.rnrestart.ReactNativeRestartPackage;
-import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
-import com.oblador.vectoricons.VectorIconsPackage;
-import cl.json.RNSharePackage;
-import com.microsoft.codepush.react.CodePush;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -44,17 +35,9 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new MapsPackage(),
-            new ImagePickerPackage(),
-            new PhotoViewPackage(),
-            new LinearGradientPackage(),
-            new CalendarManagerPackage(),
-            new ReactNativeRestartPackage(),
-            new GoogleAnalyticsBridgePackage(),
-            new VectorIconsPackage(),
-            new RNSharePackage(),
-            new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
-            new FBSDKPackage(mCallbackManager)
+          new MapsPackage(),
+          new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
+          new FBSDKPackage(mCallbackManager)
       );
     }
   };

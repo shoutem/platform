@@ -158,21 +158,11 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-maps')
-    compile project(':react-native-image-picker')
-    compile project(':react-native-photo-view')
-    compile project(':react-native-linear-gradient')
-    compile project(':react-native-calendar-manager')
     compile project(':react-native-fbsdk')
     compile(project(':react-native-maps')) {
         exclude group: 'com.google.android.gms', module: 'play-services-base'
         exclude group: 'com.google.android.gms', module: 'play-services-maps'
     }
-    compile project(':react-native-restart')
-    compile project(':react-native-google-analytics-bridge')
-    compile project(':react-native-share')
-    compile project(':react-native-video')
-    compile project(':react-native-vector-icons')
     compile project(':react-native-code-push')
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
