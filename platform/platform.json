@@ -1,7 +1,7 @@
 {
   "version": "1.0.24",
-  "mobileAppVersion": "0.56.2",
-  "releaseNotes": "Enables native animations on Android",
+  "mobileAppVersion": "0.56.3",
+  "releaseNotes": "Fixes run-android command",
   "settings": {
     "DEV-appetizeKey": "f0ca4p1qj0gwn1kte22fmw725w",
     "QA-appetizeKey": "warprc5rbx332vuna62nzf403m",

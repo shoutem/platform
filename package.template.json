@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/mobile-app",
-  "version": "0.56.2",
+  "version": "0.56.3",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "watch": "node scripts/watch-local-extensions.js",
@@ -27,13 +27,13 @@
     "react-native-browser-polyfill": "^0.1.1",
     "react-native-calendar-manager": "git+https://git@bitbucket.org/fiveminutes/react-native-calendar-manager.git",
     "react-native-code-push": "^1.16.1-beta",
-    "react-native-fbsdk": "0.4.0",
     "react-native-google-analytics-bridge": "4.0.3",
     "react-native-restart": "0.0.1",
     "react-native-share": "1.0.13",
     "react-native-vector-icons": "^2.0.3",
     "react-native-maps": "git+https://github.com/5minutes/react-native-maps.git#google-play-dependency-fix",
     "react-native-video": "^0.8.0",
+    "react-native-fbsdk": "shoutem/react-native-fbsdk#b73bffe4dcb6f913339459a2b2ba0ad3c0a850c8",
     "react-redux": "^5.0.2",
     "redux": "^3.3.1",
     "redux-action-buffer": "^1.0.1",
