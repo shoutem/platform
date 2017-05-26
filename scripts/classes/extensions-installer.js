@@ -79,13 +79,10 @@ class ExtensionsInstaller {
     this.localExtensions = localExtensions;
     this.extensionsJsPath = extensionsJsPath;
     this.extensionsToInstall = [];
-    const isLocalExtension = (extension) =>
-      (!localExtensions.some(localExtension => localExtension.id === extension.id) ||
-    localExtensions.length <= 0);
     const isExtensionExcluded = (extension) => _.includes(excludePackages, extension.id);
 
     if (extensions) {
-      this.extensionsToInstall = extensions.filter((extension) =>
+      this.extensionsToInstall = _.filter(extensions, (extension) =>
         _.get(extension, 'attributes.location.app.type') && !isExtensionExcluded(extension)
       );
     }
@@ -101,7 +98,12 @@ class ExtensionsInstaller {
     // because of its performance benefits.
     const install = this.localExtensions.length ? npmInstall : yarnInstall;
 
-    const installedExtensions = [...this.localExtensions, ...this.extensionsToInstall];
+    const installedExtensions = _.filter([
+      ...this.localExtensions,
+      ...this.extensionsToInstall
+    ], (extension) =>
+      shouldInstallExtension(extension)
+    );
     _.forEach(excludePackages, packageName => delete packageJsonTemplate.dependencies[packageName]);
     return writePackageJson(packageJsonTemplate)
       .then(() => install())
@@ -109,9 +111,7 @@ class ExtensionsInstaller {
         this.localExtensions.map((extension) => installLocalExtension(extension))
       ))
       .then(() =>
-        Promise.resolve(_.filter(installedExtensions, (extension) =>
-          shouldInstallExtension(extension)
-        ))
+        Promise.resolve(installedExtensions)
       );
   }
 
@@ -122,7 +122,7 @@ class ExtensionsInstaller {
 
     const extensionsMapping = [];
 
-    _.forEach(installedExtensions, (extension) => {
+    _.forEach(_.uniqBy(installedExtensions, 'id'), (extension) => {
       if (extension) {
         extensionsMapping.push(`'${extension.id}': require('${extension.id}'),\n  `);
       }
