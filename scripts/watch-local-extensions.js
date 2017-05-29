@@ -6,6 +6,7 @@ const watch = require('node-watch');
 const globToRegExp = require('glob-to-regexp');
 const parseGitignore = require('parse-gitignore');
 const _ = require('lodash');
+const readline = require('readline');
 
 const getLocalExtensions = require('./helpers/get-local-extensions.js');
 const configJsonPath = path.resolve('config.json');
@@ -45,8 +46,27 @@ function watchWorkingDirectories() {
   });
 }
 
+function supportGracefulShutdownOnWindows() {
+  if (/^win/.test(process.platform)) {
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
+
+    rl.on('SIGINT', function () {
+      process.emit('SIGINT');
+    });
+  }
+
+  process.on('SIGINT', function () {
+    process.exit();
+  });
+}
+
 // Initial watch for working directories
 watchWorkingDirectories();
+// adds SIGINT (CTRL+C) fix on windows
+supportGracefulShutdownOnWindows();
 
 // Watch changes on config.json and trigger build and re-watch for working directories
 watch(configJsonPath, () => {
