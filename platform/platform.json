@@ -1,6 +1,6 @@
 {
-  "version": "1.1.0",
-  "mobileAppVersion": "0.57.0",
+  "version": "1.1.1",
+  "mobileAppVersion": "0.57.1",
   "releaseNotes": "Upgrade React Native (0.43.0)",
   "settings": {
     "DEV-appetizeKey": "vdavzmvqgw0vz3a8wed98evwg0",
