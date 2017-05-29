@@ -4,7 +4,6 @@ import android.support.multidex.MultiDexApplication;
 
 import com.facebook.react.ReactApplication;
 import com.microsoft.codepush.react.CodePush;
-import com.airbnb.android.react.maps.MapsPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -36,7 +35,6 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-          new MapsPackage(),
           new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
           new FBSDKPackage(mCallbackManager)
       );
