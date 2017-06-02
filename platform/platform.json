@@ -1,6 +1,6 @@
 {
-  "version": "1.0.26-rc.0",
-  "mobileAppVersion": "0.56.4-rc.0",
+  "version": "1.0.26-rc.1",
+  "mobileAppVersion": "0.56.4-rc.1",
   "releaseNotes": "Fixes run-android command. Introduces Notification center extension.",
   "settings": {
     "DEV-appetizeKey": "f0ca4p1qj0gwn1kte22fmw725w",
@@ -11,6 +11,7 @@
     "shoutem.about": "^0.9.12",
     "shoutem.analytics": "^0.1.9",
     "shoutem.application": "^0.2.12",
+    "shoutem.arno-theme": "^0.0.55",
     "shoutem.auth": "^0.6.4",
     "shoutem.books": "^0.2.16",
     "shoutem.cms": "^0.10.13",
@@ -26,7 +27,7 @@
     "shoutem.page": "^0.0.3",
     "shoutem.people": "^0.10.14",
     "shoutem.persist": "^0.1.8",
-    "shoutem.photos": "^0.9.7",
+    "shoutem.photos": "^0.9.8",
     "shoutem.places": "^0.9.21",
     "shoutem.platform-analytics": "^0.1.9",
     "shoutem.products": "^0.9.16",
@@ -43,6 +44,6 @@
     "shoutem.theme": "^0.1.8",
     "shoutem.video": "^0.10.13",
     "shoutem.vimeo": "^0.0.1",
-    "shoutem.web-view": "^0.9.7"
+    "shoutem.web-view": "^0.9.8"
   }
 }
