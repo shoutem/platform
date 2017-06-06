@@ -31,7 +31,7 @@ function watchWorkingDirectories() {
       );
     console.log(`Watching: ${packageName}`);
     watch(packagePath, (filename) => {
-      const localPath = filename.split(packagePath).pop();
+      const localPath = path.relative(packagePath, filename);
       const destination = path.join(installedExtensionPath, localPath);
       if (shouldCopyFile(filename)) {
         console.log(`Copying ${filename} to ${destination}`);
