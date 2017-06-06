@@ -173,6 +173,21 @@ class AppConfigurator {
     return spawn('node', [reactNativeCli, 'link'], { stdio: 'inherit', cwd: process.cwd() });
   }
 
+  /**
+   * Copies files with fixes before official release
+   * With each react-native version check fixes/fixes.json and verify if issue is resolved
+   */
+  applyReactNativeFixes() {
+    return fs.readJson('./scripts/fixes/fixes.json')
+      .then(fixes => (
+        Promise.all(fixes.map(fix => {
+            console.log(`Applying fix: ${fix.from} > ${fix.to}`);
+            return fs.copy(fix.from, fix.to);
+          })
+        )
+      ));
+  }
+
   run() {
     console.time('build time');
     console.log(`starting build for app ${this.buildConfig.appId}`);
@@ -188,6 +203,9 @@ class AppConfigurator {
           runWatchInNewWindow();
         }
       })
+      .then(() => (
+        this.applyReactNativeFixes()
+      ))
       .catch((e) => {
         console.log(e);
         process.exit(1);
