@@ -12,6 +12,8 @@ const cli = commandLineArgs([
   { name: 'platform', type: String },
   { name: 'outputDirectory', type: String },
   { name: 'configuration', type: String },
+  { name: 'quiet', type: Boolean },
+  { name: 'logDirectory', type: String },
 ]);
 
 const cliArgs = cli.parse();
