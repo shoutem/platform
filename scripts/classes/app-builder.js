@@ -12,7 +12,6 @@ const buildHandlers = {
       '-workspace', 'ios/ShoutemApp.xcworkspace',
       '-scheme', 'ShoutemApp',
       '-configuration', this.config.configuration || 'Release',
-      '-quiet', this.config.quiet || true,
       '-archivePath', `${path.join(this.getOutputDirectory(), 'ShoutemApp.xcarchive')}`,
       'CODE_SIGNING_REQUIRED=NO',
       'CODE_SIGN_IDENTITY=',
