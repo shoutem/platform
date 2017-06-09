@@ -13,6 +13,10 @@ function addDependencyToPackageJson(packageJson, name, version) {
   packageJson.dependencies[name] = version;
 }
 
+function isDependencyInPackageJson(packageJson, name) {
+  return !_.isEmpty(packageJson.dependencies[name]);
+}
+
 function npmInstall(dependencies) {
   const dependenciesArray = [].concat(dependencies);
   // eslint-disable-next-line prefer-template
@@ -23,8 +27,12 @@ function npmInstall(dependencies) {
   });
 }
 
+function shouldInstallExtension(extension) {
+  return extension && isDependencyInPackageJson(packageJsonTemplate, extension.id);
+}
+
 function installLocalExtension(extension) {
-  if (extension) {
+  if (shouldInstallExtension(extension)) {
     const packagePath = extension.path;
 
     return npmInstall(`file:${packagePath}`);
@@ -71,15 +79,11 @@ class ExtensionsInstaller {
     this.localExtensions = localExtensions;
     this.extensionsJsPath = extensionsJsPath;
     this.extensionsToInstall = [];
-    const isLocalExtension = (extension) =>
-      (!localExtensions.some(localExtension => localExtension.id === extension.id) ||
-    localExtensions.length <= 0);
     const isExtensionExcluded = (extension) => _.includes(excludePackages, extension.id);
 
     if (extensions) {
-      this.extensionsToInstall = extensions.filter((extension) =>
-        _.get(extension, 'attributes.location.app.type') &&
-        isLocalExtension(extension) && !isExtensionExcluded(extension)
+      this.extensionsToInstall = _.filter(extensions, (extension) =>
+        _.get(extension, 'attributes.location.app.type') && !isExtensionExcluded(extension)
       );
     }
   }
@@ -94,14 +98,21 @@ class ExtensionsInstaller {
     // because of its performance benefits.
     const install = this.localExtensions.length ? npmInstall : yarnInstall;
 
-    const installedExtensions = [...this.localExtensions, ...this.extensionsToInstall];
-    excludePackages.forEach(packageName => delete packageJsonTemplate.dependencies[packageName]);
+    const installedExtensions = _.filter([
+      ...this.localExtensions,
+      ...this.extensionsToInstall
+    ], (extension) =>
+      shouldInstallExtension(extension)
+    );
+    _.forEach(excludePackages, packageName => delete packageJsonTemplate.dependencies[packageName]);
     return writePackageJson(packageJsonTemplate)
       .then(() => install())
       .then(() => Promise.all(
         this.localExtensions.map((extension) => installLocalExtension(extension))
       ))
-      .then(() => Promise.resolve(installedExtensions));
+      .then(() =>
+        Promise.resolve(installedExtensions)
+      );
   }
 
   createExtensionsJs(installedExtensions) {
@@ -111,7 +122,7 @@ class ExtensionsInstaller {
 
     const extensionsMapping = [];
 
-    installedExtensions.forEach((extension) => {
+    _.forEach(_.uniqBy(installedExtensions, 'id'), (extension) => {
       if (extension) {
         extensionsMapping.push(`'${extension.id}': require('${extension.id}'),\n  `);
       }
