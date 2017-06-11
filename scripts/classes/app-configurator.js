@@ -181,7 +181,7 @@ class AppConfigurator {
     const BUILD_GRADLE = './android/app/build.gradle';
 
     return fs.readFile(BUILD_GRADLE, 'utf8')
-      .then(file => file.replace('\r\n', '\n'))
+      .then(file => file.replace(/\r\n/g, '\n'))
       .then(file => fs.writeFile(BUILD_GRADLE, file));
   }
 
