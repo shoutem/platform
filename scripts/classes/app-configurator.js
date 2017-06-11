@@ -174,18 +174,36 @@ class AppConfigurator {
   }
 
   /**
+   * Checking out a repository on windows adds \r\n to line endings. This breaks react-native link
+   * which is not aware of platform specifics and targets \n in regex expressions.
+   */
+  applyGradleBuildFixes() {
+    const BUILD_GRADLE = './android/app/build.gradle';
+
+    return fs.readFile(BUILD_GRADLE, 'utf8')
+      .then(file => file.replace('\r\n', '\n'))
+      .then(file => fs.writeFile(BUILD_GRADLE, file));
+  }
+
+  /**
    * Copies files with fixes before official release
    * With each react-native version check fixes/fixes.json and verify if issue is resolved
    */
   applyReactNativeFixes() {
     return fs.readJson('./scripts/fixes/fixes.json')
-      .then(fixes => (
-        Promise.all(fixes.map(fix => {
+      .then(fixes => {
+        if (_.isEmpty(fixes)) {
+          return Promise.resolve();
+        }
+
+        return Promise.all(fixes.map(fix => {
             console.log(`Applying fix: ${fix.from} > ${fix.to}`);
             return fs.copy(fix.from, fix.to);
           })
         )
-      ));
+      })
+      // custom fixes
+      .then(() => this.applyGradleBuildFixes());
   }
 
   run() {
@@ -203,9 +221,7 @@ class AppConfigurator {
           runWatchInNewWindow();
         }
       })
-      .then(() => (
-        this.applyReactNativeFixes()
-      ))
+      .then(() => this.applyReactNativeFixes())
       .catch((e) => {
         console.log(e);
         process.exit(1);
