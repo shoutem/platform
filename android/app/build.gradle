@@ -125,6 +125,7 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             buildConfigField "String", "CODE_PUSH_APP_KEY", CUSTOM_CODE_PUSH_APP_KEY
             manifestPlaceholders = [appName: "ShoutemApplicationName"]
+            signingConfig signingConfigs.release
         }
 
         // TODO(Vladimir): remove this config when CodePush viabliity testing is over
