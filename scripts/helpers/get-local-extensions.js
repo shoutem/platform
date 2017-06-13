@@ -8,6 +8,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const glob = require('glob');
+const _ = require('lodash');
 
 /**
  * Gets collection of all local extensions where
