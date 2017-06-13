@@ -17,6 +17,7 @@ const getLocalExtensions = require('./../helpers/get-local-extensions');
 const ExtensionsInstaller = require('./extensions-installer.js');
 const buildApiEndpoint = require('./../helpers/build-api-endpoint');
 const getExtensionsFromConfiguration = require('./../helpers/get-extensions-from-configuration');
+const applyReactNativeFixes = require('./../fixes/react-native-fixes');
 
 const reactNativeCli = path.join('node_modules', 'react-native', 'local-cli', 'cli.js');
 
@@ -173,25 +174,6 @@ class AppConfigurator {
     return spawn('node', [reactNativeCli, 'link'], { stdio: 'inherit', cwd: process.cwd() });
   }
 
-  /**
-   * Copies files with fixes before official release
-   * With each react-native version check fixes/fixes.json and verify if issue is resolved
-   */
-  applyReactNativeFixes() {
-    return fs.readJson('./scripts/fixes/fixes.json')
-      .then(fixes => {
-        if (_.isEmpty(fixes)) {
-          return Promise.resolve();
-        }
-
-        return Promise.all(fixes.map(fix => {
-            console.log(`Applying fix: ${fix.from} > ${fix.to}`);
-            return fs.copy(fix.from, fix.to);
-          })
-        )
-      });
-  }
-
   run() {
     console.time('build time');
     console.log(`starting build for app ${this.buildConfig.appId}`);
@@ -207,7 +189,7 @@ class AppConfigurator {
           runWatchInNewWindow();
         }
       })
-      .then(() => this.applyReactNativeFixes())
+      .then(() => applyReactNativeFixes())
       .catch((e) => {
         console.log(e);
         process.exit(1);
