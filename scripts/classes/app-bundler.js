@@ -3,7 +3,7 @@
 const _ = require('lodash');
 const fs = require('fs-extra');
 const path = require('path');
-const exec = require('child_process').exec;
+const exec = require('child-process-promise').exec;
 
 const bundleNameGenerators = {
   ios: () => 'main.jsbundle',

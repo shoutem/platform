@@ -59,7 +59,6 @@ function downloadAndResizeImage(imageUrl, downloadPath, resizeConfig, production
 class AppBinaryConfigurator {
   constructor(config) {
     this.config = _.assign({}, config);
-    this.binarySettings = binarySettings[this.config.platform];
   }
 
   getLegacyApiHost() {
@@ -96,12 +95,14 @@ class AppBinaryConfigurator {
   }
 
   configureLaunchScreen() {
-    const launchScreen = this.getLaunchScreenUrl();
-    const resizeConfig = this.binarySettings.launchScreen;
-    const production = this.config.production;
-    const launchScreenPath = './assets/launchScreen.png';
-    console.log('Configuring launch screen...');
-    return downloadAndResizeImage(launchScreen, launchScreenPath, resizeConfig, production);
+    return Promise.all(_.map(binarySettings, (settings, platform) => {
+      const launchScreen = this.getLaunchScreenUrl(platform);
+      const resizeConfig = settings.launchScreen;
+      const production = this.config.production;
+      const launchScreenPath = './assets/launchScreen.png';
+      console.log('Configuring launch screen...');
+      return downloadAndResizeImage(launchScreen, launchScreenPath, resizeConfig, production);
+    }));
   }
 
   getAppIconUrl() {
@@ -110,11 +111,13 @@ class AppBinaryConfigurator {
   }
 
   configureAppIcon() {
-    const appIcon = this.getAppIconUrl();
-    const resizeConfig = this.binarySettings.appIcon;
-    const production = this.config.production;
-    console.log('Configuring app icon...');
-    return downloadAndResizeImage(appIcon, './assets/appIcon.png', resizeConfig, production);
+    return Promise.all(_.map(binarySettings, (settings, platform) => {
+      const appIcon = this.getAppIconUrl(platform);
+      const resizeConfig = settings.appIcon;
+      const production = this.config.production;
+      console.log('Configuring app icon...');
+      return downloadAndResizeImage(appIcon, './assets/appIcon.png', resizeConfig, production);
+    }));
   }
 
   getBinaryVersionName() {
@@ -157,11 +160,8 @@ class AppBinaryConfigurator {
   }
 
   configureAppInfo() {
-    if (this.config.platform === 'ios') {
-      this.configureAppInfoIOS();
-    } else if (this.config.platform === 'android') {
-      this.configureAppInfoAndroid();
-    }
+    this.configureAppInfoIOS();
+    this.configureAppInfoAndroid();
   }
 
   configureApp() {

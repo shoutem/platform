@@ -2,48 +2,25 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const spawn = require('superspawn').spawn;
+const spawn = require('child-process-promise').spawn;
 const _ = require('lodash');
 const glob = require('glob');
 const packageJsonTemplate = fs.readJsonSync(path.resolve('package.template.json'));
 const excludePackages = require(path.resolve('config.json')).excludePackages;
+
+const npm = require('../services/npm');
 
 function addDependencyToPackageJson(packageJson, name, version) {
   // eslint-disable-next-line no-param-reassign
   packageJson.dependencies[name] = version;
 }
 
-function isDependencyInPackageJson(packageJson, name) {
-  return !_.isEmpty(packageJson.dependencies[name]);
-}
-
-function npmInstall(dependencies) {
-  const dependenciesArray = [].concat(dependencies);
-  // eslint-disable-next-line prefer-template
-  console.log(`Installing dependencies${dependencies ? ': ' + dependenciesArray.join(' ') : ''}`);
-  return spawn('npm', ['install', '--save', `${dependenciesArray.join(' ')}`], {
-    stdio: 'inherit',
-    stderr: 'inherit',
-  });
-}
-
-function shouldInstallExtension(extension) {
-  return extension && isDependencyInPackageJson(packageJsonTemplate, extension.id);
-}
-
 function installLocalExtension(extension) {
-  if (shouldInstallExtension(extension)) {
-    const packagePath = extension.path;
-
-    return npmInstall(`file:${packagePath}`);
-  }
-
-  return Promise.resolve();
+  return npm.link(extension.path, process.cwd());
 }
 
 function yarnInstall() {
   console.log('Installing dependencies:');
-  console.log(JSON.stringify(packageJsonTemplate.dependencies, null, 2));
   return spawn('yarn', ['install'], { stderr: 'inherit', stdio: 'inherit' });
 }
 
@@ -78,14 +55,8 @@ class ExtensionsInstaller {
   constructor(localExtensions = [], extensions = [], extensionsJsPath = '') {
     this.localExtensions = localExtensions;
     this.extensionsJsPath = extensionsJsPath;
-    this.extensionsToInstall = [];
-    const isExtensionExcluded = (extension) => _.includes(excludePackages, extension.id);
+    this.extensionsToInstall = extensions;
 
-    if (extensions) {
-      this.extensionsToInstall = _.filter(extensions, (extension) =>
-        _.get(extension, 'attributes.location.app.type') && !isExtensionExcluded(extension)
-      );
-    }
   }
 
   installExtensions() {
@@ -93,20 +64,13 @@ class ExtensionsInstaller {
       installNpmExtension(extension)
     );
 
-    // We need to use npm when installing local extension, because we had a lot of
-    // issues when using yarn. But we use yarn when there aren't any local extension
-    // because of its performance benefits.
-    const install = this.localExtensions.length ? npmInstall : yarnInstall;
-
-    const installedExtensions = _.filter([
+    const installedExtensions = [
       ...this.localExtensions,
       ...this.extensionsToInstall
-    ], (extension) =>
-      shouldInstallExtension(extension)
-    );
+    ];
     _.forEach(excludePackages, packageName => delete packageJsonTemplate.dependencies[packageName]);
     return writePackageJson(packageJsonTemplate)
-      .then(() => install())
+      .then(() => yarnInstall())
       .then(() => Promise.all(
         this.localExtensions.map((extension) => installLocalExtension(extension))
       ))
@@ -144,26 +108,23 @@ class ExtensionsInstaller {
     });
   }
 
-  installNativeDependencies(installedExtensions, platform = 'ios') {
-    if (platform === 'ios') {
-      console.log('Starting pods install');
-      console.time('Installing pods');
-      const podFileTemplate = fs.readFileSync('ios/Podfile.template', 'utf8', (error) =>
-        Promise.reject(error)
-      );
-      const podspecPaths = _.reduce(installedExtensions, (paths, extension) =>
-          paths.concat(glob.sync(`node_modules/${extension.id}/*.podspec`))
-        , []);
-      const pods = _.map(podspecPaths, (podspecPath) =>
-        `pod '${path.basename(podspecPath, '.podspec')}', :path => '../${podspecPath}'`
-      );
-      const extensionsPlaceholderRegExp = /## <Extension dependencies>/g;
-      const podFileContent = podFileTemplate.replace(extensionsPlaceholderRegExp, pods.join('\n'));
-      fs.writeFileSync('ios/Podfile', podFileContent);
+  installNativeDependencies(installedExtensions) {
+    console.log('Starting pods install');
+    console.time('Installing pods');
+    const podFileTemplate = fs.readFileSync('ios/Podfile.template', 'utf8', (error) =>
+      Promise.reject(error)
+    );
+    const podspecPaths = _.reduce(installedExtensions, (paths, extension) =>
+        paths.concat(glob.sync(`node_modules/${extension.id}/*.podspec`))
+      , []);
+    const pods = _.map(podspecPaths, (podspecPath) =>
+      `pod '${path.basename(podspecPath, '.podspec')}', :path => '../${podspecPath}'`
+    );
+    const extensionsPlaceholderRegExp = /## <Extension dependencies>/g;
+    const podFileContent = podFileTemplate.replace(extensionsPlaceholderRegExp, pods.join('\n'));
+    fs.writeFileSync('ios/Podfile', podFileContent);
 
-      return spawn('pod', ['install'], { stderr: 'inherit', stdio: 'inherit', cwd: 'ios' });
-    }
-    return Promise.resolve();
+    return spawn('pod', ['install'], { stderr: 'inherit', stdio: 'inherit', cwd: 'ios' });
   }
 }
 

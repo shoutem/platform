@@ -2,6 +2,7 @@
   "name": "@shoutem/app-build-script",
   "version": "0.0.1-alpha.5",
   "dependencies": {
+    "child-process-promise": "^2.2.1",
     "command-line-args": "^2.1.6",
     "es6-symbol": "^3.0.2",
     "fs-extra": "1.0.0",

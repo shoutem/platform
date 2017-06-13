@@ -8,6 +8,12 @@
   "debug": true,
   "configurationFilePath": "./temp/configuration.json",
   "workingDirectories": [],
+  "linkedExtensions": [
+    "./extensions/*"
+  ],
+  "linkedPackages": [
+    ".packages/*"
+  ],
   "excludePackages": [],
   "extensionsJsPath": "./extensions.js",
   "baseAppId": 2470,

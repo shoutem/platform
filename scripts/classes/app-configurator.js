@@ -1,10 +1,11 @@
 /* eslint global-require: "off" */
 /* global require needs to be enabled because files to be required are
  * determined dynamically
-*/
+ */
 'use strict';
 
-const spawn = require('superspawn').spawn;
+const spawn = require('child-process-promise').spawn;
+const spawnSync = require('child_process').spawnSync;
 const fs = require('fs-extra');
 const path = require('path');
 const _ = require('lodash');
@@ -83,12 +84,14 @@ class AppConfigurator {
 
   prepareExtensions() {
     const extensions = getExtensionsFromConfiguration(this.configuration);
-    const localExtensions = getLocalExtensions(this.buildConfig.workingDirectories);
+    const localExtensions = _.filter(getLocalExtensions(this.buildConfig.linkedExtensions), (localExt) =>
+      _.find(extensions, { id: localExt.id })
+    );
+    console.log(localExtensions);
     const extensionsJsPath = this.buildConfig.extensionsJsPath;
-    const platform = this.buildConfig.platform;
     const installer = new ExtensionsInstaller(
       localExtensions,
-      extensions,
+      [],
       extensionsJsPath
     );
 
@@ -99,7 +102,9 @@ class AppConfigurator {
         let installNativeDependencies;
 
         if (!this.buildConfig.skipNativeDependencies) {
-          installNativeDependencies = installer.installNativeDependencies(installedExts, platform)
+          installNativeDependencies = installer.installNativeDependencies(installedExts)
+            .then(() => console.log('tu sam'))
+            .then(() => _.map(_.filter(installedExts, 'isNative'), (ext) => this.runReactNativeLink(ext.id, 'sync')))
             .then(() => this.runReactNativeLink())
             .then(() => {
               const appBinaryConfigurator = new AppBinaryConfigurator(this.buildConfig);
@@ -169,8 +174,12 @@ class AppConfigurator {
     return this.prepareExtensions().then(() => this.removeBabelrcFiles());
   }
 
-  runReactNativeLink() {
-    return spawn('node', [reactNativeCli, 'link'], { stdio: 'inherit', cwd: process.cwd() });
+  runReactNativeLink(packageName = '', sync) {
+    console.log(`node ${reactNativeCli} link ${packageName}`);
+    if (sync) {
+      return spawnSync('node', [reactNativeCli, 'link', packageName], { stdio: 'inherit', cwd: process.cwd() });
+    }
+    return spawn('node', [reactNativeCli, 'link', packageName], { stdio: 'inherit', cwd: process.cwd() });
   }
 
   run() {
@@ -183,10 +192,6 @@ class AppConfigurator {
       .then(() => {
         rewritePackagerDefaultsJs();
         console.timeEnd('build time');
-        if (this.buildConfig.workingDirectories.length) {
-          const runWatchInNewWindow = require('./../helpers/run-watch-in-new-window.js');
-          runWatchInNewWindow();
-        }
       })
       .catch((e) => {
         console.log(e);
