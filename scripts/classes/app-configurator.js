@@ -20,6 +20,7 @@ const getLocalExtensions = require('./../helpers/get-local-extensions');
 const ExtensionsInstaller = require('./extensions-installer.js');
 const buildApiEndpoint = require('./../helpers/build-api-endpoint');
 const getExtensionsFromConfiguration = require('./../helpers/get-extensions-from-configuration');
+const applyReactNativeFixes = require('./../fixes/react-native-fixes');
 
 const npm = require('../services/npm');
 
@@ -214,6 +215,7 @@ class AppConfigurator {
         rewritePackagerDefaultsJs();
         console.timeEnd('Build time'.bold.green);
       })
+      .then(() => applyReactNativeFixes())
       .catch((e) => {
         console.log(e);
         process.exit(1);
