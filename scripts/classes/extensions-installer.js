@@ -67,6 +67,10 @@ class ExtensionsInstaller {
       installNpmExtension(extension)
     );
 
+    this.localExtensions.forEach((extension) =>
+      installNpmExtension(extension)
+    );
+
     const installedExtensions = [
       ...this.localExtensions,
       ...this.extensionsToInstall
@@ -113,25 +117,30 @@ class ExtensionsInstaller {
   }
 
   installNativeDependencies(installedExtensions) {
-    console.log('Starting pods install...');
-    const podFileTemplate = fs.readFileSync('ios/Podfile.template', 'utf8', (error) =>
-      Promise.reject(error)
-    );
-    const podspecPaths = _.reduce(installedExtensions, (paths, extension) =>
-        paths.concat(glob.sync(`node_modules/${extension.id}/*.podspec`))
-      , []);
-    const pods = _.map(podspecPaths, (podspecPath) =>
-      `pod '${path.basename(podspecPath, '.podspec')}', :path => '../${podspecPath}'`
-    );
-    const extensionsPlaceholderRegExp = /## <Extension dependencies>/g;
-    const podFileContent = podFileTemplate.replace(extensionsPlaceholderRegExp, pods.join('\n'));
-    fs.writeFileSync('ios/Podfile', podFileContent);
+    // Check if process is running on Mac OS run 'pod install' to configure iOS native dependencies
+    if (process.platform === 'darwin') {
+      console.log('Starting pods install...');
+      const podFileTemplate = fs.readFileSync('ios/Podfile.template', 'utf8', (error) =>
+        Promise.reject(error)
+      );
+      const podspecPaths = _.reduce(installedExtensions, (paths, extension) =>
+          paths.concat(glob.sync(`node_modules/${extension.id}/*.podspec`))
+        , []);
+      const pods = _.map(podspecPaths, (podspecPath) =>
+        `pod '${path.basename(podspecPath, '.podspec')}', :path => '../${podspecPath}'`
+      );
+      const extensionsPlaceholderRegExp = /## <Extension dependencies>/g;
+      const podFileContent = podFileTemplate.replace(extensionsPlaceholderRegExp, pods.join('\n'));
+      fs.writeFileSync('ios/Podfile', podFileContent);
 
-    return spawn('pod', ['install'], {
-      stdio: 'inherit',
-      cwd: 'ios',
-      env: _.merge(process.env, { FORCE_COLOR: true })
-    });
+      return spawn('pod', ['install'], {
+        stdio: 'inherit',
+        cwd: 'ios',
+        env: _.merge(process.env, { FORCE_COLOR: true })
+      });
+    }
+
+    return Promise.resolve();
   }
 }
 
