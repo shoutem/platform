@@ -7,6 +7,20 @@
     "QA-appetizeKey": "7xbpyp44zzwgfk06yhxfw4ukgm",
     "Production-appetizeKey": "eahg1ye3u6bdx2zhxqnr44up68"
   },
+  "builds": {
+    "live": {
+      "excludedPackages": []
+    },
+    "preview": {
+      "excludedPackages": [
+        "shoutem.firebase",
+        "shoutem.notification-center",
+        "shoutem.push-notifications",
+        "shoutem.shoutem-notification-center",
+        "shoutem.code-push"
+      ]
+    }
+  },
   "dependencies": {
     "shoutem.about": "^0.9.12",
     "shoutem.analytics": "^0.1.9",
