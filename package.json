@@ -23,7 +23,7 @@
     "react": "16.0.0-alpha.6",
     "react-native": "0.43.4",
     "react-native-browser-polyfill": "^0.1.1",
-    "react-native-calendar-manager": "git+https://git@bitbucket.org/fiveminutes/react-native-calendar-manager.git",
+    "react-native-calendar-manager": "git+https://git@bitbucket.org/fiveminutes/react-native-calendar-manager.git#51b6d567bcdfb9c31992d943170cb23ebd3582b6",
     "react-native-code-push": "^2.0.2-beta",
     "react-native-fbsdk": "shoutem/react-native-fbsdk#45bac0c78ad6b02ee67f7e5d91b192e7e2aa6640",
     "react-native-google-analytics-bridge": "5.0.0",
