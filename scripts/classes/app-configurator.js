@@ -17,6 +17,7 @@ const getLocalExtensions = require('./../helpers/get-local-extensions');
 const ExtensionsInstaller = require('./extensions-installer.js');
 const buildApiEndpoint = require('./../helpers/build-api-endpoint');
 const getExtensionsFromConfiguration = require('./../helpers/get-extensions-from-configuration');
+const applyReactNativeFixes = require('./../fixes/react-native-fixes');
 
 const reactNativeCli = path.join('node_modules', 'react-native', 'local-cli', 'cli.js');
 
@@ -188,6 +189,7 @@ class AppConfigurator {
           runWatchInNewWindow();
         }
       })
+      .then(() => applyReactNativeFixes())
       .catch((e) => {
         console.log(e);
         process.exit(1);

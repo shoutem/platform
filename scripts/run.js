@@ -31,10 +31,13 @@ function getAdbPath() {
     : 'adb';
 }
 
-const runConfig = _.omit(cliArgs, 'platform');
+const runConfig = cliArgs.platform === 'android' ?
+  _.omit(cliArgs, 'platform', 'configuration') :
+  _.omit(cliArgs, 'platform');
+
 if (cliArgs.platform === 'android' && !runConfig.variant) {
   const configuration = !cliArgs.configuration ? 'Debug' : _.capitalize(cliArgs.configuration);
-  runConfig.variant = `customized${configuration}`;
+  runConfig.variant = `${configuration}`;
 }
 
 const reactNativeRunArguments = _.reduce(runConfig, (args, argValue, argName) => {

@@ -125,6 +125,7 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             buildConfigField "String", "CODE_PUSH_APP_KEY", CUSTOM_CODE_PUSH_APP_KEY
             manifestPlaceholders = [appName: "ShoutemApplicationName"]
+            signingConfig signingConfigs.release
         }
 
         // TODO(Vladimir): remove this config when CodePush viabliity testing is over
@@ -144,15 +145,6 @@ android {
                 output.versionCodeOverride =
                         versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
             }
-        }
-    }
-    productFlavors {
-        customized {
-            minSdkVersion 16
-            applicationId 'com.shoutemapp'
-            targetSdkVersion 22
-            versionCode 1
-            versionName '1.0'
         }
     }
 }
