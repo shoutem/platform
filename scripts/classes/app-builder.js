@@ -15,6 +15,7 @@ const buildHandlers = {
       '-archivePath', `${path.join(this.getOutputDirectory(), 'ShoutemApp.xcarchive')}`,
       'CODE_SIGNING_REQUIRED=NO',
       'CODE_SIGN_IDENTITY=',
+      '| tee', `${path.join(this.getLogDirectory(), 'xcode.log')}`,
     ], {
       stderr: 'inherit',
       stdio: 'inherit',
@@ -30,7 +31,10 @@ const buildHandlers = {
       ], { stderr: 'inherit', stdio: 'inherit' }));
   },
   android() {
-    return spawn('./gradlew', ['assembleCustomizedRelease'], {
+    return spawn('./gradlew', [
+      'assembleCustomizedRelease',
+      '| tee', `${path.join(this.getLogDirectory(), 'gradle.log')}`,
+    ], {
       cwd: 'android',
       stdio: 'inherit',
       stderr: 'inherit',
@@ -49,6 +53,10 @@ class AppBuilder {
 
   getOutputDirectory() {
     return this.config.outputDirectory || path.join('temp', `${this.config.appId}`);
+  }
+
+  getLogDirectory() {
+    return this.config.logDirectory || path.join('temp', `${this.config.appId}`);
   }
 
   build() {
