@@ -5,6 +5,7 @@ const fs = require('fs-extra');
 const request = require('request');
 const plist = require('plist');
 const Jimp = require('jimp');
+const colors = require('colors');
 
 const iosBinarySettings = require('../configs/iosBinarySettings');
 const androidBinarySettings = require('../configs/androidBinarySettings');
@@ -59,6 +60,8 @@ function downloadAndResizeImage(imageUrl, downloadPath, resizeConfig, production
 class AppBinaryConfigurator {
   constructor(config) {
     this.config = _.assign({}, config);
+    this.configureLaunchScreen = this.configureLaunchScreen.bind(this);
+    this.configureAppIcon = this.configureAppIcon.bind(this);
   }
 
   getLegacyApiHost() {
@@ -81,7 +84,7 @@ class AppBinaryConfigurator {
           this.publishingProperties = JSON.parse(body);
           resolve();
         } else {
-          reject(`Publishing info download failed with code: ${response.statusCode}`);
+          reject(`Publishing info download failed with code: ${response.statusCode}`.bold.red);
         }
       }).on('error', err => {
         reject(err);
@@ -94,15 +97,13 @@ class AppBinaryConfigurator {
     return this.publishingProperties.iphone_launch_image_portrait;
   }
 
-  configureLaunchScreen() {
-    return Promise.all(_.map(binarySettings, (settings, platform) => {
-      const launchScreen = this.getLaunchScreenUrl(platform);
-      const resizeConfig = settings.launchScreen;
-      const production = this.config.production;
-      const launchScreenPath = './assets/launchScreen.png';
-      console.log('Configuring launch screen...');
-      return downloadAndResizeImage(launchScreen, launchScreenPath, resizeConfig, production);
-    }));
+  configureLaunchScreen(settings, platform) {
+    console.log('Configuring', `${platform}`.bold, 'launch screen...');
+    const launchScreen = this.getLaunchScreenUrl(platform);
+    const resizeConfig = settings.launchScreen;
+    const production = this.config.production;
+    const launchScreenPath = './assets/launchScreen.png';
+    return downloadAndResizeImage(launchScreen, launchScreenPath, resizeConfig, production);
   }
 
   getAppIconUrl() {
@@ -110,14 +111,12 @@ class AppBinaryConfigurator {
     return this.publishingProperties.iphone_application_icon_hd_ios7;
   }
 
-  configureAppIcon() {
-    return Promise.all(_.map(binarySettings, (settings, platform) => {
-      const appIcon = this.getAppIconUrl(platform);
-      const resizeConfig = settings.appIcon;
-      const production = this.config.production;
-      console.log('Configuring app icon...');
-      return downloadAndResizeImage(appIcon, './assets/appIcon.png', resizeConfig, production);
-    }));
+  configureAppIcon(settings, platform) {
+    console.log('Configuring', `${platform}`.bold, 'app icons');
+    const appIcon = this.getAppIconUrl(platform);
+    const resizeConfig = settings.appIcon;
+    const production = this.config.production;
+    return downloadAndResizeImage(appIcon, './assets/appIcon.png', resizeConfig, production);
   }
 
   getBinaryVersionName() {
@@ -131,7 +130,7 @@ class AppBinaryConfigurator {
   }
 
   configureAppInfoIOS() {
-    console.log('Configuring Info.plist');
+    console.log('Configuring', 'Info.plist'.bold);
     const infoPlistPath = './ios/ShoutemApp/Info.plist';
     const infoPlistFile = fs.readFileSync(infoPlistPath, 'utf8');
     const infoPlist = plist.parse(infoPlistFile);
@@ -147,12 +146,10 @@ class AppBinaryConfigurator {
   }
 
   configureAppInfoAndroid() {
-    console.log('Configuring build.gradle');
+    console.log('Configuring', 'build.gradle'.bold);
     const buildGradlePath = './android/app/build.gradle';
     const buildGradle = fs.readFileSync(buildGradlePath, 'utf8');
-    const applicationId = this.publishingProperties.android_market_package_name;
     const newBuildGradle = buildGradle
-      .replace(/\sapplicationId\s.*/g, ` applicationId '${applicationId}'`)
       .replace(/\sversionCode\s.*/g, ` versionCode ${this.getBinaryVersionCode()}`)
       .replace(/\sversionName\s.*/g, ` versionName '${this.getBinaryVersionName()}'`)
       .replace(/ShoutemApplicationName/g, this.publishingProperties.android_name);
@@ -164,10 +161,18 @@ class AppBinaryConfigurator {
     this.configureAppInfoAndroid();
   }
 
+  runForAllPlatforms(configureFunction) {
+    return Promise.all(_.map(binarySettings, (settings, platform) => {
+      if (_.isFunction(configureFunction)) {
+        configureFunction(settings, platform);
+      }
+    }));
+  }
+
   configureApp() {
     return this.getPublishingProperties()
-      .then(() => this.configureLaunchScreen())
-      .then(() => this.configureAppIcon())
+      .then(() => this.runForAllPlatforms(this.configureLaunchScreen))
+      .then(() => this.runForAllPlatforms(this.configureAppIcon))
       .then(() => this.configureAppInfo());
   }
 }

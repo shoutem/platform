@@ -8,16 +8,20 @@ const spawn = require('child-process-promise').spawn;
 const spawnSync = require('child_process').spawnSync;
 const fs = require('fs-extra');
 const path = require('path');
+const glob = require('glob');
 const _ = require('lodash');
 const rimraf = require('rimraf');
 const process = require('process');
 const request = require('request');
+const colors = require('colors');
 
 const AppBinaryConfigurator = require('./app-binary-configurator');
 const getLocalExtensions = require('./../helpers/get-local-extensions');
 const ExtensionsInstaller = require('./extensions-installer.js');
 const buildApiEndpoint = require('./../helpers/build-api-endpoint');
 const getExtensionsFromConfiguration = require('./../helpers/get-extensions-from-configuration');
+
+const npm = require('../services/npm');
 
 const reactNativeCli = path.join('node_modules', 'react-native', 'local-cli', 'cli.js');
 
@@ -59,7 +63,7 @@ class AppConfigurator {
   }
 
   downloadConfiguration() {
-    console.time('download configuration');
+    console.time('Download configuration'.bold.green);
     return new Promise((resolve, reject) => {
       request.get({
         url: this.getConfigurationUrl(),
@@ -70,11 +74,11 @@ class AppConfigurator {
       }, (error, response, body) => {
         if (response.statusCode === 200) {
           const configuration = JSON.parse(body);
-          console.timeEnd('download configuration');
+          console.timeEnd('Download configuration'.bold.green);
           this.configuration = configuration;
           resolve(configuration);
         } else {
-          reject(`Configuration download failed! Error code: ${response.statusCode}`);
+          reject('Configuration download failed!', `Error code: ${response.statusCode}`.bold.red);
         }
       }).on('error', err => {
         reject(err);
@@ -84,14 +88,19 @@ class AppConfigurator {
 
   prepareExtensions() {
     const extensions = getExtensionsFromConfiguration(this.configuration);
-    const localExtensions = _.filter(getLocalExtensions(this.buildConfig.linkedExtensions), (localExt) =>
+    const linkedExtensions = getLocalExtensions(this.buildConfig.linkedExtensions);
+    // npm link all extensions all extension available locally and installed in app configuration
+    const localExtensions = _.filter(linkedExtensions, (localExt) =>
       _.find(extensions, { id: localExt.id })
     );
-    console.log(localExtensions);
     const extensionsJsPath = this.buildConfig.extensionsJsPath;
+    // install as .tars all extensions that are not available locally
+    const extensionsToInstall = _.filter(extensions, (ext) =>
+      !_.find(localExtensions, { id: ext.id })
+    );
     const installer = new ExtensionsInstaller(
       localExtensions,
-      [],
+      extensionsToInstall,
       extensionsJsPath
     );
 
@@ -103,7 +112,6 @@ class AppConfigurator {
 
         if (!this.buildConfig.skipNativeDependencies) {
           installNativeDependencies = installer.installNativeDependencies(installedExts)
-            .then(() => console.log('tu sam'))
             .then(() => _.map(_.filter(installedExts, 'isNative'), (ext) => this.runReactNativeLink(ext.id, 'sync')))
             .then(() => this.runReactNativeLink())
             .then(() => {
@@ -117,6 +125,7 @@ class AppConfigurator {
   }
 
   executeBuildLifecycleHook(extensions, lifeCycleStep) {
+    console.log('Running', lifeCycleStep.bold, 'for all extensions');
     console.time(`${lifeCycleStep}`);
     _.forEach(extensions, (extension) => {
       if (extension && extension.id) {
@@ -146,18 +155,18 @@ class AppConfigurator {
   }
 
   removeBabelrcFiles() {
-    console.time('removing .babelrc files');
+    console.time('Removing .babelrc files'.bold.green);
 
     rimraf.sync(path.join('.', 'node_modules', '*', '.babelrc'));
 
-    console.timeEnd('removing .babelrc files');
+    console.timeEnd('Removing .babelrc files'.bold.green);
     console.log('');
   }
 
   cleanTempFolder() {
-    console.time('cleaning temp files');
+    console.time('Cleaning temp files'.bold.green);
     rimraf.sync(path.join('.', 'temp', '*'));
-    console.timeEnd('cleaning temp files');
+    console.timeEnd('Cleaning temp files'.bold.green);
   }
 
   prepareConfiguration() {
@@ -175,23 +184,35 @@ class AppConfigurator {
   }
 
   runReactNativeLink(packageName = '', sync) {
-    console.log(`node ${reactNativeCli} link ${packageName}`);
+    console.log(`react-native link ${packageName}`);
     if (sync) {
       return spawnSync('node', [reactNativeCli, 'link', packageName], { stdio: 'inherit', cwd: process.cwd() });
     }
     return spawn('node', [reactNativeCli, 'link', packageName], { stdio: 'inherit', cwd: process.cwd() });
   }
 
+  linkPackages() {
+    [].concat(this.buildConfig.linkedPackages).forEach((linkedPackage) => {
+      const paths = glob.sync(path.join(linkedPackage, 'package.json'));
+      paths.forEach((packageJsonPath) => {
+        const packagePath = path.dirname(packageJsonPath);
+        console.log(`npm link ${packagePath}`.bold);
+        npm.link(packagePath, process.cwd());
+      });
+    });
+  }
+
   run() {
-    console.time('build time');
-    console.log(`starting build for app ${this.buildConfig.appId}`);
+    console.time('Build time'.bold.green);
+    console.log('Starting build for app', `${this.buildConfig.appId}`.bold.cyan);
     // clear any previous build's temp files
     this.cleanTempFolder();
     return this.prepareConfiguration()
       .then(() => this.buildExtensions())
+      .then(() => this.linkPackages())
       .then(() => {
         rewritePackagerDefaultsJs();
-        console.timeEnd('build time');
+        console.timeEnd('Build time'.bold.green);
       })
       .catch((e) => {
         console.log(e);

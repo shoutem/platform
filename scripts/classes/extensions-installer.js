@@ -5,6 +5,8 @@ const path = require('path');
 const spawn = require('child-process-promise').spawn;
 const _ = require('lodash');
 const glob = require('glob');
+const colors = require('colors');
+
 const packageJsonTemplate = fs.readJsonSync(path.resolve('package.template.json'));
 const excludePackages = require(path.resolve('config.json')).excludePackages;
 
@@ -16,11 +18,12 @@ function addDependencyToPackageJson(packageJson, name, version) {
 }
 
 function installLocalExtension(extension) {
+  console.log('Installing', extension.id.bold);
   return npm.link(extension.path, process.cwd());
 }
 
 function yarnInstall() {
-  console.log('Installing dependencies:');
+  console.log('Installing dependencies:'.bold);
   return spawn('yarn', ['install'], { stderr: 'inherit', stdio: 'inherit' });
 }
 
@@ -80,8 +83,9 @@ class ExtensionsInstaller {
   }
 
   createExtensionsJs(installedExtensions) {
+    console.log('Creating extensions.js');
     if (_.isEmpty(installedExtensions)) {
-      return Promise.reject('[ERROR]: You are trying to build an app without any extensions');
+      return Promise.reject('[ERROR]: You are trying to build an app without any extensions'.bold.red);
     }
 
     const extensionsMapping = [];
@@ -95,22 +99,21 @@ class ExtensionsInstaller {
     const extensionsString = extensionsMapping.join('');
     const data = `export default {\n  ${extensionsString}};\n`;
 
-    console.time('create extensions.js');
+    console.time('Create extensions.js'.bold.green);
     return new Promise((resolve, reject) => {
       fs.writeFile(this.extensionsJsPath, data, (error) => {
         if (error) {
           reject(error);
         }
 
-        console.timeEnd('create extensions.js');
+        console.timeEnd('Create extensions.js'.bold.green);
         resolve();
       });
     });
   }
 
   installNativeDependencies(installedExtensions) {
-    console.log('Starting pods install');
-    console.time('Installing pods');
+    console.log('Starting pods install...');
     const podFileTemplate = fs.readFileSync('ios/Podfile.template', 'utf8', (error) =>
       Promise.reject(error)
     );
@@ -124,7 +127,11 @@ class ExtensionsInstaller {
     const podFileContent = podFileTemplate.replace(extensionsPlaceholderRegExp, pods.join('\n'));
     fs.writeFileSync('ios/Podfile', podFileContent);
 
-    return spawn('pod', ['install'], { stderr: 'inherit', stdio: 'inherit', cwd: 'ios' });
+    return spawn('pod', ['install'], {
+      stdio: 'inherit',
+      cwd: 'ios',
+      env: _.merge(process.env, { FORCE_COLOR: true })
+    });
   }
 }
 

@@ -12,7 +12,7 @@
     "./extensions/*"
   ],
   "linkedPackages": [
-    ".packages/*"
+    "./packages/*"
   ],
   "excludePackages": [],
   "extensionsJsPath": "./extensions.js",

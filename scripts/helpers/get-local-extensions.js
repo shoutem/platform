@@ -18,10 +18,9 @@ const _ = require('lodash');
  */
 function getLocalExtensions(workingDirectories) {
   const results = [];
-  console.time('Load local extensions');
+  console.time('Load local extensions'.bold.green);
   [].concat(workingDirectories).forEach((workDirPattern) => {
     const paths = glob.sync(path.join(workDirPattern, '/app'));
-    console.log(paths);
     paths.forEach((packagePath) => {
       const stat = fs.statSync(packagePath);
       if (stat && stat.isDirectory()) {
@@ -40,13 +39,13 @@ function getLocalExtensions(workingDirectories) {
             });
           }
         } catch (error) {
-          console.log(`Failed to load ${packagePath} with error: ${error}`);
+          console.log(`Failed to load ${packagePath} with error:`.bold.red, `${error}`);
           process.exit(1);
         }
       }
     });
   });
-  console.timeEnd('Load local extensions');
+  console.timeEnd('Load local extensions'.bold.green);
   return results;
 }
 
