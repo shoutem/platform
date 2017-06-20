@@ -68,7 +68,7 @@ class ExtensionsInstaller {
     );
 
     this.localExtensions.forEach((extension) =>
-      installNpmExtension(extension)
+      addDependencyToPackageJson(packageJsonTemplate, extension.id, `file:${extension.path}`)
     );
 
     const installedExtensions = [
