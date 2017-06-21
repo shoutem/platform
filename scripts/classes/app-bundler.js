@@ -59,8 +59,10 @@ class AppBundler {
         resolve(assetsDest);
       });
 
-      reactNativeBundleProcess.stdout.pipe(process.stdout);
-      reactNativeBundleProcess.stderr.pipe(process.stderr);
+      const childProcess = reactNativeBundleProcess.childProcess;
+
+      childProcess.stdout.pipe(process.stdout);
+      childProcess.stderr.pipe(process.stderr);
     });
   }
 }
