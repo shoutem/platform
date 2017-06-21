@@ -22,6 +22,8 @@ const buildApiEndpoint = require('./../helpers/build-api-endpoint');
 const getExtensionsFromConfiguration = require('./../helpers/get-extensions-from-configuration');
 const applyReactNativeFixes = require('./../fixes/react-native-fixes');
 
+const excludePackages = require(path.resolve('config.json')).excludePackages;
+
 const npm = require('../services/npm');
 
 const reactNativeCli = path.join('node_modules', 'react-native', 'local-cli', 'cli.js');
@@ -96,9 +98,10 @@ class AppConfigurator {
     );
     const extensionsJsPath = this.buildConfig.extensionsJsPath;
     // install as .tars all extensions that are not available locally
-    const extensionsToInstall = _.filter(extensions, (ext) =>
-      !_.find(localExtensions, { id: ext.id })
-    );
+    const extensionsToInstall = extensions
+      .filter(ext => !_.some(excludePackages, p => p === ext.id))
+      .filter(ext => !_.some(localExtensions, { id: ext.id }));
+
     const installer = new ExtensionsInstaller(
       localExtensions,
       extensionsToInstall,
