@@ -21,4 +21,8 @@ const buildConfig = _.merge(config, cliArgs);
 const bundler = new AppBundler(buildConfig);
 
 bundler.createReactNativeBundle()
-  .catch(() => process.exit(1));
+  .catch(reason => {
+      console.error(reason);
+      process.exit(1);
+    }
+  );
