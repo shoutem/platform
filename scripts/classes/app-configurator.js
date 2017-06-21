@@ -95,10 +95,12 @@ class AppConfigurator {
       _.find(extensions, { id: localExt.id })
     );
     const extensionsJsPath = this.buildConfig.extensionsJsPath;
+    const excludePackages = this.buildConfig.excludePackages;
     // install as .tars all extensions that are not available locally
-    const extensionsToInstall = _.filter(extensions, (ext) =>
-      !_.find(localExtensions, { id: ext.id })
-    );
+    const extensionsToInstall = extensions
+      .filter(ext => !_.some(excludePackages, p => p === ext.id))
+      .filter(ext => !_.some(localExtensions, { id: ext.id }));
+
     const installer = new ExtensionsInstaller(
       localExtensions,
       extensionsToInstall,

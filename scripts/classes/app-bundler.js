@@ -49,9 +49,12 @@ class AppBundler {
 
     fs.ensureDirSync(assetsDest);
     return new Promise((resolve, reject) => {
-      const reactNativeBundleProcess = exec(rnBundleCommand.join(' '), error => {
+      exec(rnBundleCommand.join(' '), (error, stdout, stderr ) => {
         console.timeEnd('Build bundle');
-        console.log('');
+
+        stdout.pipe(process.stdout);
+        stderr.pipe(process.stderr);
+
         if (error !== null) {
           console.log(`Bundling error: ${error}`);
           reject(error);
