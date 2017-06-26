@@ -188,9 +188,9 @@ class AppConfigurator {
   runReactNativeLink(packageName = '', sync) {
     console.log(`react-native link ${packageName}`);
     if (sync) {
-      return spawnSync('node', [reactNativeCli, 'link', packageName], { stdio: 'inherit', cwd: process.cwd() });
+      return spawnSync('node', [reactNativeCli, 'link', packageName], { stdio: ['ignore', 'inherit', 'inherit'], cwd: process.cwd() });
     }
-    return spawn('node', [reactNativeCli, 'link', packageName], { stdio: 'inherit', cwd: process.cwd() });
+    return spawn('node', [reactNativeCli, 'link', packageName], { stdio: ['ignore', 'inherit', 'inherit'], cwd: process.cwd() });
   }
 
   linkPackages() {
