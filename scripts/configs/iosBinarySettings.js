@@ -6,33 +6,9 @@ const iosAppIconDirectory = './ios/ShoutemApp/Images.xcassets/AppIcon.appiconset
 module.exports = {
   launchScreen: {
     images: [{
-      savePath: `${iosLaunchScreenDirectory}icon-1.png`,
-      width: 320,
-      height: 480,
-    }, {
-      savePath: `${iosLaunchScreenDirectory}icon-2.png`,
-      width: 640,
-      height: 960,
-    }, {
-      savePath: `${iosLaunchScreenDirectory}icon-3.png`,
-      width: 640,
-      height: 1136,
-    }, {
-      savePath: `${iosLaunchScreenDirectory}icon-4.png`,
-      width: 1242,
-      height: 2208,
-    }, {
-      savePath: `${iosLaunchScreenDirectory}icon-5.png`,
-      width: 750,
-      height: 1334,
-    }, {
-      savePath: `${iosLaunchScreenDirectory}icon-7.png`,
-      width: 640,
-      height: 960,
-    }, {
-      savePath: `${iosLaunchScreenDirectory}icon-8.png`,
-      width: 640,
-      height: 1136,
+      savePath: `background.png`,
+      width: 1080,
+      height: 1920,
     }],
   },
   appIcon: {

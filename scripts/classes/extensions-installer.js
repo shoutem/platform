@@ -22,9 +22,9 @@ function installLocalExtension(extension) {
   return npm.link(extension.path, process.cwd());
 }
 
-function yarnInstall() {
+function npmInstall() {
   console.log('Installing dependencies:'.bold);
-  return spawn('yarn', ['install'], { stderr: 'inherit', stdio: 'inherit' });
+  return spawn('npm', ['install'], { stderr: 'inherit', stdio: 'inherit' });
 }
 
 function installNpmExtension(extension) {
@@ -77,7 +77,7 @@ class ExtensionsInstaller {
     ];
     _.forEach(excludePackages, packageName => delete packageJsonTemplate.dependencies[packageName]);
     return writePackageJson(packageJsonTemplate)
-      .then(() => yarnInstall())
+      .then(() => npmInstall())
       .then(() => Promise.all(
         this.localExtensions.map((extension) => installLocalExtension(extension))
       ))
