@@ -1,12 +1,12 @@
 'use strict';
 
-const iosLaunchScreenDirectory = './ios/ShoutemApp/Images.xcassets/LaunchImage.launchimage/';
+const iosLaunchScreenDirectory = './ios/ShoutemApp/Images.xcassets/Image.imageset/';
 const iosAppIconDirectory = './ios/ShoutemApp/Images.xcassets/AppIcon.appiconset/';
 
 module.exports = {
   launchScreen: {
     images: [{
-      savePath: `background.png`,
+      savePath: `${iosLaunchScreenDirectory}background.png`,
       width: 1080,
       height: 1920,
     }],
