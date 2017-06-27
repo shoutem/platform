@@ -1,7 +1,7 @@
 {
-  "version": "1.0.26",
-  "mobileAppVersion": "0.56.4",
-  "releaseNotes": "* Smaller improvements in design\n* New Push Notifications settings extension\n* New Vimeo videos extension\n* Fixed crashes on Android & iOS Places extension",
+  "version": "1.0.27",
+  "mobileAppVersion": "0.56.5",
+  "releaseNotes": "* Custom navigation bar background\n* Fix launch screen on iOS",
   "settings": {
     "DEV-appetizeKey": "f0ca4p1qj0gwn1kte22fmw725w",
     "QA-appetizeKey": "j241rdz710zdq8ktn2j0924gr0",
