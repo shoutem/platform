@@ -6,6 +6,7 @@
   "production": false,
   "offlineMode": false,
   "debug": true,
+  "release": false,
   "configurationFilePath": "./temp/configuration.json",
   "workingDirectories": [],
   "linkedExtensions": [
@@ -18,6 +19,9 @@
   "extensionsJsPath": "./extensions.js",
   "baseAppId": 2470,
   "cacheFolder": "./cached-bundles",
+  "bundleIdPrefix": "",
+  "iosBundleId": "com.shoutem.ShoutemApp",
+  "androidApplicationId": "com.shoutemapp",
   "cacheBaseApp": false,
   "binaryVersionName": null,
   "binaryVersionCode": null,

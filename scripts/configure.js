@@ -15,6 +15,7 @@ const cli = commandLineArgs([
   { name: 'serverApiEndpoint', type: String },
   { name: 'legacyApiEndpoint', type: String },
   { name: 'production', type: Boolean },
+  { name: 'release', type: Boolean },
   { name: 'offlineMode', type: Boolean },
   { name: 'configurationFilePath', type: String },
   { name: 'workingDirectories', type: String, multiple: true },
@@ -26,13 +27,16 @@ const cli = commandLineArgs([
   { name: 'binaryVersionCode', type: String },
   { name: 'skipNativeDependencies', type: String },
   { name: 'bundleIdPrefix', type: String },
+  { name: 'iosBundleId', type: String },
+  { name: 'androidApplicationId', type: String },
 ]);
 
 const cliArgs = cli.parse();
 const configPath = cliArgs.configPath || DEFAULT_CONFIG;
 const config = fs.readJsonSync(path.resolve(configPath));
 // merge command line arguments and config.json
-const buildConfig = _.merge(config, cliArgs);
+// release is always set when production is true
+const buildConfig = _.merge(config, cliArgs, { release: config.production || cliArgs.production });
 fs.writeJsonSync(DEFAULT_CONFIG, buildConfig);
 const configure = new AppConfigurator(buildConfig);
 configure.run();

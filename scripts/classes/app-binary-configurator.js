@@ -7,6 +7,8 @@ const plist = require('plist');
 const Jimp = require('jimp');
 const colors = require('colors');
 
+const getErrorMessageFromResponse = require('../helpers/get-error-message-from-response');
+
 const iosBinarySettings = require('../configs/iosBinarySettings');
 const androidBinarySettings = require('../configs/androidBinarySettings');
 const binarySettings = {
@@ -62,6 +64,7 @@ class AppBinaryConfigurator {
     this.config = _.assign({}, config);
     this.configureLaunchScreen = this.configureLaunchScreen.bind(this);
     this.configureAppIcon = this.configureAppIcon.bind(this);
+    this.configureAppInfo = this.configureAppInfo.bind(this);
   }
 
   getLegacyApiHost() {
@@ -84,7 +87,9 @@ class AppBinaryConfigurator {
           this.publishingProperties = JSON.parse(body);
           resolve();
         } else {
-          reject(`Publishing info download failed with code: ${response.statusCode}`.bold.red);
+          console.log(response);
+          const errorMessage = getErrorMessageFromResponse(response);
+          reject(`Publishing info download failed with error: ${response.statusCode} ${errorMessage}`.bold.red);
         }
       }).on('error', err => {
         reject(err);
@@ -136,10 +141,17 @@ class AppBinaryConfigurator {
     const infoPlist = plist.parse(infoPlistFile);
     // we use this prefix for e.g. building apps with wildcard application identifier
     const bundlePrefix = this.config.bundleIdPrefix ? `${this.config.bundleIdPrefix}.` : '';
-    const bundleId = `${bundlePrefix}${this.publishingProperties.iphone_bundle_id}`;
+    let bundleId;
+
+    if (this.config.iosBundleId) {
+      bundleId = this.config.iosBundleId;
+    } else {
+      bundleId = this.config.production ? this.publishingProperties.iphone_bundle_id : 'com.shoutem.ShoutemApp';
+    }
+
     infoPlist.CFBundleName = this.publishingProperties.iphone_name;
     infoPlist.CFBundleDisplayName = this.publishingProperties.iphone_name;
-    infoPlist.CFBundleIdentifier = bundleId;
+    infoPlist.CFBundleIdentifier = `${bundlePrefix}${bundleId}`;
     infoPlist.CFBundleShortVersionString = this.getBinaryVersionName();
     infoPlist.LSApplicationCategoryType = this.publishingProperties.primary_category_name;
     fs.writeFileSync(infoPlistPath, plist.build(infoPlist));
@@ -149,16 +161,30 @@ class AppBinaryConfigurator {
     console.log('Configuring', 'build.gradle'.bold);
     const buildGradlePath = './android/app/build.gradle';
     const buildGradle = fs.readFileSync(buildGradlePath, 'utf8');
+    let applicationId;
+
+    if (this.config.androidApplicationId) {
+      applicationId = this.config.androidApplicationId;
+    } else {
+      applicationId = this.config.production ? this.publishingProperties.android_market_package_name : 'com.shoutemapp';
+    }
+
     const newBuildGradle = buildGradle
+      .replace(/\sapplicationId\s.*/g, ` applicationId '${applicationId}'`)
       .replace(/\sversionCode\s.*/g, ` versionCode ${this.getBinaryVersionCode()}`)
       .replace(/\sversionName\s.*/g, ` versionName '${this.getBinaryVersionName()}'`)
       .replace(/ShoutemApplicationName/g, this.publishingProperties.android_name);
     fs.writeFileSync(buildGradlePath, newBuildGradle);
   }
 
-  configureAppInfo() {
-    this.configureAppInfoIOS();
-    this.configureAppInfoAndroid();
+  configureAppInfo(settings, platform) {
+    if (platform === 'ios') {
+      this.configureAppInfoIOS();
+    } else if (platform === 'android') {
+      this.configureAppInfoAndroid();
+    }
+
+    return Promise.resolve();
   }
 
   runForAllPlatforms(configureFunction) {
@@ -173,7 +199,7 @@ class AppBinaryConfigurator {
     return this.getPublishingProperties()
       .then(() => this.runForAllPlatforms(this.configureLaunchScreen))
       .then(() => this.runForAllPlatforms(this.configureAppIcon))
-      .then(() => this.configureAppInfo());
+      .then(() => this.runForAllPlatforms(this.configureAppInfo));
   }
 }
 

@@ -20,6 +20,7 @@ const getLocalExtensions = require('./../helpers/get-local-extensions');
 const ExtensionsInstaller = require('./extensions-installer.js');
 const buildApiEndpoint = require('./../helpers/build-api-endpoint');
 const getExtensionsFromConfiguration = require('./../helpers/get-extensions-from-configuration');
+const getErrorMessageFromResponse = require('../helpers/get-error-message-from-response');
 const applyReactNativeFixes = require('./../fixes/react-native-fixes');
 
 const npm = require('../services/npm');
@@ -79,7 +80,8 @@ class AppConfigurator {
           this.configuration = configuration;
           resolve(configuration);
         } else {
-          reject('Configuration download failed!', `Error code: ${response.statusCode}`.bold.red);
+          const errorMessage = getErrorMessageFromResponse(response);
+          reject(`Configuration download failed! Error: ${response.statusCode} - ${errorMessage}`.bold.red);
         }
       }).on('error', err => {
         reject(err);
