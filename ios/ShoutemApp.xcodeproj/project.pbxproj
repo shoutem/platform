@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -32,6 +33,7 @@
 		43490AE02E4B4594AD83365F /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE04DB2D9BBF4B52848D7035 /* libAirMaps.a */; };
 		4A70736E87B94476BC6D3E01 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = A2E4D4E194DC4F61B2E45B32 /* OFL.txt */; };
 		4E2762864E76495CA720B072 /* Rubik-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B2E7B67E7F514192B227342F /* Rubik-Black.ttf */; };
+		557544D0AF534C15BD3FC855 /* libCalendarManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 499EC0EC60D14C3E8EEECE5C /* libCalendarManager.a */; };
 		576B8ABE2E1947A5909B1925 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EF5662F18A9E493DAC7131CB /* EvilIcons.ttf */; };
 		5C3C11111644BCC25BE8FEDA /* Pods_ShoutemAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99111C603EE0D8CA58595699 /* Pods_ShoutemAppTests.framework */; };
 		6279BF3F4E1F4C3D8CF5EAE5 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 465FAB230718430789478FBB /* FontAwesome.ttf */; };
@@ -60,7 +62,6 @@
 		DEC43DEE96D54419BD05F659 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28D8B4CDF73A43A29C57263B /* Foundation.ttf */; };
 		E2CAE3A4905749BD9D3E55FD /* Rubik-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F441C48F1CB04CAD84D5D2EE /* Rubik-BlackItalic.ttf */; };
 		F19D61D860E1AFB199B94E41 /* Pods_ShoutemApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05A8A2B81EF464A30FA5E609 /* Pods_ShoutemApp.framework */; };
-		557544D0AF534C15BD3FC855 /* libCalendarManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 499EC0EC60D14C3E8EEECE5C /* libCalendarManager.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -133,6 +134,55 @@
 			proxyType = 2;
 			remoteGlobalIDString = A79185C61C30694E001236A6;
 			remoteInfo = RCTGoogleAnalyticsBridge;
+		};
+		2731B0DD1F02BCA300E7162F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 22F22AEB93004A14917371EF /* CalendarManager.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A4B4CC701CE4A5C800F02149;
+			remoteInfo = CalendarManager;
+		};
+		2731B0FB1F02BCA300E7162F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3C059A1DE3340900C268FA;
+			remoteInfo = yoga;
+		};
+		2731B0FD1F02BCA300E7162F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3C06751DE3340C00C268FA;
+			remoteInfo = "yoga-tvOS";
+		};
+		2731B0FF1F02BCA300E7162F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3CD9251DE5FBEC00167DC4;
+			remoteInfo = cxxreact;
+		};
+		2731B1011F02BCA300E7162F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3CD9321DE5FBEE00167DC4;
+			remoteInfo = "cxxreact-tvOS";
+		};
+		2731B1031F02BCA300E7162F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3CD90B1DE5FBD600167DC4;
+			remoteInfo = jschelpers;
+		};
+		2731B1051F02BCA300E7162F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D3CD9181DE5FBD800167DC4;
+			remoteInfo = "jschelpers-tvOS";
 		};
 		27418CB21D8BE96800D5BD03 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -286,6 +336,7 @@
 		1F6C9D902A9741FD8E0F16D0 /* Rubik-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Rubik-Light.ttf"; path = "../node_modules/@shoutem/ui/fonts/Rubik-Light.ttf"; sourceTree = "<group>"; };
 		21511D369623E94092CF2E24 /* Pods-ShoutemApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShoutemApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ShoutemApp/Pods-ShoutemApp.debug.xcconfig"; sourceTree = "<group>"; };
 		216437AF4D1A415480E40362 /* libRCTRestart.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTRestart.a; sourceTree = "<group>"; };
+		22F22AEB93004A14917371EF /* CalendarManager.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = CalendarManager.xcodeproj; path = "../node_modules/react-native-calendar-manager/CalendarManager.xcodeproj"; sourceTree = "<group>"; };
 		2787A9A91DFB06A400CED4F3 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		279BE6741D9D0A190038502E /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		28D8B4CDF73A43A29C57263B /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
@@ -300,6 +351,7 @@
 		465FAB230718430789478FBB /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		4797AA387F1B42B6A5B6B568 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
 		49057C3259AC4BF595C560C0 /* Rubik-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Rubik-Italic.ttf"; path = "../node_modules/@shoutem/ui/fonts/Rubik-Italic.ttf"; sourceTree = "<group>"; };
+		499EC0EC60D14C3E8EEECE5C /* libCalendarManager.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libCalendarManager.a; sourceTree = "<group>"; };
 		54778E4599E54A3682E83C94 /* CodePush.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
 		68FD08C2FB2C4538839EF2FB /* libRCTVideo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTVideo.a; sourceTree = "<group>"; };
 		7412AE3E73704AF899BB23F1 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
@@ -327,8 +379,6 @@
 		F2B97DDCD12FAFAC2137DF67 /* Pods-ShoutemAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShoutemAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ShoutemAppTests/Pods-ShoutemAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		F318717567ED439CAA7CDD63 /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "rubicon-icon-font.ttf"; path = "../node_modules/@shoutem/ui/fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; };
 		F441C48F1CB04CAD84D5D2EE /* Rubik-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Rubik-BlackItalic.ttf"; path = "../node_modules/@shoutem/ui/fonts/Rubik-BlackItalic.ttf"; sourceTree = "<group>"; };
-		22F22AEB93004A14917371EF /* CalendarManager.xcodeproj */ = {isa = PBXFileReference; name = "CalendarManager.xcodeproj"; path = "../node_modules/react-native-calendar-manager/CalendarManager.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		499EC0EC60D14C3E8EEECE5C /* libCalendarManager.a */ = {isa = PBXFileReference; name = "libCalendarManager.a"; path = "libCalendarManager.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -504,6 +554,12 @@
 			children = (
 				146834041AC3E56700842450 /* libReact.a */,
 				8DD9E5A81DF8577F00D85AF6 /* libReact-tvOS.a */,
+				2731B0FC1F02BCA300E7162F /* libyoga.a */,
+				2731B0FE1F02BCA300E7162F /* libyoga.a */,
+				2731B1001F02BCA300E7162F /* libcxxreact.a */,
+				2731B1021F02BCA300E7162F /* libcxxreact.a */,
+				2731B1041F02BCA300E7162F /* libjschelpers.a */,
+				2731B1061F02BCA300E7162F /* libjschelpers.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -512,6 +568,14 @@
 			isa = PBXGroup;
 			children = (
 				14BC0CAF1DBA0965000FFB6B /* libRCTGoogleAnalyticsBridge.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2731B0D91F02BCA300E7162F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2731B0DE1F02BCA300E7162F /* libCalendarManager.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -756,6 +820,10 @@
 					ProjectRef = 0063FE874DFD4CF3A1CE683F /* AirMaps.xcodeproj */;
 				},
 				{
+					ProductGroup = 2731B0D91F02BCA300E7162F /* Products */;
+					ProjectRef = 22F22AEB93004A14917371EF /* CalendarManager.xcodeproj */;
+				},
+				{
 					ProductGroup = 27418CAA1D8BE96800D5BD03 /* Products */;
 					ProjectRef = 54778E4599E54A3682E83C94 /* CodePush.xcodeproj */;
 				},
@@ -896,6 +964,55 @@
 			remoteRef = 14BC0CAE1DBA0965000FFB6B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		2731B0DE1F02BCA300E7162F /* libCalendarManager.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libCalendarManager.a;
+			remoteRef = 2731B0DD1F02BCA300E7162F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2731B0FC1F02BCA300E7162F /* libyoga.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libyoga.a;
+			remoteRef = 2731B0FB1F02BCA300E7162F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2731B0FE1F02BCA300E7162F /* libyoga.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libyoga.a;
+			remoteRef = 2731B0FD1F02BCA300E7162F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2731B1001F02BCA300E7162F /* libcxxreact.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libcxxreact.a;
+			remoteRef = 2731B0FF1F02BCA300E7162F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2731B1021F02BCA300E7162F /* libcxxreact.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libcxxreact.a;
+			remoteRef = 2731B1011F02BCA300E7162F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2731B1041F02BCA300E7162F /* libjschelpers.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libjschelpers.a;
+			remoteRef = 2731B1031F02BCA300E7162F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2731B1061F02BCA300E7162F /* libjschelpers.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libjschelpers.a;
+			remoteRef = 2731B1051F02BCA300E7162F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		27418CB31D8BE96800D5BD03 /* libCodePush.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -990,7 +1107,7 @@
 		8DD9E5A81DF8577F00D85AF6 /* libReact-tvOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = "libReact-tvOS.a";
+			path = libReact.a;
 			remoteRef = 8DD9E5A71DF8577F00D85AF6 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
