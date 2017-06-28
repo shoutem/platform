@@ -2,7 +2,7 @@
 
 const _ = require('lodash');
 const path = require('path');
-const spawn = require('superspawn').spawn;
+const spawn = require('child-process-promise').spawn;
 const fs = require('fs-extra');
 
 const buildHandlers = {

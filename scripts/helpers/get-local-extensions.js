@@ -1,14 +1,14 @@
 /* eslint global-require: "off" */
 /* global requre needs to be enabled because files to be required are
  * determined dynamically
-*/
+ */
 
 'use-strict';
 
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
 const glob = require('glob');
-const excludePackages = require(path.resolve('config.json')).excludePackages;
+const _ = require('lodash');
 
 /**
  * Gets collection of all local extensions where
@@ -18,9 +18,9 @@ const excludePackages = require(path.resolve('config.json')).excludePackages;
  */
 function getLocalExtensions(workingDirectories) {
   const results = [];
-  console.time('Load local extensions');
+  console.time('Load local extensions'.bold.green);
   [].concat(workingDirectories).forEach((workDirPattern) => {
-    const paths = glob.sync(workDirPattern);
+    const paths = glob.sync(path.join(workDirPattern, '/app'));
     paths.forEach((packagePath) => {
       const stat = fs.statSync(packagePath);
       if (stat && stat.isDirectory()) {
@@ -31,22 +31,21 @@ function getLocalExtensions(workingDirectories) {
             const packageJson = require(packageJsonPath);
             const packageName = packageJson.name;
             const packageDependecies = packageJson.dependencies;
-            if (excludePackages.indexOf(packageName) === -1) {
-              results.push({
-                id: packageName,
-                path: packagePath,
-                dependencies: packageDependecies,
-              });
-            }
+            results.push({
+              id: packageName,
+              path: packagePath,
+              isNative: !_.isEmpty(packageJson.rnpm),
+              dependencies: packageDependecies,
+            });
           }
         } catch (error) {
-          console.log(`Failed to load ${packagePath} with error: ${error}`);
+          console.log(`Failed to load ${packagePath} with error:`.bold.red, `${error}`);
           process.exit(1);
         }
       }
     });
   });
-  console.timeEnd('Load local extensions');
+  console.timeEnd('Load local extensions'.bold.green);
   return results;
 }
 
