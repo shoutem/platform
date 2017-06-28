@@ -17,6 +17,7 @@
     "@shoutem/theme": "~0.9.0",
     "@shoutem/ui": "~0.17.0",
     "@shoutem/ui-addons": "0.0.15",
+    "babel-preset-es2015": "^6.24.1",
     "lodash": "^4.10.1",
     "moment": "^2.13.0",
     "whatwg-fetch": "1.0.0",
