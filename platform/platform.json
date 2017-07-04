@@ -1,6 +1,6 @@
 {
   "version": "1.1.2",
-  "mobileAppVersion": "0.58.3",
+  "mobileAppVersion": "0.58.4",
   "releaseNotes": "",
   "settings": {
     "DEV-appetizeKey": "vdavzmvqgw0vz3a8wed98evwg0",
@@ -50,7 +50,7 @@
     "shoutem.rss-news": "^0.10.6",
     "shoutem.rss-photos": "^0.9.9",
     "shoutem.rss-videos": "^0.10.17",
-    "shoutem.rubicon-theme": "^0.2.3",
+    "shoutem.rubicon-theme": "^0.2.4",
     "shoutem.shopify": "^0.1.15",
     "shoutem.sub-navigation": "^0.1.3",
     "shoutem.theme": "^0.1.10",
@@ -58,7 +58,7 @@
     "shoutem.vimeo": "^0.2.5",
     "shoutem.web-view": "^1.0.1",
     "shoutem.youtube": "^0.0.4",
-    "shoutem.rubicon-noir-theme": "0.0.19",
-    "shoutem.rubicon-rose-theme": "0.0.19"
+    "shoutem.rubicon-noir-theme": "0.1.0",
+    "shoutem.rubicon-rose-theme": "0.1.0"
   }
 }
