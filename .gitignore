@@ -5,6 +5,7 @@ temp
 cached-bundles
 yarn.lock
 Podfile
+ios/Pods
 
 # Logs
 logs
@@ -61,12 +62,21 @@ DerivedData
 *.xcuserstate
 project.xcworkspace
 
-# Android/IJ
+# Android/IntelliJ
 #
+build/
 .idea
 .gradle
 local.properties
+*.iml
 
-# Cocoapods
-ios/Podfile.lock
-Pods/
+# node.js
+#
+node_modules/
+npm-debug.log
+
+# BUCK
+buck-out/
+\.buckd/
+android/app/libs
+*.keystore

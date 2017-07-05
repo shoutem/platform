@@ -2,41 +2,29 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const spawn = require('superspawn').spawn;
+const spawn = require('child-process-promise').spawn;
 const _ = require('lodash');
 const glob = require('glob');
+const colors = require('colors');
+
 const packageJsonTemplate = fs.readJsonSync(path.resolve('package.template.json'));
 const excludePackages = require(path.resolve('config.json')).excludePackages;
+
+const npm = require('../services/npm');
 
 function addDependencyToPackageJson(packageJson, name, version) {
   // eslint-disable-next-line no-param-reassign
   packageJson.dependencies[name] = version;
 }
 
-function npmInstall(dependencies) {
-  const dependenciesArray = [].concat(dependencies);
-  // eslint-disable-next-line prefer-template
-  console.log(`Installing dependencies${dependencies ? ': ' + dependenciesArray.join(' ') : ''}`);
-  return spawn('npm', ['install', '--save', `${dependenciesArray.join(' ')}`], {
-    stdio: 'inherit',
-    stderr: 'inherit',
-  });
-}
-
 function installLocalExtension(extension) {
-  if (extension) {
-    const packagePath = extension.path;
-
-    return npmInstall(`file:${packagePath}`);
-  }
-
-  return Promise.resolve();
+  console.log('Installing', extension.id.bold);
+  return npm.link(extension.path, process.cwd());
 }
 
-function yarnInstall() {
-  console.log('Installing dependencies:');
-  console.log(JSON.stringify(packageJsonTemplate.dependencies, null, 2));
-  return spawn('yarn', ['install'], { stderr: 'inherit', stdio: 'inherit' });
+function npmInstall() {
+  console.log('Installing dependencies:'.bold);
+  return spawn('npm', ['install'], { stderr: 'inherit', stdio: 'inherit' });
 }
 
 function installNpmExtension(extension) {
@@ -70,18 +58,8 @@ class ExtensionsInstaller {
   constructor(localExtensions = [], extensions = [], extensionsJsPath = '') {
     this.localExtensions = localExtensions;
     this.extensionsJsPath = extensionsJsPath;
-    this.extensionsToInstall = [];
-    const isLocalExtension = (extension) =>
-      (!localExtensions.some(localExtension => localExtension.id === extension.id) ||
-    localExtensions.length <= 0);
-    const isExtensionExcluded = (extension) => _.includes(excludePackages, extension.id);
+    this.extensionsToInstall = extensions;
 
-    if (extensions) {
-      this.extensionsToInstall = extensions.filter((extension) =>
-        _.get(extension, 'attributes.location.app.type') &&
-        isLocalExtension(extension) && !isExtensionExcluded(extension)
-      );
-    }
   }
 
   installExtensions() {
@@ -89,29 +67,34 @@ class ExtensionsInstaller {
       installNpmExtension(extension)
     );
 
-    // We need to use npm when installing local extension, because we had a lot of
-    // issues when using yarn. But we use yarn when there aren't any local extension
-    // because of its performance benefits.
-    const install = this.localExtensions.length ? npmInstall : yarnInstall;
+    this.localExtensions.forEach((extension) =>
+      addDependencyToPackageJson(packageJsonTemplate, extension.id, `file:${extension.path}`)
+    );
 
-    const installedExtensions = [...this.localExtensions, ...this.extensionsToInstall];
-    excludePackages.forEach(packageName => delete packageJsonTemplate.dependencies[packageName]);
+    const installedExtensions = [
+      ...this.localExtensions,
+      ...this.extensionsToInstall
+    ];
+    _.forEach(excludePackages, packageName => delete packageJsonTemplate.dependencies[packageName]);
     return writePackageJson(packageJsonTemplate)
-      .then(() => install())
+      .then(() => npmInstall())
       .then(() => Promise.all(
         this.localExtensions.map((extension) => installLocalExtension(extension))
       ))
-      .then(() => Promise.resolve(installedExtensions));
+      .then(() =>
+        Promise.resolve(installedExtensions)
+      );
   }
 
   createExtensionsJs(installedExtensions) {
+    console.log('Creating extensions.js');
     if (_.isEmpty(installedExtensions)) {
-      return Promise.reject('[ERROR]: You are trying to build an app without any extensions');
+      return Promise.reject('[ERROR]: You are trying to build an app without any extensions'.bold.red);
     }
 
     const extensionsMapping = [];
 
-    installedExtensions.forEach((extension) => {
+    _.forEach(_.uniqBy(installedExtensions, 'id'), (extension) => {
       if (extension) {
         extensionsMapping.push(`'${extension.id}': require('${extension.id}'),\n  `);
       }
@@ -120,23 +103,23 @@ class ExtensionsInstaller {
     const extensionsString = extensionsMapping.join('');
     const data = `export default {\n  ${extensionsString}};\n`;
 
-    console.time('create extensions.js');
+    console.time('Create extensions.js'.bold.green);
     return new Promise((resolve, reject) => {
       fs.writeFile(this.extensionsJsPath, data, (error) => {
         if (error) {
           reject(error);
         }
 
-        console.timeEnd('create extensions.js');
+        console.timeEnd('Create extensions.js'.bold.green);
         resolve();
       });
     });
   }
 
-  installNativeDependencies(installedExtensions, platform = 'ios') {
-    if (platform === 'ios') {
-      console.log('Starting pods install');
-      console.time('Installing pods');
+  installNativeDependencies(installedExtensions) {
+    // Check if process is running on Mac OS run 'pod install' to configure iOS native dependencies
+    if (process.platform === 'darwin') {
+      console.log('Starting pods install...');
       const podFileTemplate = fs.readFileSync('ios/Podfile.template', 'utf8', (error) =>
         Promise.reject(error)
       );
@@ -150,8 +133,13 @@ class ExtensionsInstaller {
       const podFileContent = podFileTemplate.replace(extensionsPlaceholderRegExp, pods.join('\n'));
       fs.writeFileSync('ios/Podfile', podFileContent);
 
-      return spawn('pod', ['install'], { stderr: 'inherit', stdio: 'inherit', cwd: 'ios' });
+      return spawn('pod', ['install'], {
+        stdio: 'inherit',
+        cwd: 'ios',
+        env: _.merge(process.env, { FORCE_COLOR: true })
+      });
     }
+
     return Promise.resolve();
   }
 }

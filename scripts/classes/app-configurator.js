@@ -1,22 +1,29 @@
 /* eslint global-require: "off" */
 /* global require needs to be enabled because files to be required are
  * determined dynamically
-*/
+ */
 'use strict';
 
-const spawn = require('superspawn').spawn;
+const spawn = require('child-process-promise').spawn;
+const spawnSync = require('child_process').spawnSync;
 const fs = require('fs-extra');
 const path = require('path');
+const glob = require('glob');
 const _ = require('lodash');
 const rimraf = require('rimraf');
 const process = require('process');
 const request = require('request');
+const colors = require('colors');
 
 const AppBinaryConfigurator = require('./app-binary-configurator');
 const getLocalExtensions = require('./../helpers/get-local-extensions');
 const ExtensionsInstaller = require('./extensions-installer.js');
 const buildApiEndpoint = require('./../helpers/build-api-endpoint');
 const getExtensionsFromConfiguration = require('./../helpers/get-extensions-from-configuration');
+const getErrorMessageFromResponse = require('../helpers/get-error-message-from-response');
+const applyReactNativeFixes = require('./../fixes/react-native-fixes');
+
+const npm = require('../services/npm');
 
 const reactNativeCli = path.join('node_modules', 'react-native', 'local-cli', 'cli.js');
 
@@ -58,7 +65,7 @@ class AppConfigurator {
   }
 
   downloadConfiguration() {
-    console.time('download configuration');
+    console.time('Download configuration'.bold.green);
     return new Promise((resolve, reject) => {
       request.get({
         url: this.getConfigurationUrl(),
@@ -69,11 +76,12 @@ class AppConfigurator {
       }, (error, response, body) => {
         if (response.statusCode === 200) {
           const configuration = JSON.parse(body);
-          console.timeEnd('download configuration');
+          console.timeEnd('Download configuration'.bold.green);
           this.configuration = configuration;
           resolve(configuration);
         } else {
-          reject('Configuration download failed!');
+          const errorMessage = getErrorMessageFromResponse(response);
+          reject(`Configuration download failed! Error: ${response.statusCode} - ${errorMessage}`.bold.red);
         }
       }).on('error', err => {
         reject(err);
@@ -83,12 +91,21 @@ class AppConfigurator {
 
   prepareExtensions() {
     const extensions = getExtensionsFromConfiguration(this.configuration);
-    const localExtensions = getLocalExtensions(this.buildConfig.workingDirectories);
+    const linkedExtensions = getLocalExtensions(this.buildConfig.linkedExtensions);
+    // npm link all extensions all extension available locally and installed in app configuration
+    const localExtensions = _.filter(linkedExtensions, (localExt) =>
+      _.find(extensions, { id: localExt.id })
+    );
     const extensionsJsPath = this.buildConfig.extensionsJsPath;
-    const platform = this.buildConfig.platform;
+    const excludePackages = this.buildConfig.excludePackages;
+    // install as .tars all extensions that are not available locally
+    const extensionsToInstall = extensions
+      .filter(ext => !_.some(excludePackages, p => p === ext.id))
+      .filter(ext => !_.some(localExtensions, { id: ext.id }));
+
     const installer = new ExtensionsInstaller(
       localExtensions,
-      extensions,
+      extensionsToInstall,
       extensionsJsPath
     );
 
@@ -99,7 +116,7 @@ class AppConfigurator {
         let installNativeDependencies;
 
         if (!this.buildConfig.skipNativeDependencies) {
-          installNativeDependencies = installer.installNativeDependencies(installedExts, platform)
+          installNativeDependencies = installer.installNativeDependencies(installedExts)
             .then(() => this.runReactNativeLink())
             .then(() => {
               const appBinaryConfigurator = new AppBinaryConfigurator(this.buildConfig);
@@ -112,6 +129,7 @@ class AppConfigurator {
   }
 
   executeBuildLifecycleHook(extensions, lifeCycleStep) {
+    console.log('Running', lifeCycleStep.bold, 'for all extensions');
     console.time(`${lifeCycleStep}`);
     _.forEach(extensions, (extension) => {
       if (extension && extension.id) {
@@ -141,18 +159,18 @@ class AppConfigurator {
   }
 
   removeBabelrcFiles() {
-    console.time('removing .babelrc files');
+    console.time('Removing .babelrc files'.bold.green);
 
     rimraf.sync(path.join('.', 'node_modules', '*', '.babelrc'));
 
-    console.timeEnd('removing .babelrc files');
+    console.timeEnd('Removing .babelrc files'.bold.green);
     console.log('');
   }
 
   cleanTempFolder() {
-    console.time('cleaning temp files');
+    console.time('Cleaning temp files'.bold.green);
     rimraf.sync(path.join('.', 'temp', '*'));
-    console.timeEnd('cleaning temp files');
+    console.timeEnd('Cleaning temp files'.bold.green);
   }
 
   prepareConfiguration() {
@@ -169,25 +187,38 @@ class AppConfigurator {
     return this.prepareExtensions().then(() => this.removeBabelrcFiles());
   }
 
-  runReactNativeLink() {
-    return spawn('node', [reactNativeCli, 'link'], { stdio: 'inherit', cwd: process.cwd() });
+  runReactNativeLink(packageName = '', sync) {
+    console.log(`react-native link ${packageName}`);
+    if (sync) {
+      return spawnSync('node', [reactNativeCli, 'link', packageName], { stdio: ['ignore', 'inherit', 'inherit'], cwd: process.cwd() });
+    }
+    return spawn('node', [reactNativeCli, 'link', packageName], { stdio: ['ignore', 'inherit', 'inherit'], cwd: process.cwd() });
+  }
+
+  linkPackages() {
+    [].concat(this.buildConfig.linkedPackages).forEach((linkedPackage) => {
+      const paths = glob.sync(path.join(linkedPackage, 'package.json'));
+      paths.forEach((packageJsonPath) => {
+        const packagePath = path.dirname(packageJsonPath);
+        console.log(`npm link ${packagePath}`.bold);
+        npm.link(packagePath, process.cwd());
+      });
+    });
   }
 
   run() {
-    console.time('build time');
-    console.log(`starting build for app ${this.buildConfig.appId}`);
+    console.time('Build time'.bold.green);
+    console.log('Starting build for app', `${this.buildConfig.appId}`.bold.cyan);
     // clear any previous build's temp files
     this.cleanTempFolder();
     return this.prepareConfiguration()
       .then(() => this.buildExtensions())
+      .then(() => this.linkPackages())
       .then(() => {
         rewritePackagerDefaultsJs();
-        console.timeEnd('build time');
-        if (this.buildConfig.workingDirectories.length) {
-          const runWatchInNewWindow = require('./../helpers/run-watch-in-new-window.js');
-          runWatchInNewWindow();
-        }
+        console.timeEnd('Build time'.bold.green);
       })
+      .then(() => applyReactNativeFixes())
       .catch((e) => {
         console.log(e);
         process.exit(1);

@@ -9,7 +9,7 @@ import com.android.build.OutputFile
  * cycle. By default, bundleDebugJsAndAssets is skipped, as in debug/dev mode we prefer to load the
  * bundle directly from the development server. Below you can see all the possible configurations
  * and their defaults. If you decide to add a configuration block, make sure to add it before the
- * `apply from: "react.gradle"` line.
+ * `apply from: "../../node_modules/react-native/react.gradle"` line.
  *
  * project.ext.react = [
  *   // the name of the generated asset file containing your JS bundle
@@ -65,7 +65,7 @@ import com.android.build.OutputFile
  * ]
  */
 
-apply from: "react.gradle"
+apply from: "../../node_modules/react-native/react.gradle"
 apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 
 /**
@@ -125,6 +125,7 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             buildConfigField "String", "CODE_PUSH_APP_KEY", CUSTOM_CODE_PUSH_APP_KEY
             manifestPlaceholders = [appName: "ShoutemApplicationName"]
+            signingConfig signingConfigs.release
         }
 
         // TODO(Vladimir): remove this config when CodePush viabliity testing is over
@@ -146,32 +147,23 @@ android {
             }
         }
     }
-    productFlavors {
-        customized {
-            minSdkVersion 16
-            applicationId 'com.shoutemapp'
-            targetSdkVersion 22
-            versionCode 1
-            versionName '1.0'
-        }
-    }
 }
 
 dependencies {
-    compile project(':react-native-calendar-manager')
     compile project(':react-native-fbsdk')
-    compile project(':react-native-maps')
-    compile project(':react-native-restart')
-    compile project(':react-native-google-analytics-bridge')
-    compile project(':react-native-share')
-    compile project(':react-native-video')
-    compile project(':react-native-vector-icons')
+    compile(project(':react-native-maps')) {
+        exclude group: 'com.google.android.gms', module: 'play-services-base'
+        exclude group: 'com.google.android.gms', module: 'play-services-maps'
+    }
+
     compile project(':react-native-code-push')
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
     compile 'com.facebook.fresco:animated-gif:0.11.0'  // For animated GIF support
     compile 'com.android.support:multidex:1.0.1'
+    compile 'com.google.android.gms:play-services-base:10.2.1'
+    compile 'com.google.android.gms:play-services-maps:10.2.1'
 }
 
 // Run this once to be able to run the application with BUCK

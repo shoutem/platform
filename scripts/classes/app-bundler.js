@@ -3,7 +3,7 @@
 const _ = require('lodash');
 const fs = require('fs-extra');
 const path = require('path');
-const exec = require('child_process').exec;
+const { exec } = require('child_process');
 
 const bundleNameGenerators = {
   ios: () => 'main.jsbundle',
@@ -49,9 +49,9 @@ class AppBundler {
 
     fs.ensureDirSync(assetsDest);
     return new Promise((resolve, reject) => {
-      const reactNativeBundleProcess = exec(rnBundleCommand.join(' '), error => {
+      const rnBundleProcess = exec(rnBundleCommand.join(' '), (error, stdout, stderr ) => {
         console.timeEnd('Build bundle');
-        console.log('');
+
         if (error !== null) {
           console.log(`Bundling error: ${error}`);
           reject(error);
@@ -59,8 +59,8 @@ class AppBundler {
         resolve(assetsDest);
       });
 
-      reactNativeBundleProcess.stdout.pipe(process.stdout);
-      reactNativeBundleProcess.stderr.pipe(process.stderr);
+      rnBundleProcess.stdout.pipe(process.stdout);
+      rnBundleProcess.stderr.pipe(process.stderr);
     });
   }
 }
