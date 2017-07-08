@@ -30,7 +30,8 @@ const buildHandlers = {
       ], { stderr: 'inherit', stdio: 'inherit' }));
   },
   android() {
-    return spawn('gradlew', ['assembleRelease'], {
+    const gradlew = /^win/.test(process.platform) ? 'gradlew' : './gradlew';
+    return spawn(gradlew, ['assembleRelease'], {
       cwd: 'android',
       stdio: 'inherit',
       stderr: 'inherit',
