@@ -4,6 +4,7 @@ const _ = require('lodash');
 const path = require('path');
 const spawn = require('child-process-promise').spawn;
 const fs = require('fs-extra');
+const isWindows = require('../helpers/is-windows');
 
 const buildHandlers = {
   ios() {
@@ -30,7 +31,8 @@ const buildHandlers = {
       ], { stderr: 'inherit', stdio: 'inherit' }));
   },
   android() {
-    return spawn('gradlew', ['assembleRelease'], {
+    const gradlew = isWindows() ? 'gradlew' : './gradlew';
+    return spawn(gradlew, ['assembleRelease'], {
       cwd: 'android',
       stdio: 'inherit',
       stderr: 'inherit',
