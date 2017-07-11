@@ -1,6 +1,6 @@
 {
   "version": "1.1.2",
-  "mobileAppVersion": "0.58.7",
+  "mobileAppVersion": "0.58.8",
   "releaseNotes": "* Upgrade to React Native v0.43.4\n* Support for new development flow\n* New Rubicon flavors\n* Improved HTML content preview\n* CMS support for sorting\n* Support for custom navigation bar",
   "settings": {
     "DEV-appetizeKey": "vdavzmvqgw0vz3a8wed98evwg0",
