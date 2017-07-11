@@ -6,20 +6,16 @@ const spawn = require('child-process-promise').spawn;
 const _ = require('lodash');
 const glob = require('glob');
 const colors = require('colors');
+const promisify = require('pify');
+const linkLocal = promisify(require('linklocal'));
 
 const packageJsonTemplate = fs.readJsonSync(path.resolve('package.template.json'));
-const excludePackages = require(path.resolve('config.json')).excludePackages;
 
 const npm = require('../services/npm');
 
 function addDependencyToPackageJson(packageJson, name, version) {
   // eslint-disable-next-line no-param-reassign
   packageJson.dependencies[name] = version;
-}
-
-function installLocalExtension(extension) {
-  console.log('Installing', extension.id.bold);
-  return npm.link(extension.path, process.cwd());
 }
 
 function npmInstall() {
@@ -75,12 +71,9 @@ class ExtensionsInstaller {
       ...this.localExtensions,
       ...this.extensionsToInstall
     ];
-    _.forEach(excludePackages, packageName => delete packageJsonTemplate.dependencies[packageName]);
     return writePackageJson(packageJsonTemplate)
+      .then(() => linkLocal(process.cwd()))
       .then(() => npmInstall())
-      .then(() => Promise.all(
-        this.localExtensions.map((extension) => installLocalExtension(extension))
-      ))
       .then(() =>
         Promise.resolve(installedExtensions)
       );
