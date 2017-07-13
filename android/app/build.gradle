@@ -120,11 +120,15 @@ android {
         }
     }
     buildTypes {
-        release {
+        unsignedRelease {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             buildConfigField "String", "CODE_PUSH_APP_KEY", CUSTOM_CODE_PUSH_APP_KEY
             manifestPlaceholders = [appName: "ShoutemApplicationName"]
+        }
+
+        release {
+            initWith unsignedRelease
             signingConfig signingConfigs.release
         }
 
