@@ -32,7 +32,7 @@ const buildHandlers = {
   },
   android() {
     const gradlew = isWindows() ? 'gradlew' : './gradlew';
-    return spawn(gradlew, ['assembleRelease'], {
+    return spawn(gradlew, ['assembleUnsignedRelease'], {
       cwd: 'android',
       stdio: 'inherit',
       stderr: 'inherit',
