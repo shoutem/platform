@@ -155,9 +155,13 @@ android {
 
 dependencies {
     compile project(':react-native-fbsdk')
+    // commented compile project lines are here to signal to react-native link
+    // that this dependency has already been linked
+    //    compile project(':react-native-google-analytics-bridge')
     compile(project(':react-native-google-analytics-bridge')) {
         exclude group: 'com.google.android.gms', module: 'play-services-analytics'
     }
+    //     compile project(':react-native-maps')
     compile(project(':react-native-maps')) {
         exclude group: 'com.google.android.gms', module: 'play-services-base'
         exclude group: 'com.google.android.gms', module: 'play-services-maps'

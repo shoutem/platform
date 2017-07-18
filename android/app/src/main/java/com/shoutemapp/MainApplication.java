@@ -4,6 +4,7 @@ import android.support.multidex.MultiDexApplication;
 
 import com.facebook.react.ReactApplication;
 import com.microsoft.codepush.react.CodePush;
+import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -36,6 +37,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
           new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
+          new GoogleAnalyticsBridgePackage(),
           new FBSDKPackage(mCallbackManager)
       );
     }
