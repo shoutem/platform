@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/platform",
-  "version": "0.58.15",
+  "version": "0.58.16",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "setup": "cd scripts && yarn install",
@@ -13,7 +13,7 @@
     "@shoutem/animation": "~0.11.1",
     "@shoutem/core": "0.0.48",
     "@shoutem/redux-composers": "0.1.0-beta.4",
-    "@shoutem/redux-io": "1.3.0",
+    "@shoutem/redux-io": "1.1.4",
     "@shoutem/theme": "~0.9.1",
     "@shoutem/ui": "~0.19.4",
     "@shoutem/ui-addons": "0.0.17",
