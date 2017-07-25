@@ -1,6 +1,6 @@
 {
-  "version": "1.1.9",
-  "mobileAppVersion": "0.58.15",
+  "version": "1.1.10",
+  "mobileAppVersion": "0.58.16",
   "releaseNotes": "* Upgrade to React Native v0.43.4\n* Support for new development flow\n* New Rubicon flavors\n* Improved HTML content preview\n* CMS support for sorting\n* Support for custom navigation bar",
   "settings": {
     "DEV-appetizeKey": "vdavzmvqgw0vz3a8wed98evwg0",
@@ -57,7 +57,6 @@
     "shoutem.video": "^0.10.15",
     "shoutem.vimeo": "^0.2.5",
     "shoutem.web-view": "^1.0.1",
-    "shoutem.youtube": "^0.0.4",
     "shoutem.rubicon-noir-theme": "0.1.0",
     "shoutem.rubicon-rose-theme": "0.1.0",
     "shoutem.loyalty": "^0.0.17",
