@@ -15,6 +15,7 @@
 
 #import "RCTBundleURLProvider.h"
 #import "RCTRootView.h"
+#import "SplashScreen.h"
 
 @implementation AppDelegate
 
@@ -44,16 +45,11 @@
                                                    launchOptions:launchOptions];
   rootView.backgroundColor = [UIColor clearColor];
 
-  UIView *backgroundView = [[[NSBundle mainBundle] loadNibNamed:@"LaunchScreen" owner:self options:nil] firstObject];
-
-  [backgroundView addSubview:rootView];
-
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
-  rootViewController.view = backgroundView;
+  rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  rootView.frame = backgroundView.frame;
 
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
