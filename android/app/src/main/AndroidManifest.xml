@@ -9,7 +9,7 @@
       android:allowBackup="true"
       android:label="${appName}"
       android:icon="@mipmap/ic_launcher"
-      android:theme="@style/SplashTheme">
+      android:theme="@style/AppTheme">
       <activity
         android:name=".MainActivity"
         android:label="${appName}"

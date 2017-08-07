@@ -30,6 +30,7 @@
     "react-native-google-analytics-bridge": "5.0.0",
     "react-native-restart": "0.0.2",
     "react-native-maps": "0.13.0",
+    "react-native-splash-screen": "^2.1.0",
     "react-native-video": "^1.0.0",
     "react-redux": "^5.0.2",
     "redux": "^3.6.0",
