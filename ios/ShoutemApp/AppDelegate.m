@@ -54,6 +54,8 @@
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
 
+  [SplashScreen show];
+
   return YES;
 }
 
