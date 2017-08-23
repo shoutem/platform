@@ -1,6 +1,6 @@
 {
-  "version": "1.2.0",
-  "mobileAppVersion": "1.2.0",
+  "version": "1.2.1",
+  "mobileAppVersion": "1.2.1",
   "releaseNotes": "* Wordpress support, performance improvements and bug fixes",
   "settings": {
     "DEV-appetizeKey": "vdavzmvqgw0vz3a8wed98evwg0",
@@ -59,7 +59,7 @@
     "shoutem.video": "~1.2.0",
     "shoutem.vimeo": "~1.2.0",
     "shoutem.web-view": "~1.2.0",
-    "shoutem.wordpress": "~1.2.0",
+    "shoutem.wordpress": "~1.2.1",
     "shoutem.youtube": "~1.2.0"
   }
 }
