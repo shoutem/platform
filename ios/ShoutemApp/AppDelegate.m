@@ -45,6 +45,14 @@
                                                    launchOptions:launchOptions];
   rootView.backgroundColor = [UIColor clearColor];
 
+  // Loading view that shows the launch screen while Javascript is reloading
+  UIView *loading = [[[NSBundle mainBundle] loadNibNamed:@"LaunchScreen" owner:self options:nil] objectAtIndex:0];
+  rootView.loadingView = loading;
+  // Allows the Javascript to render and avoids the white view flash, as described in:
+  // https://github.com/facebook/react-native/issues/1402
+  rootView.loadingViewFadeDelay = 2;
+  loading.frame = self.window.bounds;
+
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
