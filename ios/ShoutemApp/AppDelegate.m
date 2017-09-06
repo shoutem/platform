@@ -43,7 +43,7 @@
                                                       moduleName:@"ShoutemApp"
                                                initialProperties: initialProperties
                                                    launchOptions:launchOptions];
-  rootView.backgroundColor = [UIColor clearColor];
+  rootView.backgroundColor = [UIColor whiteColor];
 
   // Loading view that shows the launch screen while Javascript is reloading
   UIView *loading = [[[NSBundle mainBundle] loadNibNamed:@"LaunchScreen" owner:self options:nil] objectAtIndex:0];
