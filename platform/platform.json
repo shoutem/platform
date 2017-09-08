@@ -1,7 +1,7 @@
 {
-  "version": "1.2.2",
-  "mobileAppVersion": "1.2.2",
-  "releaseNotes": "* Wordpress support, performance improvements and bug fixes",
+  "version": "1.2.3",
+  "mobileAppVersion": "1.2.3",
+  "releaseNotes": "* Bug fixes",
   "settings": {
     "DEV-appetizeKey": "vdavzmvqgw0vz3a8wed98evwg0",
     "QA-appetizeKey": "7xbpyp44zzwgfk06yhxfw4ukgm",
