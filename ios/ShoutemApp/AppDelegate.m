@@ -15,6 +15,7 @@
 
 #import "RCTBundleURLProvider.h"
 #import "RCTRootView.h"
+#import "SplashScreen.h"
 
 @implementation AppDelegate
 
@@ -42,21 +43,26 @@
                                                       moduleName:@"ShoutemApp"
                                                initialProperties: initialProperties
                                                    launchOptions:launchOptions];
-  rootView.backgroundColor = [UIColor clearColor];
+  rootView.backgroundColor = [UIColor whiteColor];
 
-  UIView *backgroundView = [[[NSBundle mainBundle] loadNibNamed:@"LaunchScreen" owner:self options:nil] firstObject];
-
-  [backgroundView addSubview:rootView];
+  // Loading view that shows the launch screen while Javascript is reloading
+  UIView *loading = [[[NSBundle mainBundle] loadNibNamed:@"LaunchScreen" owner:self options:nil] objectAtIndex:0];
+  rootView.loadingView = loading;
+  // Allows the Javascript to render and avoids the white view flash, as described in:
+  // https://github.com/facebook/react-native/issues/1402
+  rootView.loadingViewFadeDelay = 2;
+  loading.frame = self.window.bounds;
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
-  rootViewController.view = backgroundView;
+  rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  rootView.frame = backgroundView.frame;
 
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
+
+  [SplashScreen show];
 
   return YES;
 }
