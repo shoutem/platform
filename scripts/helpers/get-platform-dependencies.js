@@ -22,7 +22,7 @@ function getPlatformDependencies(shoutemExtensionsPath) {
           const extensionJson = fs.readJsonSync(extensionJsonPath);
           const extensionName = extensionJson.name;
           const extensionVersion = extensionJson.version;
-          dependencies[`shoutem.${extensionName}`] = `^${extensionVersion}`;
+          dependencies[`shoutem.${extensionName}`] = `~${extensionVersion}`;
         }
       } catch (error) {
         console.log(`Failed to load ${extensionPath} with error: ${error}`);

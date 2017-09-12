@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/platform",
-  "version": "1.2.0",
+  "version": "1.2.3",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "setup": "cd scripts && yarn install",
@@ -15,7 +15,7 @@
     "@shoutem/redux-composers": "0.1.4",
     "@shoutem/redux-io": "1.3.1",
     "@shoutem/theme": "~0.10.0",
-    "@shoutem/ui": "~0.21.0",
+    "@shoutem/ui": "~0.21.3",
     "@shoutem/ui-addons": "0.0.18",
     "babel-preset-es2015": "^6.24.1",
     "lodash": "^4.10.1",
