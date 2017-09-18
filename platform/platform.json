@@ -1,6 +1,6 @@
 {
-  "version": "1.3.0-rc.2",
-  "mobileAppVersion": "1.3.0-rc.2",
+  "version": "1.3.0-rc.3",
+  "mobileAppVersion": "1.3.0-rc.3",
   "releaseNotes": "* Social network\n* Notification center",
   "settings": {
     "DEV-appetizeKey": "vdavzmvqgw0vz3a8wed98evwg0",
