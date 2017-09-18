@@ -1,10 +1,10 @@
 {
-  "version": "1.3.0-rc.1",
-  "mobileAppVersion": "1.3.0-rc.1",
+  "version": "1.3.0-rc.2",
+  "mobileAppVersion": "1.3.0-rc.2",
   "releaseNotes": "* Social network\n* Notification center",
   "settings": {
     "DEV-appetizeKey": "vdavzmvqgw0vz3a8wed98evwg0",
-    "QA-appetizeKey": "7xbpyp44zzwgfk06yhxfw4ukgm",
+    "QA-appetizeKey": "3yezybjy7q4aymjca8mve7bw08",
     "Production-appetizeKey": "eahg1ye3u6bdx2zhxqnr44up68"
   },
   "builds": {
@@ -49,14 +49,13 @@
     "shoutem.preview": "~1.3.0",
     "shoutem.products": "~1.3.0",
     "shoutem.push-notifications": "~1.3.0",
-    "shoutem.rich-media": "~1.3.0",
     "shoutem.rss": "~1.3.0",
     "shoutem.rss-news": "~1.3.0",
     "shoutem.rss-photos": "~1.3.0",
     "shoutem.rss-videos": "~1.3.0",
     "shoutem.rubicon-theme": "~1.3.0",
     "shoutem.shopify": "~1.3.0",
-    "shoutem.social": "~0.0.1",
+    "shoutem.social": "~0.2.0",
     "shoutem.sub-navigation": "~1.3.0",
     "shoutem.theme": "~1.3.0",
     "shoutem.video": "~1.3.0",
