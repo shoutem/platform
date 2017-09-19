@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/platform",
-  "version": "1.3.0-rc.3",
+  "version": "1.3.0-rc.4",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "setup": "cd scripts && yarn install",
@@ -23,6 +23,7 @@
     "whatwg-fetch": "1.0.0",
     "react": "16.0.0-alpha.6",
     "react-native": "0.43.4",
+    "@yfuks/react-native-action-sheet": "0.0.3",
     "react-native-browser-polyfill": "^0.1.1",
     "react-native-calendar-manager": "git+https://git@bitbucket.org/fiveminutes/react-native-calendar-manager.git#51b6d567bcdfb9c31992d943170cb23ebd3582b6",
     "react-native-code-push": "^2.0.2-beta",
