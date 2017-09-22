@@ -15,7 +15,7 @@ const config = {
   getBlacklistRE() {
     return blacklist([
       /extensions\/.*\/server\/.*/,
-      /scripts\/.*/
+      /\/scripts\/.*/
     ]);
   },
 };
