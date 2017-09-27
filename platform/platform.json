@@ -1,11 +1,11 @@
 {
-    "version": "1.2.3",
-    "mobileAppVersion": "1.2.3",
-    "releaseNotes": "* Wordpress support, performance improvements and bug fixes",
+    "version": "1.3.0",
+    "mobileAppVersion": "1.3.0",
+    "releaseNotes": "* Social network\n* Notification center",
     "settings": {
-        "DEV-appetizeKey": "vdavzmvqgw0vz3a8wed98evwg0",
-        "QA-appetizeKey": "3yezybjy7q4aymjca8mve7bw08",
-        "Production-appetizeKey": "eahg1ye3u6bdx2zhxqnr44up68"
+      "DEV-appetizeKey": "vdavzmvqgw0vz3a8wed98evwg0",
+      "QA-appetizeKey": "3yezybjy7q4aymjca8mve7bw08",
+      "Production-appetizeKey": "eahg1ye3u6bdx2zhxqnr44up68"
     },
     "builds": {
         "live": {
