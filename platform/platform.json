@@ -1,7 +1,7 @@
 {
     "version": "1.4.0",
     "mobileAppVersion": "1.4.0",
-    "releaseNotes": "* Social network\n* Notification center",
+    "releaseNotes": "* Core improvements",
     "settings": {
         "DEV-appetizeKey": "vdavzmvqgw0vz3a8wed98evwg0",
         "QA-appetizeKey": "3yezybjy7q4aymjca8mve7bw08",
