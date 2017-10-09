@@ -134,6 +134,10 @@ class AppBinaryConfigurator {
     return this.config.binaryVersionCode || 1;
   }
 
+  getProjectName() {
+    return _.upperFirst(_.camelCase(this.publishingProperties.iphone_name));
+  }
+
   configureAppInfoIOS() {
     console.log('Configuring', 'Info.plist'.bold);
     const infoPlistPath = './ios/ShoutemApp/Info.plist';
@@ -200,6 +204,85 @@ class AppBinaryConfigurator {
       .then(() => this.runForAllPlatforms(this.configureLaunchScreen))
       .then(() => this.runForAllPlatforms(this.configureAppIcon))
       .then(() => this.runForAllPlatforms(this.configureAppInfo));
+  }
+
+  renameIOSScheme() {
+    console.log('Renaming the xcode Scheme...');
+    const oldScheme = 'ios/ShoutemApp.xcodeproj/xcshareddata/xcschemes/ShoutemApp.xcscheme';
+    const newScheme = `ios/ShoutemApp.xcodeproj/xcshareddata/xcschemes/${this.getProjectName()}.xcscheme`;
+
+    return fs.rename(oldScheme, newScheme);
+  }
+
+  renameIOSEntitlements() {
+    console.log('Renaming entitlements...');
+    const oldEntitlements = 'ios/ShoutemApp/ShoutemApp.entitlements';
+    const newEntitlements = `ios/ShoutemApp/${this.getProjectName()}.entitlements`;
+
+    return fs.rename(oldEntitlements, newEntitlements);
+  }
+
+  updateProjectName(fileContent) {
+    return fileContent.replace(/ShoutemApp/g, this.getProjectName());
+  }
+
+  renameProjectDir() {
+    console.log('Renaming project directory...');
+    const oldProjectDir = 'ios/ShoutemApp';
+    const newProjectDir = `ios/${this.getProjectName()}`;
+
+    return fs.rename(oldProjectDir, newProjectDir);
+  }
+
+  updateProjectPaths() {
+    console.log('Updating project paths...');
+    const projectPath = 'ios/ShoutemApp.xcodeproj/project.pbxproj';
+    const xcodeProject = fs.readFileSync(projectPath, 'utf8');
+    const newXcodeProject = this.updateProjectName(xcodeProject);
+
+    return fs.writeFile(projectPath, newXcodeProject);
+  }
+
+  renameXcodeProject() {
+    console.log('Renaming xcode project...');
+    const workspacePath = 'ios/ShoutemApp.xcworkspace/contents.xcworkspacedata';
+    const xcodeWorkspace = fs.readFileSync(workspacePath, 'utf8');
+    const newXcodeWorkspace = this.updateProjectName(xcodeWorkspace);
+
+    return fs.rename('ios/ShoutemApp.xcodeproj', `ios/${this.getProjectName()}.xcodeproj`)
+      .then(() => fs.writeFile(workspacePath, newXcodeWorkspace));
+  }
+
+  renameRCTRootView() {
+    console.log('Renaming React Root View...');
+    const AppDelegatePath = 'ios/ShoutemApp/AppDelegate.m';
+    const AppDelegate = fs.readFileSync(AppDelegatePath, 'utf8');
+    const indexJsPath = 'index.js';
+    const indexJs = fs.readFileSync(indexJsPath, 'utf8');
+
+    return Promise.all([
+      fs.writeFile(AppDelegatePath, this.updateProjectName(AppDelegate)),
+      fs.writeFile(indexJsPath, this.updateProjectName(indexJs))
+    ]);
+  }
+
+  updatePodfileTemplate() {
+    console.log('Updating Podfile...');
+    const podfileTemplatePath = 'ios/Podfile.template';
+    const podfileTemplate = fs.readFileSync(podfileTemplatePath, 'utf8');
+
+    return fs.writeFile(podfileTemplatePath, this.updateProjectName(podfileTemplate));
+  }
+
+  costumizeProject() {
+    return this.getPublishingProperties()
+      .then(() => this.renameIOSScheme())
+      .then(() => this.renameIOSEntitlements())
+      .then(() => this.renameRCTRootView())
+      .then(() => this.renameProjectDir())
+      .then(() => this.updateProjectPaths())
+      .then(() => this.renameXcodeProject())
+      .then(() => this.updatePodfileTemplate());
   }
 }
 
