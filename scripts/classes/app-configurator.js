@@ -114,12 +114,11 @@ class AppConfigurator {
         let installNativeDependencies;
 
         if (!this.buildConfig.skipNativeDependencies) {
-          installNativeDependencies = installer.installNativeDependencies(installedExts)
+          const appBinaryConfigurator = new AppBinaryConfigurator(this.buildConfig);
+          installNativeDependencies = appBinaryConfigurator.costumizeProject()
+            .then(() => installer.installNativeDependencies(installedExts))
             .then(() => this.runReactNativeLink())
-            .then(() => {
-              const appBinaryConfigurator = new AppBinaryConfigurator(this.buildConfig);
-              return appBinaryConfigurator.configureApp();
-            });
+            .then(() => appBinaryConfigurator.configureApp());
         }
 
         return Promise.all([extensionsJs, preBuild, installNativeDependencies]);
