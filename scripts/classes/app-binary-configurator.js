@@ -1,11 +1,14 @@
 'use strict';
 
+const path = require('path');
 const _ = require('lodash');
 const fs = require('fs-extra');
 const request = require('request');
 const plist = require('plist');
 const Jimp = require('jimp');
-const colors = require('colors');
+const glob = require('glob');
+
+require('colors');
 
 const getErrorMessageFromResponse = require('../helpers/get-error-message-from-response');
 
@@ -15,6 +18,30 @@ const binarySettings = {
   ios: iosBinarySettings,
   android: androidBinarySettings,
 };
+
+const XCSCHEME_PATH = 'ios/ShoutemApp.xcodeproj/xcshareddata/xcschemes';
+
+function pathExists(filePath) {
+  return !_.isEmpty(glob.sync(filePath));
+}
+
+function renamePath(oldPath, newPath) {
+  if (!pathExists(oldPath)) {
+    return Promise.resolve();
+  }
+
+  return fs.rename(oldPath, newPath);
+}
+
+function findFileOnPath(fileName, sourcePath) {
+  const foundFiles = glob.sync(`${sourcePath}/?(**)/${fileName}`);
+  console.log('found', foundFiles);
+  if (_.isEmpty(foundFiles)) {
+    return null;
+  }
+
+  return _.first(foundFiles);
+}
 
 function downloadImage(imageUrl, savePath) {
   return new Promise((resolve, reject) => {
@@ -89,6 +116,7 @@ class AppBinaryConfigurator {
         } else {
           console.log(response);
           const errorMessage = getErrorMessageFromResponse(response);
+          // eslint-disable-next-line max-len
           reject(`Publishing info download failed with error: ${response.statusCode} ${errorMessage}`.bold.red);
         }
       }).on('error', err => {
@@ -135,12 +163,16 @@ class AppBinaryConfigurator {
   }
 
   getProjectName() {
-    return _.upperFirst(_.camelCase(this.publishingProperties.iphone_name));
+    return this.projectName || 'ShoutemApp';
+  }
+
+  setProjectName(appName) {
+    this.projectName = _.upperFirst(_.camelCase(appName));
   }
 
   configureAppInfoIOS() {
     console.log('Configuring', 'Info.plist'.bold);
-    const infoPlistPath = './ios/ShoutemApp/Info.plist';
+    const infoPlistPath = findFileOnPath('Info.plist', 'ios');
     const infoPlistFile = fs.readFileSync(infoPlistPath, 'utf8');
     const infoPlist = plist.parse(infoPlistFile);
     // we use this prefix for e.g. building apps with wildcard application identifier
@@ -207,19 +239,17 @@ class AppBinaryConfigurator {
   }
 
   renameIOSScheme() {
-    console.log('Renaming the xcode Scheme...');
-    const oldScheme = 'ios/ShoutemApp.xcodeproj/xcshareddata/xcschemes/ShoutemApp.xcscheme';
-    const newScheme = `ios/ShoutemApp.xcodeproj/xcshareddata/xcschemes/${this.getProjectName()}.xcscheme`;
+    const oldScheme = path.join(XCSCHEME_PATH, 'ShoutemApp.xcscheme');
+    const newScheme = path.join(XCSCHEME_PATH, `${this.getProjectName()}.xcscheme`);
 
-    return fs.rename(oldScheme, newScheme);
+    return renamePath(oldScheme, newScheme);
   }
 
   renameIOSEntitlements() {
-    console.log('Renaming entitlements...');
     const oldEntitlements = 'ios/ShoutemApp/ShoutemApp.entitlements';
     const newEntitlements = `ios/ShoutemApp/${this.getProjectName()}.entitlements`;
 
-    return fs.rename(oldEntitlements, newEntitlements);
+    return renamePath(oldEntitlements, newEntitlements);
   }
 
   updateProjectName(fileContent) {
@@ -227,16 +257,14 @@ class AppBinaryConfigurator {
   }
 
   renameProjectDir() {
-    console.log('Renaming project directory...');
     const oldProjectDir = 'ios/ShoutemApp';
     const newProjectDir = `ios/${this.getProjectName()}`;
 
-    return fs.rename(oldProjectDir, newProjectDir);
+    return renamePath(oldProjectDir, newProjectDir);
   }
 
   updateProjectPaths() {
-    console.log('Updating project paths...');
-    const projectPath = 'ios/ShoutemApp.xcodeproj/project.pbxproj';
+    const projectPath = findFileOnPath('project.pbxproj', 'ios');
     const xcodeProject = fs.readFileSync(projectPath, 'utf8');
     const newXcodeProject = this.updateProjectName(xcodeProject);
 
@@ -244,38 +272,40 @@ class AppBinaryConfigurator {
   }
 
   renameXcodeProject() {
-    console.log('Renaming xcode project...');
     const workspacePath = 'ios/ShoutemApp.xcworkspace/contents.xcworkspacedata';
     const xcodeWorkspace = fs.readFileSync(workspacePath, 'utf8');
     const newXcodeWorkspace = this.updateProjectName(xcodeWorkspace);
 
-    return fs.rename('ios/ShoutemApp.xcodeproj', `ios/${this.getProjectName()}.xcodeproj`)
+    return renamePath('ios/ShoutemApp.xcodeproj', `ios/${this.getProjectName()}.xcodeproj`)
       .then(() => fs.writeFile(workspacePath, newXcodeWorkspace));
   }
 
   renameRCTRootView() {
-    console.log('Renaming React Root View...');
-    const AppDelegatePath = 'ios/ShoutemApp/AppDelegate.m';
+    const project = this.getProjectName();
+    const AppDelegatePath = findFileOnPath('AppDelegate.m', 'ios');
+
+    if (!AppDelegatePath) {
+      return Promise.resolve();
+    }
+
     const AppDelegate = fs.readFileSync(AppDelegatePath, 'utf8');
     const indexJsPath = 'index.js';
     const indexJs = fs.readFileSync(indexJsPath, 'utf8');
 
-    return Promise.all([
-      fs.writeFile(AppDelegatePath, this.updateProjectName(AppDelegate)),
-      fs.writeFile(indexJsPath, this.updateProjectName(indexJs))
-    ]);
+    return fs.writeFile(AppDelegatePath, this.updateProjectName(AppDelegate))
+      .then(() => fs.writeFile(indexJsPath, this.updateProjectName(indexJs)))
   }
 
   updatePodfileTemplate() {
-    console.log('Updating Podfile...');
     const podfileTemplatePath = 'ios/Podfile.template';
     const podfileTemplate = fs.readFileSync(podfileTemplatePath, 'utf8');
 
     return fs.writeFile(podfileTemplatePath, this.updateProjectName(podfileTemplate));
   }
 
-  costumizeProject() {
+  custumizeProject() {
     return this.getPublishingProperties()
+      .then(() => this.setProjectName(this.publishingProperties.iphone_name))
       .then(() => this.renameIOSScheme())
       .then(() => this.renameIOSEntitlements())
       .then(() => this.renameRCTRootView())

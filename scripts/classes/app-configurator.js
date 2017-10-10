@@ -115,7 +115,7 @@ class AppConfigurator {
 
         if (!this.buildConfig.skipNativeDependencies) {
           const appBinaryConfigurator = new AppBinaryConfigurator(this.buildConfig);
-          installNativeDependencies = appBinaryConfigurator.costumizeProject()
+          installNativeDependencies = appBinaryConfigurator.custumizeProject()
             .then(() => installer.installNativeDependencies(installedExts))
             .then(() => this.runReactNativeLink())
             .then(() => appBinaryConfigurator.configureApp());
