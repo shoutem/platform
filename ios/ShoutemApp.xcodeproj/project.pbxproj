@@ -476,8 +476,10 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
+				27571F171F8D07D300B9454D /* Merge Info.plist files */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				07EC1A4B9E2DC8F4C6C44009 /* [CP] Embed Pods Frameworks */,
+				27571F191F8D0A4300B9454D /* ShellScript */,
 				5989509EC90B0F9566864CBA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -772,6 +774,33 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ShoutemApp/Pods-ShoutemApp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		27571F171F8D07D300B9454D /* Merge Info.plist files */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Merge Info.plist files";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "node ../scripts/merge-info-plists.js";
+		};
+		27571F191F8D0A4300B9454D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "";
 		};
 		424FDCA7D9DE6B5D5871D305 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
