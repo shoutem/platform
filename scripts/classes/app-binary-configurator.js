@@ -11,6 +11,8 @@ const glob = require('glob');
 require('colors');
 
 const getErrorMessageFromResponse = require('../helpers/get-error-message-from-response');
+const findFileOnPath = require('../helpers/find-file-on-path');
+
 
 const iosBinarySettings = require('../configs/iosBinarySettings');
 const androidBinarySettings = require('../configs/androidBinarySettings');
@@ -31,16 +33,6 @@ function renamePath(oldPath, newPath) {
   }
 
   return fs.rename(oldPath, newPath);
-}
-
-function findFileOnPath(fileName, sourcePath) {
-  const foundFiles = glob.sync(`${sourcePath}/?(**)/${fileName}`);
-  console.log('found', foundFiles);
-  if (_.isEmpty(foundFiles)) {
-    return null;
-  }
-
-  return _.first(foundFiles);
 }
 
 function downloadImage(imageUrl, savePath) {
@@ -269,6 +261,14 @@ class AppBinaryConfigurator {
     const newXcodeProject = this.updateProjectName(xcodeProject);
 
     return fs.writeFile(projectPath, newXcodeProject);
+  }
+
+  updateSchemePaths() {
+    const schemePath = findFileOnPath('xcshareddata/xcschemes/*.xcscheme', 'ios');
+    const xcodeScheme = fs.readFileSync(schemePath, 'utf8');
+    const newXcodeScheme = this.updateProjectName(xcodeScheme);
+
+    return fs.writeFile(schemePath, newXcodeScheme);
   }
 
   renameXcodeProject() {

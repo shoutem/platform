@@ -5,30 +5,37 @@ const path = require('path');
 const spawn = require('child-process-promise').spawn;
 const fs = require('fs-extra');
 const isWindows = require('../helpers/is-windows');
+const findFileOnPath = require('../helpers/find-file-on-path');
 
 const buildHandlers = {
   ios() {
+    const schemaFile = findFileOnPath('xcshareddata/xcschemes/*.xcscheme', 'ios');
+    const schemaName = path.basename(schemaFile).split('.')[0];
+    const archivePath = path.join(this.getOutputDirectory(), 'ShoutemApp.xcarchive');
+
     return spawn('xcodebuild', [
       'archive',
       '-workspace', 'ios/ShoutemApp.xcworkspace',
-      '-scheme', 'ShoutemApp',
+      '-scheme', schemaName,
       '-configuration', this.config.configuration || 'Release',
-      '-archivePath', `${path.join(this.getOutputDirectory(), 'ShoutemApp.xcarchive')}`,
+      '-archivePath', archivePath,
       'CODE_SIGNING_REQUIRED=NO',
       'CODE_SIGN_IDENTITY=',
     ], {
       stderr: 'inherit',
       stdio: 'inherit',
-    }).then(() =>
-      spawn('xcodebuild', [
-        '-exportArchive',
-        '-exportFormat',
-        'ipa',
-        '-archivePath',
-        `${path.join(this.getOutputDirectory(), 'ShoutemApp.xcarchive')}`,
-        '-exportPath',
-        `${path.join(this.getOutputDirectory(), 'ShoutemApp.ipa')}`,
-      ], { stderr: 'inherit', stdio: 'inherit' }));
+    }).then(() => {
+      const appFilePath = path.join(archivePath, 'Products', 'Applications', `${schemaName}.app`);
+      const payloadPath = path.join(this.getOutputDirectory(), 'Payload', path.basename(appFilePath));
+      return fs.copy(appFilePath, payloadPath)
+        .then(() => spawn('zip', [
+          '-r',
+          '-q',
+          '-X',
+          `${path.join(this.getOutputDirectory(), 'ShoutemApp.ipa')}`,
+          payloadPath,
+        ], { stderr: 'inherit', stdio: 'inherit' }))
+    });
   },
   android() {
     const gradlew = isWindows() ? 'gradlew' : './gradlew';
