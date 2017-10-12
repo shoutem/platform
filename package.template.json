@@ -42,6 +42,7 @@
     "redux-thunk": "^2.0.0"
   },
   "devDependencies": {
+    "@shoutem/build-tools": "file:scripts/helpers",
     "babel": "^6.3.26",
     "babel-eslint": "^6.0.4",
     "eslint": "^2.9.0",
