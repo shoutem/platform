@@ -6,11 +6,6 @@ target 'ShoutemApp' do
   use_frameworks!
 
   ## <Extension dependencies>
-
-  target 'ShoutemAppTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
 end
 
 post_install do |installer|
