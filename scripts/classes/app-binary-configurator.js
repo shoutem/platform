@@ -218,7 +218,7 @@ class AppBinaryConfigurator {
   runForAllPlatforms(configureFunction) {
     return Promise.all(_.map(binarySettings, (settings, platform) => {
       if (_.isFunction(configureFunction)) {
-        configureFunction(settings, platform);
+        configureFunction(_.result(binarySettings, platform), platform);
       }
     }));
   }

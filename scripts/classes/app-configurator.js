@@ -122,7 +122,7 @@ class AppConfigurator {
         } else if (this.buildConfig.production) {
           // rename the root view for republish build
           configureProject = appBinaryConfigurator.getPublishingProperties()
-            .then(() => this.renameRCTRootView());
+            .then(() => appBinaryConfigurator.renameRCTRootView());
         }
 
         return Promise.all([extensionsJs, preBuild, configureProject]);
