@@ -1,7 +1,9 @@
 'use strict';
 
-const iosLaunchScreenDirectory = './ios/ShoutemApp/Images.xcassets/Image.imageset/';
-const iosAppIconDirectory = './ios/ShoutemApp/Images.xcassets/AppIcon.appiconset/';
+const findFileOnPath = require('../helpers/find-file-on-path');
+
+const iosLaunchScreenDirectory = findFileOnPath('Images.xcassets/Image.imageset/', 'ios');
+const iosAppIconDirectory = findFileOnPath('Images.xcassets/AppIcon.appiconset/', 'ios');
 
 module.exports = {
   launchScreen: {
