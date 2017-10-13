@@ -32,9 +32,9 @@ const buildHandlers = {
           '-r',
           '-q',
           '-X',
-          `${path.join(this.getOutputDirectory(), 'ShoutemApp.ipa')}`,
-          payloadPath,
-        ], { stderr: 'inherit', stdio: 'inherit' }))
+          'ShoutemApp.ipa',
+          'Payload',
+        ], { stderr: 'inherit', stdio: 'inherit', cwd: this.getOutputDirectory() }))
     });
   },
   android() {
