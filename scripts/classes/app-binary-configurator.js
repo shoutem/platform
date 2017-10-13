@@ -283,17 +283,20 @@ class AppBinaryConfigurator {
   renameRCTRootView() {
     const project = this.getProjectName();
     const AppDelegatePath = findFileOnPath('AppDelegate.m', 'ios');
+    const MainActivityPath = 'android/app/src/main/java/com/shoutemapp/MainActivity.java';
 
     if (!AppDelegatePath) {
       return Promise.resolve();
     }
 
     const AppDelegate = fs.readFileSync(AppDelegatePath, 'utf8');
+    const MainActivity = fs.readFileSync(MainActivityPath, 'utf8');
     const indexJsPath = 'index.js';
     const indexJs = fs.readFileSync(indexJsPath, 'utf8');
 
     return fs.writeFile(AppDelegatePath, this.updateProjectName(AppDelegate))
-      .then(() => fs.writeFile(indexJsPath, this.updateProjectName(indexJs)))
+      .then(() => fs.watchFile(MainActivityPath, this.updateProjectName(MainActivity)))
+      .then(() => fs.writeFile(indexJsPath, this.updateProjectName(indexJs)));
   }
 
   updatePodfileTemplate() {
@@ -303,7 +306,7 @@ class AppBinaryConfigurator {
     return fs.writeFile(podfileTemplatePath, this.updateProjectName(podfileTemplate));
   }
 
-  custumizeProject() {
+  customizeProject() {
     return this.getPublishingProperties()
       .then(() => this.setProjectName(this.publishingProperties.iphone_name))
       .then(() => this.renameIOSScheme())
