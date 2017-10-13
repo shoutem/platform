@@ -295,7 +295,7 @@ class AppBinaryConfigurator {
     const indexJs = fs.readFileSync(indexJsPath, 'utf8');
 
     return fs.writeFile(AppDelegatePath, this.updateProjectName(AppDelegate))
-      .then(() => fs.watchFile(MainActivityPath, this.updateProjectName(MainActivity)))
+      .then(() => fs.writeFile(MainActivityPath, this.updateProjectName(MainActivity)))
       .then(() => fs.writeFile(indexJsPath, this.updateProjectName(indexJs)));
   }
 
