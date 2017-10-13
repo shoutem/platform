@@ -311,6 +311,7 @@ class AppBinaryConfigurator {
       .then(() => this.renameRCTRootView())
       .then(() => this.renameProjectDir())
       .then(() => this.updateProjectPaths())
+      .then(() => this.updateSchemePaths())
       .then(() => this.renameXcodeProject())
       .then(() => this.updatePodfileTemplate());
   }
