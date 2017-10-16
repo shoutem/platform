@@ -10,12 +10,13 @@ const findFileOnPath = require('../helpers/find-file-on-path');
 const buildHandlers = {
   ios() {
     const schemaFile = findFileOnPath('xcshareddata/xcschemes/*.xcscheme', 'ios');
+    const workspacePath = findFileOnPath('*.xcworkspace', '.');
     const schemaName = path.basename(schemaFile).split('.')[0];
     const archivePath = path.join(this.getOutputDirectory(), 'ShoutemApp.xcarchive');
 
     return spawn('xcodebuild', [
       'archive',
-      '-workspace', 'ios/ShoutemApp.xcworkspace',
+      '-workspace', workspacePath,
       '-scheme', schemaName,
       '-configuration', this.config.configuration || 'Release',
       '-archivePath', archivePath,

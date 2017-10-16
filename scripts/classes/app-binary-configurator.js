@@ -272,12 +272,19 @@ class AppBinaryConfigurator {
   }
 
   renameXcodeProject() {
-    const workspacePath = 'ios/ShoutemApp.xcworkspace/contents.xcworkspacedata';
+    const workspacePath = findFileOnPath('contents.xcworkspacedata', 'ios');
     const xcodeWorkspace = fs.readFileSync(workspacePath, 'utf8');
     const newXcodeWorkspace = this.updateProjectName(xcodeWorkspace);
 
     return renamePath('ios/ShoutemApp.xcodeproj', `ios/${this.getProjectName()}.xcodeproj`)
       .then(() => fs.writeFile(workspacePath, newXcodeWorkspace));
+  }
+
+  renameXCWorkspace() {
+    const oldWorkspace = 'ios/ShoutemApp.xcworkspace';
+    const newWorkspace = `ios/${this.getProjectName()}.xcworkspace`;
+
+    return renamePath(oldWorkspace, newWorkspace);
   }
 
   renameRCTRootView() {
@@ -316,6 +323,7 @@ class AppBinaryConfigurator {
       .then(() => this.updateProjectPaths())
       .then(() => this.updateSchemePaths())
       .then(() => this.renameXcodeProject())
+      .then(() => this.renameXCWorkspace())
       .then(() => this.updatePodfileTemplate());
   }
 }
