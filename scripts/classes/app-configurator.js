@@ -111,18 +111,20 @@ class AppConfigurator {
       .then((installedExts) => {
         const extensionsJs = installer.createExtensionsJs(installedExts);
         const preBuild = this.executeBuildLifecycleHook(installedExts, 'preBuild');
-        let installNativeDependencies;
+        const appBinaryConfigurator = new AppBinaryConfigurator(this.buildConfig);
+        let configureProject;
 
         if (!this.buildConfig.skipNativeDependencies) {
-          installNativeDependencies = installer.installNativeDependencies(installedExts)
+          configureProject = appBinaryConfigurator.customizeProject()
+            .then(() => installer.installNativeDependencies(installedExts))
             .then(() => this.runReactNativeLink())
-            .then(() => {
-              const appBinaryConfigurator = new AppBinaryConfigurator(this.buildConfig);
-              return appBinaryConfigurator.configureApp();
-            });
+            .then(() => appBinaryConfigurator.configureApp());
+        } else if (this.buildConfig.production) {
+          // rename the root view for republish build
+          configureProject = appBinaryConfigurator.customizeProject()
         }
 
-        return Promise.all([extensionsJs, preBuild, installNativeDependencies]);
+        return Promise.all([extensionsJs, preBuild, configureProject]);
       });
   }
 
