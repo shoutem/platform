@@ -1,67 +1,68 @@
 {
-    "version": "1.4.1",
-    "mobileAppVersion": "1.4.1",
-    "releaseNotes": "* Core improvements",
-    "settings": {
+  "version": "1.4.2",
+  "mobileAppVersion": "1.4.2",
+  "releaseNotes": "* Core improvements and bug fixes",
+  "settings": {
       "DEV-appetizeKey": "vdavzmvqgw0vz3a8wed98evwg0",
       "QA-appetizeKey": "3yezybjy7q4aymjca8mve7bw08",
       "Production-appetizeKey": "eahg1ye3u6bdx2zhxqnr44up68"
-    },
-    "builds": {
-        "live": {
-            "excludedPackages": []
-        },
-        "preview": {
-            "excludedPackages": [
-                "shoutem.firebase",
-                "shoutem.notification-center",
-                "shoutem.push-notifications",
-                "shoutem.shoutem-notification-center",
-                "shoutem.code-push"
-            ]
-        }
-    },
-    "dependencies": {
-        "shoutem.about": "~1.4.0",
-        "shoutem.analytics": "~1.4.0",
-        "shoutem.application": "~1.4.0",
-        "shoutem.auth": "~1.4.0",
-        "shoutem.books": "~1.4.0",
-        "shoutem.camera": "~1.4.0",
-        "shoutem.cms": "~1.4.0",
-        "shoutem.code-push": "~1.4.0",
-        "shoutem.events": "~1.4.0",
-        "shoutem.favorites": "~1.4.0",
-        "shoutem.flurry-analytics": "~1.4.0",
-        "shoutem.ical-events": "~1.4.0",
-        "shoutem.layouts": "~1.4.0",
-        "shoutem.loyalty": "~1.4.0",
-        "shoutem.menu": "~1.4.0",
-        "shoutem.navigation": "~1.4.0",
-        "shoutem.news": "~1.4.0",
-        "shoutem.notification-center": "~1.4.0",
-        "shoutem.page": "~1.4.0",
-        "shoutem.people": "~1.4.0",
-        "shoutem.persist": "~1.4.0",
-        "shoutem.photos": "~1.4.0",
-        "shoutem.places": "~1.4.0",
-        "shoutem.platform-analytics": "~1.4.0",
-        "shoutem.preview": "~1.4.0",
-        "shoutem.products": "~1.4.0",
-        "shoutem.push-notifications": "~1.4.0",
-        "shoutem.rss": "~1.4.0",
-        "shoutem.rss-news": "~1.4.0",
-        "shoutem.rss-photos": "~1.4.0",
-        "shoutem.rss-videos": "~1.4.0",
-        "shoutem.rubicon-theme": "~1.4.0",
-        "shoutem.shopify": "~1.4.0",
-        "shoutem.social": "~1.4.0",
-        "shoutem.sub-navigation": "~1.4.0",
-        "shoutem.theme": "~1.4.0",
-        "shoutem.video": "~1.4.0",
-        "shoutem.vimeo": "~1.4.0",
-        "shoutem.web-view": "~1.4.0",
-        "shoutem.wordpress": "~1.4.0",
-        "shoutem.youtube": "~1.4.0"
-    }
+  },
+  "builds": {
+      "live": {
+          "excludedPackages": []
+      },
+      "preview": {
+          "excludedPackages": [
+              "shoutem.firebase",
+              "shoutem.notification-center",
+              "shoutem.push-notifications",
+              "shoutem.shoutem-notification-center",
+              "shoutem.code-push"
+          ]
+      }
+  },
+  "dependencies": {
+      "shoutem.about": "~1.4.1",
+      "shoutem.analytics": "~1.4.1",
+      "shoutem.application": "~1.4.1",
+      "shoutem.auth": "~1.4.5",
+      "shoutem.books": "~1.4.1",
+      "shoutem.camera": "~1.4.2",
+      "shoutem.cms": "~1.4.2",
+      "shoutem.code-push": "~1.4.1",
+      "shoutem.events": "~1.4.1",
+      "shoutem.favorites": "~1.4.3",
+      "shoutem.flurry-analytics": "~1.4.1",
+      "shoutem.google-analytics": "~1.4.1",
+      "shoutem.ical-events": "~1.4.1",
+      "shoutem.layouts": "~1.4.1",
+      "shoutem.loyalty": "~1.4.6",
+      "shoutem.menu": "~1.4.1",
+      "shoutem.navigation": "~1.4.3",
+      "shoutem.news": "~1.4.1",
+      "shoutem.notification-center": "~1.4.1",
+      "shoutem.page": "~1.4.1",
+      "shoutem.people": "~1.4.1",
+      "shoutem.persist": "~1.4.1",
+      "shoutem.photos": "~1.4.1",
+      "shoutem.places": "~1.4.4",
+      "shoutem.platform-analytics": "~1.4.1",
+      "shoutem.preview": "~1.4.1",
+      "shoutem.products": "~1.4.1",
+      "shoutem.push-notifications": "~1.4.1",
+      "shoutem.rss": "~1.4.1",
+      "shoutem.rss-news": "~1.4.1",
+      "shoutem.rss-photos": "~1.4.1",
+      "shoutem.rss-videos": "~1.4.1",
+      "shoutem.rubicon-theme": "~1.4.1",
+      "shoutem.shopify": "~1.4.1",
+      "shoutem.social": "~1.4.2",
+      "shoutem.sub-navigation": "~1.4.1",
+      "shoutem.theme": "~1.4.1",
+      "shoutem.video": "~1.4.1",
+      "shoutem.vimeo": "~1.4.1",
+      "shoutem.web-view": "~1.4.1",
+      "shoutem.wordpress": "~1.4.1",
+      "shoutem.youtube": "~1.4.1"
+  }
 }
