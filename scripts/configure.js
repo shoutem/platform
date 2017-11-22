@@ -29,6 +29,7 @@ const cli = commandLineArgs([
   { name: 'bundleIdPrefix', type: String },
   { name: 'iosBundleId', type: String },
   { name: 'androidApplicationId', type: String },
+  { name: 'skipIOSProjectCustomization', type: Boolean },
 ]);
 
 const cliArgs = cli.parse();
@@ -37,6 +38,6 @@ const config = fs.readJsonSync(path.resolve(configPath));
 // merge command line arguments and config.json
 // release is always set when production is true
 const buildConfig = _.merge(config, cliArgs, { release: config.production || cliArgs.production });
-fs.writeJsonSync(DEFAULT_CONFIG, buildConfig);
+fs.writeJsonSync(DEFAULT_CONFIG, buildConfig, { spaces: 2 });
 const configure = new AppConfigurator(buildConfig);
 configure.run();

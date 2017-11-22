@@ -134,7 +134,7 @@ class AppConfigurator {
     _.forEach(extensions, (extension) => {
       if (extension && extension.id) {
         try {
-          const build = require(path.join(extension.id, 'build.js'));
+          const build = require(path.join(extension.id, 'build'));
           const buildLifeCycle = _.get(build, lifeCycleStep);
           if (_.isFunction(buildLifeCycle)) {
             const initialWorkingDirectory = process.cwd();
