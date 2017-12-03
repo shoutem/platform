@@ -314,6 +314,10 @@ class AppBinaryConfigurator {
   }
 
   customizeProject() {
+    if (this.config.skipIOSProjectCustomization) {
+      return Promise.resolve();
+    }
+
     return this.getPublishingProperties()
       .then(() => this.setProjectName(this.publishingProperties.iphone_name))
       .then(() => this.renameIOSScheme())
