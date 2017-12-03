@@ -7,4 +7,4 @@ const platformPath = path.resolve(path.join('platform', 'platform.json'));
 const platformJson = fs.readJsonSync(platformPath);
 
 platformJson.dependencies = getPlatformDependencies(process.argv[2]);
-fs.writeJsonSync(platformPath, platformJson);
+fs.writeJsonSync(platformPath, platformJson, { spaces: 2 });
