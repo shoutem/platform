@@ -6,6 +6,7 @@ cached-bundles
 yarn.lock
 Podfile
 ios/Pods
+ios/Podfile.lock
 
 # Logs
 logs
@@ -61,6 +62,7 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
+ios/ShoutemApp/Images.xcassets/Image.imageset/background.png
 
 # Android/IntelliJ
 #
@@ -80,3 +82,10 @@ buck-out/
 \.buckd/
 android/app/libs
 *.keystore
+
+# npm
+package-lock.json
+
+# assets
+android/app/src/main/assets
+/assets
