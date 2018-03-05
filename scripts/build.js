@@ -7,13 +7,12 @@ const AppBuilder = require('./classes/app-builder');
 const commandLineArgs = require('command-line-args');
 const path = require('path');
 
-const cli = commandLineArgs([
+const cliArgs = commandLineArgs([
   { name: 'platform', type: String },
   { name: 'outputDirectory', type: String },
   { name: 'configuration', type: String },
 ]);
 
-const cliArgs = cli.parse();
 const configPath = path.resolve('config.json');
 const config = fs.readJsonSync(configPath);
 

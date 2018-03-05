@@ -1,4 +1,4 @@
-const blacklist = require('./node_modules/react-native/packager/blacklist');
+const blacklist = require('./node_modules/metro-bundler/src/blacklist');
 
 /**
  * Default configuration for the CLI.
@@ -17,6 +17,7 @@ const config = {
       /\/extensions\/.*\/server\/.*/,
       /\/extensions\/.*\/app\/build(\.js|\/.*)/,
       /\/scripts\/.*/,
+      /\/packages\/.*/,
     ]);
   },
 };

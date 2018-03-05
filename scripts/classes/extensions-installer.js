@@ -8,40 +8,91 @@ const glob = require('glob');
 const colors = require('colors');
 const promisify = require('pify');
 const linkLocal = promisify(require('linklocal'));
+const buildConfig = require(path.resolve(__dirname, '../../config.json'));
 
-const packageJsonTemplate = fs.readJsonSync(path.resolve('package.template.json'));
-
-const npm = require('../services/npm');
+const packageJsonFileName = 'package.template.json';
+const packageJsonTemplate = fs.readJsonSync(path.resolve(packageJsonFileName));
 
 function addDependencyToPackageJson(packageJson, name, version) {
   // eslint-disable-next-line no-param-reassign
   packageJson.dependencies[name] = version;
 }
 
-function npmInstall() {
+function installJsDependencies() {
   console.log('Installing dependencies:'.bold);
-  return spawn('npm', ['install'], { stderr: 'inherit', stdio: 'inherit' });
+
+  return spawn('yarn', ['install'], {
+    stderr: 'inherit',
+    stdio: 'inherit'
+  });
 }
 
 function installNpmExtension(extension) {
-  // This actually could be any valid npm install argument (version range, GitHub repo,
-  // URL to .tgz file or event local path) but for now is always URL to .tgz stored on our server
+  // This could actually be any valid npm install argument (version range,
+  // GitHub repo, URL to a .tgz file, or even local path) but for now,
+  // it's always the URL to the .tgz stored on our server
   const extensionPackageURL = _.get(extension, 'attributes.location.app.package');
   const packageName = extension.id;
+
   addDependencyToPackageJson(packageJsonTemplate, packageName, extensionPackageURL);
 }
 
-function writePackageJson(content) {
+function writeJson(content, filePath) {
+  const json = JSON.stringify(content, null, 2);
+
   return new Promise((resolve, reject) => {
-    fs.writeFile('package.json', JSON.stringify(content, null, 2), (error) => {
-      if (error) {
-        reject(error);
+    fs.writeFile(filePath, json, (err) => {
+      if (err) {
+        return reject(err);
       }
+
       resolve();
     });
   });
 }
 
+function writePackageJson(content) {
+  return writeJson(content, 'package.json');
+}
+
+function addLocalPackagesToPackageJson(packagesPath, packageJson) {
+  const localPackages = glob.sync(`${packagesPath}/*/package.json`);
+  let packageNames = [];
+
+  if (localPackages.length) {
+    const packageDirNames = localPackages.map(
+      (pkg) => path.basename(path.dirname(pkg))
+    );
+
+    packageNames = packageDirNames.map(
+      (pkgName) => `@shoutem/${pkgName}`
+    );
+
+    packageDirNames.forEach((pkgName) => {
+      addDependencyToPackageJson(
+        packageJson,
+        `@shoutem/${pkgName}`,
+        `file:packages/${pkgName}`
+      );
+    });
+  }
+
+  return packageNames;
+}
+
+function getPodspecPaths (extensions) {
+  return _.reduce(extensions, (paths, extension) => {
+    const podspecPath = glob.sync(`node_modules/${extension.id}/*.podspec`);
+    return paths.concat(podspecPath);
+  }, []);
+}
+
+function getPodspecStrings(podspecPaths) {
+  return _.map(podspecPaths, (podspecPath) => {
+    const podName = path.basename(podspecPath, '.podspec');
+    return `pod '${podName}', :path => '../${podspecPath}'`;
+  }).join("\n");
+}
 
 /**
  * ExtensionInstaller links all local extensions and installs all other extensions from app
@@ -55,10 +106,12 @@ class ExtensionsInstaller {
     this.localExtensions = localExtensions;
     this.extensionsJsPath = extensionsJsPath;
     this.extensionsToInstall = extensions;
-
   }
 
   installExtensions() {
+    const workingDir = process.cwd();
+    const packagesDir = path.join(workingDir, 'packages');
+
     this.extensionsToInstall.forEach((extension) =>
       installNpmExtension(extension)
     );
@@ -71,25 +124,28 @@ class ExtensionsInstaller {
       ...this.localExtensions,
       ...this.extensionsToInstall
     ];
+
     return writePackageJson(packageJsonTemplate)
-      .then(() => linkLocal(process.cwd()))
-      .then(() => npmInstall())
-      .then(() =>
-        Promise.resolve(installedExtensions)
-      );
+      .then(() => installJsDependencies())
+      .then(() => linkLocal(workingDir))
+      .then(() => Promise.resolve(installedExtensions));
   }
 
   createExtensionsJs(installedExtensions) {
     console.log('Creating extensions.js');
+
     if (_.isEmpty(installedExtensions)) {
       return Promise.reject('[ERROR]: You are trying to build an app without any extensions'.bold.red);
     }
 
     const extensionsMapping = [];
+    const extensions = _.uniqBy(installedExtensions, 'id');
 
-    _.forEach(_.uniqBy(installedExtensions, 'id'), (extension) => {
+    extensions.forEach((extension) => {
       if (extension) {
-        extensionsMapping.push(`'${extension.id}': require('${extension.id}'),\n  `);
+        extensionsMapping.push(
+          `'${extension.id}': require('${extension.id}'),\n  `
+        );
       }
     });
 
@@ -97,10 +153,11 @@ class ExtensionsInstaller {
     const data = `export default {\n  ${extensionsString}};\n`;
 
     console.time('Create extensions.js'.bold.green);
+
     return new Promise((resolve, reject) => {
       fs.writeFile(this.extensionsJsPath, data, (error) => {
         if (error) {
-          reject(error);
+          return reject(error);
         }
 
         console.timeEnd('Create extensions.js'.bold.green);
@@ -109,28 +166,44 @@ class ExtensionsInstaller {
     });
   }
 
-  installNativeDependencies(installedExtensions) {
-    // Check if process is running on Mac OS run 'pod install' to configure iOS native dependencies
-    if (process.platform === 'darwin') {
-      console.log('Starting pods install...');
-      const podFileTemplate = fs.readFileSync('ios/Podfile.template', 'utf8', (error) =>
-        Promise.reject(error)
-      );
-      const podspecPaths = _.reduce(installedExtensions, (paths, extension) =>
-          paths.concat(glob.sync(`node_modules/${extension.id}/*.podspec`))
-        , []);
-      const pods = _.map(podspecPaths, (podspecPath) =>
-        `pod '${path.basename(podspecPath, '.podspec')}', :path => '../${podspecPath}'`
-      );
-      const extensionsPlaceholderRegExp = /## <Extension dependencies>/g;
-      const podFileContent = podFileTemplate.replace(extensionsPlaceholderRegExp, pods.join('\n'));
-      fs.writeFileSync('ios/Podfile', podFileContent);
+  installCocoaPods(installedExtensions) {
+    console.log('Starting pods install...');
 
-      return spawn('pod', ['install'], {
-        stdio: 'inherit',
-        cwd: 'ios',
-        env: _.merge(process.env, { FORCE_COLOR: true })
-      });
+    const podTemplatePath = 'ios/Podfile.template';
+    let podFileTemplate = "";
+
+    try {
+      podFileTemplate = fs.readFileSync(podTemplatePath, 'utf8');
+    } catch (err) {
+      if (err.code === 'ENOENT' ) {
+        console.log(`No ${podTemplatePath} found, moving on...`);
+        return Promise.resolve();
+      }
+
+      console.log(`Error reading ${podTemplatePath}!`);
+      throw new Error(err);
+    }
+
+    const podPath = 'ios/Podfile';
+    const extensionsPlaceholderRegExp = /## <Extension dependencies>/g;
+    const podspecPaths = getPodspecPaths(installedExtensions);
+    const pods = getPodspecStrings(podspecPaths);
+    const podFileContent = podFileTemplate.replace(extensionsPlaceholderRegExp, pods);
+
+    fs.writeFileSync(podPath, podFileContent);
+
+    return spawn('pod', ['install'], {
+      stdio: 'inherit',
+      cwd: 'ios',
+      env: _.merge(process.env, { FORCE_COLOR: true }),
+    });
+  }
+
+  installNativeDependencies(installedExtensions) {
+    // If the process is running on OSX, then run 'pod install'
+    // to configure iOS native dependencies
+    if (process.platform === 'darwin') {
+      return this.installCocoaPods(installedExtensions);
     }
 
     return Promise.resolve();

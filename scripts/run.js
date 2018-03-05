@@ -8,7 +8,7 @@ const spawn = require('superspawn').spawn;
 const validateArgsWithConfig = require('./helpers/validate-args-with-config');
 const reactNativeCli = path.join('node_modules', 'react-native', 'local-cli', 'cli.js');
 
-const cli = commandLineArgs([
+const cliArgs = commandLineArgs([
   { name: 'platform', type: String },
   { name: 'simulator', type: String },
   { name: 'configuration', type: String },
@@ -19,8 +19,6 @@ const cli = commandLineArgs([
 ]);
 
 // merge command line arguments and config.json
-
-const cliArgs = cli.parse();
 const configPath = path.resolve('config.json');
 const config = fs.readJsonSync(configPath);
 validateArgsWithConfig(cliArgs, config);

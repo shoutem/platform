@@ -32,6 +32,7 @@ class AppBundler {
   createReactNativeBundle() {
     console.log('Starting react-native bundle\n');
     console.time('Build bundle');
+
     const assetsDest = this.getOutputDirectory();
     const bundleOutput = path.join(assetsDest, this.getBundleName());
     const platform = this.config.platform;
@@ -45,16 +46,17 @@ class AppBundler {
       `--platform ${platform}`,
       `--dev ${dev}`,
       `--entry-file ${entryFile}`,
-    ];
+    ].join(' ');
 
     fs.ensureDirSync(assetsDest);
+
     return new Promise((resolve, reject) => {
-      const rnBundleProcess = exec(rnBundleCommand.join(' '), (error, stdout, stderr ) => {
+      const rnBundleProcess = exec(rnBundleCommand, (err, stdout, stderr ) => {
         console.timeEnd('Build bundle');
 
-        if (error !== null) {
-          console.log(`Bundling error: ${error}`);
-          reject(error);
+        if (err !== null) {
+          console.log(`Bundling error: ${err}`);
+          return reject(err);
         }
         resolve(assetsDest);
       });

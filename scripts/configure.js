@@ -9,7 +9,7 @@ const fs = require('fs-extra');
 
 const DEFAULT_CONFIG = 'config.json';
 
-const cli = commandLineArgs([
+const cliArgs = commandLineArgs([
   { name: 'configPath', type: String },
   { name: 'appId', type: Number },
   { name: 'serverApiEndpoint', type: String },
@@ -30,14 +30,16 @@ const cli = commandLineArgs([
   { name: 'iosBundleId', type: String },
   { name: 'androidApplicationId', type: String },
   { name: 'skipIOSProjectCustomization', type: Boolean },
+  { name: 'skipLinking', type: Boolean },
 ]);
 
-const cliArgs = cli.parse();
 const configPath = cliArgs.configPath || DEFAULT_CONFIG;
 const config = fs.readJsonSync(path.resolve(configPath));
 // merge command line arguments and config.json
 // release is always set when production is true
+
 const buildConfig = _.merge(config, cliArgs, { release: config.production || cliArgs.production });
 fs.writeJsonSync(DEFAULT_CONFIG, buildConfig, { spaces: 2 });
+
 const configure = new AppConfigurator(buildConfig);
 configure.run();

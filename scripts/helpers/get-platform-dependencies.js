@@ -14,14 +14,17 @@ function getPlatformDependencies(shoutemExtensionsPath) {
   const paths = glob.sync(path.join(shoutemExtensionsPath, '*'));
   paths.forEach((extensionPath) => {
     const stat = fs.statSync(extensionPath);
+
     if (stat && stat.isDirectory()) {
       try {
         const extensionJsonPath = path.resolve(path.join(extensionPath, 'extension.json'));
         const extensionStat = fs.statSync(extensionJsonPath);
+
         if (extensionStat && extensionStat.isFile()) {
           const extensionJson = fs.readJsonSync(extensionJsonPath);
           const extensionName = extensionJson.name;
           const extensionVersion = extensionJson.version;
+
           dependencies[`shoutem.${extensionName}`] = `~${extensionVersion}`;
         }
       } catch (error) {

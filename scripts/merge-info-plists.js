@@ -4,6 +4,8 @@ const fs = require('fs-extra');
 const glob = require('glob');
 const _ = require('lodash');
 const plist = require('plist');
+const path = require('path');
+const { getXcodeProjectName } = require('../scripts/helpers');
 
 function parsePlist(plistPath) {
   const plistContent = fs.readFileSync(plistPath, 'utf8');
@@ -15,8 +17,8 @@ function parsePlist(plistPath) {
   }
   return plistResult;
 }
-
-const projectInfoPlistPath = _.first(glob.sync('?(**)/Info.plist'));
+const xcodeProjectName = getXcodeProjectName({ cwd: '.' });
+const projectInfoPlistPath = path.join(xcodeProjectName, 'Info.plist');
 const infoPlistWritePath = process.argv[2] || projectInfoPlistPath;
 
 if (!projectInfoPlistPath) {
@@ -26,6 +28,8 @@ if (!projectInfoPlistPath) {
 
 const projectPlist = parsePlist(projectInfoPlistPath);
 const infoPlistFiles = glob.sync('../extensions/?(**)/app/ios/Info.plist');
+
+console.log('Merging Info.plist files into project...')
 
 /**
  * Merges all Info.plist files from extensions with one from the platform. If value of the key is
@@ -43,3 +47,4 @@ const extensionsPlist = _.reduce(infoPlistFiles, (finalPlist, extPlistPath) => {
 }, projectPlist);
 
 fs.writeFileSync(infoPlistWritePath, plist.build(extensionsPlist));
+console.log('Info.plist merge - success!')

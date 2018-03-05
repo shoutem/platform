@@ -7,15 +7,13 @@ const request = require('request');
 const plist = require('plist');
 const Jimp = require('jimp');
 const glob = require('glob');
-
-require('colors');
+const colors = require('colors');
 
 const getErrorMessageFromResponse = require('../helpers/get-error-message-from-response');
 const findFileOnPath = require('../helpers/find-file-on-path');
-
-
 const iosBinarySettings = require('../configs/iosBinarySettings');
 const androidBinarySettings = require('../configs/androidBinarySettings');
+
 const binarySettings = {
   ios: iosBinarySettings,
   android: androidBinarySettings,
@@ -55,26 +53,28 @@ function downloadImage(imageUrl, savePath) {
  * @returns {*|Promise.<TResult>|Promise<T>}
  */
 function downloadAndResizeImage(imageUrl, downloadPath, resizeConfig, production) {
-  return downloadImage(imageUrl, downloadPath, resizeConfig).then((imagePath) => {
-    const resizingPromises = _.map(resizeConfig.images, (image) =>
-      new Promise((resolve, reject) => {
-        Jimp.read(imagePath)
-          .then((imageFile) =>
-            imageFile
-              .cover(image.width, image.height)
-              .write(image.savePath)
-          )
-          .then(() => resolve())
-          .catch((error) => {
-            if (production) {
-              reject(error);
-            }
-            resolve();
-          });
-      })
-    );
+  return downloadImage(imageUrl, downloadPath, resizeConfig)
+    .then((imagePath) => {
+      const resizingPromises = _.map(resizeConfig.images, (image) =>
+        new Promise((resolve, reject) => {
+          Jimp.read(imagePath)
+            .then((imageFile) =>
+              imageFile
+                .cover(image.width, image.height)
+                .write(image.savePath)
+            )
+            .then(() => resolve())
+            .catch((error) => {
+              if (production) {
+                return reject(error);
+              }
 
-    return Promise.all(resizingPromises);
+              resolve();
+            });
+        })
+      );
+
+      return Promise.all(resizingPromises);
   });
 }
 
@@ -91,22 +91,29 @@ class AppBinaryConfigurator {
       process.exitCode = 1;
       throw new Error('legacyApiEndpoint is not set in build config.');
     }
+
     return this.config.legacyApiEndpoint;
   }
 
   getPublishingProperties() {
+    const { appId, authorization } = this.config;
+
+    const legacyApiHost = this.getLegacyApiHost();
+    const legacyApiPath = `/api/applications/publishing_properties.json?nid=${appId}`;
+
+    const requestArgs = {
+      url: `http://${legacyApiHost}${legacyApiPath}`,
+      headers: {
+        Authorization: `Bearer ${authorization}`,
+      },
+    };
+
     return new Promise((resolve, reject) => {
-      request.get({
-        url: `http://${this.getLegacyApiHost()}/api/applications/publishing_properties.json?nid=${this.config.appId}`,
-        headers: {
-          Authorization: `Bearer ${this.config.authorization}`,
-        },
-      }, (error, response, body) => {
+      request.get(requestArgs, (err, response, body) => {
         if (response.statusCode === 200) {
           this.publishingProperties = JSON.parse(body);
           resolve();
         } else {
-          console.log(response);
           const errorMessage = getErrorMessageFromResponse(response);
           // eslint-disable-next-line max-len
           reject(`Publishing info download failed with error: ${response.statusCode} ${errorMessage}`.bold.red);
@@ -122,40 +129,45 @@ class AppBinaryConfigurator {
     return this.publishingProperties.iphone_launch_image_portrait;
   }
 
-  configureLaunchScreen(settings, platform) {
-    console.log('Configuring', `${platform}`.bold, 'launch screen...');
-    const launchScreen = this.getLaunchScreenUrl(platform);
-    const resizeConfig = settings.launchScreen;
-    const production = this.config.production;
-    const launchScreenPath = './assets/launchScreen.png';
-    return downloadAndResizeImage(launchScreen, launchScreenPath, resizeConfig, production);
-  }
-
   getAppIconUrl() {
     // TODO (Ivan): Change this when android icon is available in publishing properties
     return this.publishingProperties.iphone_application_icon_hd_ios7;
   }
 
+  configureLaunchScreen(settings, platform) {
+    console.log('Configuring', `${platform}`.bold, 'launch screen...');
+
+    const launchScreen = this.getLaunchScreenUrl(platform);
+    const resizeConfig = settings.launchScreen;
+    const production = this.config.production;
+    const launchScreenPath = './assets/launchScreen.png';
+
+    return downloadAndResizeImage(launchScreen, launchScreenPath, resizeConfig, production);
+  }
+
   configureAppIcon(settings, platform) {
     console.log('Configuring', `${platform}`.bold, 'app icons');
+
     const appIcon = this.getAppIconUrl(platform);
     const resizeConfig = settings.appIcon;
     const production = this.config.production;
-    return downloadAndResizeImage(appIcon, './assets/appIcon.png', resizeConfig, production);
+    const imagePath = './assets/appIcon.png';
+
+    return downloadAndResizeImage(appIcon, imagePath, resizeConfig, production);
   }
 
   getBinaryVersionName() {
     // we fallback to default one so CLI doesn't have to handle version
-    return this.config.binaryVersionName || '5.0.0';
+    return (this.config.binaryVersionName || '5.0.0');
   }
 
   getBinaryVersionCode() {
     // we fallback to default one so CLI doesn't have to handle version
-    return this.config.binaryVersionCode || 1;
+    return (this.config.binaryVersionCode || 1);
   }
 
   getProjectName() {
-    return this.projectName || 'ShoutemApp';
+    return (this.projectName || 'ShoutemApp');
   }
 
   setProjectName(appName) {
@@ -164,44 +176,61 @@ class AppBinaryConfigurator {
 
   configureAppInfoIOS() {
     console.log('Configuring', 'Info.plist'.bold);
+
+    const { config, publishingProperties } = this;
+    const { bundleIdPrefix, iosBundleId, production } = config;
+    const { iphone_bundle_id, iphone_name, primary_category_name } = publishingProperties;
+
     const infoPlistPath = findFileOnPath('Info.plist', 'ios');
     const infoPlistFile = fs.readFileSync(infoPlistPath, 'utf8');
     const infoPlist = plist.parse(infoPlistFile);
+
     // we use this prefix for e.g. building apps with wildcard application identifier
-    const bundlePrefix = this.config.bundleIdPrefix ? `${this.config.bundleIdPrefix}.` : '';
+    const bundlePrefix = bundleIdPrefix ? `${bundleIdPrefix}.` : '';
     let bundleId;
 
-    if (this.config.iosBundleId) {
-      bundleId = this.config.iosBundleId;
+    if (iosBundleId) {
+      bundleId = iosBundleId;
+    } else if (production) {
+      bundleId = iphone_bundle_id;
     } else {
-      bundleId = this.config.production ? this.publishingProperties.iphone_bundle_id : 'com.shoutem.ShoutemApp';
+      bundleId = 'com.shoutem.ShoutemApp';
     }
 
-    infoPlist.CFBundleName = this.publishingProperties.iphone_name;
-    infoPlist.CFBundleDisplayName = this.publishingProperties.iphone_name;
+    infoPlist.CFBundleName = iphone_name;
+    infoPlist.CFBundleDisplayName = iphone_name;
     infoPlist.CFBundleIdentifier = `${bundlePrefix}${bundleId}`;
     infoPlist.CFBundleShortVersionString = this.getBinaryVersionName();
-    infoPlist.LSApplicationCategoryType = this.publishingProperties.primary_category_name;
+    infoPlist.LSApplicationCategoryType = primary_category_name;
+
     fs.writeFileSync(infoPlistPath, plist.build(infoPlist));
   }
 
   configureAppInfoAndroid() {
     console.log('Configuring', 'build.gradle'.bold);
+
+    const { config, publishingProperties } = this;
+    const { androidApplicationId, production } = config;
+    const { android_market_package_name, android_name } = publishingProperties;
+
     const buildGradlePath = './android/app/build.gradle';
     const buildGradle = fs.readFileSync(buildGradlePath, 'utf8');
     let applicationId;
 
-    if (this.config.androidApplicationId) {
-      applicationId = this.config.androidApplicationId;
+    if (androidApplicationId) {
+      applicationId = androidApplicationId;
+    } else if (production){
+      applicationId = android_market_package_name;
     } else {
-      applicationId = this.config.production ? this.publishingProperties.android_market_package_name : 'com.shoutemapp';
+      applicationId = 'com.shoutemapp';
     }
 
     const newBuildGradle = buildGradle
       .replace(/\sapplicationId\s.*/g, ` applicationId '${applicationId}'`)
-      .replace(/\sversionCode\s.*/g, ` versionCode ${this.getBinaryVersionCode()}`)
-      .replace(/\sversionName\s.*/g, ` versionName '${this.getBinaryVersionName()}'`)
-      .replace(/ShoutemApplicationName/g, this.publishingProperties.android_name);
+      .replace(/\sversionCode\s.*/g,   ` versionCode ${this.getBinaryVersionCode()}`)
+      .replace(/\sversionName\s.*/g,   ` versionName '${this.getBinaryVersionName()}'`)
+      .replace(/ShoutemApplicationName/g, android_name);
+
     fs.writeFileSync(buildGradlePath, newBuildGradle);
   }
 
@@ -275,8 +304,10 @@ class AppBinaryConfigurator {
     const workspacePath = findFileOnPath('contents.xcworkspacedata', 'ios');
     const xcodeWorkspace = fs.readFileSync(workspacePath, 'utf8');
     const newXcodeWorkspace = this.updateProjectName(xcodeWorkspace);
+    const oldProjectPath = 'ios/ShoutemApp.xcodeproj';
+    const newProjectPath = `ios/${this.getProjectName()}.xcodeproj`;
 
-    return renamePath('ios/ShoutemApp.xcodeproj', `ios/${this.getProjectName()}.xcodeproj`)
+    return renamePath(oldProjectPath, newProjectPath)
       .then(() => fs.writeFile(workspacePath, newXcodeWorkspace));
   }
 
@@ -288,7 +319,6 @@ class AppBinaryConfigurator {
   }
 
   renameRCTRootView() {
-    const project = this.getProjectName();
     const AppDelegatePath = findFileOnPath('AppDelegate.m', 'ios');
     const MainActivityPath = 'android/app/src/main/java/com/shoutemapp/MainActivity.java';
 
