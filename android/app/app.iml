@@ -183,7 +183,6 @@
     <orderEntry type="library" exported="" name="play-services-analytics-10.2.0" level="project" />
     <orderEntry type="library" exported="" name="imagepipeline-okhttp3-0.11.0" level="project" />
     <orderEntry type="library" exported="" name="animated-gif-0.11.0" level="project" />
-    <orderEntry type="module" module-name="react-native-share" exported="" />
     <orderEntry type="module" module-name="react-native-calendar-manager" exported="" />
     <orderEntry type="module" module-name="react-native-video" exported="" />
     <orderEntry type="module" module-name="react-native-maps" exported="" />

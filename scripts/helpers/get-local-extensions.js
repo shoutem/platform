@@ -21,12 +21,14 @@ function getLocalExtensions(workingDirectories) {
   console.time('Load local extensions'.bold.green);
   [].concat(workingDirectories).forEach((workDirPattern) => {
     const paths = glob.sync(path.join(workDirPattern, '/app'));
+
     paths.forEach((packagePath) => {
       const stat = fs.statSync(packagePath);
       if (stat && stat.isDirectory()) {
         try {
           const packageJsonPath = path.resolve(path.join(packagePath, 'package.json'));
           const packageStat = fs.statSync(packageJsonPath);
+
           if (packageStat && packageStat.isFile()) {
             const packageJson = require(packageJsonPath);
             const packageName = packageJson.name;

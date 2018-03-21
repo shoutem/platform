@@ -47,7 +47,12 @@ module.exports = function () {
         savePath: `${iosAppIconDirectory}icon-8.png`,
         width: 180,
         height: 180,
-      }],
+      }, {
+        savePath: `${iosAppIconDirectory}marketing.png`,
+        width: 1024,
+        height: 1024,
+      },
+    ],
     },
   };
 };

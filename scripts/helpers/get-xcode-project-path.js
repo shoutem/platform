@@ -2,6 +2,8 @@
 
 const findFileOnPath = require('./find-file-on-path.js');
 
-const getXcodeProjectPath = () => findFileOnPath('project.pbxproj', 'ios');
+function getXcodeProjectPath(options = { cwd: 'ios' }) {
+  return findFileOnPath('project.pbxproj', options.cwd);
+}
 
 module.exports = getXcodeProjectPath;

@@ -13,8 +13,8 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 
-#import "RCTBundleURLProvider.h"
-#import "RCTRootView.h"
+#import <React/RCTBundleURLProvider.h>
+#import <React/RCTRootView.h>
 #import "SplashScreen.h"
 
 @implementation AppDelegate
@@ -22,7 +22,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   NSURL *jsCodeLocation;
-//NativeModuleInjectionMark-appDelegate-applicationDidFinishLaunchingWithOptions
+
+  //NativeModuleInjectionMark-appDelegate-applicationDidFinishLaunchingWithOptions
 
   // This overrides silent switch and allows audio to play even if hardware switch is set to silent
   AVAudioSession *audioSession = [AVAudioSession sharedInstance];
@@ -31,7 +32,7 @@
                         error:&setCategoryError];
 
 #ifdef DEBUG
-  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
+  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 #else
   jsCodeLocation = [CodePush bundleURL];
 #endif
@@ -74,4 +75,5 @@
 }
 
 //NativeModuleInjectionMark-appDelegate-body
+
 @end

@@ -2,6 +2,8 @@
 
 const findFileOnPath = require('./find-file-on-path.js');
 
-const getAppDelegatePath = () => findFileOnPath('AppDelegate.m', 'ios');
+function getAppDelegatePath() {
+  return findFileOnPath('AppDelegate.m', 'ios');
+}
 
 module.exports = getAppDelegatePath;
