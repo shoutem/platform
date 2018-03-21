@@ -1,11 +1,11 @@
 {
   "version": "1.6.0",
   "mobileAppVersion": "1.6.0",
-  "releaseNotes": "* Upgraded to React Native 0.51.0 * New extension: Deals * Bug fixes and improvements",
+  "releaseNotes": "* Upgraded to React Native 0.51.0\n * New extension: Deals\n * Bug fixes and improvements",
   "settings": {
-    "DEV-appetizeKey": "vdavzmvqgw0vz3a8wed98evwg0",
-    "QA-appetizeKey": "3yezybjy7q4aymjca8mve7bw08",
-    "Production-appetizeKey": "eahg1ye3u6bdx2zhxqnr44up68"
+    "DEV-appetizeKey": "kmqqnq79x4wcbyvejqxr13ndrw",
+    "QA-appetizeKey": "c2kk0bwujr4y6w9w8euee62cc4",
+    "Production-appetizeKey": "mcyhrhtrdan3jd7wng0x4rjn0c"
   },
   "builds": {
     "live": {
@@ -25,11 +25,12 @@
     "shoutem.about": "~1.6.0",
     "shoutem.analytics": "~1.6.0",
     "shoutem.application": "~1.6.0",
-    "shoutem.auth": "~1.6.0",
+    "shoutem.auth": "~1.6.6",
     "shoutem.books": "~1.6.0",
     "shoutem.camera": "~1.6.0",
-    "shoutem.cms": "~1.6.0",
+    "shoutem.cms": "~1.6.1",
     "shoutem.code-push": "~1.6.0",
+    "shoutem.deals": "~1.6.0",
     "shoutem.events": "~1.6.0",
     "shoutem.favorites": "~1.6.0",
     "shoutem.flurry-analytics": "~1.6.0",
@@ -37,7 +38,7 @@
     "shoutem.i18n": "~1.6.0",
     "shoutem.ical-events": "~1.6.0",
     "shoutem.layouts": "~1.6.0",
-    "shoutem.loyalty": "~1.6.0",
+    "shoutem.loyalty": "~1.6.4",
     "shoutem.menu": "~1.6.0",
     "shoutem.navigation": "~1.6.0",
     "shoutem.news": "~1.6.0",
@@ -51,19 +52,19 @@
     "shoutem.preview": "~1.6.0",
     "shoutem.products": "~1.6.0",
     "shoutem.push-notifications": "~1.6.0",
-    "shoutem.rss": "~1.6.0",
+    "shoutem.rss": "~1.6.1",
     "shoutem.rss-news": "~1.6.0",
     "shoutem.rss-photos": "~1.6.0",
     "shoutem.rss-videos": "~1.6.0",
     "shoutem.rubicon-theme": "~1.6.0",
     "shoutem.shopify": "~1.6.0",
-    "shoutem.social": "~1.6.0",
+    "shoutem.social": "~1.6.1",
     "shoutem.sub-navigation": "~1.6.0",
     "shoutem.theme": "~1.6.0",
-    "shoutem.video": "~1.6.0",
+    "shoutem.video": "~1.6.1",
     "shoutem.vimeo": "~1.6.0",
     "shoutem.web-view": "~1.6.0",
     "shoutem.wordpress": "~1.6.0",
-    "shoutem.youtube": "~1.6.0"
+    "shoutem.youtube": "~1.6.1"
   }
 }
