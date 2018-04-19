@@ -1,7 +1,7 @@
 {
-  "version": "1.6.0",
-  "mobileAppVersion": "1.6.0",
-  "releaseNotes": "* Upgraded to React Native 0.51.0\n * New extension: Deals\n * Bug fixes and improvements",
+  "version": "1.6.1",
+  "mobileAppVersion": "1.6.1",
+  "releaseNotes": "* Upgraded react-native-maps to v0.20.0\n * Bug fixes and improvements",
   "settings": {
     "DEV-appetizeKey": "kmqqnq79x4wcbyvejqxr13ndrw",
     "QA-appetizeKey": "c2kk0bwujr4y6w9w8euee62cc4",
