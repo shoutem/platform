@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/platform",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "setup": "cd scripts && yarn install",
@@ -27,7 +27,7 @@
     "react-native-code-push": "5.2.0-beta",
     "react-native-fbsdk": "facebook/react-native-fbsdk#23ae582dd8ebc48592e1cfa1b0e4bc35e98a4ab0",
     "react-native-google-analytics-bridge": "5.5.0",
-    "react-native-maps": "0.16.2",
+    "react-native-maps": "0.20.0",
     "react-native-restart": "0.0.6",
     "react-native-splash-screen": "3.0.0",
     "react-native-video": "react-native-community/react-native-video#1ba6b062e4ac7a415e4d3602f15965f7bf93c779",
