@@ -12,6 +12,7 @@ const glob = require('glob');
 function getPlatformDependencies(shoutemExtensionsPath) {
   const dependencies = {};
   const paths = glob.sync(path.join(shoutemExtensionsPath, '*'));
+
   paths.forEach((extensionPath) => {
     const stat = fs.statSync(extensionPath);
 

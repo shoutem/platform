@@ -3,13 +3,13 @@ package com.shoutemapp;
 import android.os.Bundle;
 import android.content.Intent;
 import com.facebook.react.ReactActivity;
-import com.cboy.rn.splashscreen.SplashScreen;
+//NativeModuleInjectionMark-mainActivity-import
 
 public class MainActivity extends ReactActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SplashScreen.show(this);
+        //NativeModuleInjectionMark-mainActivity-onCreate
         super.onCreate(savedInstanceState);
     }
 
@@ -24,7 +24,8 @@ public class MainActivity extends ReactActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //NativeModuleInjectionMark-mainActivity-onActivityResult
         super.onActivityResult(requestCode, resultCode, data);
-        MainApplication.getCallbackManager().onActivityResult(requestCode, resultCode, data);
+        //NativeModuleInjectionMark-mainActivity-onActivityResult-end
     }
 }
