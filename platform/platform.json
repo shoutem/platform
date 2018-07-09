@@ -1,6 +1,6 @@
 {
-  "version": "1.6.1",
-  "mobileAppVersion": "1.6.1",
+  "version": "1.7.0",
+  "mobileAppVersion": "1.7.0-rc.0",
   "releaseNotes": "* Upgraded react-native-maps to v0.20.0\n * Bug fixes and improvements",
   "settings": {
     "DEV-appetizeKey": "kmqqnq79x4wcbyvejqxr13ndrw",
