@@ -1,9 +1,9 @@
 {
-  "version": "1.7.0",
+  "version": "1.7.0-rc.0",
   "mobileAppVersion": "1.7.0-rc.0",
-  "releaseNotes": "* Upgraded react-native-maps to v0.20.0\n * Bug fixes and improvements",
+  "releaseNotes": "* React Native 0.56\n* Latest build tools for Android\n* Bugfixes and improvements",
   "settings": {
-    "DEV-appetizeKey": "kmqqnq79x4wcbyvejqxr13ndrw",
+    "DEV-appetizeKey": "k6jzxvmt8ftan6gchxe62kae00",
     "QA-appetizeKey": "c2kk0bwujr4y6w9w8euee62cc4",
     "Production-appetizeKey": "mcyhrhtrdan3jd7wng0x4rjn0c"
   },
