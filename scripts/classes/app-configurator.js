@@ -23,7 +23,6 @@ const getLocalExtensions = require('./../helpers/get-local-extensions');
 const ExtensionsInstaller = require('./extensions-installer.js');
 const buildApiEndpoint = require('./../helpers/build-api-endpoint');
 const getExtensionsFromConfiguration = require('./../helpers/get-extensions-from-configuration');
-const getErrorMessageFromResponse = require('../helpers/get-error-message-from-response');
 const applyReactNativeFixes = require('./../fixes/react-native-fixes');
 
 const NODE_MODULES_DIR = prependProjectPath('node_modules');
@@ -65,20 +64,7 @@ class AppConfigurator {
   }
 
   cleanTempFolder() {
-    console.time('Cleaning temp files'.bold.green);
-
     rimraf.sync(path.join('.', 'temp', '*'));
-
-    console.timeEnd('Cleaning temp files'.bold.green);
-  }
-
-  removeBabelrcFiles() {
-    console.time('Removing .babelrc files'.bold.green);
-
-    rimraf.sync(path.join('.', 'node_modules', '*', '.babelrc'));
-
-    console.timeEnd('Removing .babelrc files'.bold.green);
-    console.log('');
   }
 
   getConfigurationUrl() {
@@ -91,6 +77,11 @@ class AppConfigurator {
   downloadConfiguration() {
     console.time('Download configuration'.bold.green);
 
+    const { buildConfig } = this;
+    const {
+      production: isProduction,
+    } = buildConfig;
+
     const requestParams = {
       url: this.getConfigurationUrl(),
       headers: {
@@ -101,20 +92,23 @@ class AppConfigurator {
 
     return new Promise((resolve, reject) => {
       request.get(requestParams, (err, response, body) => {
-        const statusCode = (response && response.statusCode) || 'No internet connection?';
-
-        if (statusCode === 200) {
-          const configuration = JSON.parse(body);
-          console.timeEnd('Download configuration'.bold.green);
-          this.configuration = configuration;
-          resolve(configuration);
-        } else {
-          const errorMessage = getErrorMessageFromResponse(response);
-          reject(`
-            Configuration download failed (${requestParams.url})!
-            Error: ${statusCode} - ${errorMessage}`.bold.red
-          );
+        const statusCode = _.get(response, 'statusCode');
+        if (!statusCode || statusCode !== 200) {
+          if (statusCode === 404 && isProduction) {
+            return reject(
+              // eslint-disable-next-line
+              'This application doesn\'t have a production configuration.\nOnly published apps have production configuration.'.yellow
+            );
+          }
+          return reject(`Configuration download failed. Error: \n${JSON.stringify(err)}`.bold.red);
         }
+
+        const configuration = JSON.parse(body);
+        console.timeEnd('Download configuration'.bold.green);
+
+        this.configuration = configuration;
+
+        return resolve(configuration);
       }).on('error', err => {
         reject(err);
       });
@@ -271,11 +265,10 @@ class AppConfigurator {
     return this.prepareConfiguration()
       .then(() => this.saveConfigurationFiles())
       .then(() => this.buildExtensions())
-      .then(() => this.removeBabelrcFiles())
+      .then(() => applyReactNativeFixes())
       .then(() => {
         console.timeEnd('Build time'.bold.green);
       })
-      .then(() => applyReactNativeFixes())
       .catch((e) => {
         console.log(e);
         process.exit(1);
