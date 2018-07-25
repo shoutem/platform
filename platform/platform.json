@@ -1,6 +1,6 @@
 {
-  "version": "1.7.0-rc.1",
-  "mobileAppVersion": "1.7.0-rc.1",
+  "version": "1.7.0-rc.2",
+  "mobileAppVersion": "1.7.0-rc.2",
   "releaseNotes": "* React Native 0.56\n* Latest build tools for Android\n* Bugfixes and improvements",
   "settings": {
     "DEV-appetizeKey": "k6jzxvmt8ftan6gchxe62kae00",
@@ -22,23 +22,23 @@
     }
   },
   "dependencies": {
-    "shoutem.about": "~1.7.0",
+    "shoutem.about": "~1.7.1",
     "shoutem.analytics": "~1.7.0",
     "shoutem.application": "~1.7.0",
     "shoutem.auth": "~1.7.0",
     "shoutem.books": "~1.7.0",
-    "shoutem.camera": "~1.7.0",
+    "shoutem.camera": "~1.7.1",
     "shoutem.cms": "~1.7.0",
     "shoutem.code-push": "~1.7.0",
-    "shoutem.deals": "~1.7.0",
-    "shoutem.events": "~1.7.0",
+    "shoutem.deals": "~1.7.2",
+    "shoutem.events": "~1.7.1",
     "shoutem.favorites": "~1.7.1",
     "shoutem.flurry-analytics": "~1.7.0",
     "shoutem.google-analytics": "~1.7.0",
     "shoutem.i18n": "~1.7.0",
-    "shoutem.ical-events": "~1.7.0",
+    "shoutem.ical-events": "~1.7.1",
     "shoutem.layouts": "~1.7.0",
-    "shoutem.loyalty": "~1.7.3",
+    "shoutem.loyalty": "~1.7.4",
     "shoutem.menu": "~1.7.0",
     "shoutem.navigation": "~1.7.0",
     "shoutem.news": "~1.7.0",
@@ -63,7 +63,7 @@
     "shoutem.theme": "~1.7.0",
     "shoutem.video": "~1.7.0",
     "shoutem.vimeo": "~1.7.0",
-    "shoutem.web-view": "~1.7.0",
+    "shoutem.web-view": "~1.7.2",
     "shoutem.wordpress": "~1.7.0",
     "shoutem.youtube": "~1.7.0"
   }
