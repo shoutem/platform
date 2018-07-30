@@ -1,6 +1,6 @@
 {
-  "version": "1.7.0-rc.2",
-  "mobileAppVersion": "1.7.0-rc.2",
+  "version": "1.7.0-rc.3",
+  "mobileAppVersion": "1.7.0-rc.3",
   "releaseNotes": "* React Native 0.56\n* Latest build tools for Android\n* Bugfixes and improvements",
   "settings": {
     "DEV-appetizeKey": "k6jzxvmt8ftan6gchxe62kae00",
