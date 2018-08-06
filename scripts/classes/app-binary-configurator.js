@@ -55,19 +55,14 @@ function downloadImage(imageUrl, savePath) {
 function downloadAndResizeImage(imageUrl, downloadPath, resizeConfig, production) {
   return downloadImage(imageUrl, downloadPath, resizeConfig)
     .then((imagePath) => {
-      const resizingPromises = _.map(resizeConfig.images, (image) => {
-        const { savePath, width, height } = image;
-        const isMarketingIcon = _.endsWith(savePath, 'marketing.png');
-        const useRgba = !isMarketingIcon;
-
-        return new Promise((resolve, reject) => {
+      const resizingPromises = _.map(resizeConfig.images, (image) =>
+        new Promise((resolve, reject) => {
           Jimp.read(imagePath)
-            .then((imageFile) => (
+            .then((imageFile) =>
               imageFile
-                .rgba(useRgba)
-                .cover(width, height)
-                .write(savePath)
-            ))
+                .cover(image.width, image.height)
+                .write(image.savePath)
+            )
             .then(() => resolve())
             .catch((error) => {
               if (production) {
@@ -76,8 +71,8 @@ function downloadAndResizeImage(imageUrl, downloadPath, resizeConfig, production
 
               resolve();
             });
-        });
-      });
+        })
+      );
 
       return Promise.all(resizingPromises);
   });

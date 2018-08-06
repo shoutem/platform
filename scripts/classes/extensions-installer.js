@@ -5,10 +5,8 @@ const path = require('path');
 const spawn = require('child-process-promise').spawn;
 const _ = require('lodash');
 const glob = require('glob');
-const colors = require('colors');
 const promisify = require('pify');
 const linkLocal = promisify(require('linklocal'));
-const buildConfig = require(path.resolve(__dirname, '../../config.json'));
 
 const packageJsonFileName = 'package.template.json';
 const packageJsonTemplate = fs.readJsonSync(path.resolve(packageJsonFileName));
@@ -23,7 +21,7 @@ function installJsDependencies() {
 
   return spawn('yarn', ['install'], {
     stderr: 'inherit',
-    stdio: 'inherit'
+    stdio: 'inherit',
   });
 }
 
@@ -46,7 +44,7 @@ function writeJson(content, filePath) {
         return reject(err);
       }
 
-      resolve();
+      return resolve();
     });
   });
 }
@@ -55,32 +53,7 @@ function writePackageJson(content) {
   return writeJson(content, 'package.json');
 }
 
-function addLocalPackagesToPackageJson(packagesPath, packageJson) {
-  const localPackages = glob.sync(`${packagesPath}/*/package.json`);
-  let packageNames = [];
-
-  if (localPackages.length) {
-    const packageDirNames = localPackages.map(
-      (pkg) => path.basename(path.dirname(pkg))
-    );
-
-    packageNames = packageDirNames.map(
-      (pkgName) => `@shoutem/${pkgName}`
-    );
-
-    packageDirNames.forEach((pkgName) => {
-      addDependencyToPackageJson(
-        packageJson,
-        `@shoutem/${pkgName}`,
-        `file:packages/${pkgName}`
-      );
-    });
-  }
-
-  return packageNames;
-}
-
-function getPodspecPaths (extensions) {
+function getPodspecPaths(extensions) {
   return _.reduce(extensions, (paths, extension) => {
     const podspecPath = glob.sync(`node_modules/${extension.id}/*.podspec`);
     return paths.concat(podspecPath);
@@ -91,7 +64,7 @@ function getPodspecStrings(podspecPaths) {
   return _.map(podspecPaths, (podspecPath) => {
     const podName = path.basename(podspecPath, '.podspec');
     return `pod '${podName}', :path => '../${podspecPath}'`;
-  }).join("\n");
+  }).join('\n');
 }
 
 /**
@@ -110,7 +83,6 @@ class ExtensionsInstaller {
 
   installExtensions() {
     const workingDir = process.cwd();
-    const packagesDir = path.join(workingDir, 'packages');
 
     this.extensionsToInstall.forEach((extension) =>
       installNpmExtension(extension)
@@ -122,7 +94,7 @@ class ExtensionsInstaller {
 
     const installedExtensions = [
       ...this.localExtensions,
-      ...this.extensionsToInstall
+      ...this.extensionsToInstall,
     ];
 
     return writePackageJson(packageJsonTemplate)
@@ -135,7 +107,9 @@ class ExtensionsInstaller {
     console.log('Creating extensions.js');
 
     if (_.isEmpty(installedExtensions)) {
-      return Promise.reject('[ERROR]: You are trying to build an app without any extensions'.bold.red);
+      return Promise.reject(
+        '[ERROR]: You are trying to build an app without any extensions'.bold.red
+      );
     }
 
     const extensionsMapping = [];
@@ -161,22 +135,20 @@ class ExtensionsInstaller {
         }
 
         console.timeEnd('Create extensions.js'.bold.green);
-        resolve();
+        return resolve();
       });
     });
   }
 
   installCocoaPods(installedExtensions) {
-    console.log('Starting pods install...');
-
     const podTemplatePath = 'ios/Podfile.template';
-    let podFileTemplate = "";
+    let podFileTemplate = '';
 
     try {
       podFileTemplate = fs.readFileSync(podTemplatePath, 'utf8');
     } catch (err) {
-      if (err.code === 'ENOENT' ) {
-        console.log(`No ${podTemplatePath} found, moving on...`);
+      if (err.code === 'ENOENT') {
+        console.log(`No ${podTemplatePath} found, skipping 'pod install'...`);
         return Promise.resolve();
       }
 
@@ -203,7 +175,10 @@ class ExtensionsInstaller {
     // If the process is running on OSX, then run 'pod install'
     // to configure iOS native dependencies
     if (process.platform === 'darwin') {
-      return this.installCocoaPods(installedExtensions);
+      return Promise.resolve()
+        .then(() => console.log('pod install - [Running...]'))
+        .then(() => this.installCocoaPods(installedExtensions))
+        .then(() => console.log('pod install - [OK]'));
     }
 
     return Promise.resolve();

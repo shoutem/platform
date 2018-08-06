@@ -21,24 +21,14 @@ const path = require('path');
 const getXcodeProjectPath = require('./get-xcode-project-path');
 const getXcodeProjectName = require('./get-xcode-project-name');
 const rootProjectDir = require('./get-project-path');
+const { prependProjectPath } = require('./path');
 
-const registerNativeModulePath = path.resolve(
-  rootProjectDir,
-  'node_modules/react-native',
-  'local-cli/link/ios/registerNativeModule.js'
-);
-const registerNativeModuleIOS = require(registerNativeModulePath);
-
-const rootIosDir = path.join(rootProjectDir, 'ios');
+const rootIosDir = prependProjectPath('ios');
 const rootProjectName = getXcodeProjectName({ cwd: rootIosDir });
 const rootProjectPath = getXcodeProjectPath({ cwd: rootIosDir });
-
-const rootProjectConfig = createProjectConfig({
-  folder: rootProjectDir,
-  projectName: rootProjectName,
-  podfile: true,
-  podspec: null,
-});
+const registerNativeModulePath = prependProjectPath(
+  'node_modules/react-native/local-cli/link/ios/registerNativeModule.js'
+);
 
 function createProjectConfig(project) {
   const { folder, projectName, podfile, podspec, pbxprojPath } = project;
@@ -62,10 +52,18 @@ function createProjectConfig(project) {
   };
 }
 
+const rootProjectConfig = createProjectConfig({
+  folder: rootProjectDir,
+  projectName: rootProjectName,
+  podfile: true,
+  podspec: null,
+});
+
 module.exports = function forceLinkXCodeProject(dependencyData) {
+  const registerNativeModuleIOS = require(registerNativeModulePath);
   const { folderName, podspec, xcodeprojFileName } = dependencyData;
 
-  const dependencyDir = path.join(rootProjectDir, 'node_modules', folderName);
+  const dependencyDir = prependProjectPath(`node_modules/${folderName}`);
   const sourceDir = path.join(dependencyDir, 'ios');
   const projectPath = path.join(sourceDir, xcodeprojFileName);
   const pbxprojPath = path.join(projectPath, 'project.pbxproj');
