@@ -32,12 +32,12 @@ function getLocalExtensions(workingDirectories) {
           if (packageStat && packageStat.isFile()) {
             const packageJson = require(packageJsonPath);
             const packageName = packageJson.name;
-            const packageDependecies = packageJson.dependencies;
+            const packageDependencies = packageJson.dependencies;
             results.push({
               id: packageName,
               path: packagePath,
               isNative: !_.isEmpty(packageJson.rnpm),
-              dependencies: packageDependecies,
+              dependencies: packageDependencies,
             });
           }
         } catch (error) {

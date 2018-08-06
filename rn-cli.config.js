@@ -1,4 +1,4 @@
-const blacklist = require('./node_modules/metro-bundler/src/blacklist');
+const blacklist = require('metro/src/blacklist');
 
 /**
  * Default configuration for the CLI.

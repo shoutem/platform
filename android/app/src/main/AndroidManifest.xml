@@ -24,9 +24,8 @@
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
-    <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyBAefhRlXEH3vCko-zZTX6PHllTR6av4WI"/>
-    <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
     <meta-data android:name="com.facebook.sdk.AutoLogAppEventsEnabled" android:value="false"/>
+    <!--//NativeModuleInjectionMark-gradle-settings-->
   </application>
 
 </manifest>
