@@ -6,14 +6,14 @@ function getErrorMessageFromResponse(response) {
 
   try {
     body = JSON.parse(_.get(response, 'body'));
-  } catch(e) {
+  } catch (e) {
     body = {
       errors: [{
         title: 'Invalid JSON file',
         detail: '',
       }],
     };
-  };
+  }
 
   if (_.isEmpty(body) || _.isEmpty(body.errors)) {
     return '';

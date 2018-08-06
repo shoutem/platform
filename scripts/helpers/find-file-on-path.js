@@ -2,9 +2,12 @@
 
 const _ = require('lodash');
 const glob = require('glob');
+const { slash } = require('./path');
 
 function findFileOnPath(fileName, sourcePath) {
-  const foundFiles = glob.sync(`${sourcePath}/?(**)/${fileName}`);
+  const searchGlob = slash(`${sourcePath}/?(**)/${fileName}`);
+  const foundFiles = glob.sync(searchGlob);
+
   if (_.isEmpty(foundFiles)) {
     return null;
   }

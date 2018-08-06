@@ -4,9 +4,7 @@
  */
 'use strict';
 
-const spawn = require('child-process-promise').spawn;
-const spawnSync = require('child_process').spawnSync;
-const execFileSync = require('child_process').execFileSync;
+const { execFileSync } = require('child_process');
 const fs = require('fs-extra');
 const path = require('path');
 const glob = require('glob');
@@ -14,22 +12,23 @@ const _ = require('lodash');
 const rimraf = require('rimraf');
 const process = require('process');
 const request = require('request');
-const colors = require('colors');
+const {
+  reactNativeLink,
+  prependProjectPath,
+} = require('../helpers');
+require('colors');
 
 const AppBinaryConfigurator = require('./app-binary-configurator');
 const getLocalExtensions = require('./../helpers/get-local-extensions');
 const ExtensionsInstaller = require('./extensions-installer.js');
 const buildApiEndpoint = require('./../helpers/build-api-endpoint');
 const getExtensionsFromConfiguration = require('./../helpers/get-extensions-from-configuration');
-const getErrorMessageFromResponse = require('../helpers/get-error-message-from-response');
 const applyReactNativeFixes = require('./../fixes/react-native-fixes');
 
-const npm = require('../services/npm');
-
-const reactNativeCli = path.join('node_modules', 'react-native', 'local-cli', 'cli.js');
+const NODE_MODULES_DIR = prependProjectPath('node_modules');
 
 function isExtensionLinkable(extension) {
-  const pkgPath = `node_modules/${extension.id}/package.json`;
+  const pkgPath = `${NODE_MODULES_DIR}/${extension.id}/package.json`;
   const packageJson = fs.readJsonSync(pkgPath, { throws: false });
 
   if (packageJson === null) {
@@ -40,7 +39,7 @@ function isExtensionLinkable(extension) {
     return true;
   }
 
-  const globPattern = `node_modules/${extension.id}/+(android|ios)`;
+  const globPattern = `${NODE_MODULES_DIR}/${extension.id}/+(android|ios)`;
   const containsAndroidOrIosFolders = glob.sync(globPattern);
 
   return containsAndroidOrIosFolders.length;
@@ -62,8 +61,10 @@ function isExtensionLinkable(extension) {
 class AppConfigurator {
   constructor(buildConfig) {
     this.buildConfig = _.assign({}, buildConfig);
-    this.buildExtensions = this.buildExtensions.bind(this);
-    this.saveConfigurationFiles = this.saveConfigurationFiles.bind(this);
+  }
+
+  cleanTempFolder() {
+    rimraf.sync(path.join('.', 'temp', '*'));
   }
 
   getConfigurationUrl() {
@@ -76,6 +77,11 @@ class AppConfigurator {
   downloadConfiguration() {
     console.time('Download configuration'.bold.green);
 
+    const { buildConfig } = this;
+    const {
+      production: isProduction,
+    } = buildConfig;
+
     const requestParams = {
       url: this.getConfigurationUrl(),
       headers: {
@@ -86,21 +92,39 @@ class AppConfigurator {
 
     return new Promise((resolve, reject) => {
       request.get(requestParams, (err, response, body) => {
-        const statusCode = (response && response.statusCode) || 'No internet connection?';
-
-        if (statusCode === 200) {
-          const configuration = JSON.parse(body);
-          console.timeEnd('Download configuration'.bold.green);
-          this.configuration = configuration;
-          resolve(configuration);
-        } else {
-          const errorMessage = getErrorMessageFromResponse(response);
-          reject(`Configuration download failed (${requestParams.url})! Error: ${statusCode} - ${errorMessage}`.bold.red);
+        const statusCode = _.get(response, 'statusCode');
+        if (!statusCode || statusCode !== 200) {
+          if (statusCode === 404 && isProduction) {
+            return reject(
+              // eslint-disable-next-line
+              'This application doesn\'t have a production configuration.\nOnly published apps have production configuration.'.yellow
+            );
+          }
+          return reject(`Configuration download failed. Error: \n${JSON.stringify(err)}`.bold.red);
         }
+
+        const configuration = JSON.parse(body);
+        console.timeEnd('Download configuration'.bold.green);
+
+        this.configuration = configuration;
+
+        return resolve(configuration);
       }).on('error', err => {
         reject(err);
       });
     });
+  }
+
+  prepareConfiguration() {
+    if (this.buildConfig.offlineMode) {
+      const configuration = require(path.resolve(this.buildConfig.configurationFilePath));
+      this.configuration = configuration;
+
+      // Nothing to do, resolve to proceed with next build step
+      return Promise.resolve(configuration);
+    }
+
+    return this.downloadConfiguration();
   }
 
   saveConfigurationFiles() {
@@ -110,16 +134,14 @@ class AppConfigurator {
     fs.ensureDirSync('config');
 
     return fs.writeJson('config/buildConfig.json', this.buildConfig)
-      .then(() => {
-        return fs.writeJson('config/appConfig.json', this.configuration);
-      })
+      .then(() => fs.writeJson('config/appConfig.json', this.configuration))
       .then(() => console.timeEnd(logMessage))
       .catch((err) => {
         throw new Error(err);
       });
   }
 
-  prepareExtensions() {
+  buildExtensions() {
     const { buildConfig } = this;
     const {
       extensionsJsPath,
@@ -137,8 +159,9 @@ class AppConfigurator {
     );
 
     // install as .tars all extensions that are not available locally
-    const extensionsToInstall = extensions
-      .filter(ext => !_.some(localExtensions, { id: ext.id }));
+    const extensionsToInstall = _.filter(extensions, (ext) =>
+      !_.some(localExtensions, { id: ext.id })
+    );
 
     const installer = new ExtensionsInstaller(
       localExtensions,
@@ -159,12 +182,12 @@ class AppConfigurator {
             [] : _.filter(installedExtensions, isExtensionLinkable);
 
           configureProject = appBinaryConfigurator.customizeProject()
-            .then(() => installer.installNativeDependencies(installedExtensions))
             .then(() => this.reactNativeLinkExtensions(linkableExtensions))
+            .then(() => installer.installNativeDependencies(installedExtensions))
             .then(() => appBinaryConfigurator.configureApp());
         } else if (isProduction) {
           // rename the root view for republish build
-          configureProject = appBinaryConfigurator.customizeProject()
+          configureProject = appBinaryConfigurator.customizeProject();
         }
 
         return Promise.all([extensionsJs, preBuild, configureProject]);
@@ -172,8 +195,7 @@ class AppConfigurator {
   }
 
   executeBuildLifecycleHook(extensions, lifeCycleStep) {
-    const appDir = process.cwd();
-    const buildStepWrapperPath = path.resolve(appDir, 'scripts', 'helpers', 'build-step-wrapper.js');
+    const buildStepWrapperPath = prependProjectPath('scripts/helpers/build-step-wrapper.js');
 
     return new Promise((resolve) => {
       console.log(`[${lifeCycleStep.bold}] - all`);
@@ -187,13 +209,17 @@ class AppConfigurator {
             const buildLifeCycle = _.get(build, lifeCycleStep);
 
             if (!_.isFunction(buildLifeCycle)) {
-              throw new Error(`[running ${lifeCycleStep}] - ${extension.id} - Invalid export, expected a function.`);
+              const errorMessage = 'Invalid export, expected a function.';
+              throw new Error(`[running ${lifeCycleStep}] - ${extension.id} - ${errorMessage}`);
             }
 
-            // extension build hooks expect to be run in their own folder
-            const options = { stdio: 'inherit', cwd: path.join(appDir, 'node_modules', extension.id) };
-            const execArgs = [buildStepWrapperPath, '--lifeCycleStep', `${lifeCycleStep}`];
             const logString = `[${lifeCycleStep}] - ${extension.id}`;
+            const execArgs = [buildStepWrapperPath, '--lifeCycleStep', `${lifeCycleStep}`];
+            const options = {
+              // extension build hooks expect to be run in their own folder
+              cwd: `${NODE_MODULES_DIR}/${extension.id}`,
+              stdio: 'inherit',
+            };
 
             console.log(logString);
             console.time(logString);
@@ -219,100 +245,14 @@ class AppConfigurator {
     });
   }
 
-  removeBabelrcFiles() {
-    console.time('Removing .babelrc files'.bold.green);
-
-    rimraf.sync(path.join('.', 'node_modules', '*', '.babelrc'));
-
-    console.timeEnd('Removing .babelrc files'.bold.green);
-    console.log('');
-  }
-
-  cleanTempFolder() {
-    console.time('Cleaning temp files'.bold.green);
-
-    rimraf.sync(path.join('.', 'temp', '*'));
-
-    console.timeEnd('Cleaning temp files'.bold.green);
-  }
-
-  prepareConfiguration() {
-    if (this.buildConfig.offlineMode) {
-      const configuration = require(path.resolve(this.buildConfig.configurationFilePath));
-      this.configuration = configuration;
-
-      // Nothing to do, resolve to proceed with next build step
-      return Promise.resolve(configuration);
-    }
-
-    return this.downloadConfiguration();
-  }
-
-  updateGoogleServicesPackageName() {
-    const relativePath = path.join('android', 'app', 'google-services.json');
-    const filePath = path.join(process.cwd(), relativePath);
-    const pkgName = 'com.shoutemapp';
-    const message = `Updating ${relativePath} package_name to ${pkgName}`.bold.green;
-    const { production, release } = this.buildConfig;
-
-    console.time(message);
-
-    return new Promise((resolve, reject) => {
-      fs.open(filePath, 'r', (err, fd) => {
-        if (err) {
-          if (err.code === 'ENOENT') {
-            console.log(`${relativePath} does not exist, moving on...`);
-            return resolve();
-          }
-
-          return reject(err);
-        }
-
-        // don't throw on invalid json, rather check if the output is `null`
-        const data = fs.readJsonSync(filePath, { throws: false });
-
-        if (data === null) {
-          console.log(`${relativePath} is invalid or empty - please check your shoutem.firebase configuration!`);
-          return resolve();
-        }
-
-        // only update android package on non-production builds
-        if (!production && !release) {
-          data.client[0].client_info.android_client_info.package_name = pkgName;
-        }
-
-        fs.writeJson(filePath, data)
-          .then(() => console.timeEnd(message))
-          .then(resolve);
-      });
-    })
-  }
-
-  buildExtensions() {
-    return this.prepareExtensions()
-      .then(() => this.updateGoogleServicesPackageName())
-      .then(() => this.removeBabelrcFiles());
-  }
-
   reactNativeLinkExtensions(extensions) {
     if (!extensions.length) {
       return Promise.resolve(extensions);
     }
 
     return Promise.all(
-      extensions.map((ext) => this.runReactNativeLink(ext.id, 'sync'))
+      extensions.map((ext) => reactNativeLink(ext.id))
     );
-  }
-
-  runReactNativeLink(packageName = '', sync) {
-    console.log(`react-native link ${packageName}`.bold);
-
-    const spawner = sync ? spawnSync : spawn;
-
-    return spawner('node', [reactNativeCli, 'link', packageName], {
-      stdio: ['ignore', 'inherit', 'inherit'],
-      cwd: process.cwd()
-    });
   }
 
   run() {
@@ -323,12 +263,12 @@ class AppConfigurator {
     this.cleanTempFolder();
 
     return this.prepareConfiguration()
-      .then(this.saveConfigurationFiles)
-      .then(this.buildExtensions)
+      .then(() => this.saveConfigurationFiles())
+      .then(() => this.buildExtensions())
+      .then(() => applyReactNativeFixes())
       .then(() => {
         console.timeEnd('Build time'.bold.green);
       })
-      .then(() => applyReactNativeFixes())
       .catch((e) => {
         console.log(e);
         process.exit(1);
