@@ -97,7 +97,7 @@ def enableProguardInReleaseBuilds = false
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
-
+    //NativeModuleInjectionMark-app-gradle-android
     defaultConfig {
         applicationId 'com.shoutemapp'
         minSdkVersion rootProject.ext.minSdkVersion
@@ -164,6 +164,7 @@ android {
             }
         }
     }
+    //NativeModuleInjectionMark-app-gradle-android-end
 }
 
 dependencies {

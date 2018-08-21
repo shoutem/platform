@@ -40,12 +40,15 @@ const ANCHORS = {
           DEBUG: '//NativeModuleInjectionMark-app-gradle-buildTypes-debug',
         },
         REACT_GRADLE: '//NativeModuleInjectionMark-app-gradle-reactGradle',
+        ANDROID: '//NativeModuleInjectionMark-app-gradle-android',
+        ANDROID_END: '//NativeModuleInjectionMark-app-gradle-android-end'
       },
       PROPERTIES: '#NativeModuleInjectionMark-gradle-properties',
       SETTINGS: '//NativeModuleInjectionMark-gradle-settings',
     },
     MANIFEST: {
-      APPLICATION: '<!--//NativeModuleInjectionMark-gradle-settings-->',
+      ROOT: '<!--//NativeModuleInjectionMark-android-manifest-root-->',
+      APPLICATION: '<!--//NativeModuleInjectionMark-android-manifest-application-->',
     },
   },
 };
