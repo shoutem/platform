@@ -1,5 +1,5 @@
 {
-  "version": "1.7.2-rc.0",
+  "version": "1.7.2-rc.1",
   "mobileAppVersion": "1.7.2",
   "releaseNotes": "* Various iPhone X styling improvements\n* Status bar color picker for style customization\n* Bugfixes and improvements",
   "settings": {
