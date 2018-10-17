@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/platform",
-  "version": "1.7.2-rc.3",
+  "version": "1.7.2-rc.4",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "setup": "cd scripts && yarn install",
