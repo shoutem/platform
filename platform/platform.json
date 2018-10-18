@@ -1,6 +1,6 @@
 {
-  "version": "1.7.2-rc.4",
-  "mobileAppVersion": "1.7.2-rc.4",
+  "version": "1.7.2-rc.5",
+  "mobileAppVersion": "1.7.2-rc.5",
   "releaseNotes": "* Various iPhone X styling improvements\n* Status bar color picker for style customization\n* Bugfixes and improvements",
   "settings": {
     "DEV-appetizeKey": "60571c8y46jmpfuhutuc18debr",
@@ -56,7 +56,7 @@
     "shoutem.rss-news": "~1.7.0",
     "shoutem.rss-photos": "~1.7.0",
     "shoutem.rss-videos": "~1.7.0",
-    "shoutem.rubicon-theme": "~1.7.5",
+    "shoutem.rubicon-theme": "~1.7.7",
     "shoutem.shopify": "~1.7.1",
     "shoutem.social": "~1.7.2",
     "shoutem.sub-navigation": "~1.7.1",
