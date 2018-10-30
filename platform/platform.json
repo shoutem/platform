@@ -1,10 +1,10 @@
 {
-  "version": "1.7.2-rc.7",
-  "mobileAppVersion": "1.7.2-rc.7",
+  "version": "1.7.2-rc.8",
+  "mobileAppVersion": "1.7.2-rc.8",
   "releaseNotes": "* Various iPhone X styling improvements\n* Status bar color picker for style customization\n* Bugfixes and improvements",
   "settings": {
-    "DEV-appetizeKey": "akktetxfagckr6uhp0eb1y7uwc",
-    "QA-appetizeKey": "x0z5a9z6c98nwgaaxu3z5hy760",
+    "DEV-appetizeKey": "ark5uyg7grturgcr916k7qb624",
+    "QA-appetizeKey": "181axwf2pzanuawude1hd4te5c",
     "Production-appetizeKey": "wxzyu8w84b3jp0xk5v4zjfbrug"
   },
   "builds": {
