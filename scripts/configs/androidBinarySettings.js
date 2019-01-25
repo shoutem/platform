@@ -52,6 +52,10 @@ module.exports = {
       savePath: path.join(androidResourcesDirectory, 'mipmap-xxhdpi', 'ic_launcher.png'),
       width: 144,
       height: 144,
+    }, {
+      savePath: path.join(androidResourcesDirectory, 'mipmap-xxxhdpi', 'ic_launcher.png'),
+      width: 192,
+      height: 192,
     }],
   },
 };

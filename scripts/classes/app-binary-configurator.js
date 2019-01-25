@@ -129,8 +129,11 @@ class AppBinaryConfigurator {
     return this.publishingProperties.iphone_launch_image_portrait;
   }
 
-  getAppIconUrl() {
-    // TODO (Ivan): Change this when android icon is available in publishing properties
+  getAndroidAppIconUrl() {
+    return this.publishingProperties.android_application_icon;
+  }
+
+  getIosAppIconUrl() {
     return this.publishingProperties.iphone_application_icon_hd_ios7;
   }
 
@@ -148,10 +151,18 @@ class AppBinaryConfigurator {
   configureAppIcon(settings, platform) {
     console.log('Configuring', `${platform}`.bold, 'app icons');
 
-    const appIcon = this.getAppIconUrl(platform);
     const resizeConfig = settings.appIcon;
     const production = this.config.production;
-    const imagePath = './assets/appIcon.png';
+
+    let imagePath;
+    let appIcon;
+    if (platform === 'ios') {
+      imagePath = './assets/appIcon.png';
+      appIcon = this.getIosAppIconUrl();
+    } else {
+      imagePath = './assets/androidAppIcon.png';
+      appIcon = this.getAndroidAppIconUrl();
+    }
 
     return downloadAndResizeImage(appIcon, imagePath, resizeConfig, production);
   }
