@@ -1,7 +1,7 @@
 {
-  "version": "1.8.0-rc.0",
-  "mobileAppVersion": "1.8.0-rc.0",
-  "releaseNotes": "* New extension: Kumulos",
+  "version": "1.8.0-rc.1",
+  "mobileAppVersion": "1.8.0-rc.1",
+  "releaseNotes": "* New extension: Kumulos\n* Bugfix: use the correct Android app icon",
   "settings": {
     "DEV-appetizeKey": "mrz73xjz5072xf0mvk565z9dyr",
     "QA-appetizeKey": "xfwnvpvt4mafjqzqevbtpwzf5c",
