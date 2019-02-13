@@ -1,6 +1,6 @@
 {
-  "version": "1.8.1-rc.0",
-  "mobileAppVersion": "1.8.1-rc.0",
+  "version": "1.8.1",
+  "mobileAppVersion": "1.8.1",
   "releaseNotes": "* Performance improvements\n * Fixed bug in Videos extension\n * Fixed missing Android push notifications icon\n * New SimpleHtml component for HTML content\n * Various bugfixes and improvements",
   "settings": {
     "DEV-appetizeKey": "mrz73xjz5072xf0mvk565z9dyr",
@@ -24,7 +24,7 @@
   "dependencies": {
     "shoutem.about": "~1.8.1",
     "shoutem.analytics": "~1.8.0",
-    "shoutem.application": "~1.8.1",
+    "shoutem.application": "~1.8.3",
     "shoutem.auth": "~1.8.3",
     "shoutem.books": "~1.8.1",
     "shoutem.camera": "~1.8.0",
@@ -40,7 +40,7 @@
     "shoutem.layouts": "~1.8.0",
     "shoutem.loyalty": "~1.8.1",
     "shoutem.menu": "~1.8.0",
-    "shoutem.navigation": "~1.8.2",
+    "shoutem.navigation": "~1.8.3",
     "shoutem.news": "~1.8.1",
     "shoutem.notification-center": "~1.8.1",
     "shoutem.page": "~1.8.0",
@@ -58,12 +58,12 @@
     "shoutem.rss-videos": "~1.8.0",
     "shoutem.rubicon-theme": "~1.8.1",
     "shoutem.shopify": "~1.8.1",
-    "shoutem.social": "~1.8.1",
+    "shoutem.social": "~1.8.2",
     "shoutem.sub-navigation": "~1.8.0",
     "shoutem.theme": "~1.8.0",
     "shoutem.video": "~1.8.2",
     "shoutem.vimeo": "~1.8.0",
-    "shoutem.web-view": "~1.8.0",
+    "shoutem.web-view": "~1.8.1",
     "shoutem.wordpress": "~1.8.0",
     "shoutem.youtube": "~1.8.1"
   }
