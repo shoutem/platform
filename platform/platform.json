@@ -1,6 +1,6 @@
 {
-  "version": "2.0.0-rc.1",
-  "mobileAppVersion": "2.0.0-rc.1",
+  "version": "2.0.0-rc.2",
+  "mobileAppVersion": "2.0.0-rc.2",
   "releaseNotes": "* Performance improvements\n* SimpleHtml style improvement\n* For devs: Decoupled navigation, core and UI toolkit\n* For devs: Moved core into platform, no longer a package\n* For devs: Set Xcode build system to legacy by deafult",
   "settings": {
     "DEV-appetizeKey": "mrz73xjz5072xf0mvk565z9dyr",
@@ -52,6 +52,7 @@
     "shoutem.preview": "~2.0.1",
     "shoutem.products": "~2.0.1",
     "shoutem.push-notifications": "~2.0.1",
+    "shoutem.redux": "~2.0.2",
     "shoutem.rss": "~2.0.1",
     "shoutem.rss-news": "~2.0.1",
     "shoutem.rss-photos": "~2.0.1",
