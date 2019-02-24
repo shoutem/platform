@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/platform",
-  "version": "2.0.0-rc.2",
+  "version": "2.0.0-rc.3",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "setup": "cd scripts && yarn install",
@@ -11,12 +11,12 @@
   },
   "dependencies": {
     "@shoutem/animation": "~0.12.3",
-    "@shoutem/core": "file:core",
     "@shoutem/redux-composers": "0.1.4",
     "@shoutem/redux-io": "3.0.1-beta.3",
     "@shoutem/theme": "~0.11.3",
     "@shoutem/ui": "~0.23.15",
     "@shoutem/ui-addons": "~0.0.30",
+    "shoutem-core": "file:core",
     "es6-symbol": "3.1.1",
     "lodash": "~4.17.4",
     "moment": "2.22.2",

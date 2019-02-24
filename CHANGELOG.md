@@ -14,8 +14,7 @@ Shoutem v2.0 brings you one big update - we no longer support React Navigation E
 
 #### Breaking changes
 
-  - Removed `@shoute/core` package and moved core Shoutem platform functionality to the mobile application
-    - Navigation actions like `navigateTo` and `openInModal` are now deprecated in favor of using React Navigation's convention of `navigation` prop with custom actions. You can check list of all exported functions [here](https://github.com/shoutem/shoutem/blob/develop/app/extensions/shoutem.navigation/app/index.js)
-    - Priority related helpers (`getPriority`, `setPriority`, `after`, `before`) are now moved to application's core module
-    - `preventStateRehydration` moved from `@shoutem/core` to `shoutem.redux` extension
-  -
+  - Removed `@shoutem/core` package and moved core Shoutem platform functionality to the mobile application
+  - Navigation actions like `navigateTo` and `openInModal` are now deprecated in favor of using React Navigation's convention of `navigation` prop with custom actions. You can check list of all exported functions [here](https://github.com/shoutem/shoutem/blob/develop/app/extensions/shoutem.navigation/app/index.js)
+  - Priority related helpers (`getPriority`, `setPriority`, `after`, `before`) are now moved to application's core module
+  - `preventStateRehydration` moved from `@shoutem/core` to `shoutem.redux` extension
