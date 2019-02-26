@@ -7,7 +7,7 @@ const blacklist = require('metro/src/blacklist');
  * If you need to override any of this functions do so by defining the file
  * `rn-cli.config.js` on the root of your project with the functions you need
  * to tweak.
- * 
+ *
  * https://facebook.github.io/metro/docs/en/configuration
  */
 const config = {
@@ -30,7 +30,7 @@ const config = {
    * { dependencyname: dependencydirectorypath }
    */
   extraNodeModules: {
-    '@shoutem/core': path.join(__dirname, 'core'),
+    'shoutem-core': path.join(__dirname, 'core'),
   },
 };
 
