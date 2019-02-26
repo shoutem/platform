@@ -1,6 +1,6 @@
 {
-  "version": "2.0.0-rc.4",
-  "mobileAppVersion": "2.0.0-rc.4",
+  "version": "2.0.0-rc.5",
+  "mobileAppVersion": "2.0.0-rc.5",
   "releaseNotes": "* Performance improvements\n* SimpleHtml style improvement\n* For devs: Decoupled navigation, core and UI toolkit\n* For devs: Moved core into platform, no longer a package\n* For devs: Set Xcode build system to legacy by deafult",
   "settings": {
     "DEV-appetizeKey": "mrz73xjz5072xf0mvk565z9dyr",
