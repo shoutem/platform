@@ -5,7 +5,7 @@ import {
   AppRegistry,
 } from 'react-native';
 
-import { AppBuilder } from 'shoutem-core';
+import { AppBuilder } from '@shoutem/core';
 import { NavigationBar } from '@shoutem/ui';
 
 import extensions from './extensions.js';
