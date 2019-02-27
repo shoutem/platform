@@ -1,10 +1,10 @@
 {
-  "version": "2.0.0-rc.6",
-  "mobileAppVersion": "2.0.0-rc.6",
+  "version": "2.0.0-rc.7",
+  "mobileAppVersion": "2.0.0-rc.7",
   "releaseNotes": "* Performance improvements\n* SimpleHtml style improvement\n* For devs: Decoupled navigation, core and UI toolkit\n* For devs: Moved core into platform, no longer a package\n* For devs: Set Xcode build system to legacy by deafult",
   "settings": {
     "DEV-appetizeKey": "mrz73xjz5072xf0mvk565z9dyr",
-    "QA-appetizeKey": "n65z94eka709r7bn5rhw2ygee8",
+    "QA-appetizeKey": "uf8baf426rb8avk5k217emt65w",
     "Production-appetizeKey": "3btqwhqtdx484dy2gdnmaqjrz0"
   },
   "builds": {
@@ -25,7 +25,7 @@
     "shoutem.about": "~2.0.1",
     "shoutem.analytics": "~2.0.4",
     "shoutem.application": "~2.0.5",
-    "shoutem.auth": "~2.0.3",
+    "shoutem.auth": "~2.0.4",
     "shoutem.books": "~2.0.1",
     "shoutem.camera": "~2.0.1",
     "shoutem.cms": "~2.0.1",
@@ -40,7 +40,7 @@
     "shoutem.layouts": "~2.0.1",
     "shoutem.loyalty": "~2.0.3",
     "shoutem.menu": "~2.0.1",
-    "shoutem.navigation": "~2.0.7",
+    "shoutem.navigation": "~2.0.9",
     "shoutem.news": "~2.0.3",
     "shoutem.notification-center": "~2.0.3",
     "shoutem.page": "~2.0.1",
