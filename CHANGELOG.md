@@ -2,19 +2,18 @@
 
 ## [2.0.0]
 
-Shoutem v2.0 brings you one big update - we no longer support React Navigation Experimental and have fully switched mobile client app to latest version of [React Navigation](https://reactnavigation.org/).
+### New features
 
-#### New features
+  - Added support for provider component registration. Example implementation can be found [here](https://github.com/shoutem/extensions/blob/master/shoutem.redux/app/index.js#L15)
+  - Added new `shoutem.redux` extension to initialize the Redux store and register all reducers and middlewares
+    - Fetch store instance directly from the `shoutem.redux` extension: `import { getStore } from 'shoutem.redux';`
 
-  - Completely `shoutem.navigation` extension built on top of latest React Navigation
-  - Added support for provider component registration. Example implementation can be found [here](https://github.com/shoutem/shoutem/blob/develop/app/extensions/shoutem.redux/app/index.js#L15)
-  - Added support for dynamic extension content rendering. Example can be seen [here]()
-  - Added new `shoutem.redux` extension to initialize Redux store and register all reducers and middlewares
-    - Fetch store instance directly from `shoutem.redux` extension like `import { getStore } from 'shoutem.redux';`
+### Breaking changes
 
-#### Breaking changes
+  - Removed `@shoutem/core` package and moved core Shoutem platform functionality to the mobile application (`shoutem-core`)
+  - `preventStateRehydration` has moved to the `shoutem.redux` extension
+  - Priority related helpers (`getPriority`, `setPriority`, `after`, `before`) are now available in the `shoutem-core` package
 
-  - Removed `@shoutem/core` package and moved core Shoutem platform functionality to the mobile application
-  - Navigation actions like `navigateTo` and `openInModal` are now deprecated in favor of using React Navigation's convention of `navigation` prop with custom actions. You can check list of all exported functions [here](https://github.com/shoutem/shoutem/blob/develop/app/extensions/shoutem.navigation/app/index.js)
-  - Priority related helpers (`getPriority`, `setPriority`, `after`, `before`) are now moved to application's core module
-  - `preventStateRehydration` moved from `@shoutem/core` to `shoutem.redux` extension
+### Notes
+
+  - `NavigationBar` in the `@shoutem/ui/navigation` package has been deprecated. You should now import it from the `shoutem.navigation` extension, instead. For backward compatibility reasons, `NavigationBar` is still available in `@shoutem/ui`, but it will be removed in the future.
