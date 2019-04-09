@@ -67,7 +67,6 @@ ios/ShoutemApp/Images.xcassets/Image.imageset/background.png
 
 # Android/IntelliJ
 #
-build/
 .idea
 .gradle
 local.properties
@@ -102,3 +101,6 @@ android/app/libs
 # assets
 android/app/src/main/assets
 /assets
+
+# explicitly allow extension/app/build folders containing lifecycle scripts
+!extensions/**/app/build
