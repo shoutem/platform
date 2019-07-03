@@ -169,7 +169,6 @@ android {
 
 dependencies {
     //NativeModuleInjectionMark-app-gradle-dependencies
-    compile project(':@shoutem/ui-addons')
     compile project(':react-native-image-picker')
     compile project(':react-native-linear-gradient')
     compile project(':react-native-photo-view')
