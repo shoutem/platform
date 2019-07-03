@@ -7,9 +7,6 @@ rootProject.name = 'ShoutemApp'
 
 include ':app'
 
-include ':@shoutem/ui-addons'
-project(':@shoutem/ui-addons').projectDir = new File(rootProject.projectDir, '../node_modules/@shoutem/ui-addons/android')
-
 include ':react-native-image-picker'
 project(':react-native-image-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-image-picker/android')
 
