@@ -11,7 +11,6 @@ import com.facebook.soloader.SoLoader;
 import com.imagepicker.ImagePickerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.reactnative.photoview.PhotoViewPackage;
-import com.shoutem.uiaddons.UiAddonsExtensionPackage;
 //NativeModuleInjectionMark-mainApplication-import
 
 import java.util.Arrays;
@@ -36,8 +35,6 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
                 new VectorIconsPackage(),
                 new ImagePickerPackage(),
                 new LinearGradientPackage(),
-                new UiAddonsExtensionPackage(),
-
                 new PhotoViewPackage()
             );
         }
