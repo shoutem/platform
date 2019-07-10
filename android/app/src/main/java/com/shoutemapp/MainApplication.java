@@ -8,7 +8,6 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.imagepicker.ImagePickerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.reactnative.photoview.PhotoViewPackage;
 //NativeModuleInjectionMark-mainApplication-import
@@ -33,7 +32,6 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
                 //NativeModuleInjectionMark-mainApplication-getPackages
                 new MainReactPackage(),
                 new VectorIconsPackage(),
-                new ImagePickerPackage(),
                 new LinearGradientPackage(),
                 new PhotoViewPackage()
             );
