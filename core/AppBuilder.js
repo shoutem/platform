@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { YellowBox } from 'react-native';
 import PropTypes from 'prop-types';
 import {
   assertExtensionsExist,
@@ -10,6 +11,10 @@ import {
 } from './services';
 
 const APP_CONTEXT = Symbol('appContext');
+
+// Temporarily ignoring cyclic dependency warnings until
+// package maintainers can resolve these
+YellowBox.ignoreWarnings(['Require cycle:']);
 
 /**
  * Creates an application class that represents a root

@@ -6,7 +6,8 @@
 
   <!--//NativeModuleInjectionMark-android-manifest-root-->
 
-  <application tools:replace="android:label"
+  <application tools:replace="android:label,android:appComponentFactory"
+    android:appComponentFactory="dummyProperty"
     android:name=".MainApplication"
     android:allowBackup="true"
     android:label="${appName}"
@@ -28,6 +29,8 @@
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
     <meta-data android:name="com.facebook.sdk.AutoLogAppEventsEnabled" android:value="false"/>
     <!--//NativeModuleInjectionMark-android-manifest-application-->
+    <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+    <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyBAefhRlXEH3vCko-zZTX6PHllTR6av4WI"/>
   </application>
 
 </manifest>
