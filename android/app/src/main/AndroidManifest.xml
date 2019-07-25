@@ -8,6 +8,7 @@
 
   <application tools:replace="android:label,android:appComponentFactory"
     android:appComponentFactory="dummyProperty"
+    android:usesCleartextTraffic="true"
     android:name=".MainApplication"
     android:allowBackup="true"
     android:label="${appName}"
