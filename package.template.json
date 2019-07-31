@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/platform",
-  "version": "2.1.0-rc.4",
+  "version": "2.1.0-rc.5",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "setup": "cd scripts && yarn install",
@@ -36,6 +36,7 @@
     "@shoutem/build-tools": "file:scripts/helpers",
     "babel-eslint": "^9.0.0",
     "babel-jest": "^24.8.0",
+    "babel-plugin-jest-hoist": "^24.0.0",
     "eslint": "~5.15.1",
     "eslint-config-airbnb": "~17.1.0",
     "eslint-plugin-import": "~2.16.0",

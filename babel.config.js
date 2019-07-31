@@ -7,6 +7,7 @@ module.exports = function babelConfig(api) {
   ];
   const plugins = [
     ['@babel/plugin-proposal-decorators', { legacy: true }],
+    'jest-hoist',
   ];
 
   return {
