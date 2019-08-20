@@ -1,7 +1,7 @@
 {
-  "version": "2.1.0-rc.7",
-  "mobileAppVersion": "2.1.0-rc.7",
-  "releaseNotes": "* '@shoutem/ui' version 1.0.0 with FlatList and SectionList refactor\n* upgrade to React Native 0.59.10\n* Shoutem Platform analytics, Google analytics and Shopify deprecation\n* Android 64 bit support\n* New Android JavaScript core - improved performance\n* Switch to react-native-webview\n* Switch to @react-native-community/async-storage",
+  "version": "2.1.0",
+  "mobileAppVersion": "2.1.0",
+  "releaseNotes": "NOTE! The following extensions must be uninstalled for this platform:\n - Shopify\n - Google Analytics\n - Shoutem Platform Analytics\nFor help with uninstalling them, feel free to contact Shoutem support via support@shoutem.com\n* '@shoutem/ui' version 1.0.0 with FlatList and SectionList refactor\n* upgrade to React Native 0.59.10\n* Android 64 bit support\n* New Android JavaScript core - improved performance\n* Switch to react-native-webview\n* Switch to @react-native-community/async-storage",
   "settings": {
     "DEV-appetizeKey": "90dycv9gb098u6xytcb6jnkvw8",
     "QA-appetizeKey": "p21k4z0quazqthk8czw28t6q04",
