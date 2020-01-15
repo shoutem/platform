@@ -1,7 +1,7 @@
 {
-  "version": "2.1.1-rc.0",
+  "version": "2.1.1-rc.1",
   "mobileAppVersion": "2.1.0",
-  "releaseNotes": "* Shopify extension reintroduction\n* bugixes and improvements\n",
+  "releaseNotes": "* Shopify extension reintroduction\n* Bugixes and improvements",
   "settings": {
     "DEV-appetizeKey": "90dycv9gb098u6xytcb6jnkvw8",
     "QA-appetizeKey": "p21k4z0quazqthk8czw28t6q04",
@@ -24,7 +24,7 @@
   "dependencies": {
     "shoutem.about": "~2.1.0",
     "shoutem.analytics": "~2.1.0",
-    "shoutem.application": "~2.1.0",
+    "shoutem.application": ">=2.1.9",
     "shoutem.auth": "~2.1.0",
     "shoutem.books": "~2.1.0",
     "shoutem.camera": "~2.1.0",
@@ -55,7 +55,7 @@
     "shoutem.rss-news": "~2.1.0",
     "shoutem.rss-photos": "~2.1.0",
     "shoutem.rss-videos": "~2.1.0",
-    "shoutem.rubicon-theme": "~2.1.0",
+    "shoutem.rubicon-theme": ">=2.1.7",
     "shoutem.shopify": "~2.1.0",
     "shoutem.social": "~2.1.0",
     "shoutem.sub-navigation": "~2.1.0",
