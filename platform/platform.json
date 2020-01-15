@@ -1,7 +1,7 @@
 {
-  "version": "2.1.0",
+  "version": "2.1.1-rc.0",
   "mobileAppVersion": "2.1.0",
-  "releaseNotes": "NOTE! The following extensions must be uninstalled for this platform; Shopify, Google Analytics and Shoutem Platform Analytics. For help with uninstalling them, feel free to contact Shoutem support via support@shoutem.com\n* '@shoutem/ui' version 1.0.0 with FlatList and SectionList refactor\n* upgrade to React Native 0.59.10\n* Android 64 bit support\n* New Android JavaScript core - improved performance\n* Switch to react-native-webview\n* Switch to @react-native-community/async-storage",
+  "releaseNotes": "* Shopify extension reintroduction\n* bugixes and improvements\n",
   "settings": {
     "DEV-appetizeKey": "90dycv9gb098u6xytcb6jnkvw8",
     "QA-appetizeKey": "p21k4z0quazqthk8czw28t6q04",
@@ -56,6 +56,7 @@
     "shoutem.rss-photos": "~2.1.0",
     "shoutem.rss-videos": "~2.1.0",
     "shoutem.rubicon-theme": "~2.1.0",
+    "shoutem.shopify": "~2.1.0",
     "shoutem.social": "~2.1.0",
     "shoutem.sub-navigation": "~2.1.0",
     "shoutem.theme": "~2.1.0",
