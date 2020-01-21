@@ -8,6 +8,7 @@ Podfile
 ios/Pods
 ios/Podfile.lock
 config/
+dependencies.json
 
 # Logs
 logs

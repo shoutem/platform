@@ -1,13 +1,14 @@
 {
   "name": "@shoutem/platform",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "setup": "cd scripts && yarn install",
     "lint": "eslint .",
     "configure": "node scripts/configure",
     "bundle": "node scripts/bundle",
-    "build": "node scripts/build"
+    "build": "node scripts/build",
+    "list-dependencies": "node scripts/platform-dependencies"
   },
   "dependencies": {
     "es6-symbol": "3.1.1",
@@ -36,6 +37,7 @@
     "@shoutem/build-tools": "file:scripts/helpers",
     "babel-eslint": "^9.0.0",
     "babel-jest": "^24.8.0",
+    "babel-plugin-jest-hoist": "^24.0.0",
     "eslint": "~5.15.1",
     "eslint-config-airbnb": "~17.1.0",
     "eslint-plugin-import": "~2.16.0",
