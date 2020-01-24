@@ -12,9 +12,14 @@ import {
 
 const APP_CONTEXT = Symbol('appContext');
 
-// Temporarily ignoring cyclic dependency warnings until
-// package maintainers can resolve these
-YellowBox.ignoreWarnings(['Require cycle:']);
+// Temporarily ignoring cyclic dependency warnings and deprecated lifecycle
+// methods until package maintainers can resolve these
+YellowBox.ignoreWarnings([
+  'Require cycle:',
+  'componentWillReceiveProps',
+  'componentWillUpdate',
+  'componentWillMount',
+]);
 
 /**
  * Creates an application class that represents a root
