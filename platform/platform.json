@@ -1,6 +1,6 @@
 {
-  "version": "2.2.0-rc.1",
-  "mobileAppVersion": "2.2.0-rc.1",
+  "version": "2.2.0-rc.2",
+  "mobileAppVersion": "2.2.0-rc.2",
   "releaseNotes": "* Update to React Native 0.60.6\n* Introduce Radio extension\n* Replace deprecated lifecycle methods\n* Performance optimizations",
   "settings": {
     "DEV-appetizeKey": "90dycv9gb098u6xytcb6jnkvw8",

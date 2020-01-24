@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/platform",
-  "version": "2.2.0-rc.1",
+  "version": "2.2.0-rc.2",
   "scripts": {
     "start": "react-native start",
     "setup": "cd scripts && yarn install",
@@ -8,7 +8,6 @@
     "configure": "node scripts/configure",
     "bundle": "node scripts/bundle",
     "build": "node scripts/build",
-    "postinstall": "patch-package",
     "list-dependencies": "node scripts/platform-dependencies"
   },
   "dependencies": {
