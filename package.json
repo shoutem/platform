@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/platform",
-  "version": "2.2.0-rc.2",
+  "version": "2.2.0-rc.3",
   "scripts": {
     "start": "react-native start",
     "setup": "cd scripts && yarn install",
@@ -8,7 +8,8 @@
     "configure": "node scripts/configure",
     "bundle": "node scripts/bundle",
     "build": "node scripts/build",
-    "list-dependencies": "node scripts/platform-dependencies"
+    "list-dependencies": "node scripts/platform-dependencies",
+    "postinstall": "npx jetify"
   },
   "dependencies": {
     "es6-symbol": "3.1.1",
@@ -49,5 +50,6 @@
   },
   "jest": {
     "preset": "module:react-native"
-  }
+  },
+  "isSwift": true
 }

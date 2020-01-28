@@ -1,11 +1,11 @@
 {
-  "version": "2.2.0-rc.2",
-  "mobileAppVersion": "2.2.0-rc.2",
+  "version": "2.2.0-rc.3",
+  "mobileAppVersion": "2.2.0-rc.3",
   "releaseNotes": "* Update to React Native 0.60.6\n* Introduce Radio extension\n* Replace deprecated lifecycle methods\n* Performance optimizations",
   "settings": {
     "DEV-appetizeKey": "90dycv9gb098u6xytcb6jnkvw8",
-    "QA-appetizeKey": "p21k4z0quazqthk8czw28t6q04",
-    "Production-appetizeKey": "z24f87hh7um5nhfdw5trhrn4mc"
+    "QA-appetizeKey": "p0rrung10fm80qjkfzd8xyb11w",
+    "Production-appetizeKey": "mv77thnn554ztnb4nk7eqrjy18"
   },
   "builds": {
     "live": {

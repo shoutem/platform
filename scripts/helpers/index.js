@@ -26,6 +26,7 @@ module.exports = {
   getAppGradlePath: require('./get-app-gradle-path'),
   getGradlePropertiesPath: require('./get-gradle-properties-path'),
   getSettingsGradlePath: require('./get-settings-gradle-path'),
+  getRootGradlePath: require('./get-root-gradle-path'),
   getAndroidManifestPath: require('./get-android-manifest-path'),
   inject: require('./inject'),
   replace: require('./replace'),
