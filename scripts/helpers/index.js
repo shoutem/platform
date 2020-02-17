@@ -13,6 +13,7 @@ module.exports = {
   forceLinkXCodeProject: require('./force-link-xcode-project'),
   getAppDelegateHeaderPath: require('./get-app-delegate-header-path'),
   getAppDelegatePath: require('./get-app-delegate-path'),
+  getAppEntitlementsPath: require('./get-app-entitlements-path'),
   getXcodeProjectPath: require('./get-xcode-project-path'),
   getXcodeProjectName: require('./get-xcode-project-name'),
   getAppConfiguration: require('./get-app-configuration'),

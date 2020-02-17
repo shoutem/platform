@@ -15,6 +15,9 @@ const ANCHORS = {
     APP_DELEGATE_HEADER: {
       IMPORT: '//NativeModuleInjectionMark-appDelegateHeader-import',
     },
+    ENTITLEMENTS: {
+      ADD_ENTITLEMENTS: '<!-- //NativeModuleInjectionMark-entitlements-addEntitlements -->',
+    }
   },
   ANDROID: {
     MAIN_ACTIVITY: {
