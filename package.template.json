@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/platform",
-  "version": "2.2.0-rc.6",
+  "version": "2.2.0",
   "scripts": {
     "start": "react-native start",
     "setup": "cd scripts && yarn install",

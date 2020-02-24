@@ -1,5 +1,24 @@
 # Shoutem Changelog
 
+## [2.2.0]
+
+### New features
+
+ - `shoutem.radio` extension which utilizes `react-native-track-player` `2.0.0-rc13` with a minor `patch-package` addition for live-stream setting so that the lock-screen controls show `Live` instead of a progress bar.
+ - Added `AppName.entitlements` anchor for preBuild scripts
+ - autolinking is now available if you add your custom extension's native dependency package name into the `nativeDependencies` array found in `dev-name.ext-name/app/package.json` file
+
+### Deprecation changes
+
+ - `dev-name.ext-name/app/package.json` should no longer contain `rnpm` scripts, instead, you can use `dev-name.ext-name/app/react-native.config.js` as described [here](https://github.com/react-native-community/cli/blob/master/docs/configuration.md#libraries)
+ - deprecated lifecycle methods should be replaced (e.g. `componentWilLReceiveProps` with `getDerivedStateFromProps` and `componentWillUpdate` with `componentDidUpdate`)
+
+### Breaking changes
+
+ - `@shoutem/ui` no longer contains a `navigation` sub-folder, all imports from `@shoutem/ui/navigation` should now be imported from `shoutem.navigation` instead
+
+
+
 ## [2.0.0]
 
 ### New features
