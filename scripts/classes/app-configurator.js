@@ -26,6 +26,7 @@ const getExtensionsFromConfiguration = require('./../helpers/get-extensions-from
 const applyReactNativeFixes = require('./../fixes/react-native-fixes');
 
 const NODE_MODULES_DIR = prependProjectPath('node_modules');
+const ROOT_PACKAGE_JSON_PATH = prependProjectPath('package.json');
 
 function isExtensionLinkable(extension) {
   const pkgPath = `${NODE_MODULES_DIR}/${extension.id}/package.json`;
@@ -35,14 +36,12 @@ function isExtensionLinkable(extension) {
     throw new Error(`${pkgPath} is invalid or empty!`);
   }
 
-  if (packageJson.rnpm) {
-    return true;
-  }
-
   const globPattern = `${NODE_MODULES_DIR}/${extension.id}/+(android|ios)`;
   const containsAndroidOrIosFolders = glob.sync(globPattern);
 
-  return containsAndroidOrIosFolders.length;
+  // if an extension has native dependencies defined in its package.json
+  // or it contains an 'ios' or 'android' directory, it is linkable
+  return (!!packageJson.nativeDependencies || !!containsAndroidOrIosFolders.length);
 }
 
 /**
@@ -245,14 +244,44 @@ class AppConfigurator {
     });
   }
 
+  insertNativeDependencies(extName) {
+    const extPackageJson = fs.readJsonSync(`${NODE_MODULES_DIR}/${extName}/package.json`);
+
+    if (!extPackageJson.nativeDependencies) {
+      return;
+    }
+
+    const rootPackageJson = fs.readJsonSync(ROOT_PACKAGE_JSON_PATH);
+
+    const extNativeDependencies = extPackageJson.nativeDependencies;
+    const extDependencies = extPackageJson.dependencies;
+    const nativeDeps = extNativeDependencies.reduce(
+      (o, dep) => ({ ...o, [dep]: extDependencies[dep]}), {}
+    );
+
+    const newPackageJson = {
+      ...rootPackageJson,
+      dependencies: {
+        ...rootPackageJson.dependencies,
+        ...nativeDeps,
+      }
+    };
+
+    fs.writeJsonSync(ROOT_PACKAGE_JSON_PATH, newPackageJson, { spaces: 2 });
+    console.log(`[${extName}]` + ' - native dependencies added to root package.json');
+  }
+
   reactNativeLinkExtensions(extensions) {
     if (!extensions.length) {
       return Promise.resolve(extensions);
     }
 
     return Promise.all(
-      extensions.map((ext) => reactNativeLink(ext.id))
-    );
+      extensions.map((ext) => {
+        this.insertNativeDependencies(ext.id);
+        return reactNativeLink(ext.id);
+      }
+    ));
   }
 
   run() {

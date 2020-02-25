@@ -4,5 +4,6 @@
 <dict>
 	<key>aps-environment</key>
 	<string>development</string>
+	<!-- //NativeModuleInjectionMark-entitlements-addEntitlements -->
 </dict>
 </plist>

@@ -15,6 +15,9 @@ const ANCHORS = {
     APP_DELEGATE_HEADER: {
       IMPORT: '//NativeModuleInjectionMark-appDelegateHeader-import',
     },
+    ENTITLEMENTS: {
+      ADD_ENTITLEMENTS: '<!-- //NativeModuleInjectionMark-entitlements-addEntitlements -->',
+    }
   },
   ANDROID: {
     MAIN_ACTIVITY: {
@@ -33,6 +36,7 @@ const ANCHORS = {
     GRADLE: {
       APP: {
         DEPENDENCIES: '//NativeModuleInjectionMark-app-gradle-dependencies',
+        DEFAULT_CONFIG: '//NativeModuleInjectionMark-app-gradle-default-config',
         PLUGINS: '//NativeModuleInjectionMark-app-gradle-plugins',
         BUILD_TYPES: {
           UNSIGNED_RELEASE: '//NativeModuleInjectionMark-app-gradle-buildTypes-unsignedRelease',
@@ -43,6 +47,7 @@ const ANCHORS = {
         ANDROID: '//NativeModuleInjectionMark-app-gradle-android',
         ANDROID_END: '//NativeModuleInjectionMark-app-gradle-android-end'
       },
+      ROOT_GRADLE: '//NativeModuleInjectionMark-root-gradle',
       PROPERTIES: '#NativeModuleInjectionMark-gradle-properties',
       SETTINGS: '//NativeModuleInjectionMark-gradle-settings',
     },

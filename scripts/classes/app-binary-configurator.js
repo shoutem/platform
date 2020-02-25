@@ -9,6 +9,7 @@ const Jimp = require('jimp');
 const glob = require('glob');
 const colors = require('colors');
 
+const updateAndroidPackageName = require('../helpers/update-android-package-name');
 const getErrorMessageFromResponse = require('../helpers/get-error-message-from-response');
 const findFileOnPath = require('../helpers/find-file-on-path');
 const iosBinarySettings = require('../configs/iosBinarySettings');
@@ -230,8 +231,9 @@ class AppBinaryConfigurator {
 
     if (androidApplicationId) {
       applicationId = androidApplicationId;
-    } else if (production){
+    } else if (production) {
       applicationId = android_market_package_name;
+      updateAndroidPackageName('com.shoutemapp', android_market_package_name);
     } else {
       applicationId = 'com.shoutemapp';
     }
