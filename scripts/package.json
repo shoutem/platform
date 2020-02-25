@@ -11,7 +11,7 @@
     "glob-to-regexp": "^0.3.0",
     "jimp": "^0.2.27",
     "linklocal": "^2.8.1",
-    "lodash": "^4.10.1",
+    "lodash": "^4.17.13",
     "node-watch": "^0.3.5",
     "parse-gitignore": "^0.3.1",
     "pify": "^3.0.0",
