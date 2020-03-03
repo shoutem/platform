@@ -305,7 +305,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "node ../scripts/merge-info-plists.js";
+			shellScript = "node ../scripts/merge-info-plists.js\n";
 		};
 		424FDCA7D9DE6B5D5871D305 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
