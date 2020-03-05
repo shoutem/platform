@@ -1,6 +1,6 @@
 {
-  "version": "2.2.1-rc.1",
-  "mobileAppVersion": "2.2.1-rc.1",
+  "version": "2.2.1",
+  "mobileAppVersion": "2.2.1",
   "releaseNotes": "* Introduce navigation item text size change\n* Bugfixes and improvements",
   "settings": {
     "DEV-appetizeKey": "90dycv9gb098u6xytcb6jnkvw8",
