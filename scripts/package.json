@@ -1,6 +1,10 @@
 {
   "name": "@shoutem/app-build-script",
   "version": "0.0.1-alpha.5",
+  "scripts": {
+    "generate-translations": "node generate-translation-file",
+    "update-platform-dependencies": "node update-platform-dependencies ../extensions"
+  },
   "dependencies": {
     "child-process-promise": "^2.2.1",
     "colors": "^1.1.2",
