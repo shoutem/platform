@@ -11,7 +11,10 @@ function fetchAllExtensions() {
   const listOfExtensions = fs.readdirSync(
     prependProjectPath('extensions'),
     { withFileTypes: true },
-  ).filter(file => fs.lstatSync(`${extensionsDir}/${file}`).isDirectory());
+  ).filter(file => {
+    console.log("file is:", file);
+    fs.lstatSync(`${extensionsDir}/${file}`).isDirectory()
+  });
 
   return listOfExtensions;
 }
