@@ -12,8 +12,13 @@ function fetchAllExtensions() {
     prependProjectPath('extensions'),
     { withFileTypes: true },
   ).filter(file => {
-    console.log("file is:", file);
-    fs.lstatSync(`${extensionsDir}/${file}`).isDirectory()
+    // Depending on the environment's OS, 'file' can be an object or just the
+    // name string, so we do an explicit check
+    if (typeof file === 'object' && file !== null) {
+      return fs.lstatSync(`${extensionsDir}/${file.name}`).isDirectory();
+    }
+
+    return fs.lstatSync(`${extensionsDir}/${file}`).isDirectory()
   });
 
   return listOfExtensions;
