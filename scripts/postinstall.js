@@ -18,7 +18,7 @@ function fetchAllExtensions() {
       return fs.lstatSync(`${extensionsDir}/${file.name}`).isDirectory();
     }
 
-    return fs.lstatSync(`${extensionsDir}/${file}`).isDirectory()
+    return fs.lstatSync(`${extensionsDir}/${file}`).isDirectory();
   });
 
   return listOfExtensions;
@@ -26,21 +26,33 @@ function fetchAllExtensions() {
 
 // use patch-package to apply patches provided by extensions
 function applyExtensionPatches() {
+  console.log("Starting applyExtensionPatches();");
   const extensions = fetchAllExtensions();
+
+  console.log("\n\nExtensions are:\n");
+  console.log(extensions);
+  console.log("\n\n");
 
   if (!extensions.length) {
     return;
   }
 
   extensions.map((extension) => {
+    console.log("\n\nExtension is:\n");
+    console.log(extension);
+    console.log("\n\n");
     const patchPath = `node_modules/${extension}/patch`;
+
+    console.log("\n\patchPath is:\n");
+    console.log(patchPath);
+    console.log("\n\n");
 
     if (!fs.existsSync(patchPath)) {
       return;
     }
 
     console.log(`[${extension}] - applying patches`)
-    execSync(`ls ${patchPath} && npx patch-package --patch-dir ${patchPath}`);
+    return execSync(`npx patch-package --patch-dir ${patchPath}`);
   });
 }
 

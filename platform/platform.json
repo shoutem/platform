@@ -1,6 +1,6 @@
 {
-  "version": "2.2.2-rc.2",
-  "mobileAppVersion": "2.2.2-rc.2",
+  "version": "2.2.2-rc.3",
+  "mobileAppVersion": "2.2.2-rc.3",
   "releaseNotes": "* Introduce better and simpler patch-package support\n* Bugfixes and improvements",
   "settings": {
     "DEV-appetizeKey": "90dycv9gb098u6xytcb6jnkvw8",
