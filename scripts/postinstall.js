@@ -26,26 +26,19 @@ function fetchAllExtensions() {
 
 // use patch-package to apply patches provided by extensions
 function applyExtensionPatches() {
-  console.log("Starting applyExtensionPatches();");
   const extensions = fetchAllExtensions();
-
-  console.log("\n\nExtensions are:\n");
-  console.log(extensions);
-  console.log("\n\n");
 
   if (!extensions.length) {
     return;
   }
 
+  console.log("Checking for patch-package patches...");
   extensions.map((extension) => {
-    console.log("\n\nExtension is:\n");
-    console.log(extension);
-    console.log("\n\n");
-    const patchPath = `node_modules/${extension}/patch`;
-
-    console.log("\n\patchPath is:\n");
-    console.log(patchPath);
-    console.log("\n\n");
+    // Depending on the environment's OS, 'extension' can be an object or just
+    // the name string, so we do an explicit check
+    const extensionName = typeof extension === 'object'
+      ? extension.name : extension;
+    const patchPath = `node_modules/${extensionName}/patch`;
 
     if (!fs.existsSync(patchPath)) {
       return;
@@ -54,6 +47,7 @@ function applyExtensionPatches() {
     console.log(`[${extension}] - applying patches`)
     return execSync(`npx patch-package --patch-dir ${patchPath}`);
   });
+  console.log("Applied all existing patches found.")
 }
 
 applyExtensionPatches();
