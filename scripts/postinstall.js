@@ -44,7 +44,7 @@ function applyExtensionPatches() {
       return;
     }
 
-    console.log(`[${extension}] - applying patches`)
+    console.log(`[${extensionName}] - applying patches`)
     return execSync(`npx patch-package --patch-dir ${patchPath}`);
   });
   console.log("Applied all existing patches found.")
