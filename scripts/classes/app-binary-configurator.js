@@ -61,6 +61,7 @@ function downloadAndResizeImage(imageUrl, downloadPath, resizeConfig, production
           Jimp.read(imagePath)
             .then((imageFile) =>
               imageFile
+                .rgba(!_.endsWith(image.savePath, 'marketing.png'))
                 .cover(image.width, image.height)
                 .write(image.savePath)
             )
