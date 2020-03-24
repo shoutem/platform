@@ -7,6 +7,9 @@ project.ext {
     supportLibVersion = '28.0.0'
     googlePlayServicesVersion = '15.0.0'
 
+    // some native packages use firebaseVersion, some use firebaseCoreVersion
+    // in both, we want them to use these versions
+    firebaseVersion = '16.0.3'
     firebaseCoreVersion = '16.0.3'
     firebaseMessagingVersion = '17.6.0'
 }
