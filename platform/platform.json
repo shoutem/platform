@@ -1,10 +1,10 @@
 {
-  "version": "2.3.0-rc.0",
-  "mobileAppVersion": "2.3.0-rc.0",
-  "releaseNotes": "* Introduce Apple Sign in\n* Bugfixes and improvements",
+  "version": "2.3.0-rc.1",
+  "mobileAppVersion": "2.3.0-rc.1",
+  "releaseNotes": "* Introduce Apple Sign in\n* Use new build system on Xcode\n* Bugfixes and improvements",
   "settings": {
     "DEV-appetizeKey": "kkdruxggjt72992x1xapwm5zxr",
-    "QA-appetizeKey": "p0rrung10fm80qjkfzd8xyb11w",
+    "QA-appetizeKey": "45mpa89h6hmz1gpbwuz3k1eqjw",
     "Production-appetizeKey": "mv77thnn554ztnb4nk7eqrjy18"
   },
   "builds": {
@@ -26,7 +26,7 @@
     "shoutem.analytics": "~2.3.0",
     "shoutem.application": "~2.3.0",
     "shoutem.audio": "~2.3.0",
-    "shoutem.auth": "~2.3.0",
+    "shoutem.auth": "~2.3.2",
     "shoutem.books": "~2.3.0",
     "shoutem.camera": "~2.3.0",
     "shoutem.cms": "~2.3.0",
@@ -42,7 +42,7 @@
     "shoutem.menu": "~2.3.0",
     "shoutem.navigation": "~2.3.0",
     "shoutem.news": "~2.3.0",
-    "shoutem.notification-center": "~2.3.0",
+    "shoutem.notification-center": "~2.3.2",
     "shoutem.page": "~2.3.0",
     "shoutem.people": "~2.3.0",
     "shoutem.persist": "~2.3.0",
@@ -65,7 +65,7 @@
     "shoutem.theme": "~2.3.0",
     "shoutem.video": "~2.3.0",
     "shoutem.vimeo": "~2.3.0",
-    "shoutem.web-view": "~2.3.0",
+    "shoutem.web-view": "~2.3.1",
     "shoutem.wordpress": "~2.3.0",
     "shoutem.youtube": "~2.3.0"
   }
