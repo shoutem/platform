@@ -1,11 +1,11 @@
 {
-  "version": "2.3.0-rc.1",
-  "mobileAppVersion": "2.3.0-rc.1",
+  "version": "2.3.0",
+  "mobileAppVersion": "2.3.0",
   "releaseNotes": "* Introduce Apple Sign in\n* Use new build system on Xcode\n* Bugfixes and improvements",
   "settings": {
     "DEV-appetizeKey": "kkdruxggjt72992x1xapwm5zxr",
     "QA-appetizeKey": "45mpa89h6hmz1gpbwuz3k1eqjw",
-    "Production-appetizeKey": "mv77thnn554ztnb4nk7eqrjy18"
+    "Production-appetizeKey": "ky22rg5r5xwgj027h2rfqhxnh4"
   },
   "builds": {
     "live": {
@@ -26,7 +26,7 @@
     "shoutem.analytics": "~2.3.0",
     "shoutem.application": "~2.3.0",
     "shoutem.audio": "~2.3.0",
-    "shoutem.auth": "~2.3.2",
+    "shoutem.auth": "~2.3.3",
     "shoutem.books": "~2.3.0",
     "shoutem.camera": "~2.3.0",
     "shoutem.cms": "~2.3.0",
