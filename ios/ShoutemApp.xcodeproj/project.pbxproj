@@ -12,27 +12,17 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		14FB65A5708F47B3A0A42938 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 40D0AF613C1A4641A0FC53FD /* Ionicons.ttf */; };
 		2787A9AA1DFB06A400CED4F3 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2787A9A91DFB06A400CED4F3 /* LaunchScreen.xib */; };
 		4A70736E87B94476BC6D3E01 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = A2E4D4E194DC4F61B2E45B32 /* OFL.txt */; };
 		4E2762864E76495CA720B072 /* Rubik-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B2E7B67E7F514192B227342F /* Rubik-Black.ttf */; };
-		576B8ABE2E1947A5909B1925 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EF5662F18A9E493DAC7131CB /* EvilIcons.ttf */; };
-		6279BF3F4E1F4C3D8CF5EAE5 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 465FAB230718430789478FBB /* FontAwesome.ttf */; };
 		6DF4BDC11B5F40E7B484208F /* Rubik-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0419683CEA504DD8BA684999 /* Rubik-MediumItalic.ttf */; };
 		70C55EAC39184B92A63CF853 /* Rubik-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 940F73BC97204D1D93212595 /* Rubik-Bold.ttf */; };
 		7B2977FC4CF24707A62677C4 /* Rubik-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0449A2C73D3946AE869E979D /* Rubik-BoldItalic.ttf */; };
-		7EB9E0ABCB3646F3AD0825FE /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7412AE3E73704AF899BB23F1 /* MaterialIcons.ttf */; };
 		923FC9DB07B54381AA40A51A /* Rubik-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DB55DCC1A4564399A404FE53 /* Rubik-LightItalic.ttf */; };
-		93BE46CA0F9146CD84AC652A /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F66044FAC633487E920F2E92 /* SimpleLineIcons.ttf */; };
 		9948637768A541F383D5B20E /* rubicon-icon-font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F318717567ED439CAA7CDD63 /* rubicon-icon-font.ttf */; };
 		9AE20636A8574C3DAA173F91 /* Rubik-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CC8D10AC14D847C3B13C7643 /* Rubik-Medium.ttf */; };
-		A098A3017E7246A89E7E7D6C /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7EFC29E2138D48C0B5742BA8 /* Entypo.ttf */; };
-		A1F8E3AA3C3C4D1487B915E4 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2BFD8204FA6A400C87751025 /* Octicons.ttf */; };
 		AA3818E08E2C49C8A2B5EEFD /* Rubik-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 42D23E13D1C24BFB96C8CE3B /* Rubik-Regular.ttf */; };
 		AB159F1B8FAC9A753E9D98EC /* Pods_ShoutemApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B651712A16237221D96DF0B /* Pods_ShoutemApp.framework */; };
-		C14A0BCCF2FD496A88EA6DFA /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3A8D4677A6794866B6FE678E /* MaterialCommunityIcons.ttf */; };
-		DEBCAA5F2CD749ADB242AB07 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CA555BF07B34B10AEBC86B0 /* Zocial.ttf */; };
-		DEC43DEE96D54419BD05F659 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 28D8B4CDF73A43A29C57263B /* Foundation.ttf */; };
 		E2CAE3A4905749BD9D3E55FD /* Rubik-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F441C48F1CB04CAD84D5D2EE /* Rubik-BlackItalic.ttf */; };
 /* End PBXBuildFile section */
 
@@ -250,14 +240,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				A098A3017E7246A89E7E7D6C /* Entypo.ttf in Resources */,
-				576B8ABE2E1947A5909B1925 /* EvilIcons.ttf in Resources */,
-				6279BF3F4E1F4C3D8CF5EAE5 /* FontAwesome.ttf in Resources */,
-				DEC43DEE96D54419BD05F659 /* Foundation.ttf in Resources */,
-				14FB65A5708F47B3A0A42938 /* Ionicons.ttf in Resources */,
-				C14A0BCCF2FD496A88EA6DFA /* MaterialCommunityIcons.ttf in Resources */,
-				7EB9E0ABCB3646F3AD0825FE /* MaterialIcons.ttf in Resources */,
-				A1F8E3AA3C3C4D1487B915E4 /* Octicons.ttf in Resources */,
 				9948637768A541F383D5B20E /* rubicon-icon-font.ttf in Resources */,
 				4E2762864E76495CA720B072 /* Rubik-Black.ttf in Resources */,
 				E2CAE3A4905749BD9D3E55FD /* Rubik-BlackItalic.ttf in Resources */,
@@ -269,8 +251,6 @@
 				9AE20636A8574C3DAA173F91 /* Rubik-Medium.ttf in Resources */,
 				6DF4BDC11B5F40E7B484208F /* Rubik-MediumItalic.ttf in Resources */,
 				AA3818E08E2C49C8A2B5EEFD /* Rubik-Regular.ttf in Resources */,
-				93BE46CA0F9146CD84AC652A /* SimpleLineIcons.ttf in Resources */,
-				DEBCAA5F2CD749ADB242AB07 /* Zocial.ttf in Resources */,
 				2787A9AA1DFB06A400CED4F3 /* LaunchScreen.xib in Resources */,
 				4A70736E87B94476BC6D3E01 /* OFL.txt in Resources */,
 			);
