@@ -43,8 +43,7 @@ const buildHandlers = {
       '-scheme', schemaName,
       '-configuration', configuration,
       '-archivePath', archivePath,
-      'CODE_SIGNING_REQUIRED=NO',
-      'CODE_SIGN_IDENTITY=',
+      'CODE_SIGNING_ALLOWED=NO',
     ];
 
     return spawn('xcodebuild', xcodeArgs, stdArgs)
