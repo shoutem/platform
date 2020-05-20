@@ -1,9 +1,9 @@
 {
-  "version": "2.3.0",
-  "mobileAppVersion": "2.3.0",
-  "releaseNotes": "* Introduce Apple Sign in\n* Use new build system on Xcode\n* Bugfixes and improvements",
+  "version": "2.3.1-aplha.3",
+  "mobileAppVersion": "2.3.1",
+  "releaseNotes": "* Bugfixes and improvements",
   "settings": {
-    "DEV-appetizeKey": "kkdruxggjt72992x1xapwm5zxr",
+    "DEV-appetizeKey": "tzgztpgeekvc43bax2fv8kf890",
     "QA-appetizeKey": "45mpa89h6hmz1gpbwuz3k1eqjw",
     "Production-appetizeKey": "ky22rg5r5xwgj027h2rfqhxnh4"
   },
@@ -13,7 +13,6 @@
     },
     "preview": {
       "excludedPackages": [
-        "shoutem.firebase",
         "shoutem.notification-center",
         "shoutem.push-notifications",
         "shoutem.shoutem-notification-center",
