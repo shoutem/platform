@@ -1,7 +1,7 @@
 {
   "version": "2.3.1-rc.0",
   "mobileAppVersion": "2.3.1-rc.0",
-  "releaseNotes": "* Bugfixes and improvements",
+  "releaseNotes": "* Bugfixes and improvements\n* SendBird chat extension",
   "settings": {
     "DEV-appetizeKey": "tzgztpgeekvc43bax2fv8kf890",
     "QA-appetizeKey": "446dvug3w0tkdd33u30f1hn20r",
