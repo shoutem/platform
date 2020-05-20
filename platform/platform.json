@@ -33,6 +33,7 @@
     "shoutem.deals": "~2.3.0",
     "shoutem.events": "~2.3.0",
     "shoutem.favorites": "~2.3.0",
+    "shoutem.firebase": "~2.3.0",
     "shoutem.flurry-analytics": "~2.3.0",
     "shoutem.i18n": "~2.3.0",
     "shoutem.ical-events": "~2.3.0",
