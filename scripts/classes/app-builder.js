@@ -43,6 +43,7 @@ const buildHandlers = {
       '-scheme', schemaName,
       '-configuration', configuration,
       '-archivePath', archivePath,
+      'CODE_SIGNING_ALLOWED=NO',
       'CODE_SIGNING_REQUIRED=NO',
       'CODE_SIGN_IDENTITY=',
     ];

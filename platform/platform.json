@@ -1,7 +1,7 @@
 {
-  "version": "2.3.0",
-  "mobileAppVersion": "2.3.0",
-  "releaseNotes": "* Introduce Apple Sign in\n* Use new build system on Xcode\n* Bugfixes and improvements",
+  "version": "2.3.2-alpha.0",
+  "mobileAppVersion": "2.3.2-alpha.0",
+  "releaseNotes": "* Bugfixes and improvements",
   "settings": {
     "DEV-appetizeKey": "kkdruxggjt72992x1xapwm5zxr",
     "QA-appetizeKey": "45mpa89h6hmz1gpbwuz3k1eqjw",
