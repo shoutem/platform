@@ -1,10 +1,10 @@
 {
-  "version": "2.3.1-rc.1",
-  "mobileAppVersion": "2.3.1-rc.1",
+  "version": "2.3.1-rc.2",
+  "mobileAppVersion": "2.3.1-rc.2",
   "releaseNotes": "* Bugfixes and improvements\n* Firebase upgrade",
   "settings": {
     "DEV-appetizeKey": "nktehwrjwtky9y6z0wkwb8mkn8",
-    "QA-appetizeKey": "446dvug3w0tkdd33u30f1hn20r",
+    "QA-appetizeKey": "0uhtpybvbp8ca96tjecbr0ejkg",
     "Production-appetizeKey": "ky22rg5r5xwgj027h2rfqhxnh4"
   },
   "builds": {
@@ -59,7 +59,6 @@
     "shoutem.rss-photos": "~2.3.1",
     "shoutem.rss-videos": "~2.3.0",
     "shoutem.rubicon-theme": "~2.3.3",
-    "shoutem.sendbird": "~2.3.2",
     "shoutem.shopify": "~2.3.0",
     "shoutem.social": "~2.3.1",
     "shoutem.sub-navigation": "~2.3.0",
