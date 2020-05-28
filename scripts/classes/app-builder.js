@@ -51,9 +51,19 @@ const buildHandlers = {
     ];
 
     return spawn('xcodebuild', xcodeArgs, stdArgs)
-      .then(() => fs.copy(appFilePath, payloadPath))
-      .then(() => fs.copy(swiftSupportPath, outputDir))
-      .then(() => spawn('zip', zipArgs, zipStdArgs));
+      .then(() => {
+        console.log("Copying " + appFilePath + ' to ' + payloadPath)
+        fs.copy(appFilePath, payloadPath)
+      })
+      .then(() => {
+        console.log("Copying " + swiftSupportPath + ' to ' + outputDir)
+        fs.copy(swiftSupportPath, outputDir)
+      })
+      .then(() => {
+        console.log("Zipping with arguments: ");
+        console.log(zipArgs);
+        spawn('zip', zipArgs, zipStdArgs)
+      });
   },
 
   android() {
