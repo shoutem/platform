@@ -16,6 +16,7 @@ const buildHandlers = {
     const workspacePath = findFileOnPath('*.xcworkspace', '.');
     const archivePath = path.join(outputDir, 'ShoutemApp.xcarchive');
     const appFilePath = path.join(archivePath, 'Products', 'Applications', `${schemaName}.app`);
+    const swiftSupportPath = path.join(archivePath, 'SwiftSupport');
     const payloadPath = path.join(outputDir, 'Payload', path.basename(appFilePath));
 
     const stdArgs = {
@@ -35,6 +36,7 @@ const buildHandlers = {
       '-X',
       'ShoutemApp.ipa',
       'Payload',
+      'SwiftSupport',
     ];
 
     const xcodeArgs = [
@@ -50,6 +52,7 @@ const buildHandlers = {
 
     return spawn('xcodebuild', xcodeArgs, stdArgs)
       .then(() => fs.copy(appFilePath, payloadPath))
+      .then(() => fs.copy(swiftSupportPath, outputDir))
       .then(() => spawn('zip', zipArgs, zipStdArgs));
   },
 
