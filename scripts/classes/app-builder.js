@@ -17,6 +17,7 @@ const buildHandlers = {
     const archivePath = path.join(outputDir, 'ShoutemApp.xcarchive');
     const appFilePath = path.join(archivePath, 'Products', 'Applications', `${schemaName}.app`);
     const swiftSupportPath = path.join(archivePath, 'SwiftSupport');
+    const swiftSupportDestination = path.join(outputDir, 'SwiftSupport');
     const payloadPath = path.join(outputDir, 'Payload', path.basename(appFilePath));
 
     const stdArgs = {
@@ -56,8 +57,8 @@ const buildHandlers = {
         fs.copy(appFilePath, payloadPath)
       })
       .then(() => {
-        console.log("Copying " + swiftSupportPath + ' to ' + outputDir)
-        fs.copy(swiftSupportPath, outputDir)
+        console.log("Copying " + swiftSupportPath + ' to ' + swiftSupportDestination)
+        fs.copy(swiftSupportPath, swiftSupportDestination)
       })
       .then(() => {
         console.log("Zipping with arguments: ");
