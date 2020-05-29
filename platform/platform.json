@@ -1,6 +1,6 @@
 {
-  "version": "2.3.1-rc.3",
-  "mobileAppVersion": "2.3.1-rc.3",
+  "version": "2.3.1",
+  "mobileAppVersion": "2.3.1",
   "releaseNotes": "* Bugfixes and improvements\n* Firebase upgrade",
   "settings": {
     "DEV-appetizeKey": "nktehwrjwtky9y6z0wkwb8mkn8",
