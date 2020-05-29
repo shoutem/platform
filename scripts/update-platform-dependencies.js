@@ -7,7 +7,6 @@ const getPlatformDependencies = require('./helpers/get-platform-dependencies');
 const platformPath = path.resolve(path.join('../platform', 'platform.json'));
 const platformJson = fs.readJsonSync(platformPath);
 const extensionsToIgnore = [
-  "firebase",
   "hello-world",
   "react-hello-world",
   "ui-examples",
