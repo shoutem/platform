@@ -14,8 +14,51 @@ module.exports = function () {
         height: 1920,
       }],
     },
+    iPadLaunchScreen: {
+      images: [{
+          savePath: `${iosLaunchScreenDirectory}ipad-background.png`,
+          width: 1536,
+          height: 2048,
+      }],
+    },
     appIcon: {
       images: [{
+        savePath: `${iosAppIconDirectory}ipad-icon-1.png`,
+        width: 20,
+        height: 20,
+      }, {
+        savePath: `${iosAppIconDirectory}ipad-icon-2.png`,
+        width: 40,
+        height: 40,
+      }, {
+        savePath: `${iosAppIconDirectory}ipad-icon-3.png`,
+        width: 29,
+        height: 29,
+      }, {
+        savePath: `${iosAppIconDirectory}ipad-icon-4.png`,
+        width: 58,
+        height: 58,
+      }, {
+        savePath: `${iosAppIconDirectory}ipad-icon-5.png`,
+        width: 40,
+        height: 40,
+      }, {
+        savePath: `${iosAppIconDirectory}ipad-icon-6.png`,
+        width: 80,
+        height: 80,
+      }, {
+        savePath: `${iosAppIconDirectory}ipad-icon-7.png`,
+        width: 76,
+        height: 76,
+      }, {
+        savePath: `${iosAppIconDirectory}ipad-icon-8.png`,
+        width: 152,
+        height: 152,
+      }, {
+        savePath: `${iosAppIconDirectory}ipad-icon-9.png`,
+        width: 167,
+        height: 167,
+      }, {
         savePath: `${iosAppIconDirectory}icon-1.png`,
         width: 40,
         height: 40,

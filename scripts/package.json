@@ -6,6 +6,7 @@
     "update-platform-dependencies": "node update-platform-dependencies ../extensions"
   },
   "dependencies": {
+    "auto-bind": "^4.0.0",
     "child-process-promise": "^2.2.1",
     "colors": "^1.1.2",
     "command-line-args": "^5.0.2",
@@ -26,7 +27,7 @@
     "semver": "^5.5.0",
     "shelljs": "^0.7.4",
     "superspawn": "^0.1.0",
-    "xcode": "1.0.0",
+    "xcode": "3.0.1",
     "yargs": "12.0.1"
   }
 }
