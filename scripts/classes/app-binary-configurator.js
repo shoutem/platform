@@ -205,6 +205,10 @@ class AppBinaryConfigurator {
   }
 
   configureIPadLaunchScreen(settings, platform) {
+    if (platform !== 'ios') {
+      return;
+    }
+
     console.log('Configuring ' + 'iPad'.bold + ' launch screen...');
 
     // use iPhone launch screen if no iPad launch screen is provided
