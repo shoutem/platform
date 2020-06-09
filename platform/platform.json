@@ -1,6 +1,6 @@
 {
-  "version": "2.3.2-rc.2",
-  "mobileAppVersion": "2.3.2-rc.2",
+  "version": "2.3.2-rc.4",
+  "mobileAppVersion": "2.3.2-rc.4",
   "releaseNotes": "* Use npm instead of yarn\n* Bugfixes and improvements",
   "settings": {
     "DEV-appetizeKey": "uky4axrrfazmzqec3fj2yqrn6m",
