@@ -1,11 +1,11 @@
 {
-  "version": "2.3.1",
-  "mobileAppVersion": "2.3.1",
-  "releaseNotes": "* Bugfixes and improvements\n* Firebase upgrade",
+  "version": "2.3.2",
+  "mobileAppVersion": "2.3.2",
+  "releaseNotes": "* Use npm instead of yarn\n* Bugfixes and improvements",
   "settings": {
-    "DEV-appetizeKey": "nktehwrjwtky9y6z0wkwb8mkn8",
-    "QA-appetizeKey": "0uhtpybvbp8ca96tjecbr0ejkg",
-    "Production-appetizeKey": "hagw3gu4m9ka4ubwg9mpr2qykr"
+    "DEV-appetizeKey": "uky4axrrfazmzqec3fj2yqrn6m",
+    "QA-appetizeKey": "earz2uzgjp7qh1rp4g8x0x6q7r",
+    "Production-appetizeKey": "pq0nrrmv67ggmy09ph00nnr0j4"
   },
   "builds": {
     "live": {
@@ -23,9 +23,9 @@
   "dependencies": {
     "shoutem.about": "~2.3.0",
     "shoutem.analytics": "~2.3.0",
-    "shoutem.application": "~2.3.0",
+    "shoutem.application": "~2.3.1",
     "shoutem.audio": "~2.3.0",
-    "shoutem.auth": "~2.3.6",
+    "shoutem.auth": "~2.3.7",
     "shoutem.books": "~2.3.0",
     "shoutem.camera": "~2.3.0",
     "shoutem.cms": "~2.3.0",
@@ -33,7 +33,7 @@
     "shoutem.deals": "~2.3.0",
     "shoutem.events": "~2.3.1",
     "shoutem.favorites": "~2.3.0",
-    "shoutem.firebase": "~2.3.5",
+    "shoutem.firebase": "~2.3.6",
     "shoutem.flurry-analytics": "~2.3.0",
     "shoutem.i18n": "~2.3.0",
     "shoutem.ical-events": "~2.3.0",
@@ -58,7 +58,7 @@
     "shoutem.rss-news": "~2.3.0",
     "shoutem.rss-photos": "~2.3.1",
     "shoutem.rss-videos": "~2.3.0",
-    "shoutem.rubicon-theme": "~2.3.3",
+    "shoutem.rubicon-theme": "~2.3.4",
     "shoutem.shopify": "~2.3.0",
     "shoutem.social": "~2.3.1",
     "shoutem.sub-navigation": "~2.3.0",
