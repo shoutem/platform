@@ -1,19 +1,22 @@
 'use strict';
 
-const path = require('path');
-const _ = require('lodash');
-const fs = require('fs-extra');
-const request = require('request');
-const plist = require('plist');
-const Jimp = require('jimp');
-const glob = require('glob');
+const autoBind = require('auto-bind');
 const colors = require('colors');
+const fs = require('fs-extra');
+const glob = require('glob');
+const Jimp = require('jimp');
+const _ = require('lodash');
+const path = require('path');
+const plist = require('plist');
+const request = require('request');
+const xcode = require('xcode');
 
-const updateAndroidPackageName = require('../helpers/update-android-package-name');
-const getErrorMessageFromResponse = require('../helpers/get-error-message-from-response');
-const findFileOnPath = require('../helpers/find-file-on-path');
-const iosBinarySettings = require('../configs/iosBinarySettings');
 const androidBinarySettings = require('../configs/androidBinarySettings');
+const iosBinarySettings = require('../configs/iosBinarySettings');
+const findFileOnPath = require('../helpers/find-file-on-path');
+const getXcodeProjectPath = require('../helpers/get-xcode-project-path');
+const getErrorMessageFromResponse = require('../helpers/get-error-message-from-response');
+const updateAndroidPackageName = require('../helpers/update-android-package-name');
 
 const binarySettings = {
   ios: iosBinarySettings,
@@ -82,10 +85,18 @@ function downloadAndResizeImage(imageUrl, downloadPath, resizeConfig, production
 
 class AppBinaryConfigurator {
   constructor(config) {
+    autoBind(this);
+
     this.config = _.assign({}, config);
-    this.configureLaunchScreen = this.configureLaunchScreen.bind(this);
-    this.configureAppIcon = this.configureAppIcon.bind(this);
-    this.configureAppInfo = this.configureAppInfo.bind(this);
+  }
+
+  getServerApiHost() {
+    if (!this.config.serverApiEndpoint) {
+      process.exitCode = 1;
+      throw new Error('serverApiEndpoint is not set in build config.');
+    }
+
+    return this.config.serverApiEndpoint;
   }
 
   getLegacyApiHost() {
@@ -95,6 +106,36 @@ class AppBinaryConfigurator {
     }
 
     return this.config.legacyApiEndpoint;
+  }
+
+  getPublishSettings() {
+    const { appId, authorization } = this.config;
+
+    const serverApiHost = this.getServerApiHost();
+    const serverApiPath = `/v1/apps/${appId}/publish-settings`
+
+    const requestArgs = {
+      url: `http://${serverApiHost}${serverApiPath}`,
+      headers: {
+        Accept: 'application/vnd.api+json',
+        Authorization: `Bearer ${authorization}`,
+      },
+    };
+
+    return new Promise((resolve, reject) => {
+      request.get(requestArgs, (err, response, body) => {
+        if (response.statusCode === 200) {
+          this.publishingSettings = JSON.parse(body).data.attributes;
+          resolve();
+        } else {
+          const errorMessage = getErrorMessageFromResponse(response);
+          // eslint-disable-next-line max-len
+          reject(`Publishing settings download failed with error: ${response.statusCode} ${errorMessage}`.bold.red);
+        }
+      }).on('error', err => {
+        reject(err);
+      });
+    });
   }
 
   getPublishingProperties() {
@@ -118,7 +159,7 @@ class AppBinaryConfigurator {
         } else {
           const errorMessage = getErrorMessageFromResponse(response);
           // eslint-disable-next-line max-len
-          reject(`Publishing info download failed with error: ${response.statusCode} ${errorMessage}`.bold.red);
+          reject(`Publishing properties download failed with error: ${response.statusCode} ${errorMessage}`.bold.red);
         }
       }).on('error', err => {
         reject(err);
@@ -131,6 +172,10 @@ class AppBinaryConfigurator {
     return this.publishingProperties.iphone_launch_image_portrait;
   }
 
+  getIPadLaunchScreenUrl() {
+    return this.publishingProperties.splash_screen_tablet_url;
+  }
+
   getAndroidAppIconUrl() {
     return this.publishingProperties.android_application_icon;
   }
@@ -139,19 +184,49 @@ class AppBinaryConfigurator {
     return this.publishingProperties.iphone_application_icon_hd_ios7;
   }
 
-  configureLaunchScreen(settings, platform) {
-    console.log('Configuring', `${platform}`.bold, 'launch screen...');
+  shouldUseUniversalBuild() {
+    return this.publishingSettings.ios.useUniversalBuild;
+  }
 
-    const launchScreen = this.getLaunchScreenUrl(platform);
+  configureLaunchScreen(settings, platform) {
+    console.log('Configuring ' + `${platform}`.bold + ' launch screen...');
+
+    const launchScreen = this.getLaunchScreenUrl();
     const resizeConfig = settings.launchScreen;
     const production = this.config.production;
     const launchScreenPath = './assets/launchScreen.png';
 
-    return downloadAndResizeImage(launchScreen, launchScreenPath, resizeConfig, production);
+    return downloadAndResizeImage(
+      launchScreen,
+      launchScreenPath,
+      resizeConfig,
+      production
+    );
+  }
+
+  configureIPadLaunchScreen(settings, platform) {
+    if (platform !== 'ios') {
+      return;
+    }
+
+    console.log('Configuring ' + 'iPad'.bold + ' launch screen...');
+
+    // use iPhone launch screen if no iPad launch screen is provided
+    const iPadLaunchScreen = this.getIPadLaunchScreenUrl() || this.getLaunchScreenUrl();
+    const resizeConfig = settings.iPadLaunchScreen;
+    const production = this.config.production;
+    const iPadLaunchScreenPath = './assets/iPadLaunchScreen.png';
+
+    return downloadAndResizeImage(
+        iPadLaunchScreen,
+        iPadLaunchScreenPath,
+        resizeConfig,
+        production
+      );
   }
 
   configureAppIcon(settings, platform) {
-    console.log('Configuring', `${platform}`.bold, 'app icons');
+    console.log('Configuring ' + `${platform}`.bold + ' app icons...');
 
     const resizeConfig = settings.appIcon;
     const production = this.config.production;
@@ -188,17 +263,22 @@ class AppBinaryConfigurator {
   }
 
   configureAppInfoIOS() {
-    console.log('Configuring', 'Info.plist'.bold);
+    console.log('Configuring ' + 'Info.plist'.bold + '...');
 
     const { config, publishingProperties } = this;
     const { bundleIdPrefix, iosBundleId, production } = config;
-    const { iphone_bundle_id, iphone_name, primary_category_name } = publishingProperties;
+    const {
+      iphone_bundle_id,
+      iphone_name,
+      primary_category_name
+    } = publishingProperties;
 
     const infoPlistPath = findFileOnPath('Info.plist', 'ios');
     const infoPlistFile = fs.readFileSync(infoPlistPath, 'utf8');
     const infoPlist = plist.parse(infoPlistFile);
 
-    // we use this prefix for e.g. building apps with wildcard application identifier
+    // we use this prefix for e.g. building apps with wildcard application
+    //identifier
     const bundlePrefix = bundleIdPrefix ? `${bundleIdPrefix}.` : '';
     let bundleId;
 
@@ -216,11 +296,24 @@ class AppBinaryConfigurator {
     infoPlist.CFBundleShortVersionString = this.getBinaryVersionName();
     infoPlist.LSApplicationCategoryType = primary_category_name;
 
+    if (this.shouldUseUniversalBuild()) {
+      console.log('Configuring ' + 'xcodeproj'.bold + '...');
+      const xcodeProjectPath = getXcodeProjectPath();
+      const xcodeProject = xcode.project(xcodeProjectPath);
+
+      xcodeProject.parse(function (err) {
+        xcodeProject.addBuildProperty('TARGETED_DEVICE_FAMILY', '"1,2"', 'Debug');
+        xcodeProject.addBuildProperty('TARGETED_DEVICE_FAMILY', '"1,2"', 'Release');
+
+        fs.writeFileSync(xcodeProjectPath, xcodeProject.writeSync());
+      });
+    }
+
     fs.writeFileSync(infoPlistPath, plist.build(infoPlist));
   }
 
   configureAppInfoAndroid() {
-    console.log('Configuring', 'build.gradle'.bold);
+    console.log('Configuring ' + 'build.gradle'.bold + '...');
 
     const { config, publishingProperties } = this;
     const { androidApplicationId, production } = config;
@@ -268,7 +361,9 @@ class AppBinaryConfigurator {
 
   configureApp() {
     return this.getPublishingProperties()
+      .then(() => this.getPublishSettings())
       .then(() => this.runForAllPlatforms(this.configureLaunchScreen))
+      .then(() => this.runForAllPlatforms(this.configureIPadLaunchScreen))
       .then(() => this.runForAllPlatforms(this.configureAppIcon))
       .then(() => this.runForAllPlatforms(this.configureAppInfo));
   }
