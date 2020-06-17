@@ -1,5 +1,5 @@
 {
-  "version": "2.3.3-rc.1",
+  "version": "2.3.3",
   "mobileAppVersion": "2.3.3",
   "releaseNotes": "* Simplify build for non-ASCII named apps\n* Bugfixes and improvements",
   "settings": {
