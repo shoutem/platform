@@ -258,8 +258,14 @@ class AppBinaryConfigurator {
     return (this.projectName || 'ShoutemApp');
   }
 
-  setProjectName(appName) {
-    this.projectName = _.upperFirst(_.camelCase(appName));
+  setProjectName(publishingProperties) {
+    const appName = publishingProperties.iphone_name;
+    const appId = publishingProperties.network_id;
+
+    const resolvedAppName = this.shouldUseFallbackName(appName) ?
+      `App${appId}` : _.upperFirst(_.camelCase(appName));
+
+    this.projectName = resolvedAppName;
   }
 
   configureAppInfoIOS() {
@@ -452,13 +458,27 @@ class AppBinaryConfigurator {
     return fs.writeFile(podfileTemplatePath, this.updateProjectName(podfileTemplate));
   }
 
+  shouldUseFallbackName(appName) {
+    // nonAsciiReg matches any non-ASCII characters
+    const nonAsciiReg = /[^\u0000-\u007f]/;
+
+    if (nonAsciiReg.test(appName)) {
+      console.log('App name contains non-ASCII characters, using a generic name for file names instead.');
+      console.log('Your app name hasn\'t changed, only the file names have.');
+
+      return true;
+    }
+
+    return false;
+  }
+
   customizeProject() {
     if (this.config.skipIOSProjectCustomization) {
       return Promise.resolve();
     }
 
     return this.getPublishingProperties()
-      .then(() => this.setProjectName(this.publishingProperties.iphone_name))
+      .then(() => this.setProjectName(this.publishingProperties))
       .then(() => this.renameIOSScheme())
       .then(() => this.renameIOSEntitlements())
       .then(() => this.renameRCTRootView())

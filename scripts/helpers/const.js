@@ -48,6 +48,7 @@ const ANCHORS = {
         ANDROID_END: '//NativeModuleInjectionMark-app-gradle-android-end'
       },
       ROOT_GRADLE: '//NativeModuleInjectionMark-root-gradle',
+      ROOT_GRADLE_ALLPROJECTS_REPOSITORIES: '//NativeModuleInjectionMark-root-gradle-allprojects-repositories',
       PROPERTIES: '#NativeModuleInjectionMark-gradle-properties',
       SETTINGS: '//NativeModuleInjectionMark-gradle-settings',
     },
