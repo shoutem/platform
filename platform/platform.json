@@ -1,5 +1,5 @@
 {
-  "version": "2.3.3-rc.0",
+  "version": "2.3.3-rc.1",
   "mobileAppVersion": "2.3.3",
   "releaseNotes": "* Simplify build for non-ASCII named apps\n* Bugfixes and improvements",
   "settings": {
@@ -38,7 +38,7 @@
     "shoutem.i18n": "~2.3.0",
     "shoutem.ical-events": "~2.3.0",
     "shoutem.layouts": "~2.3.0",
-    "shoutem.loyalty": "~2.3.1",
+    "shoutem.loyalty": "~2.3.3",
     "shoutem.menu": "~2.3.0",
     "shoutem.navigation": "~2.3.0",
     "shoutem.news": "~2.3.0",
