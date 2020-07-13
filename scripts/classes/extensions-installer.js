@@ -19,10 +19,14 @@ function addDependencyToPackageJson(packageJson, name, version) {
 function installJsDependencies() {
   console.log('Installing dependencies:'.bold);
 
-  return spawn('yarn', ['install'], {
-    stderr: 'inherit',
-    stdio: 'inherit',
-  });
+  const yarnCheckCommand = 'yarn -v';
+  const yarnExists = shell.exec(yarnCheckCommand).code === 0;
+  const stdArgs = { stderr: 'inherit', stdio: 'inherit' };
+
+  // use yarn if it exists, otherwise use npm (this is so 3rd party devs aren't
+  // forced to install yarn just for this one step in our configuration script)
+  return yarnExists ? spawn('yarn', ['install'], stdArgs) :
+    spawn('npm', ['install'], stdArgs);
 }
 
 function installNpmExtension(extension) {
