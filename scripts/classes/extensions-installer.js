@@ -2,6 +2,7 @@
 
 const fs = require('fs-extra');
 const path = require('path');
+const shell = require('shelljs');
 const spawn = require('child-process-promise').spawn;
 const _ = require('lodash');
 const glob = require('glob');
