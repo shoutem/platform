@@ -19,7 +19,7 @@ function addDependencyToPackageJson(packageJson, name, version) {
 function installJsDependencies() {
   console.log('Installing dependencies:'.bold);
 
-  return spawn('npm', ['install'], {
+  return spawn('yarn', ['install'], {
     stderr: 'inherit',
     stdio: 'inherit',
   });
