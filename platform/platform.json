@@ -1,6 +1,6 @@
 {
-  "version": "2.3.4-rc.0",
-  "mobileAppVersion": "2.3.4-rc.0",
+  "version": "2.3.4-rc.1",
+  "mobileAppVersion": "2.3.4-rc.1",
   "releaseNotes": "* For devs: Use yarn instead of npm when configuring app, fallback to npm if yarn isn't installed\n* Bugfixes and improvements",
   "settings": {
     "DEV-appetizeKey": "uky4axrrfazmzqec3fj2yqrn6m",
