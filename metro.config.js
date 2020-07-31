@@ -17,8 +17,9 @@ const config = {
      * packager on a given platform.
      */
     blacklistRE: blacklist([
-      /\/extensions\/.*\/server\/.*/,
       /\/extensions\/.*\/app\/build(\.js|\/.*)/,
+      /\/extensions\/.*\/cloud\/.*/,
+      /\/extensions\/.*\/server\/.*/,
       /\/scripts\/.*/,
       /\/packages\/.*/,
     ]),

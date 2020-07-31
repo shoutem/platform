@@ -1,6 +1,7 @@
 const ANCHORS = {
   IOS: {
     PODFILE: {
+      ADDITIONAL_TARGET: '## <Additional target>',
       EXTENSION_DEPENDENCIES: '## <Extension dependencies>',
       EXTENSION_POSTINSTALL_TARGETS: '## <Extension postinstall targets>',
     },
