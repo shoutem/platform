@@ -1,7 +1,7 @@
 {
-  "version": "2.3.4",
-  "mobileAppVersion": "2.3.4",
-  "releaseNotes": "* For devs: Use yarn instead of npm when configuring app, fallback to npm if yarn isn't installed\n* Bugfixes and improvements",
+  "version": "2.3.5-rc.0",
+  "mobileAppVersion": "2.3.5-rc.0",
+  "releaseNotes": "* Push notification bugfixes and improvements",
   "settings": {
     "DEV-appetizeKey": "uky4axrrfazmzqec3fj2yqrn6m",
     "QA-appetizeKey": "earz2uzgjp7qh1rp4g8x0x6q7r",
@@ -33,12 +33,12 @@
     "shoutem.deals": "~2.3.0",
     "shoutem.events": "~2.3.1",
     "shoutem.favorites": "~2.3.0",
-    "shoutem.firebase": "~2.3.7",
+    "shoutem.firebase": "~2.3.8",
     "shoutem.flurry-analytics": "~2.3.0",
     "shoutem.i18n": "~2.3.0",
     "shoutem.ical-events": "~2.3.0",
     "shoutem.layouts": "~2.3.0",
-    "shoutem.loyalty": "~2.3.4",
+    "shoutem.loyalty": "~2.3.5",
     "shoutem.menu": "~2.3.0",
     "shoutem.navigation": "~2.3.1",
     "shoutem.news": "~2.3.0",
@@ -51,14 +51,14 @@
     "shoutem.podcast": "~2.3.3",
     "shoutem.preview": "~2.3.0",
     "shoutem.products": "~2.3.0",
-    "shoutem.push-notifications": "~2.3.6",
+    "shoutem.push-notifications": "~2.3.7",
     "shoutem.radio": "~2.3.3",
     "shoutem.redux": "~2.3.0",
     "shoutem.rss": "~2.3.0",
     "shoutem.rss-news": "~2.3.1",
     "shoutem.rss-photos": "~2.3.2",
     "shoutem.rss-videos": "~2.3.1",
-    "shoutem.rubicon-theme": "~2.3.12",
+    "shoutem.rubicon-theme": "~2.3.13",
     "shoutem.shopify": "~2.3.1",
     "shoutem.social": "~2.3.3",
     "shoutem.sub-navigation": "~2.3.0",
@@ -66,7 +66,7 @@
     "shoutem.video": "~2.3.0",
     "shoutem.vimeo": "~2.3.0",
     "shoutem.web-view": "~2.3.3",
-    "shoutem.wordpress": "~2.3.0",
-    "shoutem.youtube": "~2.3.0"
+    "shoutem.wordpress": "~2.3.1",
+    "shoutem.youtube": "~2.3.1"
   }
 }
