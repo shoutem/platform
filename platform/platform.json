@@ -1,6 +1,6 @@
 {
-  "version": "2.3.5-rc.0",
-  "mobileAppVersion": "2.3.5-rc.0",
+  "version": "2.3.5",
+  "mobileAppVersion": "2.3.5",
   "releaseNotes": "* Push notification bugfixes and improvements",
   "settings": {
     "DEV-appetizeKey": "uky4axrrfazmzqec3fj2yqrn6m",
