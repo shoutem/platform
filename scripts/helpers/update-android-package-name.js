@@ -5,6 +5,7 @@ const getAndroidManifestpath = require('./get-android-manifest-path');
 const getBuckPath = require('./get-buck-path');
 const getMainActivityPath = require('./get-main-activity-path');
 const getMainApplicationPath = require('./get-main-application-path');
+const getFlipperJavaPath = require('./get-flipper-java-path');
 
 function getSearchReplaceFiles(oldPackageName, newPackageName) {
   return [
@@ -32,6 +33,18 @@ function getSearchReplaceFiles(oldPackageName, newPackageName) {
       replace: `package ${newPackageName};`,
       fileName: 'MainApplication.java',
     },
+    {
+      path: getMainApplicationPath(),
+      search: `Class<?> aClass = Class.forName("${oldPackageName}.ReactNativeFlipper");`,
+      replace: `Class<?> aClass = Class.forName("${newPackageName}.ReactNativeFlipper");`,
+      fileName: 'MainApplication.java',
+    },
+    {
+      path: getFlipperJavaPath(),
+      search: `package ${oldPackageName};`,
+      replace: `package ${newPackageName};`,
+      fileName: 'ReactNativeFlipper.java',
+    }
   ];
 }
 
@@ -42,7 +55,6 @@ function updateAndroidPackageName(oldPackageName, newPackageName) {
     const fileContents = fs.readFileSync(file.path, 'utf8');
     const newFileContents = fileContents.replace(file.search, file.replace);
     fs.writeFileSync(file.path, newFileContents);
-    console.log(`Updated packageName ${oldPackageName} to ${newPackageName} in ${file.fileName}`);
   });
 }
 

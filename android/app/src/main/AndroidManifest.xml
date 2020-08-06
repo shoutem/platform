@@ -20,7 +20,7 @@
       android:label="${appName}"
       android:launchMode="singleTask"
       android:screenOrientation="portrait"
-      android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+      android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
       android:windowSoftInputMode="adjustPan">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />

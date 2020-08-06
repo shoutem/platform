@@ -36,7 +36,7 @@ function isExtensionLinkable(extension) {
     throw new Error(`${pkgPath} is invalid or empty!`);
   }
 
-  const globPattern = `${NODE_MODULES_DIR}/${extension.id}/+(android|ios)`;
+  const globPattern = `${NODE_MODULES_DIR}/${extension.id}/+(android|fonts|ios)`;
   const containsAndroidOrIosFolders = glob.sync(globPattern);
 
   // if an extension has native dependencies defined in its package.json
