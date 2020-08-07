@@ -1,11 +1,11 @@
 {
-  "version": "2.4.0-alpha.0",
-  "mobileAppVersion": "2.4.0-alpha.0",
+  "version": "2.4.0-alpha.1",
+  "mobileAppVersion": "2.4.0-alpha.1",
   "releaseNotes": "* For devs: React Native 0.63.2\n* For devs: Introduce peerDependencies to Extensions\n* For devs: Introduce Flipper\n* Bugfixes and improvements",
   "settings": {
-    "DEV-appetizeKey": "uky4axrrfazmzqec3fj2yqrn6m",
-    "QA-appetizeKey": "earz2uzgjp7qh1rp4g8x0x6q7r",
-    "Production-appetizeKey": "pq0nrrmv67ggmy09ph00nnr0j4"
+    "DEV-appetizeKey": "87802rvr158e8th9n3tffpkhcc",
+    "QA-appetizeKey": "rzprn6duxft9v4ua0arx5k4fac",
+    "Production-appetizeKey": "u9hm71h5ayn0w6xjt0e9m1ta5w"
   },
   "builds": {
     "live": {
