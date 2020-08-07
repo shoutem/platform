@@ -1,6 +1,6 @@
 {
-  "version": "2.4.0-alpha.1",
-  "mobileAppVersion": "2.4.0-alpha.1",
+  "version": "2.4.0-alpha.2",
+  "mobileAppVersion": "2.4.0-alpha.2",
   "releaseNotes": "* For devs: React Native 0.63.2\n* For devs: Introduce peerDependencies to Extensions\n* For devs: Introduce Flipper\n* Bugfixes and improvements",
   "settings": {
     "DEV-appetizeKey": "87802rvr158e8th9n3tffpkhcc",
@@ -62,7 +62,7 @@
     "shoutem.shopify": "~2.4.0-rc.0",
     "shoutem.social": "~2.4.0-rc.0",
     "shoutem.sub-navigation": "~2.4.0-rc.0",
-    "shoutem.theme": "~2.4.0-rc.0",
+    "shoutem.theme": "~2.4.0-rc.1",
     "shoutem.video": "~2.4.0-rc.0",
     "shoutem.vimeo": "~2.4.0-rc.0",
     "shoutem.web-view": "~2.4.0-rc.0",
