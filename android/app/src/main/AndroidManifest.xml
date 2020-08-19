@@ -13,7 +13,8 @@
     android:allowBackup="true"
     android:label="${appName}"
     android:icon="@mipmap/ic_launcher"
-    android:theme="@style/AppTheme">
+    android:theme="@style/AppTheme"
+    android:requestLegacyExternalStorage="true">
 
     <activity
       android:name=".MainActivity"

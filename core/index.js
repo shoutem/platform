@@ -1,4 +1,4 @@
-export { AppBuilder } from './AppBuilder';
+export { AppBuilder, AppContextProvider } from './AppBuilder';
 
 export {
   after,
