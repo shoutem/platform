@@ -3,9 +3,9 @@
   "mobileAppVersion": "2.4.1-rc.0",
   "releaseNotes": "* SendBird Chat extension\n* Advertising extension\n* Bugfixes and stability improvements",
   "settings": {
-    "DEV-appetizeKey": "87802rvr158e8th9n3tffpkhcc",
-    "QA-appetizeKey": "rzprn6duxft9v4ua0arx5k4fac",
-    "Production-appetizeKey": "u9hm71h5ayn0w6xjt0e9m1ta5w"
+    "DEV-appetizeKey": "hqw5pehpfzvwjr3n69mv1942a0",
+    "QA-appetizeKey": "qku0mhvyew991yjzkyv3g2rpyr",
+    "Production-appetizeKey": "1bqu3xxrq1k7yazztuahav9aqr"
   },
   "builds": {
     "live": {
