@@ -1,6 +1,6 @@
 {
-  "version": "2.4.1-rc.0",
-  "mobileAppVersion": "2.4.1-rc.0",
+  "version": "2.4.1-rc.1",
+  "mobileAppVersion": "2.4.1-rc.1",
   "releaseNotes": "* SendBird Chat extension\n* Advertising extension\n* Bugfixes and stability improvements",
   "settings": {
     "DEV-appetizeKey": "hqw5pehpfzvwjr3n69mv1942a0",
@@ -40,7 +40,7 @@
     "shoutem.layouts": "~2.4.0",
     "shoutem.loyalty": "~2.4.0",
     "shoutem.menu": "~2.4.0",
-    "shoutem.navigation": "~2.4.1-rc.0",
+    "shoutem.navigation": "~2.4.1-rc.1",
     "shoutem.news": "~2.4.0",
     "shoutem.notification-center": "~2.4.0",
     "shoutem.page": "~2.4.0",
@@ -49,7 +49,7 @@
     "shoutem.photos": "~2.4.0",
     "shoutem.places": "~2.4.0",
     "shoutem.podcast": "~2.4.1-rc.0",
-    "shoutem.preview": "~2.4.0",
+    "shoutem.preview": "~2.4.1-rc.0",
     "shoutem.products": "~2.4.0",
     "shoutem.push-notifications": "~2.4.0",
     "shoutem.radio": "~2.4.0",
