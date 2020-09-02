@@ -3,7 +3,7 @@ project.ext {
     targetSdkVersion = 29
     minSdkVersion = 23
 
-    buildToolsVersion = '28.0.3'
+    buildToolsVersion = '29.0.2'
     supportLibVersion = '28.0.0'
     googlePlayServicesVersion = '15.0.0'
 

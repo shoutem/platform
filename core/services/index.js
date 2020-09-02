@@ -5,12 +5,13 @@ export {
   getApplicationCanonicalObject,
   renderMainContent,
   renderProviders,
+  createAppContextConsumer,
 } from './builder';
 
 export {
   canonicalResource,
   canonicalRenderResource,
-} from './resource.js';
+} from './resource';
 
 export {
   extractNamedExports,

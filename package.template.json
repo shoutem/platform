@@ -1,23 +1,26 @@
 {
   "name": "@shoutem/platform",
-  "version": "2.3.5",
+  "version": "2.4.1",
   "scripts": {
-    "start": "react-native start",
-    "setup": "cd scripts && yarn install",
-    "lint": "eslint .",
-    "configure": "node scripts/configure",
-    "bundle": "node scripts/bundle",
+    "android": "react-native run-android",
     "build": "node scripts/build",
+    "bundle": "node scripts/bundle",
+    "configure": "node scripts/configure",
+    "ios": "react-native run-ios",
+    "lint": "eslint .",
     "list-dependencies": "node scripts/platform-dependencies",
-    "postinstall": "node scripts/postinstall"
+    "postinstall": "node scripts/postinstall",
+    "setup": "cd scripts && yarn install",
+    "start": "react-native start"
   },
   "dependencies": {
+    "auto-bind": "4.0.0",
     "es6-symbol": "3.1.1",
     "lodash": "~4.17.11",
     "moment": "2.24.0",
     "prop-types": "15.7.1",
-    "react": "16.8.6",
-    "react-native": "0.60.6",
+    "react": "16.13.1",
+    "react-native": "0.63.2",
     "react-redux": "~5.0.2",
     "redux": "~3.6.0",
     "redux-action-buffer": "~1.0.1",
@@ -28,14 +31,14 @@
     "whatwg-fetch": "1.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.2",
+    "@babel/core": "^7.8.4",
     "@babel/plugin-proposal-decorators": "^7.3.0",
     "@babel/preset-env": "^7.3.4",
     "@babel/preset-flow": "^7.0.0",
-    "@babel/runtime": "^7.6.2",
+    "@babel/runtime": "^7.8.4",
     "@shoutem/build-tools": "file:scripts/helpers",
     "babel-eslint": "^9.0.0",
-    "babel-jest": "^24.9.0",
+    "babel-jest": "^25.1.0",
     "babel-plugin-jest-hoist": "^24.0.0",
     "eslint": "~5.15.1",
     "eslint-config-airbnb": "~17.1.0",
@@ -43,9 +46,9 @@
     "eslint-plugin-jsx-a11y": "~6.2.1",
     "eslint-plugin-react": "~7.12.4",
     "eslint-plugin-react-native": "~3.6.0",
-    "jest": "^24.9.0",
-    "metro-react-native-babel-preset": "^0.56.0",
-    "react-test-renderer": "16.8.6"
+    "jest": "^25.1.0",
+    "metro-react-native-babel-preset": "^0.59.0",
+    "react-test-renderer": "16.13.1"
   },
   "jest": {
     "preset": "module:react-native"

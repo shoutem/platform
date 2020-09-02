@@ -1,3 +1,6 @@
+import React, { PureComponent } from 'react';
+import _ from 'lodash';
+
 export function assertNotEmpty(target, errorMessage) {
   if (!target) {
     throw new Error(errorMessage);
@@ -47,6 +50,35 @@ export function renderProviders(extensions, mainContent) {
   }
 
   return renderedContent;
+}
+
+export function createAppContextConsumer(extensions) {
+  return class Consumer extends PureComponent {
+    render() {
+      const { children } = this.props;
+
+      const contexts = _.reduce(extensions, (res, extension) => {
+        if (extension.context) {
+          res.push(extension.context);
+        }
+        return res;
+      }, []);
+
+      const renderer = _.reduce(contexts, (res, Context) => {
+        return value => (
+          <Context.Consumer>
+            {contextValue => res({
+              ...value,
+              ...contextValue,
+            })
+            }
+          </Context.Consumer>
+        );
+      }, value => children(value));
+
+      return renderer({});
+    }
+  };
 }
 
 /**
