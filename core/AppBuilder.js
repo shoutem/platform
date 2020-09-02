@@ -8,9 +8,12 @@ import {
   getApplicationCanonicalObject,
   renderMainContent,
   renderProviders,
+  createAppContextConsumer,
 } from './services';
 
 const APP_CONTEXT = Symbol('appContext');
+
+export let AppContextProvider;
 
 // Temporarily ignoring cyclic dependency warnings and deprecated lifecycle
 // methods until package maintainers can resolve these
@@ -178,7 +181,7 @@ export class AppBuilder {
    *
    * @param {Function} renderFunction Navigation bar render function
    */
-  setRenderNavigationBar(renderFunction = () => {}) {
+  setRenderNavigationBar(renderFunction = () => { }) {
     this[APP_CONTEXT].renderNavigationBar = renderFunction;
     return this;
   }
@@ -195,6 +198,7 @@ export class AppBuilder {
     const appContext = Object.assign({}, this[APP_CONTEXT]);
 
     assertExtensionsExist(appContext.extensions);
+    AppContextProvider = createAppContextConsumer(appContext.extensions);
 
     appContext.screens = getApplicationCanonicalObject('screens', appContext);
     appContext.themes = getApplicationCanonicalObject('themes', appContext);

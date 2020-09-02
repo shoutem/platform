@@ -1,11 +1,11 @@
 {
-  "version": "2.4.0",
-  "mobileAppVersion": "2.4.0",
-  "releaseNotes": "* For devs: React Native 0.63.2\n* For devs: Introduce peerDependencies to Extensions\n* For devs: Introduce Flipper\n* Bugfixes and improvements",
+  "version": "2.4.1",
+  "mobileAppVersion": "2.4.1",
+  "releaseNotes": "* SendBird Chat extension\n* Advertising extension\n* Bugfixes and stability improvements",
   "settings": {
-    "DEV-appetizeKey": "87802rvr158e8th9n3tffpkhcc",
-    "QA-appetizeKey": "rzprn6duxft9v4ua0arx5k4fac",
-    "Production-appetizeKey": "u9hm71h5ayn0w6xjt0e9m1ta5w"
+    "DEV-appetizeKey": "hqw5pehpfzvwjr3n69mv1942a0",
+    "QA-appetizeKey": "qku0mhvyew991yjzkyv3g2rpyr",
+    "Production-appetizeKey": "1bqu3xxrq1k7yazztuahav9aqr"
   },
   "builds": {
     "live": {
@@ -24,7 +24,7 @@
     "shoutem.about": "~2.4.0",
     "shoutem.analytics": "~2.4.0",
     "shoutem.application": "~2.4.0",
-    "shoutem.audio": "~2.4.0",
+    "shoutem.audio": "~2.4.1",
     "shoutem.auth": "~2.4.0",
     "shoutem.books": "~2.4.0",
     "shoutem.camera": "~2.4.0",
@@ -40,7 +40,7 @@
     "shoutem.layouts": "~2.4.0",
     "shoutem.loyalty": "~2.4.0",
     "shoutem.menu": "~2.4.0",
-    "shoutem.navigation": "~2.4.0",
+    "shoutem.navigation": "~2.4.1",
     "shoutem.news": "~2.4.0",
     "shoutem.notification-center": "~2.4.0",
     "shoutem.page": "~2.4.0",
@@ -48,13 +48,13 @@
     "shoutem.persist": "~2.4.0",
     "shoutem.photos": "~2.4.0",
     "shoutem.places": "~2.4.0",
-    "shoutem.podcast": "~2.4.0",
-    "shoutem.preview": "~2.4.0",
+    "shoutem.podcast": "~2.4.1",
+    "shoutem.preview": "~2.4.1",
     "shoutem.products": "~2.4.0",
     "shoutem.push-notifications": "~2.4.0",
     "shoutem.radio": "~2.4.0",
     "shoutem.redux": "~2.4.0",
-    "shoutem.rss": "~2.4.0",
+    "shoutem.rss": "~2.4.1",
     "shoutem.rss-news": "~2.4.0",
     "shoutem.rss-photos": "~2.4.0",
     "shoutem.rss-videos": "~2.4.0",
