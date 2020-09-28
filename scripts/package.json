@@ -23,6 +23,7 @@
     "plist": "^2.0.1",
     "ps-node": "^0.1.4",
     "request": "^2.72.0",
+    "request-promise": "^4.2.4",
     "rimraf": "^2.5.4",
     "semver": "^5.5.0",
     "shelljs": "^0.7.4",
