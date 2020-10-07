@@ -1,7 +1,7 @@
 {
   "version": "2.4.2",
   "mobileAppVersion": "2.4.2",
-  "releaseNotes": "* Added helper scripts for build information\n* Bugfixes and stability improvements",
+  "releaseNotes": "* Added helper scripts for build information\n* Enabled D8 desugaring\n* Improvements in APNS / FCM token generation through shoutem.firebase\n* Compatibility adjustments for push notification handling in iOS14\n* Bugfixes and stability improvements",
   "settings": {
     "DEV-appetizeKey": "bqy0g72f2499r301a3yw3630aw",
     "QA-appetizeKey": "8zcpu9fguue48erh4zw0pbuqhc",
