@@ -1,14 +1,41 @@
 build-script/tmp
 extensions.js
+!preview-app/**/extensions.js
 config.json
+!preview-app/**/config.json
+!app-center/config.json
 temp
 cached-bundles
 yarn.lock
-Podfile
+ios/Podfile
 ios/Pods
 ios/Podfile.lock
 config/
 dependencies.json
+**/package-lock.json
+!extensions/**/app/ios
+/firebase.json
+/ios/RNPlaceholder.swift
+/android/app/google-services.json
+
+/ios/*.xcodeproj
+/ios/*.xcworkspace
+/ios/**/Base.lproj
+/ios/**/Images.xcassets
+/ios/**/AppDelegate.h
+/ios/**/AppDelegate.m
+/ios/**/Info.plist
+/ios/**/main.m
+/ios/**/*.entitlements
+!/ios/ShoutemApp
+!/ios/ShoutemApp.*
+!/ios/ShoutemApp/Base.lproj
+!/ios/ShoutemApp/Images.xcassets
+!/ios/ShoutemApp/AppDelegate.h
+!/ios/ShoutemApp/AppDelegate.m
+!/ios/ShoutemApp/Info.plist
+!/ios/ShoutemApp/main.m
+!/ios/ShoutemApp/*.entitlements
 
 # Logs
 logs
@@ -66,8 +93,10 @@ DerivedData
 project.xcworkspace
 ios/ShoutemApp/Images.xcassets/Image.imageset/background.png
 
+.vscode
 # Android/IntelliJ
 #
+.vscode
 .idea
 .gradle
 local.properties
@@ -84,6 +113,7 @@ buck-out/
 \.buckd/
 android/app/libs
 *.keystore
+!preview-app/**/*.keystore
 
 # fastlane
 #

@@ -3,6 +3,8 @@
   "version": "0.0.1-alpha.5",
   "scripts": {
     "generate-translations": "node generate-translation-file",
+    "reset-diff": "node manual-reset-diff",
+    "sanitize-diff": "node manual-sanitize-diff",
     "update-platform-dependencies": "node update-platform-dependencies ../extensions"
   },
   "dependencies": {
