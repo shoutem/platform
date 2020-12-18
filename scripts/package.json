@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/app-build-script",
-  "version": "0.0.1-alpha.5",
+  "version": "0.0.2",
   "scripts": {
     "generate-translations": "node generate-translation-file",
     "reset-diff": "node manual-reset-diff",
