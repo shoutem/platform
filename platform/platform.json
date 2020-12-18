@@ -1,6 +1,6 @@
 {
-  "version": "2.5.0-rc.0",
-  "mobileAppVersion": "2.5.0-rc.0",
+  "version": "2.5.0-rc.2",
+  "mobileAppVersion": "2.5.0-rc.2",
   "releaseNotes": "* Introduced git diff sanitization for configuration script diff\n* Added importers and pagination to CMS extension\n* Bugfixes and stability improvements",
   "settings": {
     "DEV-appetizeKey": "bqy0g72f2499r301a3yw3630aw",

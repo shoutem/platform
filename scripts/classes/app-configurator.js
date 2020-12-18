@@ -15,7 +15,6 @@ const request = require('request');
 const {
   prependProjectPath,
   reactNativeLink,
-  resetDiff,
   sanitizeDiff,
 } = require('../helpers');
 require('colors');
@@ -302,8 +301,6 @@ class AppConfigurator {
       .then(() => {
         if (sanitizeGitDiff) {
           sanitizeDiff();
-        } else {
-          resetDiff();
         }
         console.timeEnd('Build time'.bold.green);
       })
