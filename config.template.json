@@ -7,6 +7,7 @@
   "offlineMode": false,
   "debug": true,
   "release": false,
+  "sanitizeGitDiff": false,
   "configurationFilePath": "./temp/configuration.json",
   "workingDirectories": [],
   "linkedExtensions": [

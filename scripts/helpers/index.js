@@ -33,6 +33,8 @@ module.exports = {
   isWindows: require('./is-windows'),
   projectPath: require('./get-project-path'),
   reactNativeLink: require('./react-native-link'),
+  resetDiff: require('./reset-diff'),
+  sanitizeDiff: require('./sanitize-diff'),
   updateAndroidPackageName: require('./update-android-package-name'),
   inject: require('./inject'),
   replace: require('./replace'),
@@ -43,4 +45,5 @@ module.exports = {
   shortPath,
   prependProjectPath,
   ANCHORS: constants.ANCHORS,
+  filesChangedByConfigurationScript: constants.filesChangedByConfigurationScript,
 };
