@@ -13,8 +13,9 @@ const rimraf = require('rimraf');
 const process = require('process');
 const request = require('request');
 const {
-  reactNativeLink,
   prependProjectPath,
+  reactNativeLink,
+  sanitizeDiff,
 } = require('../helpers');
 require('colors');
 
@@ -285,6 +286,8 @@ class AppConfigurator {
   }
 
   run() {
+    const { sanitizeGitDiff } = this.buildConfig;
+
     console.time('Build time'.bold.green);
     console.log('Starting build for app', `${this.buildConfig.appId}`.bold.cyan);
 
@@ -296,6 +299,9 @@ class AppConfigurator {
       .then(() => this.buildExtensions())
       .then(() => applyReactNativeFixes())
       .then(() => {
+        if (sanitizeGitDiff) {
+          sanitizeDiff();
+        }
         console.timeEnd('Build time'.bold.green);
       })
       .catch((e) => {

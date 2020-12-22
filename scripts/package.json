@@ -1,8 +1,10 @@
 {
   "name": "@shoutem/app-build-script",
-  "version": "0.0.1-alpha.5",
+  "version": "0.0.2",
   "scripts": {
     "generate-translations": "node generate-translation-file",
+    "reset-diff": "node manual-reset-diff",
+    "sanitize-diff": "node manual-sanitize-diff",
     "update-platform-dependencies": "node update-platform-dependencies ../extensions"
   },
   "dependencies": {
@@ -14,7 +16,7 @@
     "fs-extra": "3.0.1",
     "glob": "^7.0.3",
     "glob-to-regexp": "^0.3.0",
-    "jimp": "^0.2.27",
+    "jimp": "^0.16.1",
     "linklocal": "^2.8.1",
     "lodash": "^4.10.1",
     "node-watch": "^0.3.5",
@@ -28,7 +30,6 @@
     "semver": "^5.5.0",
     "shelljs": "^0.7.4",
     "superspawn": "^0.1.0",
-    "xcode": "3.0.1",
-    "yargs": "12.0.1"
+    "xcode": "3.0.1"
   }
 }
