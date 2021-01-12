@@ -1,6 +1,6 @@
 {
-  "version": "2.5.1-rc.1",
-  "mobileAppVersion": "2.5.1-rc.1",
+  "version": "2.5.1-rc.2",
+  "mobileAppVersion": "2.5.1-rc.2",
   "releaseNotes": "* Added new system extension that handles device permissions for iOS and Android\n* Introduced code-linted UI toolkit package\n* Bugfixes and stability improvements",
   "settings": {
     "DEV-appetizeKey": "bqy0g72f2499r301a3yw3630aw",
@@ -45,7 +45,7 @@
     "shoutem.notification-center": "~2.5.0",
     "shoutem.page": "~2.5.0",
     "shoutem.people": "~2.5.0",
-    "shoutem.permissions": "~1.0.0-rc.1",
+    "shoutem.permissions": "~1.0.0-rc.2",
     "shoutem.persist": "~2.5.0",
     "shoutem.photos": "~2.5.0",
     "shoutem.places": "~2.5.0",
