@@ -1,7 +1,7 @@
 {
-  "version": "2.5.2-rc.0",
-  "mobileAppVersion": "2.5.2-rc.0",
-  "releaseNotes": "* Updated Builder preview app for compatibility with updated extensions",
+  "version": "2.5.2-rc.1",
+  "mobileAppVersion": "2.5.2-rc.1",
+  "releaseNotes": "* Updated Builder preview app for compatibility with updated extensions\n* Updated bundle generating script",
   "settings": {
     "DEV-appetizeKey": "keh1wc730419ze53pteq8evy5m",
     "QA-appetizeKey": "x4t2fhp8j3e33br2wr5x6m7tp8",
@@ -38,7 +38,7 @@
     "shoutem.i18n": "~2.5.1",
     "shoutem.ical-events": "~2.5.0",
     "shoutem.layouts": "~2.5.0",
-    "shoutem.loyalty": "~2.5.2-rc.0",
+    "shoutem.loyalty": "~2.5.2-rc.1",
     "shoutem.menu": "~2.5.0",
     "shoutem.navigation": "~2.5.1",
     "shoutem.news": "~2.5.1",
@@ -62,7 +62,7 @@
     "shoutem.rss-videos": "~2.5.0",
     "shoutem.rubicon-theme": "~2.5.0",
     "shoutem.shopify": "~2.5.2-rc.0",
-    "shoutem.social": "~2.5.1-rc.1",
+    "shoutem.social": "~2.5.1-rc.4",
     "shoutem.sub-navigation": "~2.5.0",
     "shoutem.theme": "~2.5.2-rc.0",
     "shoutem.video": "~2.5.0",

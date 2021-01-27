@@ -41,6 +41,7 @@ class AppBundler {
     const rnBundleCommand = [
       'react-native',
       'bundle',
+      '--resetCache true'
       `--assets-dest ${assetsDest}`,
       `--bundle-output ${bundleOutput}`,
       `--platform ${platform}`,
