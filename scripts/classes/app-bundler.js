@@ -32,21 +32,27 @@ class AppBundler {
   createReactNativeBundle() {
     console.log('Starting react-native bundle\n');
     console.time('Build bundle');
+    const { debug: dev, platform, shouldResetBundleCache } = this.config;
 
     const assetsDest = this.getOutputDirectory();
     const bundleOutput = path.join(assetsDest, this.getBundleName());
-    const platform = this.config.platform;
-    const dev = this.config.debug;
     const entryFile = this.getEntryFileName();
-    const rnBundleCommand = [
-      'react-native',
-      'bundle',
-      '--reset-cache',
+    const rnBundleArgs = [
       `--assets-dest ${assetsDest}`,
       `--bundle-output ${bundleOutput}`,
       `--platform ${platform}`,
       `--dev ${dev}`,
       `--entry-file ${entryFile}`,
+    ];
+
+    if (shouldResetBundleCache) {
+      rnBundleArgs.push('--reset-cache');
+    }
+
+    const rnBundleCommand = [
+      'react-native',
+      'bundle',
+      ...rnBundleArgs,
     ].join(' ');
 
     fs.ensureDirSync(assetsDest);
