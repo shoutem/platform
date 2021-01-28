@@ -32,7 +32,11 @@ class AppBundler {
   createReactNativeBundle() {
     console.log('Starting react-native bundle\n');
     console.time('Build bundle');
-    const { debug: dev, platform, shouldResetBundleCache } = this.config;
+    const {
+      debug: dev,
+      platform,
+      shouldResetBundleCache = false,
+    } = this.config;
 
     const assetsDest = this.getOutputDirectory();
     const bundleOutput = path.join(assetsDest, this.getBundleName());
