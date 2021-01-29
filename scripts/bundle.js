@@ -10,6 +10,7 @@ const path = require('path');
 const cliArgs = commandLineArgs([
   { name: 'platform', type: String },
   { name: 'outputDirectory', type: String },
+  { name: 'shouldResetBundleCache', type: Boolean },
 ]);
 
 const configPath = path.resolve('config.json');
