@@ -32,10 +32,14 @@ class AppBundler {
   createReactNativeBundle() {
     console.log('Starting react-native bundle\n');
     console.time('Build bundle');
+    // Due to how the 'bundle' scripts are chained through the build system, we have to rename the
+    // property here. This is currently passed from build system variables, to a build system script
+    // then to the platform's bundle script, which then runs the app-bundler with a config
+    // containing 'reset-cache'.
     const {
       debug: dev,
       platform,
-      shouldResetBundleCache = false,
+      'reset-cache': shouldResetBundleCache,
     } = this.config;
 
     const assetsDest = this.getOutputDirectory();
