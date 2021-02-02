@@ -1,7 +1,7 @@
 {
-  "version": "2.5.2-rc.7",
-  "mobileAppVersion": "2.5.2-rc.7",
-  "releaseNotes": "* Updated Builder preview app for compatibility with updated extensions\n* Updated bundle generating script\n* Updated metro-react-native-babel-preset",
+  "version": "2.5.2-rc.8",
+  "mobileAppVersion": "2.5.2-rc.8",
+  "releaseNotes": "* Updated Builder preview app for compatibility with updated extensions\n* Updated React Native to 0.63.4\n* Updated bundle generating script with cache reset option",
   "settings": {
     "DEV-appetizeKey": "keh1wc730419ze53pteq8evy5m",
     "QA-appetizeKey": "x4t2fhp8j3e33br2wr5x6m7tp8",
