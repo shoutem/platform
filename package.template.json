@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/platform",
-  "version": "2.5.1",
+  "version": "2.5.2",
   "scripts": {
     "android": "react-native run-android",
     "build": "node scripts/build",
@@ -21,7 +21,7 @@
     "moment": "2.24.0",
     "prop-types": "15.7.1",
     "react": "16.13.1",
-    "react-native": "0.63.2",
+    "react-native": "0.63.4",
     "react-redux": "~5.0.2",
     "redux": "~3.6.0",
     "redux-action-buffer": "~1.0.1",
@@ -49,7 +49,7 @@
     "eslint-plugin-react": "^5.1.1",
     "eslint-plugin-react-native": "~3.6.0",
     "jest": "^25.1.0",
-    "metro-react-native-babel-preset": "^0.59.0",
+    "metro-react-native-babel-preset": "^0.64.0",
     "prettier": "1.19.1",
     "react-test-renderer": "16.13.1"
   },
