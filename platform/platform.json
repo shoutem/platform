@@ -1,11 +1,11 @@
 {
-  "version": "2.5.1",
-  "mobileAppVersion": "2.5.1",
-  "releaseNotes": "* Added new system extension that handles device permissions for iOS and Android\n* Introduced code-linted UI toolkit package\n* Bugfixes and stability improvements",
+  "version": "2.5.2",
+  "mobileAppVersion": "2.5.2",
+  "releaseNotes": "* Updated Builder preview app for compatibility with updated extensions\n* Updated React Native to 0.63.4\n* Updated bundle generating script with cache reset option",
   "settings": {
-    "DEV-appetizeKey": "bqy0g72f2499r301a3yw3630aw",
-    "QA-appetizeKey": "8zcpu9fguue48erh4zw0pbuqhc",
-    "Production-appetizeKey": "ydwf2v5k6erk5qrd80ve1twg6r"
+    "DEV-appetizeKey": "keh1wc730419ze53pteq8evy5m",
+    "QA-appetizeKey": "x4t2fhp8j3e33br2wr5x6m7tp8",
+    "Production-appetizeKey": "d4du5b4vw714p6cw41dwqwthrw"
   },
   "builds": {
     "live": {
@@ -23,7 +23,7 @@
   "dependencies": {
     "shoutem.about": "~2.5.0",
     "shoutem.analytics": "~2.5.0",
-    "shoutem.application": "~2.5.0",
+    "shoutem.application": "~2.5.1",
     "shoutem.audio": "~2.5.0",
     "shoutem.auth": "~2.5.1",
     "shoutem.books": "~2.5.0",
@@ -38,14 +38,14 @@
     "shoutem.i18n": "~2.5.1",
     "shoutem.ical-events": "~2.5.0",
     "shoutem.layouts": "~2.5.0",
-    "shoutem.loyalty": "~2.5.1",
+    "shoutem.loyalty": "~2.5.2",
     "shoutem.menu": "~2.5.0",
     "shoutem.navigation": "~2.5.1",
     "shoutem.news": "~2.5.1",
-    "shoutem.notification-center": "~2.5.0",
+    "shoutem.notification-center": "~2.5.1",
     "shoutem.page": "~2.5.0",
     "shoutem.people": "~2.5.0",
-    "shoutem.permissions": "~1.0.0",
+    "shoutem.permissions": "~1.0.1",
     "shoutem.persist": "~2.5.0",
     "shoutem.photos": "~2.5.0",
     "shoutem.places": "~2.5.0",
@@ -61,13 +61,13 @@
     "shoutem.rss-photos": "~2.5.0",
     "shoutem.rss-videos": "~2.5.0",
     "shoutem.rubicon-theme": "~2.5.0",
-    "shoutem.shopify": "~2.5.1",
-    "shoutem.social": "~2.5.0",
+    "shoutem.shopify": "~2.5.2",
+    "shoutem.social": "~2.5.1",
     "shoutem.sub-navigation": "~2.5.0",
-    "shoutem.theme": "~2.5.1",
+    "shoutem.theme": "~2.5.2",
     "shoutem.video": "~2.5.0",
     "shoutem.vimeo": "~2.5.0",
-    "shoutem.web-view": "~2.5.0",
+    "shoutem.web-view": "~2.5.1",
     "shoutem.wordpress": "~2.5.0",
     "shoutem.youtube": "~2.5.0"
   }

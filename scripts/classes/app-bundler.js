@@ -32,20 +32,35 @@ class AppBundler {
   createReactNativeBundle() {
     console.log('Starting react-native bundle\n');
     console.time('Build bundle');
+    // Due to how the 'bundle' scripts are chained through the build system, we have to rename the
+    // property here. This is currently passed from build system variables, to a build system script
+    // then to the platform's bundle script, which then runs the app-bundler with a config
+    // containing 'reset-cache'.
+    const {
+      debug: dev,
+      platform,
+      'reset-cache': shouldResetBundleCache,
+    } = this.config;
 
     const assetsDest = this.getOutputDirectory();
     const bundleOutput = path.join(assetsDest, this.getBundleName());
-    const platform = this.config.platform;
-    const dev = this.config.debug;
     const entryFile = this.getEntryFileName();
-    const rnBundleCommand = [
-      'react-native',
-      'bundle',
+    const rnBundleArgs = [
       `--assets-dest ${assetsDest}`,
       `--bundle-output ${bundleOutput}`,
       `--platform ${platform}`,
       `--dev ${dev}`,
       `--entry-file ${entryFile}`,
+    ];
+
+    if (shouldResetBundleCache) {
+      rnBundleArgs.push('--reset-cache');
+    }
+
+    const rnBundleCommand = [
+      'react-native',
+      'bundle',
+      ...rnBundleArgs,
     ].join(' ');
 
     fs.ensureDirSync(assetsDest);
