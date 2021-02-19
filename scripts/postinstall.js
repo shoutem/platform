@@ -32,7 +32,7 @@ function applyExtensionPatches() {
     return;
   }
 
-  console.time('Patching packages took:');
+  console.time('Patching packages took');
   console.log('Checking for patch-package patches...');
   extensions.map((extension) => {
     // Depending on the environment's OS, 'extension' can be an object or just
@@ -51,7 +51,14 @@ function applyExtensionPatches() {
       { cwd: projectPath },
     );
   });
-  console.timeEnd('Patching packages took:');
+  console.timeEnd('Patching packages took');
+}
+
+function jetify() {
+  console.time('Jetified in');
+  execSync(`node node_modules/jetifier/bin/jetify`, { cwd: projectPath });
+  console.timeEnd('Jetified in');
 }
 
 applyExtensionPatches();
+jetify();

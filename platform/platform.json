@@ -1,6 +1,6 @@
 {
-  "version": "2.5.3-rc.1",
-  "mobileAppVersion": "2.5.3-rc.1",
+  "version": "2.5.3-rc.2",
+  "mobileAppVersion": "2.5.3-rc.2",
   "releaseNotes": "* Optimized build for faster previews",
   "settings": {
     "DEV-appetizeKey": "keh1wc730419ze53pteq8evy5m",

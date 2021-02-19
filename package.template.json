@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/platform",
-  "version": "2.5.3-rc.1",
+  "version": "2.5.3-rc.2",
   "scripts": {
     "android": "react-native run-android",
     "build": "node scripts/build",
@@ -49,6 +49,7 @@
     "eslint-plugin-react": "^5.1.1",
     "eslint-plugin-react-native": "~3.6.0",
     "jest": "^25.1.0",
+    "jetifier": "~1.6.6",
     "metro-react-native-babel-preset": "^0.64.0",
     "patch-package": "^6.2.2",
     "prettier": "1.19.1",
