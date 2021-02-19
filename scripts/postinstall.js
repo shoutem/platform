@@ -1,6 +1,6 @@
 const { execSync } = require('child_process');
 const fs = require('fs-extra');
-const { prependProjectPath } = require('./helpers');
+const { prependProjectPath, projectPath } = require('./helpers');
 
 const NODE_MODULES_DIR = prependProjectPath('node_modules');
 
@@ -32,7 +32,8 @@ function applyExtensionPatches() {
     return;
   }
 
-  console.log("Checking for patch-package patches...");
+  console.time('Patching packages took:');
+  console.log('Checking for patch-package patches...');
   extensions.map((extension) => {
     // Depending on the environment's OS, 'extension' can be an object or just
     // the name string, so we do an explicit check
@@ -45,13 +46,12 @@ function applyExtensionPatches() {
     }
 
     console.log(`[${extensionName}] - applying patches`)
-    return execSync(`npx patch-package --patch-dir ${patchPath}`);
+    return execSync(
+      `node node_modules/patch-package --patch-dir ${patchPath}`,
+      { cwd: projectPath },
+    );
   });
-  console.log("Applied all existing patches found.")
+  console.timeEnd('Patching packages took:');
 }
 
 applyExtensionPatches();
-
-// use jetifier to update from android.support to androidx
-console.log("Jetifying node_modules");
-execSync('npx jetifier');

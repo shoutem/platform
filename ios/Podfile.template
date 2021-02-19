@@ -16,7 +16,7 @@ end
 
 ## <Additional target>
 
-use_flipper!
+use_flipper!({ 'Flipper' => '0.74.0' })
 post_install do |installer|
   flipper_post_install(installer)
   installer.pods_project.targets.each do |target|

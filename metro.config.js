@@ -2,6 +2,9 @@ const { getDefaultConfig } = require('metro-config');
 const blacklist = require('metro-config/src/defaults/blacklist');
 const path = require('path');
 
+// parameters adjusted by CI scripts
+const ciMetroParams = require('./ci-metro-params');
+
 module.exports = (async () => {
   const { resolver: { sourceExts, assetExts } } = await getDefaultConfig();
 
@@ -38,5 +41,6 @@ module.exports = (async () => {
         'shoutem-core': path.join(__dirname, 'core'),
       },
     },
+    ...ciMetroParams,
   };
 })();
