@@ -62,12 +62,19 @@ function downloadAndResizeImage(imageUrl, downloadPath, resizeConfig, production
       const resizingPromises = _.map(resizeConfig.images, (image) =>
         new Promise((resolve, reject) => {
           Jimp.read(imagePath)
-            .then((imageFile) =>
-              imageFile
-                .rgba(!_.endsWith(image.savePath, 'marketing.png'))
-                .cover(image.width, image.height)
-                .write(image.savePath)
-            )
+            .then((imageFile) => {
+              if (_.endsWith(image.savePath, 'marketing.png')) {
+                imageFile
+                  .colorType(2)
+                  .cover(image.width, image.height)
+                  .write(image.savePath)
+              } else {
+                imageFile
+                  .rgba(true)
+                  .cover(image.width, image.height)
+                  .write(image.savePath)
+              }
+            })
             .then(() => resolve())
             .catch((error) => {
               if (production) {
@@ -218,11 +225,11 @@ class AppBinaryConfigurator {
     const iPadLaunchScreenPath = './assets/iPadLaunchScreen.png';
 
     return downloadAndResizeImage(
-        iPadLaunchScreen,
-        iPadLaunchScreenPath,
-        resizeConfig,
-        production
-      );
+      iPadLaunchScreen,
+      iPadLaunchScreenPath,
+      resizeConfig,
+      production
+    );
   }
 
   configureAppIcon(settings, platform) {
