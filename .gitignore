@@ -6,7 +6,7 @@ config.json
 !app-center/config.json
 temp
 cached-bundles
-yarn.lock
+ci-metro-params.json
 ios/Podfile
 ios/Pods
 ios/Podfile.lock

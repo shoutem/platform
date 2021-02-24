@@ -9,10 +9,15 @@ const platformJson = fs.readJsonSync(platformPath);
 const extensionsToIgnore = [
   "agora",
   "advertising",
+  "books",
   "interactive-faq",
   "in-app-purchases",
+  "menu",
   "onboarding",
+  "podcast",
+  "radio",
   "sendbird",
+  "shopify",
 ];
 
 platformJson.dependencies = getPlatformDependencies(process.argv[2], extensionsToIgnore);
