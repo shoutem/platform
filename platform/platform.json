@@ -1,7 +1,7 @@
 {
-  "version": "2.5.3",
-  "mobileAppVersion": "2.5.3",
-  "releaseNotes": "* Optimized build for faster previews\n* Fixed iOS icon issue",
+  "version": "2.5.4-rc.0",
+  "mobileAppVersion": "2.5.4-rc.0",
+  "releaseNotes": "* Introduced podcast episode downloads\n* Added permissions extension to base platform dependencies\n* Updated Flipper pods for iOS 14.5",
   "settings": {
     "DEV-appetizeKey": "keh1wc730419ze53pteq8evy5m",
     "QA-appetizeKey": "x4t2fhp8j3e33br2wr5x6m7tp8",
