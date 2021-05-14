@@ -7,18 +7,22 @@ const getPlatformDependencies = require('./helpers/get-platform-dependencies');
 const platformPath = path.resolve(path.join('../platform', 'platform.json'));
 const platformJson = fs.readJsonSync(platformPath);
 const extensionsToIgnore = [
-  "agora",
-  "advertising",
-  "books",
-  "interactive-faq",
-  "in-app-purchases",
-  "menu",
-  "onboarding",
-  "podcast",
-  "radio",
-  "sendbird",
-  "shopify",
+  'agora',
+  'advertising',
+  'besttime',
+  'books',
+  'interactive-faq',
+  'in-app-purchases',
+  'menu',
+  'onboarding',
+  'podcast',
+  'radio',
+  'sendbird',
+  'shopify'
 ];
 
-platformJson.dependencies = getPlatformDependencies(process.argv[2], extensionsToIgnore);
+platformJson.dependencies = getPlatformDependencies(
+  process.argv[2],
+  extensionsToIgnore
+);
 fs.writeJsonSync(platformPath, platformJson, { spaces: 2 });
