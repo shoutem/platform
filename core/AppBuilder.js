@@ -134,7 +134,7 @@ function createApplication(appContext) {
 
     render() {
       const extensions = appContext.extensions;
-      const mainContent = renderMainContent(extensions);
+      const mainContent = renderMainContent(this, extensions);
       const renderedContent = renderProviders(extensions, mainContent);
 
       return renderedContent;
