@@ -1,11 +1,11 @@
 {
-  "version": "3.0.0-rc.0",
-  "mobileAppVersion": "3.0.0-rc.0",
+  "version": "3.0.0-rc.1",
+  "mobileAppVersion": "3.0.0-rc.1",
   "releaseNotes": "* Reworked and updated navigation across extensions",
   "settings": {
-    "DEV-appetizeKey": "keh1wc730419ze53pteq8evy5m",
-    "QA-appetizeKey": "x4t2fhp8j3e33br2wr5x6m7tp8",
-    "Production-appetizeKey": "d4du5b4vw714p6cw41dwqwthrw"
+    "DEV-appetizeKey": "tmbt6dp2z7dafedwuc3z2b586r",
+    "QA-appetizeKey": "mu8a6zv0xptggaezkyzr9v141r",
+    "Production-appetizeKey": "7qht6hnbpfz9dwv26hvdmz3mdm"
   },
   "builds": {
     "live": {
