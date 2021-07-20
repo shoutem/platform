@@ -21,7 +21,7 @@
     "moment": "2.24.0",
     "prop-types": "15.7.1",
     "react": "16.13.1",
-    "react-native": "0.63.4",
+    "react-native": "0.64.1",
     "react-redux": "~5.0.2",
     "redux": "~3.6.0",
     "redux-action-buffer": "~1.0.1",
