@@ -11,5 +11,5 @@ project.ext {
     // in both, we want them to use these versions
     firebaseVersion = '16.0.3'
     firebaseCoreVersion = '16.0.3'
-    firebaseMessagingVersion = '17.6.0'
+    firebaseMessagingVersion = '21.1.0'
 }

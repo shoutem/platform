@@ -1,6 +1,6 @@
 {
-  "version": "2.5.6-rc.1",
-  "mobileAppVersion": "2.5.6-rc.1",
+  "version": "2.5.6-rc.2",
+  "mobileAppVersion": "2.5.6-rc.2",
   "releaseNotes": "* Target Android API level 30\n* Rework permission extension to provide more generic interface\n* Update image picker",
   "settings": {
     "DEV-appetizeKey": "wy91529gn24dmakx9nb2a6ejum",
