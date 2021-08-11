@@ -3,9 +3,9 @@
   "mobileAppVersion": "2.5.6",
   "releaseNotes": "* Target Android API level 30\n* Rework permission extension to provide more generic interface\n* Update image picker",
   "settings": {
-    "DEV-appetizeKey": "wy91529gn24dmakx9nb2a6ejum",
+    "DEV-appetizeKey": "v0wj1e32rhujbm4pgp2tdhpa20",
     "QA-appetizeKey": "4f7d52ka9vwecqrrwpyj1d46uw",
-    "Production-appetizeKey": "gkpbj228kyu1dwv56ryeqfqn6r"
+    "Production-appetizeKey": "fr9cg75jb71hu5wa9v432a16uc"
   },
   "builds": {
     "live": {
