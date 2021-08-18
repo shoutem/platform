@@ -16,7 +16,7 @@ export function assertExtensionsExist(extensions) {
     You must supply at least one extensions using the setExtensions method`);
 }
 
-export function renderMainContent(extensions) {
+export function renderMainContent(app, extensions) {
   const renderedContent = [];
 
   for (const extensionName of Object.keys(extensions)) {
@@ -24,7 +24,7 @@ export function renderMainContent(extensions) {
     const renderFunction = extension.render;
 
     if (typeof renderFunction === 'function') {
-      const content = renderFunction();
+      const content = renderFunction(app);
       if (content) {
         renderedContent.push(content);
       }
