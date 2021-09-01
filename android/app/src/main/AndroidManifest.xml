@@ -6,6 +6,10 @@
 
   <!--//NativeModuleInjectionMark-android-manifest-root-->
 
+  <queries>
+    <!--//NativeModuleInjectionMark-android-manifest-queries-->
+  </queries>
+
   <application tools:replace="android:label,android:appComponentFactory"
     android:appComponentFactory="dummyProperty"
     android:usesCleartextTraffic="true"
