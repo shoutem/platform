@@ -1,7 +1,7 @@
 {
-  "version": "2.5.7-rc.0",
-  "mobileAppVersion": "2.5.7-rc.0",
-  "releaseNotes": "* For devs: Fixed production info helper build script\n* NOTE: Feel free to skip this platform update if you don't have custom extensions that use 'getProductionBuildInfo'",
+  "version": "2.5.7",
+  "mobileAppVersion": "2.5.7",
+  "releaseNotes": "* For devs: Fixed production info helper build script\nNOTE: Feel free to skip this platform update if you don't have custom extensions that use 'getProductionBuildInfo'",
   "settings": {
     "DEV-appetizeKey": "v0wj1e32rhujbm4pgp2tdhpa20",
     "QA-appetizeKey": "4f7d52ka9vwecqrrwpyj1d46uw",
