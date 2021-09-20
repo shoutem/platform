@@ -23,10 +23,14 @@ async function getProductionBuildInfo(buildConfig, platform) {
   try {
     const body = await request.get(requestOptions);
     const parsedBody = JSON.parse(body);
-    const productionBuild = _.find(
-      parsedBody.data,
-      build => build.attributes.devicePlatform === platform,
-    );
+    const productionBuild = _.find(parsedBody.data, build => {
+      if (
+        build.attributes.devicePlatform === platform &&
+        build.attributes.buildType === 'production'
+      ) {
+        return build;
+      }
+    });
 
     return productionBuild;
   } catch (error) {
