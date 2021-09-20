@@ -11,18 +11,20 @@ const extensionsToIgnore = [
   'advertising',
   'besttime',
   'books',
+  'checklist',
   'interactive-faq',
   'in-app-purchases',
   'menu',
   'onboarding',
   'podcast',
   'radio',
+  'radio-player',
   'sendbird',
-  'shopify'
+  'shopify',
 ];
 
 platformJson.dependencies = getPlatformDependencies(
   process.argv[2],
-  extensionsToIgnore
+  extensionsToIgnore,
 );
 fs.writeJsonSync(platformPath, platformJson, { spaces: 2 });
