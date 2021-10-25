@@ -1,7 +1,7 @@
 {
   "version": "4.0.0-rc.1",
   "mobileAppVersion": "4.0.0-rc.1",
-  "releaseNotes": "* Updated React Native to 0.66.0\n* Updated @react-native-firebase dependencies\n* Updated react-redux\n* Updated react-native-push-notification\n* Fixed Xcode 13 & iOS 15 builds for radio extensions\n\n\n **Developers notes:**\n* We will be deprecating Flipper support in our next major release.",
+  "releaseNotes": "* Updated React Native to 0.66.0\n* Updated @react-native-firebase dependencies\n* Updated react-redux\n* Updated react-native-push-notification\n* Fixed Xcode 13 & iOS 15 builds for radio extensions\n\n\n **Developers notes:**\n* We will be removing Flipper support in our next major release.",
   "settings": {
     "DEV-appetizeKey": "u7ut6gqrrfxnxw7cn8ub4gu8pr",
     "QA-appetizeKey": "zr00vy2jcm79hkdt1q76rvpkxw",
