@@ -1,6 +1,6 @@
 {
-  "version": "3.0.2",
-  "mobileAppVersion": "3.0.2",
+  "version": "4.0.0-rc.0",
+  "mobileAppVersion": "4.0.0-rc.0",
   "releaseNotes": "* Fixed paused Podcast/Radio resuming after audio interruption\n* For devs: Fixed production build info helper script",
   "settings": {
     "DEV-appetizeKey": "tmbt6dp2z7dafedwuc3z2b586r",
