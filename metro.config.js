@@ -1,5 +1,5 @@
 const { getDefaultConfig } = require('metro-config');
-const blacklist = require('metro-config/src/defaults/blacklist');
+const blacklist = require('metro-config/src/defaults/exclusionList');
 const path = require('path');
 
 // parameters adjusted by CI scripts
@@ -13,7 +13,7 @@ module.exports = (async () => {
       getTransformOptions: async () => ({
         transform: {
           experimentalImportSupport: false,
-          inlineRequires: false,
+          inlineRequires: true,
         },
       }),
       babelTransformerPath: require.resolve('react-native-svg-transformer'),
