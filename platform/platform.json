@@ -1,6 +1,6 @@
 {
-  "version": "4.0.0-rc.2",
-  "mobileAppVersion": "4.0.0-rc.2",
+  "version": "4.0.0-rc.3",
+  "mobileAppVersion": "4.0.0-rc.3",
   "releaseNotes": "* Updated React Native to 0.66.0\n* Updated @react-native-firebase dependencies\n* Updated react-redux\n* Updated react-native-push-notification\n* Fixed Xcode 13 & iOS 15 builds for radio extensions\n\n\n **Developers notes:**\n* We will be removing Flipper support in our next major release.",
   "settings": {
     "DEV-appetizeKey": "u7ut6gqrrfxnxw7cn8ub4gu8pr",
@@ -38,7 +38,7 @@
     "shoutem.ical-events": "~4.0.0-rc.0",
     "shoutem.layouts": "~4.0.0-rc.0",
     "shoutem.loyalty": "~4.0.0-rc.0",
-    "shoutem.navigation": "~4.0.0-rc.0",
+    "shoutem.navigation": "~4.0.0-rc.1",
     "shoutem.news": "~4.0.0-rc.0",
     "shoutem.notification-center": "~4.0.0-rc.0",
     "shoutem.page": "~4.0.0-rc.0",
@@ -59,7 +59,7 @@
     "shoutem.rubicon-theme": "~4.0.0-rc.0",
     "shoutem.social": "~4.0.0-rc.0",
     "shoutem.sub-navigation": "~4.0.0-rc.0",
-    "shoutem.theme": "~4.0.0-rc.0",
+    "shoutem.theme": "~4.0.0-rc.1",
     "shoutem.video": "~4.0.0-rc.0",
     "shoutem.vimeo": "~4.0.0-rc.0",
     "shoutem.web-view": "~4.0.0-rc.0",
