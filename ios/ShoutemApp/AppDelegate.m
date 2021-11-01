@@ -38,7 +38,11 @@ static void InitializeFlipper(UIApplication *application) {
 
   //NativeModuleInjectionMark-appDelegate-applicationDidFinishLaunchingWithOptions
 
-  rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
+  if (@available(iOS 13.0, *)) {
+      rootView.backgroundColor = [UIColor systemBackgroundColor];
+  } else {
+      rootView.backgroundColor = [UIColor whiteColor];
+  }
 
   // Loading view that shows the launch screen while Javascript is reloading
   UIView *loading = [[[NSBundle mainBundle] loadNibNamed:@"LaunchScreen" owner:self options:nil] objectAtIndex:0];

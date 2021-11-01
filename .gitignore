@@ -1,8 +1,6 @@
 build-script/tmp
 extensions.js
-!preview-app/**/extensions.js
 config.json
-!preview-app/**/config.json
 !app-center/config.json
 temp
 cached-bundles
@@ -101,6 +99,7 @@ ios/ShoutemApp/Images.xcassets/Image.imageset/background.png
 .gradle
 local.properties
 *.iml
+*.hprof
 
 # node.js
 #
@@ -113,7 +112,6 @@ buck-out/
 \.buckd/
 android/app/libs
 *.keystore
-!preview-app/**/*.keystore
 
 # fastlane
 #
