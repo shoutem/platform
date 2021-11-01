@@ -12,6 +12,7 @@ const extensionsToIgnore = [
   'besttime',
   'books',
   'checklist',
+  'geo-restrictions',
   'interactive-faq',
   'in-app-purchases',
   'menu',
