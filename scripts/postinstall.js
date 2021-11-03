@@ -1,5 +1,6 @@
 const { execSync } = require('child_process');
 const fs = require('fs-extra');
+const path = require('path');
 const { prependProjectPath, projectPath } = require('./helpers');
 
 // returns all downloaded extensions found in the extensions directory
@@ -29,7 +30,7 @@ function applyExtensionPatches() {
     return;
   }
 
-  console.time('Patching packages took');
+  console.time('Patching extension packages took');
   console.log('Checking for patch-package patches...');
   extensions.map(extension => {
     // Depending on the environment's OS, 'extension' can be an object or just
@@ -50,7 +51,32 @@ function applyExtensionPatches() {
       },
     );
   });
-  console.timeEnd('Patching packages took');
+  console.timeEnd('Patching extension packages took');
+}
+
+function applyPlatformPatches() {
+  const PATCH_FILE_EXTENSION = '.patch';
+  const patchesDir = path.join(projectPath, '/patches');
+
+  console.time('Patching platform packages took');
+  console.log('Checking for patch-package patches...');
+
+  fs.readdir(patchesDir, (error, patchFiles) => {
+    if (error) {
+      return console.log('Unable to scan patches directory: ', error);
+    }
+
+    const hasPatch = !!patchFiles.find(
+      file => path.extname(file) === PATCH_FILE_EXTENSION,
+    );
+
+    if (hasPatch) {
+      execSync(`node node_modules/patch-package --patch-dir patches`, {
+        cwd: projectPath,
+      });
+    }
+    console.timeEnd('Patching platform packages took');
+  });
 }
 
 function jetify() {
@@ -60,4 +86,5 @@ function jetify() {
 }
 
 applyExtensionPatches();
+applyPlatformPatches();
 jetify();

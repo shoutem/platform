@@ -1,6 +1,6 @@
 {
-  "version": "4.0.1-rc.0",
-  "mobileAppVersion": "4.0.1-rc.0",
+  "version": "4.0.1-rc.1",
+  "mobileAppVersion": "4.0.1-rc.1",
   "releaseNotes": "* Introduced Invision Community OAuth extension\n* Introduced authentication provider registration mechanism for custom extensions\n* Added intent filter anchors for preBuild scripts",
   "settings": {
     "DEV-appetizeKey": "u7ut6gqrrfxnxw7cn8ub4gu8pr",
