@@ -1,7 +1,7 @@
 {
-  "version": "4.0.0",
-  "mobileAppVersion": "4.0.0",
-  "releaseNotes": "* Updated React Native to 0.66.0\n* Updated @react-native-firebase dependencies\n* Updated react-redux\n* Updated react-native-push-notification\n* Fixed Xcode 13 & iOS 15 builds for radio extensions\n\n\n **Developers notes:**\n* We will be removing Flipper support in our next major release.",
+  "version": "4.0.1-rc.0",
+  "mobileAppVersion": "4.0.1-rc.0",
+  "releaseNotes": "* Introduced Invision Community OAuth extension\n* Introduced authentication provider registration mechanism for custom extensions\n* Added intent filter anchors for preBuild scripts",
   "settings": {
     "DEV-appetizeKey": "u7ut6gqrrfxnxw7cn8ub4gu8pr",
     "QA-appetizeKey": "zr00vy2jcm79hkdt1q76rvpkxw",
@@ -25,7 +25,7 @@
     "shoutem.analytics": "~4.0.0",
     "shoutem.application": "~4.0.0",
     "shoutem.audio": "~4.0.0",
-    "shoutem.auth": "~4.0.0",
+    "shoutem.auth": "~4.0.1-rc.0",
     "shoutem.camera": "~4.0.0",
     "shoutem.cms": "~4.0.0",
     "shoutem.code-push": "~4.0.0",
@@ -56,7 +56,7 @@
     "shoutem.rss-news": "~4.0.0",
     "shoutem.rss-photos": "~4.0.0",
     "shoutem.rss-videos": "~4.0.0",
-    "shoutem.rubicon-theme": "~4.0.0",
+    "shoutem.rubicon-theme": "~4.0.1-rc.0",
     "shoutem.social": "~4.0.0",
     "shoutem.sub-navigation": "~4.0.0",
     "shoutem.theme": "~4.0.0",
