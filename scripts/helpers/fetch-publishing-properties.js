@@ -23,17 +23,22 @@ async function fetchPublishingProperties(config) {
   };
 
   return new Promise((resolve, reject) => {
-    request.get(requestArgs, (err, response, body) => {
-      if (response.statusCode === 200) {
-        const publishingProperties = JSON.parse(body);
-        resolve(publishingProperties);
-      } else {
-        const errorMessage = getErrorMessageFromResponse(response);
-        reject(`Publishing properties download failed with error: ${response.statusCode} ${errorMessage}`.bold.red);
-      }
-    }).on('error', err => {
-      reject(err);
-    });
+    request
+      .get(requestArgs, (err, response, body) => {
+        if (response.statusCode === 200) {
+          const publishingProperties = JSON.parse(body);
+          resolve(publishingProperties);
+        } else {
+          const errorMessage = getErrorMessageFromResponse(response);
+          reject(
+            `Publishing properties download failed with error: ${response.statusCode} ${errorMessage}`
+              .bold.red,
+          );
+        }
+      })
+      .on('error', err => {
+        reject(err);
+      });
   });
 }
 

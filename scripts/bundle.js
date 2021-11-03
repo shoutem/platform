@@ -20,9 +20,7 @@ const config = fs.readJsonSync(configPath);
 const buildConfig = _.merge(config, cliArgs);
 const bundler = new AppBundler(buildConfig);
 
-bundler.createReactNativeBundle()
-  .catch(reason => {
-      console.error(reason);
-      process.exit(1);
-    }
-  );
+bundler.createReactNativeBundle().catch(reason => {
+  console.error(reason);
+  process.exit(1);
+});

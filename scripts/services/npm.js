@@ -9,9 +9,9 @@ const npm = {
       stdio: 'ignore',
       cwd,
       shell: true,
-      env: _.merge(process.env, { FORCE_COLOR: true })
+      env: _.merge(process.env, { FORCE_COLOR: true }),
     });
-  }
+  },
 };
 
 module.exports = npm;

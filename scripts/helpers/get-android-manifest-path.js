@@ -4,7 +4,7 @@ const { systemSlash } = require('./path');
 
 function getAndroidManifestPath(options = { cwd: '.' }) {
   return systemSlash(
-    path.resolve(options.cwd, 'android/app/src/main/AndroidManifest.xml')
+    path.resolve(options.cwd, 'android/app/src/main/AndroidManifest.xml'),
   );
 }
 

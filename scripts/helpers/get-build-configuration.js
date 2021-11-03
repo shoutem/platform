@@ -7,8 +7,10 @@ module.exports = function getBuildConfiguration() {
   const data = fs.readJsonSync(filePath, { throws: false });
 
   if (data === null) {
-    console.log(`${filePath} is an invalid path, or the file is either missing or empty.`);
+    console.log(
+      `${filePath} is an invalid path, or the file is either missing or empty.`,
+    );
   }
 
   return data;
-}
+};

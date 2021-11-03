@@ -38,7 +38,9 @@ const config = fs.readJsonSync(path.resolve(configPath));
 // merge command line arguments and config.json
 // release is always set when production is true
 
-const buildConfig = _.merge(config, cliArgs, { release: config.production || cliArgs.production });
+const buildConfig = _.merge(config, cliArgs, {
+  release: config.production || cliArgs.production,
+});
 fs.writeJsonSync(DEFAULT_CONFIG, buildConfig, { spaces: 2 });
 
 const configure = new AppConfigurator(buildConfig);

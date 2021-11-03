@@ -26,6 +26,7 @@ module.exports = {
   getAppGradlePath: require('./get-app-gradle-path'),
   getBuchPath: require('./get-buck-path'),
   getGradlePropertiesPath: require('./get-gradle-properties-path'),
+  getGradleConstantsPath: require('./get-gradle-constants-path'),
   getSettingsGradlePath: require('./get-settings-gradle-path'),
   getRootGradlePath: require('./get-root-gradle-path'),
   getAndroidManifestPath: require('./get-android-manifest-path'),
@@ -45,5 +46,6 @@ module.exports = {
   shortPath,
   prependProjectPath,
   ANCHORS: constants.ANCHORS,
-  filesChangedByConfigurationScript: constants.filesChangedByConfigurationScript,
+  filesChangedByConfigurationScript:
+    constants.filesChangedByConfigurationScript,
 };

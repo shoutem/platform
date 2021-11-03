@@ -20,8 +20,7 @@ const config = fs.readJsonSync(configPath);
 const buildConfig = _.merge(config, cliArgs);
 const app = new AppBuilder(buildConfig);
 
-app.build()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  });
+app.build().catch(e => {
+  console.error(e);
+  process.exit(1);
+});

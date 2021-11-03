@@ -10,15 +10,27 @@ const findFileOnPath = require('../helpers/find-file-on-path');
 const buildHandlers = {
   ios() {
     const outputDir = this.getOutputDirectory();
-    const configuration = (this.config.configuration || 'Release');
-    const schemaFile = findFileOnPath('xcshareddata/xcschemes/*.xcscheme', 'ios');
+    const configuration = this.config.configuration || 'Release';
+    const schemaFile = findFileOnPath(
+      'xcshareddata/xcschemes/*.xcscheme',
+      'ios',
+    );
     const schemaName = path.basename(schemaFile).split('.')[0];
     const workspacePath = findFileOnPath('*.xcworkspace', '.');
     const archivePath = path.join(outputDir, 'ShoutemApp.xcarchive');
-    const appFilePath = path.join(archivePath, 'Products', 'Applications', `${schemaName}.app`);
+    const appFilePath = path.join(
+      archivePath,
+      'Products',
+      'Applications',
+      `${schemaName}.app`,
+    );
     const swiftSupportPath = path.join(archivePath, 'SwiftSupport');
     const swiftSupportDestination = path.join(outputDir, 'SwiftSupport');
-    const payloadPath = path.join(outputDir, 'Payload', path.basename(appFilePath));
+    const payloadPath = path.join(
+      outputDir,
+      'Payload',
+      path.basename(appFilePath),
+    );
 
     const stdArgs = {
       stderr: 'inherit',
@@ -31,20 +43,18 @@ const buildHandlers = {
       cwd: outputDir,
     };
 
-    const zipArgs = [
-      '-r',
-      '-X',
-      'ShoutemApp.ipa',
-      'Payload',
-      'SwiftSupport',
-    ];
+    const zipArgs = ['-r', '-X', 'ShoutemApp.ipa', 'Payload', 'SwiftSupport'];
 
     const xcodeArgs = [
       'archive',
-      '-workspace', workspacePath,
-      '-scheme', schemaName,
-      '-configuration', configuration,
-      '-archivePath', archivePath,
+      '-workspace',
+      workspacePath,
+      '-scheme',
+      schemaName,
+      '-configuration',
+      configuration,
+      '-archivePath',
+      archivePath,
       'CODE_SIGNING_ALLOWED=NO',
       'CODE_SIGNING_REQUIRED=NO',
       'CODE_SIGN_IDENTITY=',
@@ -66,11 +76,10 @@ const buildHandlers = {
       cwd: 'android',
     };
 
-    return spawn(gradlew, ['assembleUnsignedRelease'], stdArgs)
-      .then(() => {
-        console.log(`Copying .apk to ${outputDir}`);
-        fs.copySync(apkPath, outputDir);
-      });
+    return spawn(gradlew, ['assembleUnsignedRelease'], stdArgs).then(() => {
+      console.log(`Copying .apk to ${outputDir}`);
+      fs.copySync(apkPath, outputDir);
+    });
   },
 };
 
@@ -80,7 +89,9 @@ class AppBuilder {
   }
 
   getOutputDirectory() {
-    return this.config.outputDirectory || path.join('temp', `${this.config.appId}`);
+    return (
+      this.config.outputDirectory || path.join('temp', `${this.config.appId}`)
+    );
   }
 
   build() {

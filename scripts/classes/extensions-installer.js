@@ -26,25 +26,33 @@ function installJsDependencies() {
 
   // use yarn if it exists, otherwise use npm (this is so 3rd party devs aren't
   // forced to install yarn just for this one step in our configuration script)
-  return yarnExists ? spawn('yarn', ['install'], stdArgs) :
-    spawn('npm', ['install'], stdArgs);
+  return yarnExists
+    ? spawn('yarn', ['install'], stdArgs)
+    : spawn('npm', ['install'], stdArgs);
 }
 
 function installNpmExtension(extension) {
   // This could actually be any valid npm install argument (version range,
   // GitHub repo, URL to a .tgz file, or even local path) but for now,
   // it's always the URL to the .tgz stored on our server
-  const extensionPackageURL = _.get(extension, 'attributes.location.app.package');
+  const extensionPackageURL = _.get(
+    extension,
+    'attributes.location.app.package',
+  );
   const packageName = extension.id;
 
-  addDependencyToPackageJson(packageJsonTemplate, packageName, extensionPackageURL);
+  addDependencyToPackageJson(
+    packageJsonTemplate,
+    packageName,
+    extensionPackageURL,
+  );
 }
 
 function writeJson(content, filePath) {
   const json = JSON.stringify(content, null, 2);
 
   return new Promise((resolve, reject) => {
-    fs.writeFile(filePath, json, (err) => {
+    fs.writeFile(filePath, json, err => {
       if (err) {
         return reject(err);
       }
@@ -59,14 +67,18 @@ function writePackageJson(content) {
 }
 
 function getPodspecPaths(extensions) {
-  return _.reduce(extensions, (paths, extension) => {
-    const podspecPath = glob.sync(`node_modules/${extension.id}/*.podspec`);
-    return paths.concat(podspecPath);
-  }, []);
+  return _.reduce(
+    extensions,
+    (paths, extension) => {
+      const podspecPath = glob.sync(`node_modules/${extension.id}/*.podspec`);
+      return paths.concat(podspecPath);
+    },
+    [],
+  );
 }
 
 function getPodspecStrings(podspecPaths) {
-  return _.map(podspecPaths, (podspecPath) => {
+  return _.map(podspecPaths, podspecPath => {
     const podName = path.basename(podspecPath, '.podspec');
     return `pod '${podName}', :path => '../${podspecPath}'`;
   }).join('\n');
@@ -89,12 +101,16 @@ class ExtensionsInstaller {
   installExtensions() {
     const workingDir = process.cwd();
 
-    this.extensionsToInstall.forEach((extension) =>
-      installNpmExtension(extension)
+    this.extensionsToInstall.forEach(extension =>
+      installNpmExtension(extension),
     );
 
-    this.localExtensions.forEach((extension) =>
-      addDependencyToPackageJson(packageJsonTemplate, extension.id, `file:${extension.path}`)
+    this.localExtensions.forEach(extension =>
+      addDependencyToPackageJson(
+        packageJsonTemplate,
+        extension.id,
+        `file:${extension.path}`,
+      ),
     );
 
     const installedExtensions = [
@@ -113,17 +129,18 @@ class ExtensionsInstaller {
 
     if (_.isEmpty(installedExtensions)) {
       return Promise.reject(
-        '[ERROR]: You are trying to build an app without any extensions'.bold.red
+        '[ERROR]: You are trying to build an app without any extensions'.bold
+          .red,
       );
     }
 
     const extensionsMapping = [];
     const extensions = _.uniqBy(installedExtensions, 'id');
 
-    extensions.forEach((extension) => {
+    extensions.forEach(extension => {
       if (extension) {
         extensionsMapping.push(
-          `'${extension.id}': require('${extension.id}'),\n  `
+          `'${extension.id}': require('${extension.id}'),\n  `,
         );
       }
     });
@@ -134,7 +151,7 @@ class ExtensionsInstaller {
     console.time('Create extensions.js'.bold.green);
 
     return new Promise((resolve, reject) => {
-      fs.writeFile(this.extensionsJsPath, data, (error) => {
+      fs.writeFile(this.extensionsJsPath, data, error => {
         if (error) {
           return reject(error);
         }
@@ -165,7 +182,10 @@ class ExtensionsInstaller {
     const extensionsPlaceholderRegExp = /## <Extension dependencies>/g;
     const podspecPaths = getPodspecPaths(installedExtensions);
     const pods = getPodspecStrings(podspecPaths);
-    const podFileContent = podFileTemplate.replace(extensionsPlaceholderRegExp, pods);
+    const podFileContent = podFileTemplate.replace(
+      extensionsPlaceholderRegExp,
+      pods,
+    );
 
     fs.writeFileSync(podPath, podFileContent);
 

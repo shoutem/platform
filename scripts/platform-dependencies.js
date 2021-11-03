@@ -16,15 +16,18 @@ function fetchPlatformExtensions() {
 // returns all extensions found in the ./extensions directory
 // currently unused due to deprecated extensions in the directory
 function fetchAllExtensions() {
-  const listOfExtensions = fs.readdirSync(EXT_PATH_ROOT, { withFileTypes: true })
-    .filter(file => file.startsWith('shoutem.'))
+  const listOfExtensions = fs
+    .readdirSync(EXT_PATH_ROOT, { withFileTypes: true })
+    .filter(file => file.startsWith('shoutem.'));
 
   return listOfExtensions;
 }
 
 // returns all dependencies of a specific extension
 function fetchExtensionDependencies(extName) {
-  const extPackageJson = fs.readJsonSync(EXT_PATH_ROOT + extName + EXT_PACKAGE_PATH);
+  const extPackageJson = fs.readJsonSync(
+    EXT_PATH_ROOT + extName + EXT_PACKAGE_PATH,
+  );
 
   return extPackageJson.dependencies;
 }
@@ -41,7 +44,8 @@ function makeList() {
 
   let listOfDependencies = {};
   listOfExtensions.forEach(extension => {
-    const extName = extension === 'shoutem.video' ? 'shoutem.videos' : extension;
+    const extName =
+      extension === 'shoutem.video' ? 'shoutem.videos' : extension;
 
     listOfDependencies = {
       ...listOfDependencies,
@@ -52,12 +56,18 @@ function makeList() {
   listOfDependencies = {
     ...listOfDependencies,
     ...fetchPlatformDependencies(),
-  }
+  };
 
-  const list = JSON.stringify(listOfDependencies, Object.keys(listOfDependencies).sort(), 2);
+  const list = JSON.stringify(
+    listOfDependencies,
+    Object.keys(listOfDependencies).sort(),
+    2,
+  );
 
   fs.writeFileSync(DEPENDENCIES_FILE_PATH, list);
-  console.log("Wrote list of platform and extension dependencies into 'dependencies.json'");
+  console.log(
+    "Wrote list of platform and extension dependencies into 'dependencies.json'",
+  );
 }
 
 makeList();

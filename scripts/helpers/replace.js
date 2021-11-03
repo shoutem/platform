@@ -37,7 +37,10 @@ function replace(filePath, oldContent, newContent) {
     return;
   }
 
-  const saniteizedOldContent = oldContent.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+  const saniteizedOldContent = oldContent.replace(
+    /[-[\]{}()*+?.,\\^$|#\s]/g,
+    '\\$&',
+  );
   const anchorRegex = new RegExp(`^(.*)${saniteizedOldContent}$`, 'gm');
   const newFileContents = fileContents.replace(anchorRegex, `$1${newContent}`);
 

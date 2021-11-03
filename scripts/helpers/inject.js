@@ -21,7 +21,9 @@ function inject(filePath, anchor, content) {
     throw new Error('Please provide a valid file path');
   }
   if (!anchor) {
-    throw new Error('Please provide a valid anchor. Check @shoutem/build-tools/const');
+    throw new Error(
+      'Please provide a valid anchor. Check @shoutem/build-tools/const',
+    );
   }
   if (!content) {
     throw new Error('Please provide a valid content to inject');
@@ -38,7 +40,10 @@ function inject(filePath, anchor, content) {
   }
 
   const anchorRegex = new RegExp(`^(.*)${anchor}$`, 'gm');
-  const newFileContents = fileContents.replace(anchorRegex, `$1${anchor}\n$1${content}`);
+  const newFileContents = fileContents.replace(
+    anchorRegex,
+    `$1${anchor}\n$1${content}`,
+  );
   fs.writeFileSync(filePath, newFileContents);
   console.log(`Injecting "${filePathShort}": "${shortContent}" - [OK].`);
 }

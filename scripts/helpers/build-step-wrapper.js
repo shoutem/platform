@@ -7,9 +7,7 @@ const commandLineArgs = require('command-line-args');
 const getBuildConfiguration = require('./get-build-configuration.js');
 const getAppConfiguration = require('./get-app-configuration.js');
 
-const cliArgs = commandLineArgs([
-  { name: 'lifeCycleStep', type: String },
-]);
+const cliArgs = commandLineArgs([{ name: 'lifeCycleStep', type: String }]);
 
 const buildScriptPath = path.join(process.cwd(), 'build');
 const buildScripts = require(buildScriptPath);
