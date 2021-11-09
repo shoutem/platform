@@ -1,7 +1,7 @@
-/* eslint global-require: "off" */
-/* global require needs to be enabled because files to be required are
- * determined dynamically
- */
+/* eslint-disable global-require, no-console */
+// global-require needs to be enabled because files to be required are
+// determined dynamically
+
 'use strict';
 
 const { execFileSync } = require('child_process');
@@ -42,7 +42,9 @@ function isExtensionLinkable(extension) {
 
   // if an extension has native dependencies defined in its package.json
   // or it contains an 'ios' or 'android' directory, it is linkable
-  return (!!packageJson.nativeDependencies || !!containsAndroidOrIosFolders.length);
+  return (
+    !!packageJson.nativeDependencies || !!containsAndroidOrIosFolders.length
+  );
 }
 
 /**
@@ -78,9 +80,7 @@ class AppConfigurator {
     console.time('Download configuration'.bold.green);
 
     const { buildConfig } = this;
-    const {
-      production: isProduction,
-    } = buildConfig;
+    const { production: isProduction } = buildConfig;
 
     const requestParams = {
       url: this.getConfigurationUrl(),
@@ -91,33 +91,41 @@ class AppConfigurator {
     };
 
     return new Promise((resolve, reject) => {
-      request.get(requestParams, (err, response, body) => {
-        const statusCode = _.get(response, 'statusCode');
-        if (!statusCode || statusCode !== 200) {
-          if (statusCode === 404 && isProduction) {
+      request
+        .get(requestParams, (err, response, body) => {
+          const statusCode = _.get(response, 'statusCode');
+          if (!statusCode || statusCode !== 200) {
+            if (statusCode === 404 && isProduction) {
+              return reject(
+                // eslint-disable-next-line max-len
+                "This application doesn't have a production configuration.\nOnly published apps have production configuration."
+                  .yellow,
+              );
+            }
             return reject(
-              // eslint-disable-next-line
-              'This application doesn\'t have a production configuration.\nOnly published apps have production configuration.'.yellow
+              `Configuration download failed. Error: \n${JSON.stringify(err)}`
+                .bold.red,
             );
           }
-          return reject(`Configuration download failed. Error: \n${JSON.stringify(err)}`.bold.red);
-        }
 
-        const configuration = JSON.parse(body);
-        console.timeEnd('Download configuration'.bold.green);
+          const configuration = JSON.parse(body);
+          console.timeEnd('Download configuration'.bold.green);
 
-        this.configuration = configuration;
+          this.configuration = configuration;
 
-        return resolve(configuration);
-      }).on('error', err => {
-        reject(err);
-      });
+          return resolve(configuration);
+        })
+        .on('error', err => {
+          reject(err);
+        });
     });
   }
 
   prepareConfiguration() {
     if (this.buildConfig.offlineMode) {
-      const configuration = require(path.resolve(this.buildConfig.configurationFilePath));
+      const configuration = require(path.resolve(
+        this.buildConfig.configurationFilePath,
+      ));
       this.configuration = configuration;
 
       // Nothing to do, resolve to proceed with next build step
@@ -133,10 +141,11 @@ class AppConfigurator {
 
     fs.ensureDirSync('config');
 
-    return fs.writeJson('config/buildConfig.json', this.buildConfig)
+    return fs
+      .writeJson('config/buildConfig.json', this.buildConfig)
       .then(() => fs.writeJson('config/appConfig.json', this.configuration))
       .then(() => console.timeEnd(logMessage))
-      .catch((err) => {
+      .catch(err => {
         throw new Error(err);
       });
   }
@@ -154,36 +163,45 @@ class AppConfigurator {
     const linkedExtensions = getLocalExtensions(buildConfig.linkedExtensions);
 
     // npm link all extensions available locally and installed in app configuration
-    const localExtensions = _.filter(linkedExtensions, (localExt) =>
-      _.find(extensions, { id: localExt.id })
+    const localExtensions = _.filter(linkedExtensions, localExt =>
+      _.find(extensions, { id: localExt.id }),
     );
 
     // install as .tars all extensions that are not available locally
-    const extensionsToInstall = _.filter(extensions, (ext) =>
-      !_.some(localExtensions, { id: ext.id })
+    const extensionsToInstall = _.filter(
+      extensions,
+      ext => !_.some(localExtensions, { id: ext.id }),
     );
 
     const installer = new ExtensionsInstaller(
       localExtensions,
       extensionsToInstall,
-      extensionsJsPath
+      extensionsJsPath,
     );
 
-    return installer.installExtensions(isProduction)
-      .then((installedExtensions) => {
+    return installer
+      .installExtensions(isProduction)
+      .then(installedExtensions => {
         const appBinaryConfigurator = new AppBinaryConfigurator(buildConfig);
         const extensionsJs = installer.createExtensionsJs(installedExtensions);
-        const preBuild = this.executeBuildLifecycleHook(installedExtensions, 'preBuild');
+        const preBuild = this.executeBuildLifecycleHook(
+          installedExtensions,
+          'preBuild',
+        );
 
         let configureProject;
 
         if (!skipNativeDependencies) {
-          const linkableExtensions = skipLinking ?
-            [] : _.filter(installedExtensions, isExtensionLinkable);
+          const linkableExtensions = skipLinking
+            ? []
+            : _.filter(installedExtensions, isExtensionLinkable);
 
-          configureProject = appBinaryConfigurator.customizeProject()
+          configureProject = appBinaryConfigurator
+            .customizeProject()
             .then(() => this.reactNativeLinkExtensions(linkableExtensions))
-            .then(() => installer.installNativeDependencies(installedExtensions))
+            .then(() =>
+              installer.installNativeDependencies(installedExtensions),
+            )
             .then(() => appBinaryConfigurator.configureApp());
         } else if (isProduction) {
           // rename the root view for republish build
@@ -195,13 +213,15 @@ class AppConfigurator {
   }
 
   executeBuildLifecycleHook(extensions, lifeCycleStep) {
-    const buildStepWrapperPath = prependProjectPath('scripts/helpers/build-step-wrapper.js');
+    const buildStepWrapperPath = prependProjectPath(
+      'scripts/helpers/build-step-wrapper.js',
+    );
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       console.log(`[${lifeCycleStep.bold}] - all`);
       console.time(`[${lifeCycleStep.bold}]`);
 
-      _.forEach(extensions, (extension) => {
+      _.forEach(extensions, extension => {
         if (extension && extension.id) {
           try {
             const buildPath = path.join(extension.id, 'build');
@@ -210,11 +230,17 @@ class AppConfigurator {
 
             if (!_.isFunction(buildLifeCycle)) {
               const errorMessage = 'Invalid export, expected a function.';
-              throw new Error(`[running ${lifeCycleStep}] - ${extension.id} - ${errorMessage}`);
+              throw new Error(
+                `[running ${lifeCycleStep}] - ${extension.id} - ${errorMessage}`,
+              );
             }
 
             const logString = `[${lifeCycleStep}] - ${extension.id}`;
-            const execArgs = [buildStepWrapperPath, '--lifeCycleStep', `${lifeCycleStep}`];
+            const execArgs = [
+              buildStepWrapperPath,
+              '--lifeCycleStep',
+              `${lifeCycleStep}`,
+            ];
             const options = {
               // extension build hooks expect to be run in their own folder
               cwd: `${NODE_MODULES_DIR}/${extension.id}`,
@@ -246,7 +272,9 @@ class AppConfigurator {
   }
 
   insertNativeDependencies(extName) {
-    const extPackageJson = fs.readJsonSync(`${NODE_MODULES_DIR}/${extName}/package.json`);
+    const extPackageJson = fs.readJsonSync(
+      `${NODE_MODULES_DIR}/${extName}/package.json`,
+    );
 
     if (!extPackageJson.nativeDependencies) {
       return;
@@ -257,7 +285,8 @@ class AppConfigurator {
     const extNativeDependencies = extPackageJson.nativeDependencies;
     const extDependencies = extPackageJson.dependencies;
     const nativeDeps = extNativeDependencies.reduce(
-      (o, dep) => ({ ...o, [dep]: extDependencies[dep]}), {}
+      (o, dep) => ({ ...o, [dep]: extDependencies[dep] }),
+      {},
     );
 
     const newPackageJson = {
@@ -265,11 +294,13 @@ class AppConfigurator {
       dependencies: {
         ...rootPackageJson.dependencies,
         ...nativeDeps,
-      }
+      },
     };
 
     fs.writeJsonSync(ROOT_PACKAGE_JSON_PATH, newPackageJson, { spaces: 2 });
-    console.log(`[${extName}]` + ' - native dependencies added to root package.json');
+    console.log(
+      `[${extName}] - native dependencies added to root package.json`,
+    );
   }
 
   reactNativeLinkExtensions(extensions) {
@@ -278,18 +309,21 @@ class AppConfigurator {
     }
 
     return Promise.all(
-      extensions.map((ext) => {
+      extensions.map(ext => {
         this.insertNativeDependencies(ext.id);
         return reactNativeLink(ext.id);
-      }
-    ));
+      }),
+    );
   }
 
   run() {
     const { sanitizeGitDiff } = this.buildConfig;
 
     console.time('Build time'.bold.green);
-    console.log('Starting build for app', `${this.buildConfig.appId}`.bold.cyan);
+    console.log(
+      'Starting build for app',
+      `${this.buildConfig.appId}`.bold.cyan,
+    );
 
     // clear any previous build's temp files
     this.cleanTempFolder();
@@ -304,7 +338,7 @@ class AppConfigurator {
         }
         console.timeEnd('Build time'.bold.green);
       })
-      .catch((e) => {
+      .catch(e => {
         console.log(e);
         process.exit(1);
       });

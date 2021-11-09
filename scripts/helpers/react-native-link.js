@@ -2,7 +2,6 @@
 
 const { execSync } = require('child_process');
 const projectPath = require('./get-project-path');
-const { prependProjectPath } = require('./path');
 
 const defaults = {
   stdio: ['ignore', 'inherit', 'inherit'],

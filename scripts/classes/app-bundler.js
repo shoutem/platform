@@ -15,7 +15,9 @@ class AppBundler {
   }
 
   getOutputDirectory() {
-    return this.config.outputDirectory || path.join('temp', `${this.config.appId}`);
+    return (
+      this.config.outputDirectory || path.join('temp', `${this.config.appId}`)
+    );
   }
 
   getEntryFileName() {
@@ -24,9 +26,13 @@ class AppBundler {
 
   getBundleName() {
     const platform = this.config.platform;
-    const defaultNameGenerator = (p) => `index.${p}.bundle`;
+    const defaultNameGenerator = p => `index.${p}.bundle`;
 
-    return _.get(bundleNameGenerators, platform, defaultNameGenerator)(platform);
+    return _.get(
+      bundleNameGenerators,
+      platform,
+      defaultNameGenerator,
+    )(platform);
   }
 
   createReactNativeBundle() {
@@ -57,23 +63,22 @@ class AppBundler {
       rnBundleArgs.push('--reset-cache');
     }
 
-    const rnBundleCommand = [
-      'react-native',
-      'bundle',
-      ...rnBundleArgs,
-    ].join(' ');
+    const rnBundleCommand = ['react-native', 'bundle', ...rnBundleArgs].join(
+      ' ',
+    );
 
     fs.ensureDirSync(assetsDest);
 
     return new Promise((resolve, reject) => {
-      const rnBundleProcess = exec(rnBundleCommand, (err, stdout, stderr ) => {
+      const rnBundleProcess = exec(rnBundleCommand, err => {
         console.timeEnd('Build bundle');
 
         if (err !== null) {
           console.log(`Bundling error: ${err}`);
           return reject(err);
         }
-        resolve(assetsDest);
+
+        return resolve(assetsDest);
       });
 
       rnBundleProcess.stdout.pipe(process.stdout);

@@ -14,8 +14,7 @@ function fetchPlatformExtensions() {
 }
 
 function getExtensionTranslations(extTitle) {
-  const translationPath =
-    `${EXT_PATH_ROOT}/shoutem.${extTitle}${TRANSLATION_PATH}`;
+  const translationPath = `${EXT_PATH_ROOT}/shoutem.${extTitle}${TRANSLATION_PATH}`;
 
   if (fs.existsSync(translationPath)) {
     return fs.readJsonSync(translationPath);
@@ -31,14 +30,16 @@ function generateTranslationFile() {
   extensions.forEach(extension => {
     const extTitle = extension.replace('shoutem.', '');
     const extTranslations = getExtensionTranslations(extTitle);
-    const resolvedExtTranslations = extTranslations ? extTranslations.shoutem : null;
+    const resolvedExtTranslations = extTranslations
+      ? extTranslations.shoutem
+      : null;
 
     allTranslations = {
       shoutem: {
         ...allTranslations.shoutem,
         ...resolvedExtTranslations,
-      }
-    }
+      },
+    };
   });
 
   fs.writeJsonSync('en.json', allTranslations, { spaces: 2 });

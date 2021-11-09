@@ -9,6 +9,6 @@ function getXcodeProjectName(options) {
   const xCodeProjectDir = path.dirname(xCodeProjectPath);
   // take the name of that directory (without .xcodeproj suffix)
   return path.basename(xCodeProjectDir, '.xcodeproj');
-};
+}
 
 module.exports = getXcodeProjectName;

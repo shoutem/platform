@@ -2,20 +2,18 @@ const path = require('path');
 const projectPath = require('./get-project-path');
 const s = '/';
 const bs = '\\';
-const sep = (path.sep === s) ? s : bs;
+const sep = path.sep === s ? s : bs;
 
 function slash(str) {
   return path.normalize(str).replace(/\\/g, s);
 }
 
 function backSlash(str) {
-  return slash(str)
-    .replace(/\/+/g, bs);
+  return slash(str).replace(/\/+/g, bs);
 }
 
 function systemSlash(str) {
-  return slash(str)
-    .replace(/\/+/g, sep);
+  return slash(str).replace(/\/+/g, sep);
 }
 
 function shortPath(str) {
@@ -31,9 +29,7 @@ function prependProjectPath(str) {
     return str;
   }
 
-  return path.normalize(
-    path.join(projectPath, systemSlash(str))
-  );
+  return path.normalize(path.join(projectPath, systemSlash(str)));
 }
 
 module.exports = {

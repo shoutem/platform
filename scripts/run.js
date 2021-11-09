@@ -6,7 +6,12 @@ const path = require('path');
 const fs = require('fs-extra');
 const spawn = require('superspawn').spawn;
 const validateArgsWithConfig = require('./helpers/validate-args-with-config');
-const reactNativeCli = path.join('node_modules', 'react-native', 'local-cli', 'cli.js');
+const reactNativeCli = path.join(
+  'node_modules',
+  'react-native',
+  'local-cli',
+  'cli.js',
+);
 
 const cliArgs = commandLineArgs([
   { name: 'platform', type: String },
@@ -25,28 +30,39 @@ validateArgsWithConfig(cliArgs, config);
 
 function getAdbPath() {
   return process.env.ANDROID_HOME
-    ? process.env.ANDROID_HOME + '/platform-tools/adb'
+    ? `${process.env.ANDROID_HOME}/platform-tools/adb`
     : 'adb';
 }
 
-const runConfig = cliArgs.platform === 'android' ?
-  _.omit(cliArgs, 'platform', 'configuration') :
-  _.omit(cliArgs, 'platform');
+const runConfig =
+  cliArgs.platform === 'android'
+    ? _.omit(cliArgs, 'platform', 'configuration')
+    : _.omit(cliArgs, 'platform');
 
 if (cliArgs.platform === 'android' && !runConfig.variant) {
-  const configuration = !cliArgs.configuration ? 'Debug' : _.capitalize(cliArgs.configuration);
+  const configuration = !cliArgs.configuration
+    ? 'Debug'
+    : _.capitalize(cliArgs.configuration);
   runConfig.variant = `${configuration}`;
 }
 
-const reactNativeRunArguments = _.reduce(runConfig, (args, argValue, argName) => {
-  if (argValue) {
-    args.push(`--${argName}`);
-    args.push(argValue);
-  }
-  return args;
-}, []);
+const reactNativeRunArguments = _.reduce(
+  runConfig,
+  (args, argValue, argName) => {
+    if (argValue) {
+      args.push(`--${argName}`);
+      args.push(argValue);
+    }
+    return args;
+  },
+  [],
+);
 
-const reactNativeRun = [reactNativeCli, `run-${cliArgs.platform}`, ...reactNativeRunArguments];
+const reactNativeRun = [
+  reactNativeCli,
+  `run-${cliArgs.platform}`,
+  ...reactNativeRunArguments,
+];
 console.log('node', ...reactNativeRun);
 spawn('node', reactNativeRun, { stdio: 'inherit', cwd: process.cwd() })
   .then(() => {
@@ -55,22 +71,29 @@ spawn('node', reactNativeRun, { stdio: 'inherit', cwd: process.cwd() })
     // which is not the case with our app, so after successful build it fails to open the app
     if (cliArgs.platform === 'android') {
       const adbPath = getAdbPath();
-      const packageName = fs.readFileSync(
-        path.join('android', 'app', 'src', 'main', 'AndroidManifest.xml'),
-        'utf8'
-      ).match(/package="(.+?)"/)[1];
-      const applicationId = fs.readFileSync(
-        path.join('android', 'app', 'build.gradle'),
-        'utf8'
-      ).match(/applicationId\s'(.+?)'/)[1];
-      return spawn(adbPath, [
-        'shell', 'am', 'start', '-n', `${applicationId}/${packageName}.MainActivity`,
-      ], { stdio: 'inherit' });
+      const packageName = fs
+        .readFileSync(
+          path.join('android', 'app', 'src', 'main', 'AndroidManifest.xml'),
+          'utf8',
+        )
+        .match(/package="(.+?)"/)[1];
+      const applicationId = fs
+        .readFileSync(path.join('android', 'app', 'build.gradle'), 'utf8')
+        .match(/applicationId\s'(.+?)'/)[1];
+      return spawn(
+        adbPath,
+        [
+          'shell',
+          'am',
+          'start',
+          '-n',
+          `${applicationId}/${packageName}.MainActivity`,
+        ],
+        { stdio: 'inherit' },
+      );
     }
   })
-  .catch((error) => {
+  .catch(error => {
     console.error(error);
     process.exit(1);
   });
-
-

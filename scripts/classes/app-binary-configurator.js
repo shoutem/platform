@@ -1,7 +1,8 @@
 'use strict';
 
+/* eslint-disable camelcase*/
+
 const autoBind = require('auto-bind');
-const colors = require('colors');
 const fs = require('fs-extra');
 const glob = require('glob');
 const Jimp = require('jimp');
@@ -46,6 +47,19 @@ function downloadImage(imageUrl, savePath) {
   });
 }
 
+function parsePlist(plistPath) {
+  const plistContent = fs.readFileSync(plistPath, 'utf8');
+
+  let plistResult = {};
+  try {
+    plistResult = plist.parse(plistContent);
+  } catch (e) {
+    console.error('Unable to parse plist', plistPath);
+  }
+
+  return plistResult;
+}
+
 /**
  * Downloads image to downloadPath and saves resized images
  * to savePath defined in resizeConfig.
@@ -56,37 +70,43 @@ function downloadImage(imageUrl, savePath) {
  * object: { savePath: {string}, width: {number}, height: {number} }
  * @returns {*|Promise.<TResult>|Promise<T>}
  */
-function downloadAndResizeImage(imageUrl, downloadPath, resizeConfig, production) {
-  return downloadImage(imageUrl, downloadPath, resizeConfig)
-    .then((imagePath) => {
-      const resizingPromises = _.map(resizeConfig.images, (image) =>
+function downloadAndResizeImage(
+  imageUrl,
+  downloadPath,
+  resizeConfig,
+  production,
+) {
+  return downloadImage(imageUrl, downloadPath, resizeConfig).then(imagePath => {
+    const resizingPromises = _.map(
+      resizeConfig.images,
+      image =>
         new Promise((resolve, reject) => {
           Jimp.read(imagePath)
-            .then((imageFile) => {
+            .then(imageFile => {
               if (_.endsWith(image.savePath, 'marketing.png')) {
                 imageFile
                   .colorType(2)
                   .cover(image.width, image.height)
-                  .write(image.savePath)
+                  .write(image.savePath);
               } else {
                 imageFile
                   .rgba(true)
                   .cover(image.width, image.height)
-                  .write(image.savePath)
+                  .write(image.savePath);
               }
             })
             .then(() => resolve())
-            .catch((error) => {
+            .catch(error => {
               if (production) {
                 return reject(error);
               }
 
-              resolve();
+              return resolve();
             });
-        })
-      );
+        }),
+    );
 
-      return Promise.all(resizingPromises);
+    return Promise.all(resizingPromises);
   });
 }
 
@@ -119,7 +139,7 @@ class AppBinaryConfigurator {
     const { appId, authorization } = this.config;
 
     const serverApiHost = this.getServerApiHost();
-    const serverApiPath = `/v1/apps/${appId}/publish-settings`
+    const serverApiPath = `/v1/apps/${appId}/publish-settings`;
 
     const requestArgs = {
       url: `http://${serverApiHost}${serverApiPath}`,
@@ -130,18 +150,24 @@ class AppBinaryConfigurator {
     };
 
     return new Promise((resolve, reject) => {
-      request.get(requestArgs, (err, response, body) => {
-        if (response.statusCode === 200) {
-          this.publishingSettings = JSON.parse(body).data.attributes;
-          resolve();
-        } else {
-          const errorMessage = getErrorMessageFromResponse(response);
-          // eslint-disable-next-line max-len
-          reject(`Publishing settings download failed with error: ${response.statusCode} ${errorMessage}`.bold.red);
-        }
-      }).on('error', err => {
-        reject(err);
-      });
+      request
+        .get(requestArgs, (err, response, body) => {
+          if (response.statusCode === 200) {
+            this.publishingSettings = JSON.parse(body).data.attributes;
+            resolve();
+          } else {
+            const errorMessage = getErrorMessageFromResponse(response);
+            /* eslint-disable max-len */
+            reject(
+              `Publishing settings download failed with error: ${response.statusCode} ${errorMessage}`
+                .bold.red,
+            );
+            /* eslint-enable max-len */
+          }
+        })
+        .on('error', err => {
+          reject(err);
+        });
     });
   }
 
@@ -159,23 +185,30 @@ class AppBinaryConfigurator {
     };
 
     return new Promise((resolve, reject) => {
-      request.get(requestArgs, (err, response, body) => {
-        if (response.statusCode === 200) {
-          this.publishingProperties = JSON.parse(body);
-          resolve();
-        } else {
-          const errorMessage = getErrorMessageFromResponse(response);
-          // eslint-disable-next-line max-len
-          reject(`Publishing properties download failed with error: ${response.statusCode} ${errorMessage}`.bold.red);
-        }
-      }).on('error', err => {
-        reject(err);
-      });
+      request
+        .get(requestArgs, (err, response, body) => {
+          if (response.statusCode === 200) {
+            this.publishingProperties = JSON.parse(body);
+            resolve();
+          } else {
+            const errorMessage = getErrorMessageFromResponse(response);
+            /* eslint-disable max-len */
+            reject(
+              `Publishing properties download failed with error: ${response.statusCode} ${errorMessage}`
+                .bold.red,
+            );
+            /* eslint-enable max-len */
+          }
+        })
+        .on('error', err => {
+          reject(err);
+        });
     });
   }
 
   getLaunchScreenUrl() {
-    // uploading launch image in builder only sets this image, so we are using it on both platforms
+    // Uploading a launch image in builder only sets this image, so we are using
+    // it for both platforms
     return this.publishingProperties.iphone_launch_image_portrait;
   }
 
@@ -196,7 +229,7 @@ class AppBinaryConfigurator {
   }
 
   configureLaunchScreen(settings, platform) {
-    console.log('Configuring ' + `${platform}`.bold + ' launch screen...');
+    console.log(`Configuring ${`${platform}`.bold} launch screen...`);
 
     const launchScreen = this.getLaunchScreenUrl();
     const resizeConfig = settings.launchScreen;
@@ -207,19 +240,20 @@ class AppBinaryConfigurator {
       launchScreen,
       launchScreenPath,
       resizeConfig,
-      production
+      production,
     );
   }
 
   configureIPadLaunchScreen(settings, platform) {
     if (platform !== 'ios') {
-      return;
+      return null;
     }
 
-    console.log('Configuring ' + 'iPad'.bold + ' launch screen...');
+    console.log(`Configuring ${'iPad'.bold} launch screen...`);
 
-    // use iPhone launch screen if no iPad launch screen is provided
-    const iPadLaunchScreen = this.getIPadLaunchScreenUrl() || this.getLaunchScreenUrl();
+    // We use the iPhone launch screen if no iPad launch screen is provided
+    const iPadLaunchScreen =
+      this.getIPadLaunchScreenUrl() || this.getLaunchScreenUrl();
     const resizeConfig = settings.iPadLaunchScreen;
     const production = this.config.production;
     const iPadLaunchScreenPath = './assets/iPadLaunchScreen.png';
@@ -228,12 +262,12 @@ class AppBinaryConfigurator {
       iPadLaunchScreen,
       iPadLaunchScreenPath,
       resizeConfig,
-      production
+      production,
     );
   }
 
   configureAppIcon(settings, platform) {
-    console.log('Configuring ' + `${platform}`.bold + ' app icons...');
+    console.log(`Configuring ${`${platform}`.bold} app icons...`);
 
     const resizeConfig = settings.appIcon;
     const production = this.config.production;
@@ -252,46 +286,68 @@ class AppBinaryConfigurator {
   }
 
   getBinaryVersionName() {
-    // we fallback to default one so CLI doesn't have to handle version
-    return (this.config.binaryVersionName || '5.0.0');
+    // We fallback to default one so CLI doesn't have to handle version
+    return this.config.binaryVersionName || '5.0.0';
   }
 
   getBinaryVersionCode() {
-    // we fallback to default one so CLI doesn't have to handle version
-    return (this.config.binaryVersionCode || 1);
+    // We fallback to default one so CLI doesn't have to handle version
+    return this.config.binaryVersionCode || 1;
   }
 
   getProjectName() {
-    return (this.projectName || 'ShoutemApp');
+    return this.projectName || 'ShoutemApp';
   }
 
   setProjectName(publishingProperties) {
     const appName = publishingProperties.iphone_name;
     const appId = publishingProperties.network_id;
 
-    const resolvedAppName = this.shouldUseFallbackName(appName) ?
-      `App${appId}` : _.upperFirst(_.camelCase(appName));
+    const resolvedAppName = this.shouldUseFallbackName(appName)
+      ? `App${appId}`
+      : _.upperFirst(_.camelCase(appName));
 
     this.projectName = resolvedAppName;
   }
 
   configureAppInfoIOS() {
-    console.log('Configuring ' + 'Info.plist'.bold + '...');
+    console.log(`Configuring ${'Info.plist'.bold}...`);
 
     const { config, publishingProperties } = this;
     const { bundleIdPrefix, iosBundleId, production } = config;
     const {
       iphone_bundle_id,
       iphone_name,
-      primary_category_name
+      primary_category_name,
     } = publishingProperties;
 
     const infoPlistPath = findFileOnPath('Info.plist', 'ios');
     const infoPlistFile = fs.readFileSync(infoPlistPath, 'utf8');
-    const infoPlist = plist.parse(infoPlistFile);
+    let infoPlist = plist.parse(infoPlistFile);
 
-    // we use this prefix for e.g. building apps with wildcard application
-    //identifier
+    const extensionInfoPlistFiles = glob.sync(
+      './extensions/?(**)/app/ios/Info.plist',
+    );
+
+    // We merge all Info.plist files from extensions with the platform one
+    // If the value of the key is an array it will concatenate both arrays
+    infoPlist = _.reduce(
+      extensionInfoPlistFiles,
+      (finalPlist, extPlistPath) => {
+        const extPlist = parsePlist(extPlistPath);
+
+        return _.mergeWith(finalPlist, extPlist, (objValue, srcValue) => {
+          if (_.isArray(objValue)) {
+            return _.uniq(objValue.concat(srcValue));
+          }
+
+          return srcValue;
+        });
+      },
+      infoPlist,
+    );
+
+    // We use this prefix for building apps with wildcard application identifier
     const bundlePrefix = bundleIdPrefix ? `${bundleIdPrefix}.` : '';
     let bundleId;
 
@@ -310,13 +366,21 @@ class AppBinaryConfigurator {
     infoPlist.LSApplicationCategoryType = primary_category_name;
 
     if (this.shouldUseUniversalBuild()) {
-      console.log('Configuring ' + 'xcodeproj'.bold + '...');
+      console.log(`Configuring ${'xcodeproj'.bold}...`);
       const xcodeProjectPath = getXcodeProjectPath();
       const xcodeProject = xcode.project(xcodeProjectPath);
 
-      xcodeProject.parse(function (err) {
-        xcodeProject.addBuildProperty('TARGETED_DEVICE_FAMILY', '"1,2"', 'Debug');
-        xcodeProject.addBuildProperty('TARGETED_DEVICE_FAMILY', '"1,2"', 'Release');
+      xcodeProject.parse(() => {
+        xcodeProject.addBuildProperty(
+          'TARGETED_DEVICE_FAMILY',
+          '"1,2"',
+          'Debug',
+        );
+        xcodeProject.addBuildProperty(
+          'TARGETED_DEVICE_FAMILY',
+          '"1,2"',
+          'Release',
+        );
 
         fs.writeFileSync(xcodeProjectPath, xcodeProject.writeSync());
       });
@@ -326,7 +390,7 @@ class AppBinaryConfigurator {
   }
 
   configureAppInfoAndroid() {
-    console.log('Configuring ' + 'build.gradle'.bold + '...');
+    console.log(`Configuring ${'build.gradle'.bold}...`);
 
     const { config, publishingProperties } = this;
     const { androidApplicationId, production } = config;
@@ -347,8 +411,14 @@ class AppBinaryConfigurator {
 
     const newBuildGradle = buildGradle
       .replace(/\sapplicationId\s.*/g, ` applicationId '${applicationId}'`)
-      .replace(/\sversionCode\s.*/g,   ` versionCode ${this.getBinaryVersionCode()}`)
-      .replace(/\sversionName\s.*/g,   ` versionName '${this.getBinaryVersionName()}'`)
+      .replace(
+        /\sversionCode\s.*/g,
+        ` versionCode ${this.getBinaryVersionCode()}`,
+      )
+      .replace(
+        /\sversionName\s.*/g,
+        ` versionName '${this.getBinaryVersionName()}'`,
+      )
       .replace(/ShoutemApplicationName/g, android_name);
 
     fs.writeFileSync(buildGradlePath, newBuildGradle);
@@ -365,11 +435,13 @@ class AppBinaryConfigurator {
   }
 
   runForAllPlatforms(configureFunction) {
-    return Promise.all(_.map(binarySettings, (settings, platform) => {
-      if (_.isFunction(configureFunction)) {
-        configureFunction(_.result(binarySettings, platform), platform);
-      }
-    }));
+    return Promise.all(
+      _.map(binarySettings, (settings, platform) => {
+        if (_.isFunction(configureFunction)) {
+          configureFunction(_.result(binarySettings, platform), platform);
+        }
+      }),
+    );
   }
 
   configureApp() {
@@ -383,7 +455,10 @@ class AppBinaryConfigurator {
 
   renameIOSScheme() {
     const oldScheme = path.join(XCSCHEME_PATH, 'ShoutemApp.xcscheme');
-    const newScheme = path.join(XCSCHEME_PATH, `${this.getProjectName()}.xcscheme`);
+    const newScheme = path.join(
+      XCSCHEME_PATH,
+      `${this.getProjectName()}.xcscheme`,
+    );
 
     return renamePath(oldScheme, newScheme);
   }
@@ -415,7 +490,10 @@ class AppBinaryConfigurator {
   }
 
   updateSchemePaths() {
-    const schemePath = findFileOnPath('xcshareddata/xcschemes/*.xcscheme', 'ios');
+    const schemePath = findFileOnPath(
+      'xcshareddata/xcschemes/*.xcscheme',
+      'ios',
+    );
     const xcodeScheme = fs.readFileSync(schemePath, 'utf8');
     const newXcodeScheme = this.updateProjectName(xcodeScheme);
 
@@ -429,8 +507,9 @@ class AppBinaryConfigurator {
     const oldProjectPath = 'ios/ShoutemApp.xcodeproj';
     const newProjectPath = `ios/${this.getProjectName()}.xcodeproj`;
 
-    return renamePath(oldProjectPath, newProjectPath)
-      .then(() => fs.writeFile(workspacePath, newXcodeWorkspace));
+    return renamePath(oldProjectPath, newProjectPath).then(() =>
+      fs.writeFile(workspacePath, newXcodeWorkspace),
+    );
   }
 
   renameXCWorkspace() {
@@ -442,7 +521,8 @@ class AppBinaryConfigurator {
 
   renameRCTRootView() {
     const AppDelegatePath = findFileOnPath('AppDelegate.m', 'ios');
-    const MainActivityPath = 'android/app/src/main/java/com/shoutemapp/MainActivity.java';
+    const MainActivityPath =
+      'android/app/src/main/java/com/shoutemapp/MainActivity.java';
 
     if (!AppDelegatePath) {
       return Promise.resolve();
@@ -453,8 +533,11 @@ class AppBinaryConfigurator {
     const indexJsPath = 'index.js';
     const indexJs = fs.readFileSync(indexJsPath, 'utf8');
 
-    return fs.writeFile(AppDelegatePath, this.updateProjectName(AppDelegate))
-      .then(() => fs.writeFile(MainActivityPath, this.updateProjectName(MainActivity)))
+    return fs
+      .writeFile(AppDelegatePath, this.updateProjectName(AppDelegate))
+      .then(() =>
+        fs.writeFile(MainActivityPath, this.updateProjectName(MainActivity)),
+      )
       .then(() => fs.writeFile(indexJsPath, this.updateProjectName(indexJs)));
   }
 
@@ -462,16 +545,22 @@ class AppBinaryConfigurator {
     const podfileTemplatePath = 'ios/Podfile.template';
     const podfileTemplate = fs.readFileSync(podfileTemplatePath, 'utf8');
 
-    return fs.writeFile(podfileTemplatePath, this.updateProjectName(podfileTemplate));
+    return fs.writeFile(
+      podfileTemplatePath,
+      this.updateProjectName(podfileTemplate),
+    );
   }
 
   shouldUseFallbackName(appName) {
     // nonAsciiReg matches any non-ASCII characters
+    // eslint-disable-next-line no-control-regex
     const nonAsciiReg = /[^\u0000-\u007f]/;
 
     if (nonAsciiReg.test(appName)) {
-      console.log('App name contains non-ASCII characters, using a generic name for file names instead.');
-      console.log('Your app name hasn\'t changed, only the file names have.');
+      console.log(
+        'App name contains non-ASCII characters, using a generic name for file names instead.',
+      );
+      console.log("Your app name hasn't changed, only the file names have.");
 
       return true;
     }

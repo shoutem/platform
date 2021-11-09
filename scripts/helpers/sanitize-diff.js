@@ -5,6 +5,8 @@ const projectPath = require('./get-project-path');
 
 module.exports = function sanitizeDiff() {
   filesChangedByConfigurationScript.forEach(file => {
-    execSync(`git update-index --assume-unchanged ${file}`, { cwd: projectPath });
+    execSync(`git update-index --assume-unchanged ${file}`, {
+      cwd: projectPath,
+    });
   });
-}
+};

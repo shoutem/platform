@@ -3,6 +3,8 @@
 buildscript {
     repositories {
         google()
+        // TODO - 1.2.2022. jcenter() will be completely deprecated. Check if all required Java packages moved
+        // to Maven repo (comment line below & try running)
         jcenter()
         mavenCentral()
     }
@@ -34,6 +36,8 @@ allprojects {
         //NativeModuleInjectionMark-root-gradle-allprojects-repositories
 
         google()
+         // TODO - 1.2.2022. jcenter() will be completely deprecated. Check if all required Java packages moved
+        // to Maven repo (comment line below & try running)
         jcenter()
         mavenCentral()
         maven { url 'https://www.jitpack.io' }
