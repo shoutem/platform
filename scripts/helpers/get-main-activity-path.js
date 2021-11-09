@@ -4,7 +4,10 @@ const { systemSlash } = require('./path');
 
 function getMainActivityPath(options = { cwd: '.' }) {
   return systemSlash(
-    path.resolve(options.cwd, 'android/app/src/main/java/com/shoutemapp/MainActivity.java')
+    path.resolve(
+      options.cwd,
+      'android/app/src/main/java/com/shoutemapp/MainActivity.java',
+    ),
   );
 }
 

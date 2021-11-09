@@ -8,10 +8,12 @@ function getErrorMessageFromResponse(response) {
     body = JSON.parse(_.get(response, 'body'));
   } catch (e) {
     body = {
-      errors: [{
-        title: 'Invalid JSON file',
-        detail: '',
-      }],
+      errors: [
+        {
+          title: 'Invalid JSON file',
+          detail: '',
+        },
+      ],
     };
   }
 
@@ -19,7 +21,11 @@ function getErrorMessageFromResponse(response) {
     return '';
   }
 
-  return _.reduce(body.errors, (message, error) => `${message}${error.title} ${error.detail}`, '');
+  return _.reduce(
+    body.errors,
+    (message, error) => `${message}${error.title} ${error.detail}`,
+    '',
+  );
 }
 
 module.exports = getErrorMessageFromResponse;

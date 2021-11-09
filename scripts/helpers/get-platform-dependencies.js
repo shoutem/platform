@@ -1,4 +1,3 @@
-
 'use-strict';
 
 const fs = require('fs-extra');
@@ -13,12 +12,14 @@ function getPlatformDependencies(shoutemExtensionsPath, extensionsToIgnore) {
   const dependencies = {};
   const paths = glob.sync(path.join(shoutemExtensionsPath, '*'));
 
-  paths.forEach((extensionPath) => {
+  paths.forEach(extensionPath => {
     const stat = fs.statSync(extensionPath);
 
     if (stat && stat.isDirectory()) {
       try {
-        const extensionJsonPath = path.resolve(path.join(extensionPath, 'extension.json'));
+        const extensionJsonPath = path.resolve(
+          path.join(extensionPath, 'extension.json'),
+        );
         const extensionStat = fs.statSync(extensionJsonPath);
 
         if (extensionStat && extensionStat.isFile()) {

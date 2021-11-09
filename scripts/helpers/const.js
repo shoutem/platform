@@ -118,6 +118,7 @@ const ANCHORS = {
       ROOT_GRADLE_ALLPROJECTS_REPOSITORIES:
         '//NativeModuleInjectionMark-root-gradle-allprojects-repositories',
       PROPERTIES: '#NativeModuleInjectionMark-gradle-properties',
+      CONSTANTS: '//NativeModuleInjectionMark-gradle-constants',
       SETTINGS: '//NativeModuleInjectionMark-gradle-settings',
     },
     MANIFEST: {
@@ -125,6 +126,8 @@ const ANCHORS = {
       QUERIES: '<!--//NativeModuleInjectionMark-android-manifest-queries-->',
       APPLICATION:
         '<!--//NativeModuleInjectionMark-android-manifest-application-->',
+      MAIN_ACTIVITY_INTENT_FILTERS:
+        '<!--//NativeModuleInjectionMark-android-manifest-main-activity-intent-filters-->',
     },
   },
 };

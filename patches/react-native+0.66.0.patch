@@ -1,0 +1,20 @@
+diff --git a/node_modules/react-native/React/FBReactNativeSpec/FBReactNativeSpec/FBReactNativeSpec-generated.mm b/node_modules/react-native/React/FBReactNativeSpec/FBReactNativeSpec/FBReactNativeSpec-generated.mm
+new file mode 100644
+index 0000000..e69de29
+diff --git a/node_modules/react-native/React/FBReactNativeSpec/FBReactNativeSpec/FBReactNativeSpec.h b/node_modules/react-native/React/FBReactNativeSpec/FBReactNativeSpec/FBReactNativeSpec.h
+new file mode 100644
+index 0000000..e69de29
+diff --git a/node_modules/react-native/scripts/find-node.sh b/node_modules/react-native/scripts/find-node.sh
+index c498ba6..0765f28 100755
+--- a/node_modules/react-native/scripts/find-node.sh
++++ b/node_modules/react-native/scripts/find-node.sh
+@@ -4,6 +4,9 @@
+ # This source code is licensed under the MIT license found in the
+ # LICENSE file in the root directory of this source tree.
+ 
++unset npm_config_prefix
++unset PREFIX
++
+ set -e
+ 
+ # Support Homebrew on M1

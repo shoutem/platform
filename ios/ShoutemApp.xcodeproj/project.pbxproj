@@ -178,7 +178,6 @@
 			buildPhases = (
 				424FDCA7D9DE6B5D5871D305 /* [CP] Check Pods Manifest.lock */,
 				F5DC82322403CF0C00BF6193 /* Start Packager */,
-				27571F171F8D07D300B9454D /* [SE] Merge Info.plist files */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
@@ -272,20 +271,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
-		};
-		27571F171F8D07D300B9454D /* [SE] Merge Info.plist files */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[SE] Merge Info.plist files";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "node ../scripts/merge-info-plists.js\n";
 		};
 		424FDCA7D9DE6B5D5871D305 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

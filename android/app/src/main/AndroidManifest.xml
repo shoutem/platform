@@ -31,6 +31,7 @@
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
+      <!--//NativeModuleInjectionMark-android-manifest-main-activity-intent-filters-->
     </activity>
     <meta-data android:name="com.facebook.sdk.AutoLogAppEventsEnabled" android:value="false"/>
     <!--//NativeModuleInjectionMark-android-manifest-application-->

@@ -1,11 +1,11 @@
 /**
  * force-link an xcodeproject file
- * 
+ *
  * Reason: if a podspec file exists in a project's root directory,
  * `react-native link` will read the podspec file and add the project to the
  * main pod file, which means that the dependency .xcodeproject will not get
  * linked in the main project.pbxproj file.
- * 
+ *
  * Usage example:
  *
  * forceLinkXCodeProject({
@@ -27,7 +27,7 @@ const rootIosDir = prependProjectPath('ios');
 const rootProjectName = getXcodeProjectName({ cwd: rootIosDir });
 const rootProjectPath = getXcodeProjectPath({ cwd: rootIosDir });
 const registerNativeModulePath = prependProjectPath(
-  'node_modules/react-native/local-cli/link/ios/registerNativeModule.js'
+  'node_modules/react-native/local-cli/link/ios/registerNativeModule.js',
 );
 
 function createProjectConfig(project) {
@@ -42,9 +42,9 @@ function createProjectConfig(project) {
     projectName,
     projectPath,
 
-    pbxprojPath: pbxprojPath ? pbxprojPath : rootProjectPath,
+    pbxprojPath: pbxprojPath || rootProjectPath,
     podfile: podfile ? path.join(sourceDir, 'Podfile') : null,
-    podspec: podspec ? podspec : null,
+    podspec: podspec || null,
 
     libraryFolder: 'Libraries',
     sharedLibraries: [],

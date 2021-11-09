@@ -1,5 +1,4 @@
 const fs = require('fs-extra');
-const path = require('path');
 
 const getAndroidManifestpath = require('./get-android-manifest-path');
 const getBuckPath = require('./get-buck-path');
@@ -44,14 +43,14 @@ function getSearchReplaceFiles(oldPackageName, newPackageName) {
       search: `package ${oldPackageName};`,
       replace: `package ${newPackageName};`,
       fileName: 'ReactNativeFlipper.java',
-    }
+    },
   ];
 }
 
 function updateAndroidPackageName(oldPackageName, newPackageName) {
   const files = getSearchReplaceFiles(oldPackageName, newPackageName);
 
-  files.forEach((file) => {
+  files.forEach(file => {
     const fileContents = fs.readFileSync(file.path, 'utf8');
     const newFileContents = fileContents.replace(file.search, file.replace);
     fs.writeFileSync(file.path, newFileContents);

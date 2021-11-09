@@ -4,7 +4,10 @@ const { systemSlash } = require('./path');
 
 function getMainApplicationPath(options = { cwd: '.' }) {
   return systemSlash(
-    path.resolve(options.cwd, 'android/app/src/main/java/com/shoutemapp/MainApplication.java')
+    path.resolve(
+      options.cwd,
+      'android/app/src/main/java/com/shoutemapp/MainApplication.java',
+    ),
   );
 }
 

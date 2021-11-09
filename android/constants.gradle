@@ -10,7 +10,9 @@ project.ext {
 
     // some native packages use firebaseVersion, some use firebaseCoreVersion
     // in both, we want them to use these versions
-    firebaseVersion = '16.0.3'
-    firebaseCoreVersion = '16.0.3'
-    firebaseMessagingVersion = '21.1.0'
+    firebaseVersion = '19.0.2'
+    firebaseCoreVersion = '19.0.2'
+    firebaseMessagingVersion = '22.0.0'
+
+    //NativeModuleInjectionMark-gradle-constants
 }
