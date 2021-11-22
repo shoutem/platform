@@ -1,11 +1,11 @@
 {
-  "version": "4.0.1",
-  "mobileAppVersion": "4.0.1",
-  "releaseNotes": "* Introduced Invision Community OAuth extension\n* Introduced authentication provider registration mechanism for custom extensions\n* Introduced intent filter anchors for preBuild scripts\n* Introduced platform patching mechanism",
+  "version": "4.0.2-rc.0",
+  "mobileAppVersion": "4.0.2-rc.0",
+  "releaseNotes": "* Upgrade advertising core libraries",
   "settings": {
-    "DEV-appetizeKey": "u7ut6gqrrfxnxw7cn8ub4gu8pr",
-    "QA-appetizeKey": "zr00vy2jcm79hkdt1q76rvpkxw",
-    "Production-appetizeKey": "3j5j8eqraajekqpb6bkf6q2dj8"
+    "DEV-appetizeKey": "8t8kr6q0x9xdqh9yh0cqbm0258",
+    "QA-appetizeKey": "qvkndx60fxmxeuqxhc7j2b7c98",
+    "Production-appetizeKey": "n3hbx3dzfz5hhmq4wba0mpufu4"
   },
   "builds": {
     "live": {
