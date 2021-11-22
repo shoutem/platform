@@ -25,7 +25,7 @@
     "shoutem.analytics": "~4.0.0",
     "shoutem.application": "~4.0.0",
     "shoutem.audio": "~4.0.0",
-    "shoutem.auth": "~4.0.1",
+    "shoutem.auth": "~4.0.2-rc.0",
     "shoutem.camera": "~4.0.0",
     "shoutem.cms": "~4.0.0",
     "shoutem.code-push": "~4.0.0",
@@ -38,7 +38,7 @@
     "shoutem.ical-events": "~4.0.0",
     "shoutem.layouts": "~4.0.0",
     "shoutem.loyalty": "~4.0.0",
-    "shoutem.navigation": "~4.0.0",
+    "shoutem.navigation": "~4.0.1-rc.0",
     "shoutem.news": "~4.0.0",
     "shoutem.notification-center": "~4.0.0",
     "shoutem.page": "~4.0.0",
@@ -62,7 +62,7 @@
     "shoutem.theme": "~4.0.0",
     "shoutem.video": "~4.0.0",
     "shoutem.vimeo": "~4.0.0",
-    "shoutem.web-view": "~4.0.0",
+    "shoutem.web-view": "~4.1.0-rc.2",
     "shoutem.wordpress": "~4.0.0",
     "shoutem.youtube": "~4.0.0"
   }
