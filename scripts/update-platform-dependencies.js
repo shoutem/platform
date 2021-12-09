@@ -7,19 +7,22 @@ const getPlatformDependencies = require('./helpers/get-platform-dependencies');
 const platformPath = path.resolve(path.join('../platform', 'platform.json'));
 const platformJson = fs.readJsonSync(platformPath);
 const extensionsToIgnore = [
+  'affiliate',
   'agora',
   'advertising',
   'besttime',
   'books',
   'checklist',
   'geo-restrictions',
-  'interactive-faq',
   'in-app-purchases',
+  'interactive-faq',
+  'invision-community',
   'menu',
   'onboarding',
   'podcast',
   'radio',
   'radio-player',
+  'salesforce',
   'sendbird',
   'shopify',
 ];
