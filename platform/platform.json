@@ -1,6 +1,6 @@
 {
-  "version": "4.0.4-rc.0",
-  "mobileAppVersion": "4.0.4-rc.0",
+  "version": "4.0.4",
+  "mobileAppVersion": "4.0.4",
   "releaseNotes": "* Fixed build issue with apps whose names are numbers",
   "settings": {
     "DEV-appetizeKey": "8t8kr6q0x9xdqh9yh0cqbm0258",
@@ -29,7 +29,7 @@
     "shoutem.camera": "~4.0.0",
     "shoutem.cms": "~4.0.0",
     "shoutem.code-push": "~4.0.0",
-    "shoutem.deals": "~5.0.2-rc.0",
+    "shoutem.deals": "~5.0.2",
     "shoutem.events": "~4.0.0",
     "shoutem.favorites": "~4.0.0",
     "shoutem.firebase": "~4.0.0",
