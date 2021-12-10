@@ -553,14 +553,24 @@ class AppBinaryConfigurator {
 
   shouldUseFallbackName(appName) {
     // nonAsciiReg matches any non-ASCII characters
-    // eslint-disable-next-line no-control-regex
+    /* eslint-disable no-control-regex */
+    const integerReg = /^\d+$/;
+    const floatReg = /^\d+\.\d+$/;
     const nonAsciiReg = /[^\u0000-\u007f]/;
+    /* eslint-disable no-control-regex */
+
+    if (integerReg.test(appName) || floatReg.test(appName)) {
+      console.log(
+        "App name is just a number, using a generic name for file names instead.\nYour app name hasn't changed, only the file names have.",
+      );
+
+      return true;
+    }
 
     if (nonAsciiReg.test(appName)) {
       console.log(
-        'App name contains non-ASCII characters, using a generic name for file names instead.',
+        "App name contains non-ASCII characters, using a generic name for file names instead.\nYour app name hasn't changed, only the file names have.",
       );
-      console.log("Your app name hasn't changed, only the file names have.");
 
       return true;
     }
