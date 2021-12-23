@@ -3,9 +3,9 @@
   "mobileAppVersion": "4.0.5",
   "releaseNotes": "* Introduced User profile extension",
   "settings": {
-    "DEV-appetizeKey": "mubr5fjvz154fu4yqt6mywhw1g",
-    "QA-appetizeKey": "20nqw9mjv0f29t8mchypkeh3fr",
-    "Production-appetizeKey": "num84at5fuygpq2jkzmhe9rrng"
+    "DEV-appetizeKey": "8t8kr6q0x9xdqh9yh0cqbm0258",
+    "QA-appetizeKey": "qvkndx60fxmxeuqxhc7j2b7c98",
+    "Production-appetizeKey": "n3hbx3dzfz5hhmq4wba0mpufu4"
   },
   "builds": {
     "live": {
@@ -25,7 +25,7 @@
     "shoutem.analytics": "~4.0.0",
     "shoutem.application": "~4.0.0",
     "shoutem.audio": "~4.0.0",
-    "shoutem.auth": "~4.0.3-rc.0",
+    "shoutem.auth": "~4.0.3-rc.1",
     "shoutem.camera": "~4.0.0",
     "shoutem.cms": "~4.0.0",
     "shoutem.code-push": "~4.0.0",
