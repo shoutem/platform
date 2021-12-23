@@ -1,6 +1,6 @@
 {
-  "version": "4.0.5",
-  "mobileAppVersion": "4.0.5",
+  "version": "4.0.5-rc.0",
+  "mobileAppVersion": "4.0.5-rc.0",
   "releaseNotes": "* Introduced User profile extension",
   "settings": {
     "DEV-appetizeKey": "8t8kr6q0x9xdqh9yh0cqbm0258",
