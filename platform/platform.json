@@ -1,6 +1,6 @@
 {
-  "version": "4.0.6-rc.0",
-  "mobileAppVersion": "4.0.6-rc.0",
+  "version": "4.0.6",
+  "mobileAppVersion": "4.0.6",
   "releaseNotes": "* Fixed build bug with faulty NPM library version",
   "settings": {
     "DEV-appetizeKey": "8t8kr6q0x9xdqh9yh0cqbm0258",
@@ -32,7 +32,7 @@
     "shoutem.deals": "~5.0.2",
     "shoutem.events": "~4.0.0",
     "shoutem.favorites": "~4.0.0",
-    "shoutem.firebase": "~4.0.1-rc.1",
+    "shoutem.firebase": "~4.0.1",
     "shoutem.flurry-analytics": "~4.0.0",
     "shoutem.i18n": "~4.0.1",
     "shoutem.ical-events": "~4.0.0",
