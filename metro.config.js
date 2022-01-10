@@ -6,7 +6,9 @@ const path = require('path');
 const ciMetroParams = require('./ci-metro-params');
 
 module.exports = (async () => {
-  const { resolver: { sourceExts, assetExts } } = await getDefaultConfig();
+  const {
+    resolver: { sourceExts, assetExts },
+  } = await getDefaultConfig();
 
   return {
     transformer: {
@@ -19,7 +21,7 @@ module.exports = (async () => {
       babelTransformerPath: require.resolve('react-native-svg-transformer'),
     },
     resolver: {
-      assetExts: assetExts.filter((ext) => ext !== 'svg'),
+      assetExts: assetExts.filter(ext => ext !== 'svg'),
       sourceExts: [...sourceExts, 'svg'],
       /**
        * Returns a regular expression for modules that should be ignored by the
