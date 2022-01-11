@@ -25,7 +25,6 @@ const extensionsToIgnore = [
   'salesforce',
   'sendbird',
   'shopify',
-  'user-profile',
 ];
 
 platformJson.dependencies = getPlatformDependencies(

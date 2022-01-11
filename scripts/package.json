@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/app-build-script",
-  "version": "0.1.1",
+  "version": "0.1.0",
   "scripts": {
     "generate-translations": "node generate-translation-file",
     "reset-diff": "node manual-reset-diff",
@@ -10,7 +10,7 @@
   "dependencies": {
     "auto-bind": "^4.0.0",
     "child-process-promise": "^2.2.1",
-    "colors": "1.4.0",
+    "colors": "^1.1.2",
     "command-line-args": "^5.0.2",
     "es6-symbol": "^3.0.2",
     "fs-extra": "3.0.1",
