@@ -30,7 +30,6 @@ module.exports = {
   getSettingsGradlePath: require('./get-settings-gradle-path'),
   getRootGradlePath: require('./get-root-gradle-path'),
   getAndroidManifestPath: require('./get-android-manifest-path'),
-  getFlipperJavaPath: require('./get-flipper-java-path'),
   isWindows: require('./is-windows'),
   projectPath: require('./get-project-path'),
   reactNativeLink: require('./react-native-link'),
