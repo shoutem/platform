@@ -28,7 +28,7 @@
     "request-promise": "4.2.6",
     "rimraf": "2.7.1",
     "semver": "5.7.1",
-    "shelljs": "0.7.8",
+    "shelljs": "0.8.5",
     "superspawn": "0.1.0",
     "xcode": "3.0.1"
   }
