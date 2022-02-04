@@ -1,6 +1,6 @@
 {
   "version": "5.0.1-rc.0",
-  "mobileAppVersion": "5.0.0",
+  "mobileAppVersion": "5.0.1-rc.0",
   "releaseNotes": "* Introduce User profile as system extension",
   "settings": {
     "DEV-appetizeKey": "8t8kr6q0x9xdqh9yh0cqbm0258",
