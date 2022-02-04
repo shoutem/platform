@@ -1,6 +1,6 @@
 {
-  "version": "5.0.1-rc.0",
-  "mobileAppVersion": "5.0.1-rc.0",
+  "version": "5.0.1",
+  "mobileAppVersion": "5.0.1",
   "releaseNotes": "* Introduce User profile as system extension",
   "settings": {
     "DEV-appetizeKey": "8t8kr6q0x9xdqh9yh0cqbm0258",
@@ -57,10 +57,10 @@
     "shoutem.rss-photos": "~4.0.1",
     "shoutem.rss-videos": "~4.0.1",
     "shoutem.rubicon-theme": "~4.2.0",
-    "shoutem.social": "~4.1.1-rc.0",
+    "shoutem.social": "~4.1.1",
     "shoutem.sub-navigation": "~4.0.1",
     "shoutem.theme": "~4.0.3",
-    "shoutem.user-profile": "~2.0.1-rc.0",
+    "shoutem.user-profile": "~2.0.1",
     "shoutem.video": "~5.0.1",
     "shoutem.vimeo": "~4.0.1",
     "shoutem.web-view": "~4.2.0",
