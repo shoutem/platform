@@ -1,11 +1,11 @@
 {
-  "version": "5.1.0",
-  "mobileAppVersion": "5.1.0",
-  "releaseNotes": "* Added Ginger D2C extension",
+  "version": "5.1.1",
+  "mobileAppVersion": "5.1.1",
+  "releaseNotes": "* Fix preview issues for the latest platform verisons",
   "settings": {
-    "DEV-appetizeKey": "8t8kr6q0x9xdqh9yh0cqbm0258",
-    "QA-appetizeKey": "qvkndx60fxmxeuqxhc7j2b7c98",
-    "Production-appetizeKey": "n3hbx3dzfz5hhmq4wba0mpufu4"
+    "DEV-appetizeKey": "p8tvhz6ubhxbtkgvbv764abf1w",
+    "QA-appetizeKey": "akq626p83jdjuk251uxecqv8cm",
+    "Production-appetizeKey": "revxyb6vauc473uyh88a37u624"
   },
   "builds": {
     "live": {
