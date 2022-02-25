@@ -1,6 +1,6 @@
 {
-  "version": "5.2.0-rc.2",
-  "mobileAppVersion": "5.2.0-rc.2",
+  "version": "5.2.0-rc.3",
+  "mobileAppVersion": "5.2.0-rc.3",
   "releaseNotes": "* Redesigned social extension\n* Added new Radio+ layout - with artwork background\n* Added option to drag and drop reorder categories\n* Various fixes and improvements",
   "settings": {
     "DEV-appetizeKey": "p8tvhz6ubhxbtkgvbv764abf1w",
@@ -21,7 +21,7 @@
     }
   },
   "dependencies": {
-    "shoutem.about": "~5.0.0",
+    "shoutem.about": "~5.0.1-rc.0",
     "shoutem.analytics": "~4.0.1",
     "shoutem.application": "~4.0.2",
     "shoutem.audio": "~4.0.1",
@@ -41,7 +41,7 @@
     "shoutem.loyalty": "~4.0.4",
     "shoutem.navigation": "~4.0.7-rc.2",
     "shoutem.news": "~5.0.0-rc.1",
-    "shoutem.notification-center": "~4.0.2-rc.11",
+    "shoutem.notification-center": "~4.0.2-rc.12",
     "shoutem.page": "~4.0.2",
     "shoutem.people": "~4.0.2",
     "shoutem.permissions": "~4.0.2",
