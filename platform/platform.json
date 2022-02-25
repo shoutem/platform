@@ -1,6 +1,6 @@
 {
-  "version": "5.2.0-rc.0",
-  "mobileAppVersion": "5.2.0-rc.0",
+  "version": "5.2.0-rc.1",
+  "mobileAppVersion": "5.2.0-rc.1",
   "releaseNotes": "* Redesigned social extension\n* Added new Radio+ layout - with artwork background\n* Various fixes and improvements",
   "settings": {
     "DEV-appetizeKey": "p8tvhz6ubhxbtkgvbv764abf1w",
