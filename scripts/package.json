@@ -22,7 +22,7 @@
     "node-watch": "0.3.5",
     "parse-gitignore": "0.3.1",
     "pify": "3.0.0",
-    "plist": "2.1.0",
+    "plist": "3.0.4",
     "ps-node": "0.1.6",
     "request": "2.88.2",
     "request-promise": "4.2.6",
