@@ -14,6 +14,7 @@ const extensionsToIgnore = [
   'books',
   'checklist',
   'geo-restrictions',
+  'ginger',
   'in-app-purchases',
   'interactive-faq',
   'invision-community',
