@@ -187,7 +187,6 @@
     <orderEntry type="module" module-name="react-native-video" exported="" />
     <orderEntry type="module" module-name="react-native-maps" exported="" />
     <orderEntry type="module" module-name="react-native-restart" exported="" />
-    <orderEntry type="module" module-name="react-native-vector-icons" exported="" />
     <orderEntry type="module" module-name="react-native-google-analytics-bridge" exported="" />
     <orderEntry type="module" module-name="react-native-code-push" exported="" />
     <orderEntry type="library" exported="" name="okhttp-ws-2.5.0" level="project" />
