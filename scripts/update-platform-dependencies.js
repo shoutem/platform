@@ -21,7 +21,6 @@ const extensionsToIgnore = [
   'menu',
   'onboarding',
   'podcast',
-  'radio',
   'radio-player',
   'salesforce',
   'sendbird',
