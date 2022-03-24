@@ -10,6 +10,7 @@ ios/Pods
 ios/Podfile.lock
 config/
 dependencies.json
+nativeDependencies.json
 **/package-lock.json
 !extensions/**/app/ios
 /firebase.json
