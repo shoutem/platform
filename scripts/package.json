@@ -3,6 +3,7 @@
   "version": "0.1.1",
   "scripts": {
     "generate-translations": "node generate-translation-file",
+    "get-app-dependencies": "node get-app-dependencies",
     "reset-diff": "node manual-reset-diff",
     "sanitize-diff": "node manual-sanitize-diff",
     "update-platform-dependencies": "node update-platform-dependencies ../extensions"
