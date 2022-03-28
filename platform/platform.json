@@ -1,6 +1,6 @@
 {
-  "version": "5.3.1-rc.0",
-  "mobileAppVersion": "5.3.1-rc.0",
+  "version": "5.3.1",
+  "mobileAppVersion": "5.3.1",
   "releaseNotes": "* Adjusted extensions preinstalled with platform for preview app functionality, make sure you update all extensions after the platform update if there are any to update",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
@@ -57,9 +57,9 @@
     "shoutem.rss-photos": "~4.1.0",
     "shoutem.rss-videos": "~4.0.2",
     "shoutem.rubicon-theme": "~4.3.5",
-    "shoutem.social": "~6.0.1-rc.0",
+    "shoutem.social": "~6.0.1",
     "shoutem.sub-navigation": "~4.0.1",
-    "shoutem.theme": "~4.2.1-rc.0",
+    "shoutem.theme": "~4.2.1",
     "shoutem.user-profile": "~2.0.5",
     "shoutem.video": "~6.0.0",
     "shoutem.vimeo": "~4.1.0",
