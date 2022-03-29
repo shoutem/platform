@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
+/* eslint-disable max-classes-per-file */
+import { Component } from 'react';
 import { YellowBox } from 'react-native';
 import PropTypes from 'prop-types';
 import {
   assertExtensionsExist,
   assertNotEmpty,
   callLifecycleFunction,
+  createAppContextConsumer,
   getApplicationCanonicalObject,
   renderMainContent,
   renderProviders,
-  createAppContextConsumer,
 } from './services';
 
 const APP_CONTEXT = Symbol('appContext');
@@ -35,13 +36,9 @@ YellowBox.ignoreWarnings([
  */
 function createApplication(appContext) {
   const App = class App extends Component {
-
     constructor(props) {
       super(props);
 
-      this.state = {
-        style: null,
-      };
       this.store = null;
     }
 
@@ -54,11 +51,11 @@ function createApplication(appContext) {
      * @returns {*} The extensions.
      */
     getExtensions() {
-      return Object.assign({}, appContext.extensions);
+      return { ...appContext.extensions };
     }
 
     getProviders() {
-      return Object.assign({}, appContext.providers);
+      return { ...appContext.providers };
     }
 
     /**
@@ -66,7 +63,7 @@ function createApplication(appContext) {
      * @returns {*} Exported screens from all extensions
      */
     getScreens() {
-      return Object.assign({}, appContext.screens);
+      return { ...appContext.screens };
     }
 
     /**
@@ -86,16 +83,12 @@ function createApplication(appContext) {
       return this.store;
     }
 
-    getStyle() {
-      return this.state.style;
-    }
-
     /**
      * Returns available themes in the app.
      * @returns {*} The screens.
      */
     getThemes() {
-      return Object.assign({}, appContext.themes);
+      return { ...appContext.themes };
     }
 
     setScreens(screens) {
@@ -114,18 +107,27 @@ function createApplication(appContext) {
       this.store = store;
     }
 
-    setStyle(style) {
-      this.setState({ style });
-    }
-
-    componentWillMount() {
-      this.lifecyclePromise = callLifecycleFunction(this, appContext.extensions, 'appWillMount');
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillMount() {
+      this.lifecyclePromise = callLifecycleFunction(
+        this,
+        appContext.extensions,
+        'appWillMount',
+      );
     }
 
     componentDidMount() {
       this.lifecyclePromise
-        .then(() => callLifecycleFunction(this, appContext.extensions, 'appDidMount'))
-        .then(() => callLifecycleFunction(this, appContext.extensions, 'appDidFinishLaunching'));
+        .then(() =>
+          callLifecycleFunction(this, appContext.extensions, 'appDidMount'),
+        )
+        .then(() =>
+          callLifecycleFunction(
+            this,
+            appContext.extensions,
+            'appDidFinishLaunching',
+          ),
+        );
     }
 
     componentWillUnmount() {
@@ -133,7 +135,7 @@ function createApplication(appContext) {
     }
 
     render() {
-      const extensions = appContext.extensions;
+      const { extensions } = appContext;
       const mainContent = renderMainContent(this, extensions);
       const renderedContent = renderProviders(extensions, mainContent);
 
@@ -159,7 +161,6 @@ function createApplication(appContext) {
  * initialized through the AppBuilder.
  */
 export class AppBuilder {
-
   constructor() {
     this[APP_CONTEXT] = {
       extensions: {},
@@ -169,7 +170,7 @@ export class AppBuilder {
   }
 
   setExtensions(extensions) {
-    this[APP_CONTEXT].extensions = Object.assign({}, extensions);
+    this[APP_CONTEXT].extensions = { ...extensions };
     return this;
   }
 
@@ -195,7 +196,7 @@ export class AppBuilder {
   build() {
     // Capture the cloned appContext here, so that
     // each app gets its own context.
-    const appContext = Object.assign({}, this[APP_CONTEXT]);
+    const appContext = { ...this[APP_CONTEXT] };
 
     assertExtensionsExist(appContext.extensions);
     AppContextProvider = createAppContextConsumer(appContext.extensions);

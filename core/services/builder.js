@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import _ from 'lodash';
+import { prioritizeItems } from './priority';
 
 export function assertNotEmpty(target, errorMessage) {
   if (!target) {
@@ -12,8 +13,11 @@ export function assertNotEmpty(target, errorMessage) {
 }
 
 export function assertExtensionsExist(extensions) {
-  assertNotEmpty(extensions, `The app without any extensions cannot be created.
-    You must supply at least one extensions using the setExtensions method`);
+  assertNotEmpty(
+    extensions,
+    `The app without any extensions cannot be created.
+    You must supply at least one extensions using the setExtensions method`,
+  );
 }
 
 export function renderMainContent(app, extensions) {
@@ -37,17 +41,25 @@ export function renderMainContent(app, extensions) {
 export function renderProviders(extensions, mainContent) {
   let renderedContent = mainContent;
 
-  for (const extensionName of Object.keys(extensions)) {
-    const extension = extensions[extensionName];
-    const renderFunction = extension.renderProvider;
+  const providers = _.compact(
+    _.map(extensions, extension => {
+      const provider = extension.renderProvider;
 
-    if (typeof renderFunction === 'function') {
-      const providerContent = renderFunction(renderedContent);
-      if (providerContent) {
-        renderedContent = providerContent;
+      if (provider && typeof provider === 'function') {
+        return provider;
       }
+
+      return null;
+    }),
+  );
+  const prioritizedProviders = prioritizeItems(providers);
+
+  _.forEach(prioritizedProviders, provider => {
+    const providerContent = provider(renderedContent);
+    if (providerContent) {
+      renderedContent = providerContent;
     }
-  }
+  });
 
   return renderedContent;
 }
@@ -57,24 +69,33 @@ export function createAppContextConsumer(extensions) {
     render() {
       const { children } = this.props;
 
-      const contexts = _.reduce(extensions, (res, extension) => {
-        if (extension.context) {
-          res.push(extension.context);
-        }
-        return res;
-      }, []);
+      const contexts = _.reduce(
+        extensions,
+        (res, extension) => {
+          if (extension.context) {
+            res.push(extension.context);
+          }
+          return res;
+        },
+        [],
+      );
 
-      const renderer = _.reduce(contexts, (res, Context) => {
-        return value => (
-          <Context.Consumer>
-            {contextValue => res({
-              ...value,
-              ...contextValue,
-            })
-            }
-          </Context.Consumer>
-        );
-      }, value => children(value));
+      const renderer = _.reduce(
+        contexts,
+        (res, Context) => {
+          return value => (
+            <Context.Consumer>
+              {contextValue =>
+                res({
+                  ...value,
+                  ...contextValue,
+                })
+              }
+            </Context.Consumer>
+          );
+        },
+        value => children(value),
+      );
 
       return renderer({});
     }
@@ -93,12 +114,17 @@ export function createAppContextConsumer(extensions) {
  * @param extensionName The name of installed extension
  * @returns {*} The screens object.
  */
-export function extractCanonicalObjectsFromExtensions(segment, extension, extensionName) {
+export function extractCanonicalObjectsFromExtensions(
+  segment,
+  extension,
+  extensionName,
+) {
   const segmentData = {};
 
   if (extension[segment]) {
     for (const segmentName of Object.keys(extension[segment])) {
-      segmentData[`${extensionName}.${segmentName}`] = extension[segment][segmentName];
+      segmentData[`${extensionName}.${segmentName}`] =
+        extension[segment][segmentName];
     }
   }
 
@@ -118,9 +144,16 @@ export function extractCanonicalObjectsFromExtensions(segment, extension, extens
  */
 
 export function getApplicationCanonicalObject(segment, appContext) {
-  return Object.keys(appContext.extensions).reduce((prevResult, extensionName) => {
-    const extension = appContext.extensions[extensionName];
-    const segments = extractCanonicalObjectsFromExtensions(segment, extension, extensionName);
-    return Object.assign(prevResult, segments);
-  }, {});
+  return Object.keys(appContext.extensions).reduce(
+    (prevResult, extensionName) => {
+      const extension = appContext.extensions[extensionName];
+      const segments = extractCanonicalObjectsFromExtensions(
+        segment,
+        extension,
+        extensionName,
+      );
+      return Object.assign(prevResult, segments);
+    },
+    {},
+  );
 }
