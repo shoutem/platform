@@ -1,6 +1,6 @@
 {
-  "version": "6.0.0-rc.2",
-  "mobileAppVersion": "6.0.0-rc.2",
+  "version": "6.0.0-rc.3",
+  "mobileAppVersion": "6.0.0-rc.3",
   "releaseNotes": "* Revamped the app theming capabilities. Styling can now be defined per extension, allowing more granular style customisations",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",

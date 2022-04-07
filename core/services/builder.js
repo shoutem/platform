@@ -52,9 +52,14 @@ export function renderProviders(extensions, mainContent) {
       return null;
     }),
   );
+
   const prioritizedProviders = prioritizeItems(providers);
 
-  _.forEach(prioritizedProviders, provider => {
+  // Reversing provider consumation here to allow for correct semantic
+  // priority assignment ( after has higher priority, but needs to be rendered before)
+  const reversedProviders = _.reverse(prioritizedProviders);
+
+  _.forEach(reversedProviders, provider => {
     const providerContent = provider(renderedContent);
     if (providerContent) {
       renderedContent = providerContent;
@@ -89,8 +94,7 @@ export function createAppContextConsumer(extensions) {
                 res({
                   ...value,
                   ...contextValue,
-                })
-              }
+                })}
             </Context.Consumer>
           );
         },

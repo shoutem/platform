@@ -182,7 +182,7 @@ export class AppBuilder {
    *
    * @param {Function} renderFunction Navigation bar render function
    */
-  setRenderNavigationBar(renderFunction = () => { }) {
+  setRenderNavigationBar(renderFunction = () => {}) {
     this[APP_CONTEXT].renderNavigationBar = renderFunction;
     return this;
   }
