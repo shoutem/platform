@@ -26,5 +26,6 @@
   "cacheBaseApp": false,
   "binaryVersionName": null,
   "binaryVersionCode": null,
-  "skipNativeDependencies": false
+  "skipNativeDependencies": false,
+  "skipPreBuildActions": false
 }

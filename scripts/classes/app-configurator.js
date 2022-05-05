@@ -136,6 +136,7 @@ class AppConfigurator {
   }
 
   saveConfigurationFiles() {
+    const { skipPreBuildActions } = this.buildConfig;
     const logMessage = 'Save configuration files locally'.bold.green;
     console.time(logMessage);
 
@@ -144,6 +145,17 @@ class AppConfigurator {
     return fs
       .writeJson('config/buildConfig.json', this.buildConfig)
       .then(() => fs.writeJson('config/appConfig.json', this.configuration))
+      .then(() => {
+        if (skipPreBuildActions) {
+          return Promise.all([
+            fs.writeJson('extensions/shoutem.application/app/configuration.json', {}),
+            fs.writeJson(
+              'extensions/shoutem.application/app/buildConfig.json',
+              this.buildConfig,
+            ),
+          ]);
+        }
+      })
       .then(() => console.timeEnd(logMessage))
       .catch(err => {
         throw new Error(err);
@@ -157,6 +169,7 @@ class AppConfigurator {
       skipNativeDependencies,
       production: isProduction,
       skipLinking,
+      skipPreBuildActions,
     } = buildConfig;
 
     const extensions = getExtensionsFromConfiguration(this.configuration);
@@ -184,9 +197,10 @@ class AppConfigurator {
       .then(installedExtensions => {
         const appBinaryConfigurator = new AppBinaryConfigurator(buildConfig);
         const extensionsJs = installer.createExtensionsJs(installedExtensions);
+        const lifeCycleHook = skipPreBuildActions ? 'previewBuild' : 'preBuild';
         const preBuild = this.executeBuildLifecycleHook(
           installedExtensions,
-          'preBuild',
+          lifeCycleHook,
         );
 
         let configureProject;
@@ -227,6 +241,10 @@ class AppConfigurator {
             const buildPath = path.join(extension.id, 'build');
             const build = require(buildPath);
             const buildLifeCycle = _.get(build, lifeCycleStep);
+
+            if (!buildLifeCycle) {
+              return resolve();
+            }
 
             if (!_.isFunction(buildLifeCycle)) {
               const errorMessage = 'Invalid export, expected a function.';
