@@ -3,9 +3,10 @@ export const priorities = Object.freeze({
   INIT: 100,
   NAVIGATION: 200,
   AUTH: 300,
+  REDUX: 500,
   NETWORKING: 900,
   DEFAULT: 5000,
-  LAST: +Infinity,
+  LAST: Number(Infinity),
 });
 
 export const before = priority => priority - 1;
@@ -31,8 +32,8 @@ export const getPriority = middleware => middleware.priority;
  * @returns {Array} The array of all middleware prioritized and sorted by priority.
  */
 export function prioritizeItems(items) {
-  const itemsWithPriorities = items.map(
-    item => (getPriority(item) ? item : setPriority(item, priorities.DEFAULT))
+  const itemsWithPriorities = items.map(item =>
+    getPriority(item) ? item : setPriority(item, priorities.DEFAULT),
   );
 
   return itemsWithPriorities.sort((a, b) => a.priority - b.priority);
