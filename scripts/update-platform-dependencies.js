@@ -22,6 +22,7 @@ const extensionsToIgnore = [
   'onboarding',
   'podcast',
   'radio-player',
+  'recombee',
   'salesforce',
   'sendbird',
   'shopify',
