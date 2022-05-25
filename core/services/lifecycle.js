@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { extractFlattenedNamedExports } from './exports';
 import { prioritizeItems } from './priority';
 
@@ -11,24 +12,17 @@ import { prioritizeItems } from './priority';
  * @returns {Promise} that will be resolved at the end of all lifecycle functions
  */
 export function callLifecycleFunction(app, extensions, functionName) {
-  const promises = [];
-  const lifecycleFunctions = extractFlattenedNamedExports(extensions, functionName);
+  const lifecycleFunctions = extractFlattenedNamedExports(
+    extensions,
+    functionName,
+  );
   const prioritizedLifecycleFunctions = prioritizeItems(lifecycleFunctions);
 
-  prioritizedLifecycleFunctions.forEach((lifecycleFunction) => {
-    if (typeof lifecycleFunction === 'function') {
-      const result = lifecycleFunction(app);
-
-      if (result instanceof Promise) {
-        const wrappedPromise = new Promise(resolve =>
-          result
-            .then(() => resolve())
-            .catch(() => resolve())
-        );
-        promises.push(wrappedPromise);
-      }
-    }
-  });
-
-  return Promise.all(promises);
+  return _.reduce(
+    prioritizedLifecycleFunctions,
+    (result, lifeCycle) => {
+      return result.then(() => lifeCycle(app));
+    },
+    Promise.resolve(),
+  );
 }
