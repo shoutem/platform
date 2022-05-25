@@ -1,7 +1,7 @@
 {
   "version": "7.0.0-rc.0",
   "mobileAppVersion": "7.0.0-rc.0",
-  "releaseNotes": "* Improved prioritization of lifecycle functions execution.",
+  "releaseNotes": "* Improved prioritization of lifecycle functions execution\n* Improved preview build caching mechanism",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
     "QA-appetizeKey": "b6p3zptqr2j28wb4qymhnbn3dr",
