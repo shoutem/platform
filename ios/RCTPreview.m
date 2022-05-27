@@ -47,13 +47,17 @@ RCT_EXPORT_METHOD(reloadApp)
 
 RCT_EXPORT_METHOD(dismissApp)
 {
-  dispatch_async(dispatch_get_main_queue(), ^(void) {
+   NSLog(@"dismiss");
+   dispatch_async(dispatch_get_main_queue(), ^(void) {
+    NSLog(@"dispatch_async");
     AppDelegate *application = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    UIViewController *rootViewController = application.window.rootViewController;
-    UIViewController *previewController = rootViewController.presentedViewController;
+     UIViewController *rootViewController = (AppDelegate *)[UIApplication sharedApplication].keyWindow.rootViewController;
 
-    [previewController dismissViewControllerAnimated:YES
-                                              completion:nil];
+     NSLog(@"WINDOWS %@", [[UIApplication sharedApplication] windows]);
+     NSLog(@"objectAtIndex 0 %@",  [[[UIApplication sharedApplication] windows] objectAtIndex:0]);
+     NSLog(@"objectAtIndex 1 %@",  [[[UIApplication sharedApplication] windows] objectAtIndex:1]);
+
+    [rootViewController dismissViewControllerAnimated:YES completion:nil];
   });
 }
 

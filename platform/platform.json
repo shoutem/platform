@@ -1,6 +1,6 @@
 {
-  "version": "6.5.1",
-  "mobileAppVersion": "6.5.1",
+  "version": "6.5.2",
+  "mobileAppVersion": "6.5.2",
   "releaseNotes": "* Reworked RSS feed resolution resulting in more optimised feed fetching and parsing",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
