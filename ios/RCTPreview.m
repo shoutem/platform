@@ -50,7 +50,9 @@ RCT_EXPORT_METHOD(dismissApp)
   dispatch_async(dispatch_get_main_queue(), ^(void) {
     AppDelegate *application = (AppDelegate *)[UIApplication sharedApplication].delegate;
     UIViewController *rootViewController = application.window.rootViewController;
-    [rootViewController dismissViewControllerAnimated:YES
+    UIViewController *previewController = rootViewController.presentedViewController;
+
+    [previewController dismissViewControllerAnimated:YES
                                               completion:nil];
   });
 }
