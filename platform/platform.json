@@ -1,6 +1,6 @@
 {
-  "version": "7.0.0-rc.1",
-  "mobileAppVersion": "7.0.0-rc.1",
+  "version": "7.0.0-rc.2",
+  "mobileAppVersion": "7.0.0-rc.2",
   "releaseNotes": "* Improved prioritization of lifecycle functions execution\n* Improved preview build caching mechanism",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
@@ -59,7 +59,7 @@
     "shoutem.rubicon-theme": "~5.0.1-rc.0",
     "shoutem.social": "~8.0.0-rc.0",
     "shoutem.sub-navigation": "~4.0.2",
-    "shoutem.theme": "~5.0.1-rc.0",
+    "shoutem.theme": "~5.0.1-rc.3",
     "shoutem.user-profile": "~4.0.0-rc.0",
     "shoutem.video": "~7.0.0",
     "shoutem.vimeo": "~5.1.0",
