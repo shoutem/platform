@@ -4,6 +4,7 @@ export const priorities = Object.freeze({
   NAVIGATION: 200,
   AUTH: 300,
   REDUX: 500,
+  FIREBASE: 700,
   NETWORKING: 900,
   DEFAULT: 5000,
   LAST: Number(Infinity),
