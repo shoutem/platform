@@ -40,6 +40,7 @@ function createApplication(appContext) {
       super(props);
 
       this.store = null;
+      this.state = { appReady: false };
     }
 
     getChildContext() {
@@ -113,7 +114,7 @@ function createApplication(appContext) {
         this,
         appContext.extensions,
         'appWillMount',
-      );
+      ).then(() => this.setState({ appReady: true }));
     }
 
     componentDidMount() {
@@ -135,6 +136,12 @@ function createApplication(appContext) {
     }
 
     render() {
+      const { appReady } = this.state;
+
+      if (!appReady) {
+        return null;
+      }
+
       const { extensions } = appContext;
       const mainContent = renderMainContent(this, extensions);
       const renderedContent = renderProviders(extensions, mainContent);
@@ -182,7 +189,7 @@ export class AppBuilder {
    *
    * @param {Function} renderFunction Navigation bar render function
    */
-  setRenderNavigationBar(renderFunction = () => {}) {
+  setRenderNavigationBar(renderFunction = () => { }) {
     this[APP_CONTEXT].renderNavigationBar = renderFunction;
     return this;
   }

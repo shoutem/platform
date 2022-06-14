@@ -94,7 +94,8 @@ export function createAppContextConsumer(extensions) {
                 res({
                   ...value,
                   ...contextValue,
-                })}
+                })
+              }
             </Context.Consumer>
           );
         },

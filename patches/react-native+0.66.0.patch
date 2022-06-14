@@ -18,3 +18,24 @@ index c498ba6..0765f28 100755
  set -e
  
  # Support Homebrew on M1
+diff --git a/node_modules/react-native/React/Views/RCTModalHostView.m b/node_modules/react-native/React/Views/RCTModalHostView.m
+index bea9e08..68d80d8 100644
+--- a/node_modules/react-native/React/Views/RCTModalHostView.m
++++ b/node_modules/react-native/React/Views/RCTModalHostView.m
+@@ -116,10 +116,12 @@ - (void)didUpdateReactSubviews
+ 
+ - (void)dismissModalViewController
+ {
+-  if (_isPresented) {
+-    [_delegate dismissModalHostView:self withViewController:_modalViewController animated:[self hasAnimationType]];
+-    _isPresented = NO;
+-  }
++  dispatch_async(dispatch_get_main_queue(), ^{
++    if (self->_isPresented) {
++      [self->_delegate dismissModalHostView:self withViewController:self->_modalViewController animated:[self hasAnimationType]];
++      self->_isPresented = NO;
++    }
++  });
+ }
+ 
+ - (void)didMoveToWindow
