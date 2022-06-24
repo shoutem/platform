@@ -1,6 +1,6 @@
 {
-  "version": "7.1.0-rc.0",
-  "mobileAppVersion": "7.1.0-rc.0",
+  "version": "7.1.0-rc.1",
+  "mobileAppVersion": "7.1.0-rc.1",
   "releaseNotes": "* Added push journey capabilities for extensions",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
@@ -25,7 +25,7 @@
     "shoutem.analytics": "~4.0.2",
     "shoutem.application": "~4.1.2",
     "shoutem.audio": "~4.0.2",
-    "shoutem.auth": "~5.1.1-rc.3",
+    "shoutem.auth": "~5.1.2-rc.0",
     "shoutem.camera": "~5.0.0",
     "shoutem.cms": "~6.0.0",
     "shoutem.code-push": "~4.1.1",
@@ -40,7 +40,7 @@
     "shoutem.loyalty": "~6.0.0",
     "shoutem.navigation": "~5.0.4",
     "shoutem.news": "~6.0.0",
-    "shoutem.notification-center": "~7.0.1-rc.4",
+    "shoutem.notification-center": "~7.1.0-rc.0",
     "shoutem.page": "~5.0.0",
     "shoutem.people": "~5.0.0",
     "shoutem.permissions": "~4.0.3",
