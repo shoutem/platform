@@ -1,10 +1,10 @@
 {
-  "version": "7.1.0-rc.1",
-  "mobileAppVersion": "7.1.0-rc.1",
+  "version": "7.1.0-rc.2",
+  "mobileAppVersion": "7.1.0-rc.2",
   "releaseNotes": "* Added push journey capabilities for extensions",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
-    "QA-appetizeKey": "b6p3zptqr2j28wb4qymhnbn3dr",
+    "QA-appetizeKey": "nzqpc4884ww10tg063v0wmz61w",
     "Production-appetizeKey": "kg8rhthxfgbhevf8v4y6hmrumg"
   },
   "builds": {
