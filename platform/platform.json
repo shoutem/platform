@@ -1,6 +1,6 @@
 {
-  "version": "7.0.0",
-  "mobileAppVersion": "7.0.0",
+  "version": "8.0.0-rc.0",
+  "mobileAppVersion": "8.0.0-rc.0",
   "releaseNotes": "* Improved prioritization of lifecycle functions execution\n* Improved preview build caching mechanism.",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
@@ -25,7 +25,7 @@
     "shoutem.analytics": "~4.0.2",
     "shoutem.application": "~4.1.2",
     "shoutem.audio": "~4.0.2",
-    "shoutem.auth": "~5.1.0",
+    "shoutem.auth": "~5.1.5-rc.0",
     "shoutem.camera": "~5.0.0",
     "shoutem.cms": "~6.0.0",
     "shoutem.code-push": "~4.1.1",
@@ -47,7 +47,7 @@
     "shoutem.persist": "~4.0.2",
     "shoutem.photos": "~5.0.0",
     "shoutem.places": "~6.0.0",
-    "shoutem.preview": "~4.0.2",
+    "shoutem.preview": "~5.0.0-rc.0",
     "shoutem.products": "~5.0.0",
     "shoutem.push-notifications": "~4.0.3",
     "shoutem.redux": "~4.1.3",
