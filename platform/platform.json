@@ -1,6 +1,6 @@
 {
-  "version": "7.1.1",
-  "mobileAppVersion": "7.1.1",
+  "version": "7.1.2",
+  "mobileAppVersion": "7.1.2",
   "releaseNotes": "* Added push journey capabilities for extensions",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
