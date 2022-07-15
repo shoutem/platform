@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/platform",
-  "version": "7.1.1",
+  "version": "7.1.2",
   "scripts": {
     "android": "react-native run-android",
     "build": "node scripts/build",
