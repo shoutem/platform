@@ -1,6 +1,6 @@
 {
-  "version": "8.0.0-rc.0",
-  "mobileAppVersion": "8.0.0-rc.0",
+  "version": "8.0.0",
+  "mobileAppVersion": "8.0.0",
   "releaseNotes": "* Added support for Disclose preview",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
@@ -25,7 +25,7 @@
     "shoutem.analytics": "~4.0.2",
     "shoutem.application": "~4.1.2",
     "shoutem.audio": "~4.0.2",
-    "shoutem.auth": "~6.0.0-rc.0",
+    "shoutem.auth": "~6.0.0",
     "shoutem.camera": "~5.0.0",
     "shoutem.cms": "~6.0.1",
     "shoutem.code-push": "~4.1.1",
@@ -47,7 +47,7 @@
     "shoutem.persist": "~4.0.2",
     "shoutem.photos": "~5.0.0",
     "shoutem.places": "~6.0.1",
-    "shoutem.preview": "~5.0.0-rc.1",
+    "shoutem.preview": "~5.0.0",
     "shoutem.products": "~5.0.0",
     "shoutem.push-notifications": "~4.0.3",
     "shoutem.redux": "~4.1.3",
@@ -59,11 +59,11 @@
     "shoutem.rubicon-theme": "~5.0.1",
     "shoutem.social": "~8.0.1",
     "shoutem.sub-navigation": "~4.0.2",
-    "shoutem.theme": "~5.0.2-rc.0",
-    "shoutem.user-profile": "~4.1.0",
+    "shoutem.theme": "~5.0.2",
+    "shoutem.user-profile": "~4.2.0",
     "shoutem.video": "~7.0.0",
     "shoutem.vimeo": "~5.1.0",
-    "shoutem.web-view": "~5.0.2",
+    "shoutem.web-view": "~5.1.0",
     "shoutem.wordpress": "~5.0.0",
     "shoutem.youtube": "~5.0.2"
   }
