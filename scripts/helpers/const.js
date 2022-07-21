@@ -29,7 +29,7 @@ const filesChangedByConfigurationScript = [
   'ios/ShoutemApp.xcworkspace/contents.xcworkspacedata',
   'ios/ShoutemApp.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings',
   'ios/ShoutemApp/AppDelegate.h',
-  'ios/ShoutemApp/AppDelegate.m',
+  'ios/ShoutemApp/AppDelegate.mm',
   'ios/ShoutemApp/Base.lproj/LaunchScreen.xib',
   'ios/ShoutemApp/Images.xcassets/AppIcon.appiconset/Contents.json',
   'ios/ShoutemApp/Images.xcassets/AppIcon.appiconset/icon-1.png',
