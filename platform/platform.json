@@ -1,7 +1,7 @@
 {
-  "version": "9.0.0-rc.0",
-  "mobileAppVersion": "9.0.0-rc.0",
-  "releaseNotes": "* Updated to React Native v0.68.2\n* Updated Android target SDK to 31",
+  "version": "9.0.0-rc.1",
+  "mobileAppVersion": "9.0.0-rc.1",
+  "releaseNotes": "* Updated to React Native v0.68.2\n* Updated Android target SDK to 31\n* Optimized bundle caching for faster preview builds",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
     "QA-appetizeKey": "ixa6hurueksodngjfbrwcpuste",
