@@ -42,8 +42,8 @@ function getSearchReplaceFiles(oldPackageName, newPackageName) {
     },
     {
       path: getMainApplicationReactNativeHostPath(),
-      search: `import ${oldPackageName};`,
-      replace: `import ${newPackageName};`,
+      search: `import ${oldPackageName}`,
+      replace: `import ${newPackageName}`,
       fileName: 'MainApplicationReactNativeHost.java',
     },
     {
