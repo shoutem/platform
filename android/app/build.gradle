@@ -1,6 +1,7 @@
 apply plugin: "com.android.application"
 
 import com.android.build.OutputFile
+import org.apache.tools.ant.taskdefs.condition.Os
 
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
@@ -149,11 +150,6 @@ android {
         versionCode 1
         versionName '5.0.0'
         multiDexEnabled true
-
-        dexOptions {
-        	jumboMode = true
-            javaMaxHeapSize "4g"
-    	  }
 
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
 
