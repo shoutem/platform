@@ -10,7 +10,9 @@ import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
+import com.facebook.react.config.ReactFeatureFlags;
 import com.facebook.soloader.SoLoader;
+import com.shoutemapp.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 //NativeModuleInjectionMark-mainApplication-import
 
@@ -39,18 +41,26 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
         }
     };
 
+    private final ReactNativeHost mNewArchitectureNativeHost =
+        new MainApplicationReactNativeHost(this);
+
     protected String getJSMainModuleName() {
         return "index";
     }
 
     @Override
     public ReactNativeHost getReactNativeHost() {
+      if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
+        return mNewArchitectureNativeHost;
+      } else {
         return mReactNativeHost;
+      }
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
+        ReactFeatureFlags.useTurboModules = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
         SoLoader.init(this, /* native exopackage */ false);
         //NativeModuleInjectionMark-mainApplication-oncreate-end
 
