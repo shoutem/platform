@@ -6,6 +6,7 @@
     "get-app-dependencies": "node get-app-dependencies",
     "reset-diff": "node manual-reset-diff",
     "sanitize-diff": "node manual-sanitize-diff",
+    "update-preview-app-dependencies": "node update-preview-app-dependencies",
     "update-platform-dependencies": "node update-platform-dependencies ../extensions"
   },
   "dependencies": {
