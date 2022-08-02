@@ -4,8 +4,8 @@
   "releaseNotes": "* Resolved issues with Android 12 devices",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
-    "QA-appetizeKey": "ixa6hurueksodngjfbrwcpuste",
-    "Production-appetizeKey": "lxy2lgw6xwbocs6seknnswfgua"
+    "QA-appetizeKey": "oyi5mclycq3dezddl6dxp5dp5i",
+    "Production-appetizeKey": "vds3ylfofkljx2fpoyobernyqy"
   },
   "builds": {
     "live": {
