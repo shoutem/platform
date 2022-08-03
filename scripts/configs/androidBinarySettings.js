@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path');
+
 const androidResourcesDirectory = './android/app/src/main/res';
 
 module.exports = {
@@ -77,7 +78,7 @@ module.exports = {
         savePath: path.join(
           androidResourcesDirectory,
           'mipmap-hdpi',
-          'ic_launcher.png',
+          'app_icon.png',
         ),
         width: 72,
         height: 72,
@@ -86,7 +87,7 @@ module.exports = {
         savePath: path.join(
           androidResourcesDirectory,
           'mipmap-mdpi',
-          'ic_launcher.png',
+          'app_icon.png',
         ),
         width: 48,
         height: 48,
@@ -95,7 +96,7 @@ module.exports = {
         savePath: path.join(
           androidResourcesDirectory,
           'mipmap-xhdpi',
-          'ic_launcher.png',
+          'app_icon.png',
         ),
         width: 96,
         height: 96,
@@ -104,7 +105,7 @@ module.exports = {
         savePath: path.join(
           androidResourcesDirectory,
           'mipmap-xxhdpi',
-          'ic_launcher.png',
+          'app_icon.png',
         ),
         width: 144,
         height: 144,
@@ -113,7 +114,7 @@ module.exports = {
         savePath: path.join(
           androidResourcesDirectory,
           'mipmap-xxxhdpi',
-          'ic_launcher.png',
+          'app_icon.png',
         ),
         width: 192,
         height: 192,
