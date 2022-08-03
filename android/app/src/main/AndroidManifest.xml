@@ -15,7 +15,7 @@
     android:name=".MainApplication"
     android:allowBackup="true"
     android:label="${appName}"
-    android:icon="@mipmap/ic_launcher"
+    android:icon="@mipmap/app_icon"
     android:theme="@style/AppTheme"
     android:extractNativeLibs="true"
     android:requestLegacyExternalStorage="true">
