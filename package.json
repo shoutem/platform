@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/platform",
-  "version": "9.0.1",
+  "version": "9.1.0-rc.0",
   "scripts": {
     "android": "react-native run-android",
     "build": "node scripts/build",
@@ -18,7 +18,7 @@
     "auto-bind": "4.0.0",
     "es6-symbol": "3.1.1",
     "lodash": "4.17.21",
-    "moment": "2.24.0",
+    "moment": "2.29.4",
     "prop-types": "15.7.1",
     "react": "17.0.2",
     "react-native": "0.68.2",
@@ -77,11 +77,37 @@
   },
   "eslintConfig": {
     "extends": "@shoutem/react-native",
+    "ignorePattern": [
+      "**/dist/*",
+      "**/node_modules/*",
+      "**/server.js",
+      "**/webpack.config*.js",
+      "**/test-utils/setup.js"
+    ],
     "parser": "babel-eslint",
     "parserOptions": {
       "ecmaVersion": 6,
       "sourceType": "module"
+    },
+    "rules": {
+      "react-native/no-raw-text": [
+        1,
+        {
+          "skip": [
+            "Caption",
+            "Heading",
+            "Subtitle",
+            "Title"
+          ]
+        }
+      ]
     }
+  },
+  "prettier": {
+    "bracketSpacing": true,
+    "jsxBracketSameLine": false,
+    "singleQuote": true,
+    "trailingComma": "all"
   },
   "jest": {
     "preset": "module:react-native"
