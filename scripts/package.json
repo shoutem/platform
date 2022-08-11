@@ -24,13 +24,13 @@
     "node-watch": "0.3.5",
     "parse-gitignore": "0.3.1",
     "pify": "3.0.0",
-    "plist": "2.1.0",
+    "plist": "3.0.5",
     "ps-node": "0.1.6",
     "request": "2.88.2",
     "request-promise": "4.2.6",
     "rimraf": "2.7.1",
     "semver": "5.7.1",
-    "shelljs": "0.7.8",
+    "shelljs": "0.8.5",
     "superspawn": "0.1.0",
     "xcode": "3.0.1"
   }

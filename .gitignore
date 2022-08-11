@@ -1,7 +1,6 @@
 build-script/tmp
 extensions.js
 config.json
-!app-center/config.json
 temp
 cached-bundles
 ci-metro-params.json
@@ -16,13 +15,14 @@ nativeDependencies.json
 /firebase.json
 /ios/RNPlaceholder.swift
 /android/app/google-services.json
+/vendor/bundle/
 
 /ios/*.xcodeproj
 /ios/*.xcworkspace
 /ios/**/Base.lproj
 /ios/**/Images.xcassets
 /ios/**/AppDelegate.h
-/ios/**/AppDelegate.m
+/ios/**/AppDelegate.mm
 /ios/**/Info.plist
 /ios/**/main.m
 /ios/**/*.entitlements
@@ -31,7 +31,7 @@ nativeDependencies.json
 !/ios/ShoutemApp/Base.lproj
 !/ios/ShoutemApp/Images.xcassets
 !/ios/ShoutemApp/AppDelegate.h
-!/ios/ShoutemApp/AppDelegate.m
+!/ios/ShoutemApp/AppDelegate.mm
 !/ios/ShoutemApp/Info.plist
 !/ios/ShoutemApp/main.m
 !/ios/ShoutemApp/*.entitlements
