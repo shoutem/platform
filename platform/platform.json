@@ -1,11 +1,11 @@
 {
-  "version": "9.2.0-rc.0",
-  "mobileAppVersion": "9.2.0-rc.0",
+  "version": "9.2.0",
+  "mobileAppVersion": "9.2.0",
   "releaseNotes": "* Bumped iOS deployment target to 12.0",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
     "QA-appetizeKey": "ddhpgeadlf7tsseps6il475zwm",
-    "Production-appetizeKey": "vds3ylfofkljx2fpoyobernyqy"
+    "Production-appetizeKey": "m3ltix4tvbam34ksfkrokttxpi"
   },
   "builds": {
     "live": {
