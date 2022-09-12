@@ -1,11 +1,11 @@
 {
-  "version": "9.2.0",
-  "mobileAppVersion": "9.2.0",
-  "releaseNotes": "* Bumped iOS deployment target to 12.0",
+  "version": "10.0.0-rc.0",
+  "mobileAppVersion": "10.0.0-rc.0",
+  "releaseNotes": "* Updated Facebook login\n* NOTE: If you have an existing Facebook App, make sure it's properly configured\n* For devs: Removed pre-linked dummy date for Facebook SDK from both iOS and Android",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
-    "QA-appetizeKey": "ddhpgeadlf7tsseps6il475zwm",
-    "Production-appetizeKey": "m3ltix4tvbam34ksfkrokttxpi"
+    "QA-appetizeKey": "u3ug4mvtp5as3qverih4bkaksm",
+    "Production-appetizeKey": "needsnewkey"
   },
   "builds": {
     "live": {
@@ -25,9 +25,9 @@
     "shoutem.analytics": "~4.0.2",
     "shoutem.application": "~5.0.0",
     "shoutem.audio": "~4.0.4",
-    "shoutem.auth": "~6.0.1",
+    "shoutem.auth": "~7.0.0-rc.0",
     "shoutem.camera": "~5.0.0",
-    "shoutem.cms": "~6.1.0",
+    "shoutem.cms": "~6.1.2",
     "shoutem.code-push": "~4.1.1",
     "shoutem.deals": "~6.1.0",
     "shoutem.events": "~5.1.0",
@@ -40,7 +40,7 @@
     "shoutem.loyalty": "~6.1.0",
     "shoutem.navigation": "~5.0.6",
     "shoutem.news": "~6.1.0",
-    "shoutem.notification-center": "~7.1.1",
+    "shoutem.notification-center": "~7.1.3",
     "shoutem.page": "~5.0.0",
     "shoutem.people": "~5.1.0",
     "shoutem.permissions": "~4.0.5",
@@ -57,13 +57,13 @@
     "shoutem.rss-photos": "~5.1.0",
     "shoutem.rss-videos": "~5.1.0",
     "shoutem.rubicon-theme": "~5.0.1",
-    "shoutem.social": "~9.0.0",
+    "shoutem.social": "~9.0.1",
     "shoutem.sub-navigation": "~4.0.2",
-    "shoutem.theme": "~5.0.3",
+    "shoutem.theme": "~5.0.4",
     "shoutem.user-profile": "~5.0.0",
     "shoutem.video": "~7.1.0",
     "shoutem.vimeo": "~5.1.0",
-    "shoutem.web-view": "~5.2.0",
+    "shoutem.web-view": "~5.2.1",
     "shoutem.wordpress": "~5.0.0",
     "shoutem.youtube": "~5.0.3"
   }
