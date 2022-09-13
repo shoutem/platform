@@ -1,6 +1,6 @@
 {
-  "version": "10.0.0-rc.0",
-  "mobileAppVersion": "10.0.0-rc.0",
+  "version": "10.0.0-rc.1",
+  "mobileAppVersion": "10.0.0-rc.1",
   "releaseNotes": "* Updated Facebook login\n* NOTE: If you have an existing Facebook App, make sure it's properly configured\n* For devs: Removed pre-linked dummy date for Facebook SDK from both iOS and Android",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
@@ -25,7 +25,7 @@
     "shoutem.analytics": "~4.0.2",
     "shoutem.application": "~5.0.0",
     "shoutem.audio": "~4.0.4",
-    "shoutem.auth": "~7.0.0-rc.0",
+    "shoutem.auth": "~7.0.0-rc.1",
     "shoutem.camera": "~5.0.0",
     "shoutem.cms": "~6.1.2",
     "shoutem.code-push": "~4.1.1",
