@@ -142,6 +142,10 @@ android {
         }
     }
 
+    lint {
+        abortOnError false
+    }
+
     //NativeModuleInjectionMark-app-gradle-android
     defaultConfig {
         applicationId 'com.shoutemapp'
