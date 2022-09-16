@@ -6,17 +6,17 @@ module.exports = {
     'react-native-code-push': {
       platforms: {
         android: null,
-      }
+      },
     },
-    'react-native-fbsdk': {
+    'react-native-fbsdk-next': {
       platforms: {
         android: null,
-      }
+      },
     },
     'react-native-maps': {
       platforms: {
         android: null,
-      }
-    }
+      },
+    },
   },
 };
