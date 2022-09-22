@@ -1,7 +1,7 @@
 {
-  "version": "11.0.0-rc.0",
-  "mobileAppVersion": "11.0.0-rc.0",
-  "releaseNotes": "*NEW Added Hermes as default engine for Android",
+  "version": "11.0.0-rc.1",
+  "mobileAppVersion": "11.0.0-rc.1",
+  "releaseNotes": "*NEW Added Hermes as default engine",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
     "QA-appetizeKey": "u3ug4mvtp5as3qverih4bkaksm",
