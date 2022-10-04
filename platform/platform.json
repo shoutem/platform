@@ -1,6 +1,6 @@
 {
-  "version": "11.0.0",
-  "mobileAppVersion": "11.0.0",
+  "version": "11.0.1-beta",
+  "mobileAppVersion": "11.0.1-beta",
   "releaseNotes": "* Added Hermes as default engine",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",

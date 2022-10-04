@@ -17,6 +17,7 @@
     android:label="${appName}"
     android:icon="@mipmap/app_icon"
     android:theme="@style/AppTheme"
+    android:largeHeap="true"
     android:extractNativeLibs="true"
     android:requestLegacyExternalStorage="true">
 

@@ -146,6 +146,10 @@ android {
         abortOnError false
     }
 
+    dexOptions {
+       javaMaxHeapSize "4g"
+    }
+
     //NativeModuleInjectionMark-app-gradle-android
     defaultConfig {
         applicationId 'com.shoutemapp'
