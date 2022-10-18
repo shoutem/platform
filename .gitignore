@@ -130,3 +130,6 @@ android/app/libs
 
 # explicitly allow extension/app/build folders containing lifecycle scripts
 !extensions/**/app/build
+
+#assets
+/assets
