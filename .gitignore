@@ -128,9 +128,5 @@ android/app/libs
 # Bundle artifact
 *.jsbundle
 
-# assets
-android/app/src/main/assets
-/assets
-
 # explicitly allow extension/app/build folders containing lifecycle scripts
 !extensions/**/app/build
