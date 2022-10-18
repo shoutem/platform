@@ -1,6 +1,6 @@
 {
-  "version": "12.0.0-rc.0",
-  "mobileAppVersion": "12.0.0-rc.0",
+  "version": "12.0.0-rc.1",
+  "mobileAppVersion": "12.0.0-rc.1",
   "releaseNotes": "NEW * Font system reworked and extended with custom fonts capabilities",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
