@@ -18,6 +18,7 @@ const findFileOnPath = require('../helpers/find-file-on-path');
 const getXcodeProjectPath = require('../helpers/get-xcode-project-path');
 const getErrorMessageFromResponse = require('../helpers/get-error-message-from-response');
 const updateAndroidPackageName = require('../helpers/update-android-package-name');
+const rootProjectDir = require('../helpers/get-project-path');
 
 const binarySettings = {
   ios: iosBinarySettings,
@@ -39,6 +40,9 @@ function renamePath(oldPath, newPath) {
 }
 
 function downloadImage(imageUrl, savePath) {
+  const assetsDir = path.resolve(rootProjectDir, 'assets');
+  fs.ensureDirSync(assetsDir);
+
   return new Promise((resolve, reject) => {
     request(imageUrl)
       .pipe(fs.createWriteStream(savePath))
