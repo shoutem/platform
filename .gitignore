@@ -10,7 +10,6 @@ ios/Podfile.lock
 config/
 dependencies.json
 nativeDependencies.json
-**/package-lock.json
 !extensions/**/app/ios
 /firebase.json
 /ios/RNPlaceholder.swift
