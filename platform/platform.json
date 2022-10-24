@@ -1,7 +1,7 @@
 {
   "version": "12.1.0-rc.0",
   "mobileAppVersion": "12.1.0-rc.0",
-  "releaseNotes": "* Font system reworked and extended with custom fonts capabilities",
+  "releaseNotes": "* Improved app analytics with Screen View events when opening list items\n* Target shoutem/ui 6.0.0 package\n* Minor bugfixes",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
     "QA-appetizeKey": "u3ug4mvtp5as3qverih4bkaksm",
