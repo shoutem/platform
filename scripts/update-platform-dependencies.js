@@ -8,6 +8,7 @@ const platformPath = path.resolve(path.join('../platform', 'platform.json'));
 const platformJson = fs.readJsonSync(platformPath);
 const extensionsToIgnore = [
   'affiliate',
+  'age-restriction',
   'agora',
   'advertising',
   'besttime',
