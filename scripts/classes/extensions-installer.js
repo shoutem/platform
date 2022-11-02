@@ -134,17 +134,25 @@ class ExtensionsInstaller {
       );
     }
 
-    const extensionsMapping = [];
+    const customExtensions = [];
+    const shoutemExtensions = [];
     const extensions = _.uniqBy(installedExtensions, 'id');
 
     extensions.forEach(extension => {
       if (extension) {
-        extensionsMapping.push(
-          `'${extension.id}': require('${extension.id}'),\n  `,
-        );
+        if (extension.id.startsWith('shoutem.')) {
+          shoutemExtensions.push(
+            `'${extension.id}': require('${extension.id}'),\n  `,
+          );
+        } else {
+          customExtensions.push(
+            `'${extension.id}': require('${extension.id}'),\n  `,
+          );
+        }
       }
     });
 
+    const extensionsMapping = shoutemExtensions.concat(customExtensions);
     const extensionsString = extensionsMapping.join('');
     const data = `export default {\n  ${extensionsString}};\n`;
 
