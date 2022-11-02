@@ -1,6 +1,6 @@
 {
-  "version": "12.1.1-rc.0",
-  "mobileAppVersion": "12.1.1-rc.0",
+  "version": "12.1.1",
+  "mobileAppVersion": "12.1.1",
   "releaseNotes": "* For devs: Resolved issue with importing from Shoutem extensions into custom extensions",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
