@@ -45,6 +45,7 @@ allprojects {
         }
         //NativeModuleInjectionMark-root-gradle-allprojects-repositories
         }
+    //NativeModuleInjectionMark-root-gradle-allprojects
 }
 
 subprojects { subproject ->
