@@ -1,6 +1,6 @@
 {
-  "version": "12.1.2-rc.0",
-  "mobileAppVersion": "12.1.2-rc.0",
+  "version": "12.1.2-rc.1",
+  "mobileAppVersion": "12.1.2-rc.1",
   "releaseNotes": "* Resolve Android build failure",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
@@ -25,7 +25,7 @@
     "shoutem.analytics": "~4.1.0",
     "shoutem.application": "~6.0.0",
     "shoutem.audio": "~4.0.4",
-    "shoutem.auth": "~7.1.2-rc.0",
+    "shoutem.auth": "~7.1.2-rc.1",
     "shoutem.camera": "~5.0.0",
     "shoutem.cms": "~6.1.4",
     "shoutem.code-push": "~4.1.1",
