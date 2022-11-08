@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/platform",
-  "version": "12.1.1",
+  "version": "12.1.2",
   "scripts": {
     "android": "react-native run-android",
     "build": "node scripts/build",
@@ -93,7 +93,12 @@
       "react-native/no-raw-text": [
         1,
         {
-          "skip": ["Caption", "Heading", "Subtitle", "Title"]
+          "skip": [
+            "Caption",
+            "Heading",
+            "Subtitle",
+            "Title"
+          ]
         }
       ]
     }

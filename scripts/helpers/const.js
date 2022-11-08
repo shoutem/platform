@@ -118,8 +118,14 @@ const ANCHORS = {
         ANDROID_END: '//NativeModuleInjectionMark-app-gradle-android-end',
       },
       ROOT_GRADLE: '//NativeModuleInjectionMark-root-gradle',
+      ROOT_GRADLE_ALLPROJECTS:
+        '//NativeModuleInjectionMark-root-gradle-allprojects',
       ROOT_GRADLE_ALLPROJECTS_REPOSITORIES:
         '//NativeModuleInjectionMark-root-gradle-allprojects-repositories',
+      ROOT_GRADLE_ALLPROJECTS_CONFIGURATIONS_ALL:
+        '//NativeModuleInjectionMark-root-gradle-allprojects-configurations.all',
+      ROOT_GRADLE_ALLPROJECTS_CONFIGURATIONS_ALL_RESOLUTION_STRATEGY:
+        '//NativeModuleInjectionMark-root-gradle-allprojects-configurations.all-resolutionStrategy',
       PROPERTIES: '#NativeModuleInjectionMark-gradle-properties',
       CONSTANTS: '//NativeModuleInjectionMark-gradle-constants',
       SETTINGS: '//NativeModuleInjectionMark-gradle-settings',

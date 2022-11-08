@@ -45,6 +45,13 @@ allprojects {
         }
         //NativeModuleInjectionMark-root-gradle-allprojects-repositories
         }
+    //NativeModuleInjectionMark-root-gradle-allprojects
+    configurations.all {
+      //NativeModuleInjectionMark-root-gradle-allprojects-configurations.all
+        resolutionStrategy {
+            //NativeModuleInjectionMark-root-gradle-allprojects-configurations.all-resolutionStrategy
+      }
+    }
 }
 
 subprojects { subproject ->
