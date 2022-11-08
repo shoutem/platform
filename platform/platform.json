@@ -1,6 +1,6 @@
 {
-  "version": "12.1.2-rc.1",
-  "mobileAppVersion": "12.1.2-rc.1",
+  "version": "12.1.2-rc.2",
+  "mobileAppVersion": "12.1.2-rc.2",
   "releaseNotes": "* Resolve Android build failure",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
