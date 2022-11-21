@@ -23,17 +23,23 @@ export function assertExtensionsExist(extensions) {
 export function renderMainContent(app, extensions) {
   const renderedContent = [];
 
-  for (const extensionName of Object.keys(extensions)) {
-    const extension = extensions[extensionName];
-    const renderFunction = extension.render;
+  const renders = _.compact(
+    _.map(extensions, extension => {
+      const { render } = extension;
 
-    if (typeof renderFunction === 'function') {
-      const content = renderFunction(app);
-      if (content) {
-        renderedContent.push(content);
+      if (render && typeof render === 'function') {
+        return render;
       }
-    }
-  }
+
+      return null;
+    }),
+  );
+
+  const prioritizedRenders = prioritizeItems(renders);
+
+  _.forEach(prioritizedRenders, renderFunction => {
+    renderedContent.push(renderFunction(app));
+  });
 
   return renderedContent;
 }
