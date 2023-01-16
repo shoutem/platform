@@ -148,7 +148,10 @@ class AppConfigurator {
       .then(() => {
         if (skipPreBuildActions) {
           return Promise.all([
-            fs.writeJson('extensions/shoutem.application/app/configuration.json', {}),
+            fs.writeJson(
+              'extensions/shoutem.application/app/configuration.json',
+              {},
+            ),
             fs.writeJson(
               'extensions/shoutem.application/app/buildConfig.json',
               this.buildConfig,
@@ -224,6 +227,32 @@ class AppConfigurator {
 
         return Promise.all([extensionsJs, preBuild, configureProject]);
       });
+  }
+
+  runPostConfigurationStep() {
+    const { buildConfig } = this;
+    const { skipNativeDependencies, skipPreBuildActions } = buildConfig;
+
+    if (skipPreBuildActions || skipNativeDependencies) {
+      return null;
+    }
+
+    const extensions = getExtensionsFromConfiguration(this.configuration);
+    const linkedExtensions = getLocalExtensions(buildConfig.linkedExtensions);
+    const localExtensions = _.filter(linkedExtensions, localExt =>
+      _.find(extensions, { id: localExt.id }),
+    );
+    const extensionsToInstall = _.filter(
+      extensions,
+      ext => !_.some(localExtensions, { id: ext.id }),
+    );
+    const installedExtensions = [...localExtensions, ...extensionsToInstall];
+
+    const lifeCycleHook = skipPreBuildActions
+      ? 'previewBuild'
+      : 'postConfigure';
+
+    return this.executeBuildLifecycleHook(installedExtensions, lifeCycleHook);
   }
 
   executeBuildLifecycleHook(extensions, lifeCycleStep) {
@@ -350,6 +379,7 @@ class AppConfigurator {
       .then(() => this.saveConfigurationFiles())
       .then(() => this.buildExtensions())
       .then(() => applyReactNativeFixes())
+      .then(() => this.runPostConfigurationStep())
       .then(() => {
         if (sanitizeGitDiff) {
           sanitizeDiff();
