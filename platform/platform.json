@@ -1,7 +1,7 @@
 {
-  "version": "12.2.1",
-  "mobileAppVersion": "12.2.1",
-  "releaseNotes": "* Updated extension dependencies",
+  "version": "12.3.0",
+  "mobileAppVersion": "12.3.0",
+  "releaseNotes": "* Updated Facebook SDK version\n* Introduced automatic Facebook App event tracking capability, see Settings -> Users -> General Settings",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
     "QA-appetizeKey": "eclynidmg4qgbc3zeqyhzcwbxa",
@@ -25,7 +25,7 @@
     "shoutem.analytics": "~4.1.0",
     "shoutem.application": "~6.1.0",
     "shoutem.audio": "~4.0.4",
-    "shoutem.auth": "~7.1.4",
+    "shoutem.auth": "~7.2.0",
     "shoutem.camera": "~5.0.0",
     "shoutem.cms": "~6.1.4",
     "shoutem.code-push": "~4.1.1",
@@ -60,7 +60,7 @@
     "shoutem.rubicon-theme": "~6.1.1",
     "shoutem.social": "~9.1.0",
     "shoutem.sub-navigation": "~4.0.2",
-    "shoutem.theme": "~6.1.1",
+    "shoutem.theme": "~6.1.2",
     "shoutem.user-profile": "~5.1.1",
     "shoutem.video": "~7.2.0",
     "shoutem.web-view": "~5.3.2",
