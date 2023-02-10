@@ -1,11 +1,11 @@
 {
-  "version": "12.3.0",
-  "mobileAppVersion": "12.3.0",
-  "releaseNotes": "* Updated Facebook SDK version\n* Introduced automatic Facebook App event tracking capability, see Settings -> Users -> General Settings",
+  "version": "12.4.0-rc.0",
+  "mobileAppVersion": "12.4.0-rc.0",
+  "releaseNotes": "* Update iOS target SDK from 12 to 13\n* Introduce Intercom extension",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
-    "QA-appetizeKey": "eclynidmg4qgbc3zeqyhzcwbxa",
-    "Production-appetizeKey": "g3hf4jeby3aeumqy2m75mjiwwu"
+    "QA-appetizeKey": "kacytu2wc2kzd6xzutgkvlvqjq",
+    "Production-appetizeKey": "ryn6324zatf5st2mhkt4cdvg2u"
   },
   "builds": {
     "live": {
@@ -25,7 +25,8 @@
     "shoutem.analytics": "~4.1.0",
     "shoutem.application": "~6.1.0",
     "shoutem.audio": "~4.0.4",
-    "shoutem.auth": "~7.2.0",
+    "shoutem.auth": "~7.2.1",
+    "shoutem.bands-in-town": "~1.0.1",
     "shoutem.camera": "~5.0.0",
     "shoutem.cms": "~6.1.4",
     "shoutem.code-push": "~4.1.1",

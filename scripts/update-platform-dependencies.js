@@ -18,6 +18,7 @@ const extensionsToIgnore = [
   'ginger',
   'in-app-purchases',
   'interactive-faq',
+  'intercom',
   'invision-community',
   'menu',
   'onboarding',
@@ -27,6 +28,7 @@ const extensionsToIgnore = [
   'salesforce',
   'sendbird',
   'shopify',
+  'vimeo',
 ];
 
 platformJson.dependencies = getPlatformDependencies(
