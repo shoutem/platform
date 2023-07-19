@@ -358,7 +358,9 @@ class AppConfigurator {
     return Promise.all(
       extensions.map(ext => {
         this.insertNativeDependencies(ext.id);
-        return reactNativeLink(ext.id);
+        // temporarily commenting out while all linking issues are resolved
+        // return reactNativeLink(ext.id);
+        return null;
       }),
     );
   }
