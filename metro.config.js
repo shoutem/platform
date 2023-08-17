@@ -1,4 +1,4 @@
-const { getDefaultConfig } = require('metro-config');
+const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
 const blacklist = require('metro-config/src/defaults/exclusionList');
 const path = require('path');
 
@@ -6,11 +6,12 @@ const path = require('path');
 const ciMetroParams = require('./ci-metro-params');
 
 module.exports = (async () => {
+  const defaultConfig = await getDefaultConfig(__dirname);
   const {
     resolver: { sourceExts, assetExts },
-  } = await getDefaultConfig();
+  } = defaultConfig;
 
-  return {
+  const config = {
     transformer: {
       getTransformOptions: async () => ({
         transform: {
@@ -45,4 +46,6 @@ module.exports = (async () => {
     },
     ...ciMetroParams,
   };
+
+  return mergeConfig(defaultConfig, config);
 })();

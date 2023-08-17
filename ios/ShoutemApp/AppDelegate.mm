@@ -15,9 +15,10 @@
 
   //NativeModuleInjectionMark-appDelegate-applicationDidFinishLaunchingWithOptions
 
+  bool didFinish = [super application:application didFinishLaunchingWithOptions:launchOptions];
   //NativeModuleInjectionMark-appDelegate-applicationDidFinishLaunchingWithOptions-end
 
-  return [super application:application didFinishLaunchingWithOptions:launchOptions];
+  return didFinish;
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
@@ -27,16 +28,6 @@
 #else
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
-}
-
-/// This method controls whether the `concurrentRoot`feature of React18 is turned on or off.
-///
-/// @see: https://reactjs.org/blog/2022/03/29/react-v18.html
-/// @note: This requires to be rendering on Fabric (i.e. on the New Architecture).
-/// @return: `true` if the `concurrentRoot` feature is enabled. Otherwise, it returns `false`.
-- (BOOL)concurrentRootEnabled
-{
-  return true;
 }
 
 //NativeModuleInjectionMark-appDelegate-body

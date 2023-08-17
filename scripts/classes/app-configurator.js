@@ -12,11 +12,7 @@ const _ = require('lodash');
 const rimraf = require('rimraf');
 const process = require('process');
 const request = require('request');
-const {
-  prependProjectPath,
-  reactNativeLink,
-  sanitizeDiff,
-} = require('../helpers');
+const { prependProjectPath, sanitizeDiff } = require('../helpers');
 require('colors');
 
 const AppBinaryConfigurator = require('./app-binary-configurator');
@@ -200,6 +196,13 @@ class AppConfigurator {
       .then(installedExtensions => {
         const appBinaryConfigurator = new AppBinaryConfigurator(buildConfig);
         const extensionsJs = installer.createExtensionsJs(installedExtensions);
+
+        if (!_.isEmpty(installedExtensions)) {
+          installedExtensions.map(ext => {
+            this.insertNativeDependencies(ext.id);
+          });
+        }
+
         const lifeCycleHook = skipPreBuildActions ? 'previewBuild' : 'preBuild';
         const preBuild = this.executeBuildLifecycleHook(
           installedExtensions,
@@ -215,7 +218,6 @@ class AppConfigurator {
 
           configureProject = appBinaryConfigurator
             .customizeProject()
-            .then(() => this.reactNativeLinkExtensions(linkableExtensions))
             .then(() =>
               installer.installNativeDependencies(installedExtensions),
             )
@@ -347,21 +349,6 @@ class AppConfigurator {
     fs.writeJsonSync(ROOT_PACKAGE_JSON_PATH, newPackageJson, { spaces: 2 });
     console.log(
       `[${extName}] - native dependencies added to root package.json`,
-    );
-  }
-
-  reactNativeLinkExtensions(extensions) {
-    if (!extensions.length) {
-      return Promise.resolve(extensions);
-    }
-
-    return Promise.all(
-      extensions.map(ext => {
-        this.insertNativeDependencies(ext.id);
-        // temporarily commenting out while all linking issues are resolved
-        // return reactNativeLink(ext.id);
-        return null;
-      }),
     );
   }
 
