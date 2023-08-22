@@ -268,7 +268,7 @@ class AppConfigurator {
         'lib',
         'cli.js',
       );
-      const execArgs = [execPath, '-a', ...allAssetPaths];
+      const execArgs = [execPath, '-a', ...allAssetPaths, '-n-u'];
       const execOptions = {
         cwd: projectPath,
         stdio: 'inherit',
