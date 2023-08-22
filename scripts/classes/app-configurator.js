@@ -7,12 +7,11 @@
 const { execFileSync } = require('child_process');
 const fs = require('fs-extra');
 const path = require('path');
-const glob = require('glob');
 const _ = require('lodash');
 const rimraf = require('rimraf');
 const process = require('process');
 const request = require('request');
-const { prependProjectPath, sanitizeDiff } = require('../helpers');
+const { prependProjectPath, projectPath, sanitizeDiff } = require('../helpers');
 require('colors');
 
 const AppBinaryConfigurator = require('./app-binary-configurator');
@@ -25,22 +24,18 @@ const applyReactNativeFixes = require('./../fixes/react-native-fixes');
 const NODE_MODULES_DIR = prependProjectPath('node_modules');
 const ROOT_PACKAGE_JSON_PATH = prependProjectPath('package.json');
 
-function isExtensionLinkable(extension) {
-  const pkgPath = `${NODE_MODULES_DIR}/${extension.id}/package.json`;
-  const packageJson = fs.readJsonSync(pkgPath, { throws: false });
-
-  if (packageJson === null) {
-    throw new Error(`${pkgPath} is invalid or empty!`);
-  }
-
-  const globPattern = `${NODE_MODULES_DIR}/${extension.id}/+(android|fonts|ios)`;
-  const containsAndroidOrIosFolders = glob.sync(globPattern);
-
-  // if an extension has native dependencies defined in its package.json
-  // or it contains an 'ios' or 'android' directory, it is linkable
-  return (
-    !!packageJson.nativeDependencies || !!containsAndroidOrIosFolders.length
+function getExtensionAssetPaths(extension) {
+  const extPackageJsonPath = path.resolve(
+    projectPath,
+    'extensions',
+    extension.id,
+    'app',
+    'package.json',
   );
+
+  const { assets: extAssetPaths = [] } = fs.readJsonSync(extPackageJsonPath);
+
+  return extAssetPaths;
 }
 
 /**
@@ -212,10 +207,6 @@ class AppConfigurator {
         let configureProject;
 
         if (!skipNativeDependencies) {
-          const linkableExtensions = skipLinking
-            ? []
-            : _.filter(installedExtensions, isExtensionLinkable);
-
           configureProject = appBinaryConfigurator
             .customizeProject()
             .then(() =>
@@ -255,6 +246,38 @@ class AppConfigurator {
       : 'postConfigure';
 
     return this.executeBuildLifecycleHook(installedExtensions, lifeCycleHook);
+  }
+
+  linkAllAssets() {
+    const extensions = getExtensionsFromConfiguration(this.configuration);
+
+    return new Promise(resolve => {
+      console.time('Linking assets took');
+      const allAssetPaths = [];
+      extensions.forEach(extension => {
+        const paths = getExtensionAssetPaths(extension);
+        if (paths.length) {
+          allAssetPaths.push(...paths);
+        }
+      });
+
+      const execPath = path.resolve(
+        projectPath,
+        'node_modules',
+        'react-native-asset',
+        'lib',
+        'cli.js',
+      );
+      const execArgs = [execPath, '-a', ...allAssetPaths, '-n-u'];
+      const execOptions = {
+        cwd: projectPath,
+        stdio: 'inherit',
+      };
+
+      execFileSync('node', execArgs, execOptions);
+      console.timeEnd('Linking assets took');
+      resolve();
+    });
   }
 
   executeBuildLifecycleHook(extensions, lifeCycleStep) {
@@ -369,6 +392,7 @@ class AppConfigurator {
       .then(() => this.buildExtensions())
       .then(() => applyReactNativeFixes())
       .then(() => this.runPostConfigurationStep())
+      .then(() => this.linkAllAssets())
       .then(() => {
         if (sanitizeGitDiff) {
           sanitizeDiff();
