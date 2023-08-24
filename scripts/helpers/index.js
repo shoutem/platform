@@ -27,7 +27,6 @@ module.exports = {
   getMainApplicationTurboModuleManagerDelegatePath: require('./get-main-application-turbo-module-manager-delegate-path'),
   getMainComponentsRegistry: require('./get-main-components-registry-path'),
   getAppGradlePath: require('./get-app-gradle-path'),
-  getBuchPath: require('./get-buck-path'),
   getGradlePropertiesPath: require('./get-gradle-properties-path'),
   getGradleConstantsPath: require('./get-gradle-constants-path'),
   getSettingsGradlePath: require('./get-settings-gradle-path'),
