@@ -1,6 +1,6 @@
 const fs = require('fs-extra');
 
-const getAndroidManifestpath = require('./get-android-manifest-path');
+const getAppGradlePath = require('./get-app-gradle-path');
 const getMainActivityPath = require('./get-main-activity-path');
 const getMainApplicationPath = require('./get-main-application-path');
 const getMainApplicationReactNativeHostPath = require('./get-main-application-react-native-host-path');
@@ -10,10 +10,10 @@ const getMainApplicationTurboModuleManagerDelegatePath = require('./get-main-app
 function getSearchReplaceFiles(oldPackageName, newPackageName) {
   return [
     {
-      path: getAndroidManifestpath(),
-      search: `package="${oldPackageName}"`,
-      replace: `package="${newPackageName}"`,
-      fileName: 'AndroidManifest.xml',
+      path: getAppGradlePath(),
+      search: `namespace "${oldPackageName}"`,
+      replace: `namespace "${newPackageName}"`,
+      fileName: 'app/build.gradle',
     },
     {
       path: getMainActivityPath(),
