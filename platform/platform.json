@@ -1,6 +1,6 @@
 {
-  "version": "13.0.0-rc.3",
-  "mobileAppVersion": "13.0.0-rc.3",
+  "version": "13.0.0-rc.4",
+  "mobileAppVersion": "13.0.0-rc.4",
   "releaseNotes": "* Updated to target Android SDK 33\n* Improved app launch time\n* For developers: Extension assets (font, image and audio files) must now be listed in app segment 'package.json' under 'assets' array property to be linked to iOS and Android projects, see Theme extension for examples",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
@@ -25,7 +25,7 @@
     "shoutem.analytics": "~4.1.0",
     "shoutem.application": "~6.1.1-rc.0",
     "shoutem.audio": "~4.0.5-rc.0",
-    "shoutem.auth": "~7.3.2-rc.0",
+    "shoutem.auth": "~7.3.2-rc.1",
     "shoutem.bands-in-town": "~1.0.1",
     "shoutem.camera": "~5.1.0-rc.0",
     "shoutem.cms": "~6.2.2-rc.0",
@@ -65,7 +65,7 @@
     "shoutem.user-profile": "~5.1.2",
     "shoutem.video": "~7.2.1-rc.0",
     "shoutem.vimeo": "~5.2.1-rc.0",
-    "shoutem.web-view": "~6.0.0-rc.0",
+    "shoutem.web-view": "~6.0.0-rc.1",
     "shoutem.wordpress": "~5.1.0",
     "shoutem.youtube": "~5.1.1-rc.0"
   }
