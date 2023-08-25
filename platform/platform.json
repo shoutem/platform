@@ -1,6 +1,6 @@
 {
-  "version": "13.0.0-rc.4",
-  "mobileAppVersion": "13.0.0-rc.4",
+  "version": "13.0.0-rc.5",
+  "mobileAppVersion": "13.0.0-rc.5",
   "releaseNotes": "* Updated to target Android SDK 33\n* Improved app launch time\n* For developers: Extension assets (font, image and audio files) must now be listed in app segment 'package.json' under 'assets' array property to be linked to iOS and Android projects, see Theme extension for examples",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",

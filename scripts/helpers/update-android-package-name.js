@@ -10,7 +10,7 @@ function getSearchReplaceFiles(oldPackageName, newPackageName) {
       path: getAppGradlePath(),
       search: `namespace "${oldPackageName}"`,
       replace: `namespace "${newPackageName}"`,
-      fileName: 'app/build.gradle',
+      fileName: 'build.gradle',
     },
     {
       path: getMainActivityPath(),

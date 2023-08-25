@@ -400,8 +400,6 @@ class AppBinaryConfigurator {
     const { androidApplicationId, production } = config;
     const { android_market_package_name, android_name } = publishingProperties;
 
-    const buildGradlePath = './android/app/build.gradle';
-    const buildGradle = fs.readFileSync(buildGradlePath, 'utf8');
     let applicationId;
 
     if (androidApplicationId) {
@@ -413,6 +411,8 @@ class AppBinaryConfigurator {
       applicationId = 'com.shoutemapp';
     }
 
+    const buildGradlePath = './android/app/build.gradle';
+    const buildGradle = fs.readFileSync(buildGradlePath, 'utf8');
     const newBuildGradle = buildGradle
       .replace(/\sapplicationId\s.*/g, ` applicationId '${applicationId}'`)
       .replace(
