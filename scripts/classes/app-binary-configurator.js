@@ -545,14 +545,11 @@ class AppBinaryConfigurator {
       .then(() => fs.writeFile(indexJsPath, this.updateProjectName(indexJs)));
   }
 
-  updatePodfileTemplate() {
-    const podfileTemplatePath = 'ios/Podfile.template';
-    const podfileTemplate = fs.readFileSync(podfileTemplatePath, 'utf8');
+  updatePodfile() {
+    const podfilePath = 'ios/Podfile';
+    const podfile = fs.readFileSync(podfilePath, 'utf8');
 
-    return fs.writeFile(
-      podfileTemplatePath,
-      this.updateProjectName(podfileTemplate),
-    );
+    return fs.writeFile(podfilePath, this.updateProjectName(podfile));
   }
 
   shouldUseFallbackName(appName) {
@@ -597,7 +594,7 @@ class AppBinaryConfigurator {
       .then(() => this.updateSchemePaths())
       .then(() => this.renameXcodeProject())
       .then(() => this.renameXCWorkspace())
-      .then(() => this.updatePodfileTemplate());
+      .then(() => this.updatePodfile());
   }
 }
 
