@@ -1,7 +1,7 @@
 {
-  "version": "13.0.0-rc.5",
-  "mobileAppVersion": "13.0.0-rc.5",
-  "releaseNotes": "* Updated to target Android SDK 33\n* Improved app launch time\n* For developers: Extension assets (font, image and audio files) must now be listed in app segment 'package.json' under 'assets' array property to be linked to iOS and Android projects, see Theme extension for examples",
+  "version": "13.0.0-rc.6",
+  "mobileAppVersion": "13.0.0-rc.6",
+  "releaseNotes": "* Updated to target Android SDK 33\n* Improved app launch time\n* For developers: Extension assets (font, image and audio files) must now be listed in app segment 'package.json' under 'assets' array property to be linked to iOS and Android projects, see Theme extension for examples\n* For developers: getPodfileTemplatePath preBuild helper is now deprecated and should be replaced with getPodfilePath before next major platform version",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
     "QA-appetizeKey": "eclynidmg4qgbc3zeqyhzcwbxa",
@@ -23,9 +23,9 @@
   "dependencies": {
     "shoutem.about": "~6.0.0",
     "shoutem.analytics": "~4.1.0",
-    "shoutem.application": "~6.1.1-rc.0",
+    "shoutem.application": "~6.1.1-rc.1",
     "shoutem.audio": "~4.0.5-rc.0",
-    "shoutem.auth": "~7.3.2-rc.1",
+    "shoutem.auth": "~7.3.2-rc.2",
     "shoutem.bands-in-town": "~1.0.1",
     "shoutem.camera": "~5.1.0-rc.0",
     "shoutem.cms": "~6.2.2-rc.0",

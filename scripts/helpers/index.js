@@ -19,6 +19,7 @@ module.exports = {
   getAppConfiguration: require('./get-app-configuration'),
   getBuildConfiguration: require('./get-build-configuration'),
   getInfoPlistPath: require('./get-info-plist-path'),
+  getPodfilePath: require('./get-podfile-template-path'),
   getPodfileTemplatePath: require('./get-podfile-template-path'),
   getProductionBuildInfo: require('./get-production-build-info'),
   getMainActivityPath: require('./get-main-activity-path'),

@@ -27,6 +27,7 @@ const filesChangedByConfigurationScript = [
   'extensions/shoutem.auth/app/ios/Info.plist',
   'index.js',
   'ios/Podfile.template',
+  'ios/Podfile',
   'ios/ShoutemApp.xcodeproj/project.pbxproj',
   'ios/ShoutemApp.xcodeproj/xcshareddata/xcschemes/ShoutemApp.xcscheme',
   'ios/ShoutemApp.xcworkspace/contents.xcworkspacedata',
