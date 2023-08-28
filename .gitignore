@@ -4,7 +4,6 @@ config.json
 temp
 cached-bundles
 ci-metro-params.json
-ios/Podfile
 ios/Pods
 ios/Podfile.lock
 config/
