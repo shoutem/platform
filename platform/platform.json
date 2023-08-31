@@ -1,11 +1,11 @@
 {
-  "version": "13.0.0-rc.10",
-  "mobileAppVersion": "13.0.0-rc.10",
+  "version": "13.0.0-rc.11",
+  "mobileAppVersion": "13.0.0-rc.11",
   "releaseNotes": "* Updated to target Android SDK 33\n* Improved app launch time\n* For developers: Extension assets (font, image and audio files) must now be listed in app segment 'package.json' under 'assets' array property to be linked to iOS and Android projects, see Theme extension for examples\n* For developers: getPodfileTemplatePath preBuild helper is now deprecated and should be replaced with getPodfilePath before next major platform version",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
-    "QA-appetizeKey": "eclynidmg4qgbc3zeqyhzcwbxa",
-    "Production-appetizeKey": "g3hf4jeby3aeumqy2m75mjiwwu"
+    "QA-appetizeKey": "cjafzw3em4r4qkma34t53k6tq4",
+    "Production-appetizeKey": "l7b2ahtb34ugoqgvlybcof5g5m"
   },
   "builds": {
     "live": {
