@@ -1,5 +1,5 @@
 const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
-const blacklist = require('metro-config/src/defaults/exclusionList');
+const exclusionList = require('metro-config/src/defaults/exclusionList');
 const path = require('path');
 
 // parameters adjusted by CI scripts
@@ -28,7 +28,7 @@ module.exports = (async () => {
        * Returns a regular expression for modules that should be ignored by the
        * packager on a given platform.
        */
-      blacklistRE: blacklist([
+      blockList: exclusionList([
         /\/extensions\/.*\/app\/build(\.js|\/.*)/,
         /\/extensions\/.*\/cloud\/.*/,
         /\/extensions\/.*\/server\/.*/,

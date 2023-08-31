@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/platform",
-  "version": "13.0.0-rc.9",
+  "version": "13.0.0-rc.10",
   "scripts": {
     "android": "react-native run-android",
     "build": "node scripts/build",
@@ -32,11 +32,11 @@
     "whatwg-fetch": "1.0.0"
   },
   "devDependencies": {
-    "@babel/core": "7.16.7",
-    "@babel/plugin-proposal-decorators": "7.16.7",
-    "@babel/preset-env": "7.16.8",
-    "@babel/preset-flow": "7.16.7",
-    "@babel/runtime": "7.16.7",
+    "@babel/core": "7.20.12",
+    "@babel/plugin-proposal-decorators": "7.20.13",
+    "@babel/preset-env": "7.20.2",
+    "@babel/preset-flow": "7.21.4",
+    "@babel/runtime": "7.20.13",
     "@react-native/metro-config": "0.72.11",
     "@shoutem/build-tools": "file:scripts/helpers",
     "@shoutem/eslint-config-react-native": "~1.0.2",
