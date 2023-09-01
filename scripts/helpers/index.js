@@ -30,6 +30,7 @@ module.exports = {
   getSettingsGradlePath: require('./get-settings-gradle-path'),
   getRootGradlePath: require('./get-root-gradle-path'),
   getAndroidManifestPath: require('./get-android-manifest-path'),
+  getResStringsPath: require('./get-res-strings-path'),
   isWindows: require('./is-windows'),
   projectPath: require('./get-project-path'),
   reactNativeLink: require('./react-native-link'),

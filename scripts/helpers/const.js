@@ -108,6 +108,7 @@ const ANCHORS = {
         DEPENDENCIES: '//NativeModuleInjectionMark-app-gradle-dependencies',
         DEFAULT_CONFIG: '//NativeModuleInjectionMark-app-gradle-default-config',
         PLUGINS: '//NativeModuleInjectionMark-app-gradle-plugins',
+        PLUGINS_END: '//NativeModuleInjectionMark-app-gradle-plugins-end',
         BUILD_TYPES: {
           UNSIGNED_RELEASE:
             '//NativeModuleInjectionMark-app-gradle-buildTypes-unsignedRelease',
@@ -130,6 +131,7 @@ const ANCHORS = {
       PROPERTIES: '#NativeModuleInjectionMark-gradle-properties',
       CONSTANTS: '//NativeModuleInjectionMark-gradle-constants',
       SETTINGS: '//NativeModuleInjectionMark-gradle-settings',
+      SETTINGS_END: '//NativeModuleInjectionMark-gradle-settings-end',
     },
     MANIFEST: {
       ROOT: '<!--//NativeModuleInjectionMark-android-manifest-root-->',
@@ -139,6 +141,11 @@ const ANCHORS = {
       MAIN_ACTIVITY_INTENT_FILTERS:
         '<!--//NativeModuleInjectionMark-android-manifest-main-activity-intent-filters-->',
     },
+    RES: {
+      VALUES: {
+        STRINGS: '<!-- NativeModuleInjectionMark-android-res-values-strings -->'
+      }
+    }
   },
 };
 
