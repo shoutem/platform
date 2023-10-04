@@ -66,24 +66,6 @@ function writePackageJson(content) {
   return writeJson(content, 'package.json');
 }
 
-function getPodspecPaths(extensions) {
-  return _.reduce(
-    extensions,
-    (paths, extension) => {
-      const podspecPath = glob.sync(`node_modules/${extension.id}/*.podspec`);
-      return paths.concat(podspecPath);
-    },
-    [],
-  );
-}
-
-function getPodspecStrings(podspecPaths) {
-  return _.map(podspecPaths, podspecPath => {
-    const podName = path.basename(podspecPath, '.podspec');
-    return `pod '${podName}', :path => '../${podspecPath}'`;
-  }).join('\n');
-}
-
 /**
  * ExtensionInstaller links all local extensions and installs all other extensions from app
  * configuration. It also builds extension.js file which app uses as depedencies dictionary.
@@ -170,33 +152,7 @@ class ExtensionsInstaller {
     });
   }
 
-  installCocoaPods(installedExtensions) {
-    const podTemplatePath = 'ios/Podfile.template';
-    let podFileTemplate = '';
-
-    try {
-      podFileTemplate = fs.readFileSync(podTemplatePath, 'utf8');
-    } catch (err) {
-      if (err.code === 'ENOENT') {
-        console.log(`No ${podTemplatePath} found, skipping 'pod install'...`);
-        return Promise.resolve();
-      }
-
-      console.log(`Error reading ${podTemplatePath}!`);
-      throw new Error(err);
-    }
-
-    const podPath = 'ios/Podfile';
-    const extensionsPlaceholderRegExp = /## <Extension dependencies>/g;
-    const podspecPaths = getPodspecPaths(installedExtensions);
-    const pods = getPodspecStrings(podspecPaths);
-    const podFileContent = podFileTemplate.replace(
-      extensionsPlaceholderRegExp,
-      pods,
-    );
-
-    fs.writeFileSync(podPath, podFileContent);
-
+  installCocoaPods() {
     return spawn('pod', ['install'], {
       stdio: 'inherit',
       cwd: 'ios',
@@ -204,14 +160,14 @@ class ExtensionsInstaller {
     });
   }
 
-  installNativeDependencies(installedExtensions) {
-    // If the process is running on OSX, then run 'pod install'
-    // to configure iOS native dependencies
+  installNativeDependencies() {
+    // If the process is running on OSX, then run 'pod install' to configure
+    // iOS native dependencies
     if (process.platform === 'darwin') {
       return Promise.resolve()
-        .then(() => console.log('pod install - [Running...]'))
-        .then(() => this.installCocoaPods(installedExtensions))
-        .then(() => console.log('pod install - [OK]'));
+        .then(() => console.time('Cocoapods installation took'))
+        .then(() => this.installCocoaPods())
+        .then(() => console.timeEnd('Cocoapods installation took'));
     }
 
     return Promise.resolve();

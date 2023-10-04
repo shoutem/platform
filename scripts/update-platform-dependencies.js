@@ -18,6 +18,7 @@ const extensionsToIgnore = [
   'ginger',
   'in-app-purchases',
   'interactive-faq',
+  'intercom',
   'invision-community',
   'menu',
   'onboarding',
