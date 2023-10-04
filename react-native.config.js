@@ -3,11 +3,6 @@
 
 module.exports = {
   dependencies: {
-    'react-native-code-push': {
-      platforms: {
-        android: null,
-      },
-    },
     'react-native-fbsdk-next': {
       platforms: {
         android: null,

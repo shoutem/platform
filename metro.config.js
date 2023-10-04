@@ -1,16 +1,17 @@
-const { getDefaultConfig } = require('metro-config');
-const blacklist = require('metro-config/src/defaults/exclusionList');
+const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
+const exclusionList = require('metro-config/src/defaults/exclusionList');
 const path = require('path');
 
 // parameters adjusted by CI scripts
 const ciMetroParams = require('./ci-metro-params');
 
 module.exports = (async () => {
+  const defaultConfig = await getDefaultConfig(__dirname);
   const {
     resolver: { sourceExts, assetExts },
-  } = await getDefaultConfig();
+  } = defaultConfig;
 
-  return {
+  const config = {
     transformer: {
       getTransformOptions: async () => ({
         transform: {
@@ -27,7 +28,7 @@ module.exports = (async () => {
        * Returns a regular expression for modules that should be ignored by the
        * packager on a given platform.
        */
-      blacklistRE: blacklist([
+      blockList: exclusionList([
         /\/extensions\/.*\/app\/build(\.js|\/.*)/,
         /\/extensions\/.*\/cloud\/.*/,
         /\/extensions\/.*\/server\/.*/,
@@ -45,4 +46,6 @@ module.exports = (async () => {
     },
     ...ciMetroParams,
   };
+
+  return mergeConfig(defaultConfig, config);
 })();

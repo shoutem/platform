@@ -1,27 +1,23 @@
 package com.shoutemapp;
 
 import androidx.multidex.MultiDexApplication;
-import android.content.Context;
 
+import android.app.Application;
 import com.facebook.react.PackageList;
-import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
-import com.facebook.react.bridge.JavaScriptExecutorFactory;
 import com.facebook.react.ReactApplication;
-import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
-import com.facebook.react.config.ReactFeatureFlags;
+import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
+import com.facebook.react.defaults.DefaultReactNativeHost;
 import com.facebook.soloader.SoLoader;
-import com.shoutemapp.newarchitecture.MainApplicationReactNativeHost;
-import java.lang.reflect.InvocationTargetException;
-//NativeModuleInjectionMark-mainApplication-import
-
 import java.util.List;
+
+//NativeModuleInjectionMark-mainApplication-import
 
 public class MainApplication extends MultiDexApplication implements ReactApplication {
     //NativeModuleInjectionMark-mainApplication-body
 
-    private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+    private final ReactNativeHost mReactNativeHost = new DefaultReactNativeHost(this) {
         //NativeModuleInjectionMark-mainApplication-rnhost-body
 
         @Override
@@ -39,30 +35,35 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
 
           return packages;
         }
+
+        protected String getJSMainModuleName() {
+            return "index";
+        }
+
+        @Override
+        protected boolean isNewArchEnabled() {
+          return BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
+        }
+
+        @Override
+        protected Boolean isHermesEnabled() {
+          return BuildConfig.IS_HERMES_ENABLED;
+        }
     };
-
-    private final ReactNativeHost mNewArchitectureNativeHost =
-        new MainApplicationReactNativeHost(this);
-
-    protected String getJSMainModuleName() {
-        return "index";
-    }
 
     @Override
     public ReactNativeHost getReactNativeHost() {
-      if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
-        return mNewArchitectureNativeHost;
-      } else {
-        return mReactNativeHost;
-      }
+      return mReactNativeHost;
     }
 
     @Override
     public void onCreate() {
-        super.onCreate();
-        ReactFeatureFlags.useTurboModules = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
-        SoLoader.init(this, /* native exopackage */ false);
-        //NativeModuleInjectionMark-mainApplication-oncreate-end
-
+      super.onCreate();
+      SoLoader.init(this, /* native exopackage */ false);
+      if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
+        // If you opted-in for the New Architecture, we load the native entry point for this app.
+        DefaultNewArchitectureEntryPoint.load();
+      }
+      //NativeModuleInjectionMark-mainApplication-oncreate-end
     }
 }
