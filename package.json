@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/platform",
-  "version": "13.0.0",
+  "version": "13.0.1",
   "scripts": {
     "android": "react-native run-android",
     "build": "node scripts/build",
@@ -21,7 +21,7 @@
     "moment": "2.29.4",
     "prop-types": "15.7.1",
     "react": "18.2.0",
-    "react-native": "0.72.4",
+    "react-native": "0.72.5",
     "react-redux": "7.2.6",
     "redux": "3.6.0",
     "redux-action-buffer": "1.0.1",

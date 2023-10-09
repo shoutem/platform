@@ -11,6 +11,7 @@ const extensionsToIgnore = [
   'age-restriction',
   'agora',
   'advertising',
+  'bands-in-town',
   'besttime',
   'books',
   'checklist',
