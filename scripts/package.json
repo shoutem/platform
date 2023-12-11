@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/app-build-script",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "scripts": {
     "generate-translations": "node generate-translation-file",
     "get-app-dependencies": "node get-app-dependencies",
@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "auto-bind": "4.0.0",
+    "bluebird": "3.4.6",
     "child-process-promise": "2.2.1",
     "colors": "1.4.0",
     "command-line-args": "5.2.0",
@@ -21,7 +22,6 @@
     "jimp": "0.16.1",
     "linklocal": "2.8.2",
     "lodash": "4.17.21",
-    "node-watch": "0.3.5",
     "parse-gitignore": "0.3.1",
     "path": "0.12.7",
     "pify": "3.0.0",

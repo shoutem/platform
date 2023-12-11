@@ -5,7 +5,6 @@ const path = require('path');
 const shell = require('shelljs');
 const spawn = require('child-process-promise').spawn;
 const _ = require('lodash');
-const glob = require('glob');
 const promisify = require('pify');
 const linkLocal = promisify(require('linklocal'));
 
@@ -19,16 +18,23 @@ function addDependencyToPackageJson(packageJson, name, version) {
 
 function installJsDependencies() {
   console.log('Installing dependencies:'.bold);
+  const stdArgs = { stderr: 'inherit', stdio: 'inherit' };
+
+  // Potentially reinstate when bun fixes postinstall issues with a trust-all
+  // flag for postinstall scripts.
+  // const bunCheckCommand = 'bun -v';
+  // const bunExists = shell.exec(bunCheckCommand).code === 0;
+  // if (bunExists) {
+  //   return spawn('bun', ['install'], stdArgs);
+  // }
 
   const yarnCheckCommand = 'yarn -v';
   const yarnExists = shell.exec(yarnCheckCommand).code === 0;
-  const stdArgs = { stderr: 'inherit', stdio: 'inherit' };
+  if (yarnExists) {
+    return spawn('yarn', ['install'], stdArgs);
+  }
 
-  // use yarn if it exists, otherwise use npm (this is so 3rd party devs aren't
-  // forced to install yarn just for this one step in our configuration script)
-  return yarnExists
-    ? spawn('yarn', ['install'], stdArgs)
-    : spawn('npm', ['install'], stdArgs);
+  return spawn('npm', ['install'], stdArgs);
 }
 
 function installNpmExtension(extension) {
@@ -152,25 +158,37 @@ class ExtensionsInstaller {
     });
   }
 
-  installCocoaPods() {
-    return spawn('pod', ['install'], {
+  async installCocoaPods() {
+    console.time('Cocoapods installation took');
+
+    await spawn('pod', ['install'], {
       stdio: 'inherit',
       cwd: 'ios',
       env: _.merge(process.env, { FORCE_COLOR: true }),
     });
+
+    console.timeEnd('Cocoapods installation took');
   }
 
-  installNativeDependencies() {
+  async jetify() {
+    console.time('Jetified in');
+
+    await spawn('node', ['node_modules/jetifier/bin/jetify'], {
+      stdio: 'inherit',
+      env: _.merge(process.env, { FORCE_COLOR: true }),
+    });
+
+    console.timeEnd('Jetified in');
+  }
+
+  async installNativeDependencies() {
+    await this.jetify();
+
     // If the process is running on OSX, then run 'pod install' to configure
     // iOS native dependencies
     if (process.platform === 'darwin') {
-      return Promise.resolve()
-        .then(() => console.time('Cocoapods installation took'))
-        .then(() => this.installCocoaPods())
-        .then(() => console.timeEnd('Cocoapods installation took'));
+      await this.installCocoaPods();
     }
-
-    return Promise.resolve();
   }
 }
 
