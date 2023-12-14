@@ -1,7 +1,10 @@
-const { execSync } = require('child_process');
+const Promise = require('bluebird');
+const util = require('util');
 const fs = require('fs-extra');
 const path = require('path');
 const { prependProjectPath, projectPath } = require('./helpers');
+
+const exec = util.promisify(require('child_process').exec);
 
 // returns all downloaded extensions found in the extensions directory
 function fetchAllExtensions() {
@@ -23,68 +26,58 @@ function fetchAllExtensions() {
 }
 
 // use patch-package to apply patches provided by extensions
-function applyExtensionPatches() {
+async function applyExtensionPatches() {
   const extensions = fetchAllExtensions();
 
   if (!extensions.length) {
     return;
   }
 
-  console.time('Patching extension packages took');
+  console.time('Patching extension packages');
   console.log('Checking for patch-package patches...');
-  extensions.map(extension => {
+
+  await Promise.map(extensions, async extension => {
     // Depending on the environment's OS, 'extension' can be an object or just
     // the name string, so we do an explicit check
     const extensionName =
       typeof extension === 'object' ? extension.name : extension;
     const patchPath = `node_modules/${extensionName}/patch`;
 
-    if (!fs.existsSync(patchPath)) {
-      return null;
+    const pathExists = await fs.pathExists(patchPath);
+    if (!pathExists) {
+      return;
     }
 
     console.log(`[${extensionName}] - applying patches`);
-    return execSync(
-      `node node_modules/patch-package --patch-dir ${patchPath}`,
-      {
-        cwd: projectPath,
-      },
-    );
+    await exec(`node node_modules/patch-package --patch-dir ${patchPath}`, {
+      cwd: projectPath,
+    });
   });
-  console.timeEnd('Patching extension packages took');
+
+  console.timeEnd('Patching extension packages');
 }
 
-function applyPlatformPatches() {
-  const PATCH_FILE_EXTENSION = '.patch';
+async function applyPlatformPatches() {
   const patchesDir = path.join(projectPath, '/patches');
 
-  console.time('Patching platform packages took');
+  console.time('Patching platform packages');
   console.log('Checking for patch-package patches...');
 
-  fs.readdir(patchesDir, (error, patchFiles) => {
-    if (error) {
-      return console.log('Unable to scan patches directory: ', error);
+  try {
+    const pathExists = await fs.pathExists(patchesDir);
+    if (!pathExists) {
+      return;
     }
 
-    const hasPatch = !!patchFiles.find(
-      file => path.extname(file) === PATCH_FILE_EXTENSION,
-    );
+    await exec(`node node_modules/patch-package --patch-dir patches`, {
+      cwd: projectPath,
+    });
+  } catch (error) {
+    console.log('Unable to scan patches directory: ', error);
+  }
 
-    if (hasPatch) {
-      execSync(`node node_modules/patch-package --patch-dir patches`, {
-        cwd: projectPath,
-      });
-    }
-    console.timeEnd('Patching platform packages took');
-  });
-}
-
-function jetify() {
-  console.time('Jetified in');
-  execSync('node node_modules/jetifier/bin/jetify', { cwd: projectPath });
-  console.timeEnd('Jetified in');
+  console.timeEnd('Patching platform packages');
 }
 
 applyExtensionPatches();
 applyPlatformPatches();
-jetify();
