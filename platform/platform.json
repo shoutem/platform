@@ -1,7 +1,7 @@
 {
-  "version": "13.0.3",
-  "mobileAppVersion": "13.0.3",
-  "releaseNotes": "* Core changes to support new push management screens",
+  "version": "13.0.4-beta.0",
+  "mobileAppVersion": "13.0.4-beta.0",
+  "releaseNotes": "* Added 'bun' as supported package manager",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
     "QA-appetizeKey": "cjafzw3em4r4qkma34t53k6tq4",
@@ -21,7 +21,7 @@
     }
   },
   "dependencies": {
-    "shoutem.about": "~6.0.0",
+    "shoutem.about": "~6.1.0",
     "shoutem.analytics": "~4.1.0",
     "shoutem.application": "~6.1.2",
     "shoutem.audio": "~4.0.5",
@@ -34,12 +34,12 @@
     "shoutem.favorites": "~6.0.1",
     "shoutem.firebase": "~5.0.1",
     "shoutem.flurry-analytics": "~4.4.0",
-    "shoutem.fonts": "~2.0.0",
+    "shoutem.fonts": "~2.0.1",
     "shoutem.i18n": "~4.1.1",
     "shoutem.ical-events": "~5.3.0",
     "shoutem.layouts": "~7.0.1",
     "shoutem.loyalty": "~6.4.0",
-    "shoutem.navigation": "~5.3.1",
+    "shoutem.navigation": "~5.3.2",
     "shoutem.news": "~6.3.0",
     "shoutem.notification-center": "~9.0.0",
     "shoutem.page": "~5.1.0",
@@ -47,7 +47,7 @@
     "shoutem.permissions": "~5.0.0",
     "shoutem.persist": "~4.0.2",
     "shoutem.photos": "~5.1.0",
-    "shoutem.places": "~6.2.0",
+    "shoutem.places": "~6.2.1",
     "shoutem.preview": "~6.0.0",
     "shoutem.products": "~5.3.0",
     "shoutem.push-notifications": "~4.0.5",
