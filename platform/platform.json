@@ -1,7 +1,7 @@
 {
   "version": "13.0.4-rc.0",
   "mobileAppVersion": "13.0.4-rc.0",
-  "releaseNotes": "* Improvements to the audio based extensions\n* Support for Google Analytics data collection",
+  "releaseNotes": "* Support for Google Analytics data collection and small bugfixes",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
     "QA-appetizeKey": "h37hinsl3ec7twgbpknavnr6da",
