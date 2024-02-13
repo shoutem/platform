@@ -4,8 +4,8 @@
   "releaseNotes": "* Improvements to the audio based extensions\n* Added 'bun' as supported package manager",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
-    "QA-appetizeKey": "h37hinsl3ec7twgbpknavnr6da",
-    "Production-appetizeKey": "r5zswgaipvw4fctjgmu5ido5vm"
+    "QA-appetizeKey": "hvupnqrerv75p6zqonbrql77iq",
+    "Production-appetizeKey": "ruqcmvnlwd366cztkwqbgzsd4m"
   },
   "builds": {
     "live": {
