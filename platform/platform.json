@@ -1,6 +1,6 @@
 {
-  "version": "13.0.5-rc.0",
-  "mobileAppVersion": "13.0.5-rc.0",
+  "version": "13.0.5-rc.1",
+  "mobileAppVersion": "13.0.5-rc.1",
   "releaseNotes": "* Improvements to the audio based extensions\n* Added 'bun' as supported package manager",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
@@ -24,7 +24,7 @@
     "shoutem.about": "~6.1.0",
     "shoutem.analytics": "~4.1.0",
     "shoutem.application": "~6.2.0",
-    "shoutem.audio": "~5.0.0-rc.0",
+    "shoutem.audio": "~5.0.0-rc.1",
     "shoutem.auth": "~7.5.2",
     "shoutem.camera": "~5.1.0",
     "shoutem.cms": "~7.0.1-rc.0",
@@ -34,9 +34,9 @@
     "shoutem.favorites": "~6.0.1",
     "shoutem.firebase": "~5.0.2",
     "shoutem.flurry-analytics": "~4.4.0",
-    "shoutem.google-analytics": "~3.0.1-rc.0",
     "shoutem.fonts": "~2.0.1",
-    "shoutem.i18n": "~4.1.1",
+    "shoutem.google-analytics": "~3.0.1-rc.1",
+    "shoutem.i18n": "~4.1.2",
     "shoutem.ical-events": "~5.3.0",
     "shoutem.layouts": "~7.0.1",
     "shoutem.loyalty": "~6.4.0",
@@ -65,7 +65,7 @@
     "shoutem.user-profile": "~5.1.2",
     "shoutem.video": "~7.2.1",
     "shoutem.vimeo": "~5.2.1",
-    "shoutem.web-view": "~6.0.0",
+    "shoutem.web-view": "~6.0.1",
     "shoutem.wordpress": "~5.1.1",
     "shoutem.youtube": "~5.1.1"
   }
