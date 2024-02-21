@@ -1,40 +1,48 @@
 'use strict';
 
+const Promise = require('bluebird');
 const fs = require('fs-extra');
 const path = require('path');
 const shell = require('shelljs');
-const spawn = require('child-process-promise').spawn;
+const { spawn } = require('child-process-promise');
 const _ = require('lodash');
 const promisify = require('pify');
 const linkLocal = promisify(require('linklocal'));
 
-const packageJsonFileName = 'package.template.json';
-const packageJsonTemplate = fs.readJsonSync(path.resolve(packageJsonFileName));
+const packageJsonTemplateFileName = 'package.template.json';
+const packageJsonTemplatePath = path.resolve(packageJsonTemplateFileName);
+const packageJsonTemplate = fs.readJsonSync(packageJsonTemplatePath);
 
 function addDependencyToPackageJson(packageJson, name, version) {
   // eslint-disable-next-line no-param-reassign
   packageJson.dependencies[name] = version;
 }
 
-function installJsDependencies() {
+async function installJsDependencies() {
   console.log('Installing dependencies:'.bold);
+  console.time('Installing dependencies took');
   const stdArgs = { stderr: 'inherit', stdio: 'inherit' };
 
-  // Potentially reinstate when bun fixes postinstall issues with a trust-all
-  // flag for postinstall scripts.
-  // const bunCheckCommand = 'bun -v';
-  // const bunExists = shell.exec(bunCheckCommand).code === 0;
-  // if (bunExists) {
-  //   return spawn('bun', ['install'], stdArgs);
-  // }
+  const bunCheckCommand = 'bun -v';
+  const bunExists = shell.exec(bunCheckCommand).code === 0;
+  if (bunExists) {
+    await spawn('bun', ['install'], stdArgs);
+    // running postinstall manually
+    await spawn('bun', ['run', 'postinstall'], stdArgs);
+    console.timeEnd('Installing dependencies took');
+    return;
+  }
 
   const yarnCheckCommand = 'yarn -v';
   const yarnExists = shell.exec(yarnCheckCommand).code === 0;
   if (yarnExists) {
-    return spawn('yarn', ['install'], stdArgs);
+    await spawn('yarn', ['install'], stdArgs);
+    console.timeEnd('Installing dependencies took');
+    return;
   }
 
-  return spawn('npm', ['install'], stdArgs);
+  await spawn('npm', ['install'], stdArgs);
+  console.timeEnd('Installing dependencies took');
 }
 
 function installNpmExtension(extension) {
@@ -89,17 +97,14 @@ class ExtensionsInstaller {
   installExtensions() {
     const workingDir = process.cwd();
 
-    this.extensionsToInstall.forEach(extension =>
-      installNpmExtension(extension),
-    );
+    this.extensionsToInstall.forEach(extension => installNpmExtension(extension),);
 
     this.localExtensions.forEach(extension =>
       addDependencyToPackageJson(
-        packageJsonTemplate,
-        extension.id,
-        `file:${extension.path}`,
-      ),
-    );
+      packageJsonTemplate,
+      extension.id,
+      `file:${extension.path}`,
+    ));
 
     const installedExtensions = [
       ...this.localExtensions,
@@ -122,6 +127,7 @@ class ExtensionsInstaller {
       );
     }
 
+    console.time('Create extensions.js'.bold.green);
     const customExtensions = [];
     const shoutemExtensions = [];
     const extensions = _.uniqBy(installedExtensions, 'id');
@@ -143,8 +149,6 @@ class ExtensionsInstaller {
     const extensionsMapping = shoutemExtensions.concat(customExtensions);
     const extensionsString = extensionsMapping.join('');
     const data = `export default {\n  ${extensionsString}};\n`;
-
-    console.time('Create extensions.js'.bold.green);
 
     return new Promise((resolve, reject) => {
       fs.writeFile(this.extensionsJsPath, data, error => {

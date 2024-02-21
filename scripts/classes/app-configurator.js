@@ -15,11 +15,11 @@ const { prependProjectPath, projectPath, sanitizeDiff } = require('../helpers');
 require('colors');
 
 const AppBinaryConfigurator = require('./app-binary-configurator');
-const getLocalExtensions = require('./../helpers/get-local-extensions');
-const ExtensionsInstaller = require('./extensions-installer.js');
-const buildApiEndpoint = require('./../helpers/build-api-endpoint');
-const getExtensionsFromConfiguration = require('./../helpers/get-extensions-from-configuration');
-const applyReactNativeFixes = require('./../fixes/react-native-fixes');
+const getLocalExtensions = require('../helpers/get-local-extensions');
+const ExtensionsInstaller = require('./extensions-installer');
+const buildApiEndpoint = require('../helpers/build-api-endpoint');
+const getExtensionsFromConfiguration = require('../helpers/get-extensions-from-configuration');
+const applyReactNativeFixes = require('../fixes/react-native-fixes');
 
 const NODE_MODULES_DIR = prependProjectPath('node_modules');
 const ROOT_PACKAGE_JSON_PATH = prependProjectPath('package.json');
@@ -56,10 +56,6 @@ class AppConfigurator {
     this.buildConfig = _.assign({}, buildConfig);
   }
 
-  cleanTempFolder() {
-    rimraf.sync(path.join('.', 'temp', '*'));
-  }
-
   getConfigurationUrl() {
     const { serverApiEndpoint, appId, production } = this.buildConfig;
     const apiPath = 'configurations/current';
@@ -68,7 +64,7 @@ class AppConfigurator {
   }
 
   downloadConfiguration() {
-    console.time('Download configuration'.bold.green);
+    console.time('Downloading configuration took'.bold.green);
 
     const { buildConfig } = this;
     const { production: isProduction } = buildConfig;
@@ -100,7 +96,7 @@ class AppConfigurator {
           }
 
           const configuration = JSON.parse(body);
-          console.timeEnd('Download configuration'.bold.green);
+          console.timeEnd('Downloading configuration took'.bold.green);
 
           this.configuration = configuration;
 
@@ -128,7 +124,7 @@ class AppConfigurator {
 
   saveConfigurationFiles() {
     const { skipPreBuildActions } = this.buildConfig;
-    const logMessage = 'Save configuration files locally'.bold.green;
+    const logMessage = 'Saving configuration files locally took'.bold.green;
     console.time(logMessage);
 
     fs.ensureDirSync('config');
@@ -209,9 +205,7 @@ class AppConfigurator {
         if (!skipNativeDependencies) {
           configureProject = appBinaryConfigurator
             .customizeProject()
-            .then(() =>
-              installer.installNativeDependencies(installedExtensions),
-            )
+            .then(() => installer.installNativeDependencies(installedExtensions))
             .then(() => appBinaryConfigurator.configureApp());
         } else if (isProduction) {
           // rename the root view for republish build
@@ -385,7 +379,10 @@ class AppConfigurator {
     );
 
     // clear any previous build's temp files
-    this.cleanTempFolder();
+    console.log('Clearing temporary build...');
+    console.time('Clearing temporary build files took');
+    rimraf.sync(path.join('.', 'temp', '*'));
+    console.timeEnd('Clearing temporary build files took');
 
     return this.prepareConfiguration()
       .then(() => this.saveConfigurationFiles())

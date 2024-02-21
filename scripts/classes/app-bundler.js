@@ -37,7 +37,7 @@ class AppBundler {
 
   createReactNativeBundle() {
     console.log('Starting react-native bundle\n');
-    console.time('Build bundle');
+    console.time('Bundle build took');
     // Due to how the 'bundle' scripts are chained through the build system, we have to rename the
     // property here. This is currently passed from build system variables, to a build system script
     // then to the platform's bundle script, which then runs the app-bundler with a config
@@ -71,7 +71,7 @@ class AppBundler {
 
     return new Promise((resolve, reject) => {
       const rnBundleProcess = exec(rnBundleCommand, err => {
-        console.timeEnd('Build bundle');
+        console.timeEnd('Bundle build took');
 
         if (err !== null) {
           console.log(`Bundling error: ${err}`);

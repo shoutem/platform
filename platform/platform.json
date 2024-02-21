@@ -1,6 +1,6 @@
 {
-  "version": "13.0.5-rc.1",
-  "mobileAppVersion": "13.0.5-rc.1",
+  "version": "13.0.5-rc.2",
+  "mobileAppVersion": "13.0.5-rc.2",
   "releaseNotes": "* Improvements to the audio based extensions\n* Added 'bun' as supported package manager",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
@@ -24,10 +24,10 @@
     "shoutem.about": "~6.1.0",
     "shoutem.analytics": "~4.1.0",
     "shoutem.application": "~6.2.0",
-    "shoutem.audio": "~5.0.0-rc.1",
+    "shoutem.audio": "~5.0.0-rc.2",
     "shoutem.auth": "~7.5.2",
     "shoutem.camera": "~5.1.0",
-    "shoutem.cms": "~7.0.1-rc.0",
+    "shoutem.cms": "~7.0.1-rc.1",
     "shoutem.code-push": "~4.2.0",
     "shoutem.deals": "~6.3.1",
     "shoutem.events": "~5.2.0",
