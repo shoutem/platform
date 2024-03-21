@@ -1,12 +1,25 @@
+# Careful when editing the code below with the RN upgrades
+# This is a more generic version of the RN code execution that extends
+# the default behaviour by allowing to run multiple node scripts
+
+def node_require(script)
+  # Resolve script with node to allow for hoisting
+  require Pod::Executable.execute_command('node', ['-p',
+    "require.resolve(
+      '#{script}',
+      {paths: [process.argv[1]]},
+    )", __dir__]).strip
+end
+
 # Resolve react_native_pods.rb with node to allow for hoisting
-require Pod::Executable.execute_command('node', ['-p',
-  'require.resolve(
-    "react-native/scripts/react_native_pods.rb",
-    {paths: [process.argv[1]]},
-  )', __dir__]).strip
+node_require('react-native/scripts/react_native_pods.rb')
+
+## <Additional node scripts>
 
 platform :ios, min_ios_version_supported
 prepare_react_native_project!
+
+## <Post prepare RN project>
 
 install! 'cocoapods', :deterministic_uuids => false
 
