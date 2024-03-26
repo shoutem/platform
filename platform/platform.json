@@ -1,11 +1,11 @@
 {
-  "version": "13.0.6-rc.0",
-  "mobileAppVersion": "13.0.6-rc.0",
+  "version": "13.0.6-rc.1",
+  "mobileAppVersion": "13.0.6-rc.1",
   "releaseNotes": "* Fixes for Android14 notifications",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
-    "QA-appetizeKey": "hvupnqrerv75p6zqonbrql77iq",
-    "Production-appetizeKey": "ruqcmvnlwd366cztkwqbgzsd4m"
+    "QA-appetizeKey": "dm3sepvximri7iho4v6wkfwvrq",
+    "Production-appetizeKey": "dg2xsaumqpmzshqgdtkdpmsntm"
   },
   "builds": {
     "live": {
