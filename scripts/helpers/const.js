@@ -65,9 +65,11 @@ const filesChangedByConfigurationScript = [
 const ANCHORS = {
   IOS: {
     PODFILE: {
+      ADDITIONAL_NODE_SCRIPTS: '## <Additional node scripts>',
       ADDITIONAL_TARGET: '## <Additional target>',
       EXTENSION_DEPENDENCIES: '## <Extension dependencies>',
       EXTENSION_POSTINSTALL_TARGETS: '## <Extension postinstall targets>',
+      POST_PREPARE_RN_PROJECT: '## <Post prepare RN project>',
     },
     APP_DELEGATE: {
       IMPORT: '//NativeModuleInjectionMark-appDelegate-import',
@@ -143,9 +145,10 @@ const ANCHORS = {
     },
     RES: {
       VALUES: {
-        STRINGS: '<!-- NativeModuleInjectionMark-android-res-values-strings -->'
-      }
-    }
+        STRINGS:
+          '<!-- NativeModuleInjectionMark-android-res-values-strings -->',
+      },
+    },
   },
 };
 
