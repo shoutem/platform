@@ -39,9 +39,9 @@ public class MainActivity extends ReactActivity {
     }
 
     /**
-     * Returns the instance of the {@link ReactActivityDelegate}. Here we use a util class {@link
-     * DefaultReactActivityDelegate} which allows you to easily enable Fabric and Concurrent React
-     * (aka React 18) with two boolean flags.
+      * Returns the instance of the {@link ReactActivityDelegate}. We use {@link
+      * DefaultReactActivityDelegate} which allows you to enable New Architecture with a single boolean flags 
+      * {@link fabricEnabled}.
      */
     @Override
     protected ReactActivityDelegate createReactActivityDelegate() {
