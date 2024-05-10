@@ -25,7 +25,7 @@ install! 'cocoapods', :deterministic_uuids => false
 
 target 'ShoutemApp' do
   $config = use_native_modules!
-
+  
   use_frameworks! :linkage => :static
   ## <Static frameworks>
 
