@@ -1,6 +1,6 @@
 {
-  "version": "14.0.0-rc.0",
-  "mobileAppVersion": "14.0.0-rc.0",
+  "version": "14.0.0-rc.1",
+  "mobileAppVersion": "14.0.0-rc.1",
   "releaseNotes": "* No user facing changes\n\nFor developers:\n* Updated React Native to 0.73.7\n* Updated Android target SDK to 34\n* Breaking change: Updated @react-native-firebase libraries\n* Breaking change: Replaced deprecated @react-native-admob/admob library with react-native-google-mobile-ads\n* Breaking change: Replaced deprecated @react-native-async-storage/async-storage library with @react-native-async-storage/async-storage\n* Breaking change: Updated react-native-device-info\n* Updated react-native-code-push\n* Updated react-native-gesture-handler\n* Updated react-native-svg-transformer\n* Updated react-native-blob-util",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
