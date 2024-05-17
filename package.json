@@ -12,7 +12,7 @@
     "list-dependencies": "node scripts/platform-dependencies",
     "postinstall": "node scripts/postinstall",
     "setup": "cd scripts && yarn install",
-    "start": "react-native start"
+    "start": "react-native start --experimental-debugger"
   },
   "dependencies": {
     "auto-bind": "4.0.0",
