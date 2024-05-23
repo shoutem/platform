@@ -7,11 +7,13 @@ const excludedDeps = [
   'react-native-iap',
   'react-native-iaphub',
   'react-native-marketingcloudsdk',
+  '@intercom/intercom-react-native',
 ];
 
 function updateBuilderPreviewDeps() {
   const successfullyUpdatedRepos = [];
 
+  // eslint-disable-next-line arrow-parens
   repos.forEach(repo => {
     const nativeDepsPath = path.resolve(
       path.join('.', 'nativeDependencies.json'),
@@ -34,7 +36,7 @@ function updateBuilderPreviewDeps() {
 
     if (!fs.existsSync(uiPackageJsonPath)) {
       console.error(
-        `Could not find ui/package.json on expected path. Your mobile repo and ui repo have to be in the same directory for this script to work.`,
+        'Could not find ui/package.json on expected path. Your mobile repo and ui repo have to be in the same directory for this script to work.',
       );
 
       return;
@@ -52,14 +54,14 @@ function updateBuilderPreviewDeps() {
     const uiPackageJson = fs.readJsonSync(uiPackageJsonPath);
     const repoPackageJson = fs.readJsonSync(repoPackageJsonPath);
 
-    const uiNativeDeps = {};
-
+    // eslint-disable-next-line arrow-parens
     uiPackageJson.nativeDependencies.forEach(depKey => {
       nativeDeps[depKey] = uiPackageJson.dependencies[depKey];
     });
 
     const newPackageJson = { ...repoPackageJson };
 
+    // eslint-disable-next-line arrow-parens
     Object.keys(nativeDeps).forEach(depKey => {
       if (!excludedDeps.includes(depKey)) {
         newPackageJson.dependencies[depKey] = nativeDeps[depKey];

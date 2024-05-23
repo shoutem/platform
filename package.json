@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/platform",
-  "version": "13.0.7",
+  "version": "14.0.0",
   "scripts": {
     "android": "react-native run-android",
     "build": "node scripts/build",
@@ -12,7 +12,7 @@
     "list-dependencies": "node scripts/platform-dependencies",
     "postinstall": "node scripts/postinstall",
     "setup": "cd scripts && yarn install",
-    "start": "react-native start"
+    "start": "react-native start --experimental-debugger"
   },
   "dependencies": {
     "auto-bind": "4.0.0",
@@ -21,7 +21,7 @@
     "moment": "2.29.4",
     "prop-types": "15.7.1",
     "react": "18.2.0",
-    "react-native": "0.72.5",
+    "react-native": "0.73.7",
     "react-redux": "7.2.6",
     "redux": "3.6.0",
     "redux-action-buffer": "1.0.1",
@@ -37,11 +37,12 @@
     "@babel/preset-env": "7.20.2",
     "@babel/preset-flow": "7.21.4",
     "@babel/runtime": "7.20.13",
-    "@react-native/metro-config": "0.72.11",
+    "@react-native/babel-preset": "0.73.21",
+    "@react-native/metro-config": "0.73.5",
     "@shoutem/build-tools": "file:scripts/helpers",
     "@shoutem/eslint-config-react-native": "~1.0.2",
     "babel-eslint": "10.1.0",
-    "babel-jest": "26.6.3",
+    "babel-jest": "29.6.3",
     "babel-plugin-jest-hoist": "24.9.0",
     "eslint": "6.8.0",
     "eslint-plugin-import": "2.25.4",
@@ -53,7 +54,6 @@
     "eslint-plugin-simple-import-sort": "7.0.0",
     "jest": "26.6.3",
     "jetifier": "1.6.8",
-    "metro-react-native-babel-preset": "0.76.8",
     "patch-package": "6.4.7",
     "prettier": "1.19.1",
     "react-native-asset": "2.1.1",
@@ -97,6 +97,6 @@
     "preset": "module:react-native"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   }
 }
