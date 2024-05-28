@@ -1,11 +1,11 @@
 {
-  "version": "14.0.0",
-  "mobileAppVersion": "14.0.0",
-  "releaseNotes": "No user facing changes\n\nFor developers:\n* Updated React Native to 0.73.7\n* Updated Android target SDK to 34\n* Breaking change: Updated @react-native-firebase libraries\n* Breaking change: Replaced deprecated @react-native-admob/admob library with react-native-google-mobile-ads\n* Breaking change: Replaced deprecated @react-native-async-storage/async-storage library with @react-native-async-storage/async-storage\n* Breaking change: Updated react-native-device-info\n* Updated react-native-code-push\n* Updated react-native-gesture-handler\n* Updated react-native-svg-transformer\n* Updated react-native-blob-util",
+  "version": "14.0.1-rc.0",
+  "mobileAppVersion": "14.0.1-rc.0",
+  "releaseNotes": "User facing changes\n* Improved UX/UI in Agora video calls extension\n\nDevelopment modifications\n* (Breaking) Updated react-native-agora and refactored code\n* Updated react-native-iaphub for Android 14 support and new Play Billing library requirements",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
-    "QA-appetizeKey": "2zxestkogozydzj7h3pmutmize",
-    "Production-appetizeKey": "z7cdcxrvgl2gmk5gmbhkt7ys4u"
+    "QA-appetizeKey": "h5ve47idlbogljqh4lschs6kqy",
+    "Production-appetizeKey": "kbrbokhdn5jhpkdeilytkskbjm"
   },
   "builds": {
     "live": {
