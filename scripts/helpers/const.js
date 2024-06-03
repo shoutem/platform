@@ -67,6 +67,7 @@ const ANCHORS = {
     PODFILE: {
       ADDITIONAL_NODE_SCRIPTS: '## <Additional node scripts>',
       ADDITIONAL_TARGET: '## <Additional target>',
+      SUBSPECS: '## <Subspecs>',
       STATIC_FRAMEWORKS: '## <Static frameworks>',
       EXTENSION_DEPENDENCIES: '## <Extension dependencies>',
       EXTENSION_POSTINSTALL_TARGETS: '## <Extension postinstall targets>',
