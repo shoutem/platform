@@ -1,6 +1,6 @@
 {
-  "version": "14.0.1-rc.1",
-  "mobileAppVersion": "14.0.1-rc.1",
+  "version": "14.0.1",
+  "mobileAppVersion": "14.0.1",
   "releaseNotes": "User facing changes\n* Improved UX/UI in Agora video calls extension\n\nDevelopment modifications\n* (Breaking) Updated react-native-agora and refactored code\n* Updated react-native-iaphub for Android 14 support and new Play Billing library requirements",
   "settings": {
     "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
