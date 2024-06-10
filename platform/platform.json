@@ -1,11 +1,11 @@
 {
-  "version": "14.0.1",
-  "mobileAppVersion": "14.0.1",
-  "releaseNotes": "User facing changes\n* Improved UX/UI in Agora video calls extension\n\nDevelopment modifications\n* (Breaking) Updated react-native-agora and refactored code\n* Updated react-native-iaphub for Android 14 support and new Play Billing library requirements",
+  "version": "14.0.2-rc.0",
+  "mobileAppVersion": "14.0.2-rc.0",
+  "releaseNotes": "Release notes\n* Fixed header title and CMS content localization after user changes app language\n\nDeveloper notes\n*Updated Android 14 alarm permission flows and added required foreground service permissions\n* Improved localization change flows with more precise data invalidation mechanisms",
   "settings": {
-    "DEV-appetizeKey": "e4jq4nuwkw6z6ejfp62zu2q8ur",
-    "QA-appetizeKey": "h5ve47idlbogljqh4lschs6kqy",
-    "Production-appetizeKey": "kbrbokhdn5jhpkdeilytkskbjm"
+    "DEV-appetizeKey": "2mabpatawkqsf4nzf64jkjkg3m",
+    "QA-appetizeKey": "2mabpatawkqsf4nzf64jkjkg3m",
+    "Production-appetizeKey": "vvuww3pzjugduln3s4shwhzuhy"
   },
   "builds": {
     "live": {
@@ -21,36 +21,36 @@
     }
   },
   "dependencies": {
-    "shoutem.about": "~6.1.0",
+    "shoutem.about": "~6.2.0-rc.0",
     "shoutem.analytics": "~4.1.0",
     "shoutem.application": "~6.2.2",
-    "shoutem.audio": "~6.1.0",
+    "shoutem.audio": "~6.1.1-rc.0",
     "shoutem.auth": "~8.0.0",
     "shoutem.camera": "~5.1.0",
-    "shoutem.cms": "~7.2.0",
-    "shoutem.code-push": "~4.2.1",
-    "shoutem.deals": "~6.3.2",
+    "shoutem.cms": "~7.2.1-rc.0",
+    "shoutem.code-push": "~4.2.1-rc.0",
+    "shoutem.deals": "~7.0.0-rc.0",
     "shoutem.events": "~5.2.0",
     "shoutem.favorites": "~6.0.2",
-    "shoutem.firebase": "~5.1.0",
+    "shoutem.firebase": "~5.1.1-rc.0",
     "shoutem.fonts": "~2.0.2",
     "shoutem.google-analytics": "~3.1.0",
-    "shoutem.i18n": "~4.1.3",
+    "shoutem.i18n": "~4.2.0-rc.0",
     "shoutem.ical-events": "~5.3.2",
     "shoutem.layouts": "~7.0.3",
     "shoutem.loyalty": "~6.4.1",
-    "shoutem.navigation": "~5.4.3",
+    "shoutem.navigation": "~5.4.4-rc.0",
     "shoutem.news": "~6.3.0",
-    "shoutem.notification-center": "~9.0.3",
-    "shoutem.page": "~5.1.1",
+    "shoutem.notification-center": "~9.0.4-rc.0",
+    "shoutem.page": "~5.1.2-rc.0",
     "shoutem.people": "~5.2.0",
-    "shoutem.permissions": "~5.1.1",
+    "shoutem.permissions": "~5.1.2-rc.0",
     "shoutem.persist": "~4.0.3",
     "shoutem.photos": "~5.1.0",
-    "shoutem.places": "~6.3.0",
+    "shoutem.places": "~6.3.1-rc.0",
     "shoutem.preview": "~6.0.1",
     "shoutem.products": "~5.3.1",
-    "shoutem.push-notifications": "~4.0.6",
+    "shoutem.push-notifications": "~4.0.7-rc.0",
     "shoutem.redux": "~4.1.3",
     "shoutem.rss": "~5.1.1",
     "shoutem.rss-monitoring": "~4.1.11",
@@ -60,12 +60,15 @@
     "shoutem.rubicon-theme": "~6.1.2",
     "shoutem.social": "~12.0.6",
     "shoutem.sub-navigation": "~4.0.2",
-    "shoutem.theme": "~8.0.2",
+    "shoutem.theme": "~8.0.3-rc.0",
     "shoutem.user-profile": "~5.1.3",
     "shoutem.video": "~7.2.1",
     "shoutem.vimeo": "~5.2.2",
     "shoutem.web-view": "~6.0.3",
     "shoutem.wordpress": "~5.1.2",
     "shoutem.youtube": "~5.1.2"
-  }
+  },
+  "archivedDependencies": [
+    "shoutem.flurry-analytics"
+  ]
 }
