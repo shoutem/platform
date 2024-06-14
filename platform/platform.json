@@ -3,9 +3,9 @@
   "mobileAppVersion": "14.1.0-rc.0",
   "releaseNotes": "Release notes\n* Replaced CodePush live update service with shoutem.live-update",
   "settings": {
-    "DEV-appetizeKey": "xxx",
-    "QA-appetizeKey": "xxx",
-    "Production-appetizeKey": "xxx"
+    "DEV-appetizeKey": "4dsxyehvqqfrflhoc4spgkunpy",
+    "QA-appetizeKey": "4dsxyehvqqfrflhoc4spgkunpy",
+    "Production-appetizeKey": "ibic72inpbfdj3qu25eb3totsi"
   },
   "builds": {
     "live": {
