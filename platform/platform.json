@@ -1,7 +1,7 @@
 {
   "version": "14.1.0",
   "mobileAppVersion": "14.1.0",
-  "releaseNotes": "Release notes\n* Replaced CodePush live update service with custom Live Update service",
+  "releaseNotes": "Release notes\n* No user facing changes\n\nDeveloper notes\n* Replaced CodePush live update service with custom Live Update service",
   "settings": {
     "DEV-appetizeKey": "4dsxyehvqqfrflhoc4spgkunpy",
     "QA-appetizeKey": "4dsxyehvqqfrflhoc4spgkunpy",
