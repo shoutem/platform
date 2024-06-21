@@ -1,11 +1,11 @@
 {
-  "version": "14.0.2",
-  "mobileAppVersion": "14.0.2",
-  "releaseNotes": "Release notes\n* Fixed header title and CMS content localization after user changes app language\n\nDeveloper notes\n*Updated Android 14 alarm permission flows and added required foreground service permissions\n* Improved localization change flows with more precise data invalidation mechanisms",
+  "version": "14.1.0",
+  "mobileAppVersion": "14.1.0",
+  "releaseNotes": "Release notes\n* No user facing changes\n\nDeveloper notes\n* Replaced CodePush live update service with custom Live Update service",
   "settings": {
-    "DEV-appetizeKey": "2mabpatawkqsf4nzf64jkjkg3m",
-    "QA-appetizeKey": "2mabpatawkqsf4nzf64jkjkg3m",
-    "Production-appetizeKey": "vvuww3pzjugduln3s4shwhzuhy"
+    "DEV-appetizeKey": "4dsxyehvqqfrflhoc4spgkunpy",
+    "QA-appetizeKey": "4dsxyehvqqfrflhoc4spgkunpy",
+    "Production-appetizeKey": "ibic72inpbfdj3qu25eb3totsi"
   },
   "builds": {
     "live": {
@@ -16,19 +16,18 @@
         "shoutem.notification-center",
         "shoutem.push-notifications",
         "shoutem.shoutem-notification-center",
-        "shoutem.code-push"
+        "shoutem.live-update"
       ]
     }
   },
   "dependencies": {
     "shoutem.about": "~6.2.0",
     "shoutem.analytics": "~4.1.0",
-    "shoutem.application": "~6.2.3",
+    "shoutem.application": "~6.3.0",
     "shoutem.audio": "~6.1.1",
     "shoutem.auth": "~8.0.0",
     "shoutem.camera": "~5.1.0",
     "shoutem.cms": "~7.2.1",
-    "shoutem.code-push": "~4.2.1",
     "shoutem.deals": "~7.0.0",
     "shoutem.events": "~5.2.0",
     "shoutem.favorites": "~6.0.2",
@@ -38,6 +37,7 @@
     "shoutem.i18n": "~4.2.0",
     "shoutem.ical-events": "~5.3.2",
     "shoutem.layouts": "~7.0.3",
+    "shoutem.live-update": "~1.0.0",
     "shoutem.loyalty": "~6.4.1",
     "shoutem.navigation": "~5.4.4",
     "shoutem.news": "~6.3.0",
@@ -50,7 +50,7 @@
     "shoutem.places": "~6.3.1",
     "shoutem.preview": "~6.0.1",
     "shoutem.products": "~5.3.1",
-    "shoutem.push-notifications": "~4.0.7",
+    "shoutem.push-notifications": "~4.0.8",
     "shoutem.redux": "~4.1.3",
     "shoutem.rss": "~5.1.1",
     "shoutem.rss-monitoring": "~4.1.11",
@@ -69,6 +69,7 @@
     "shoutem.youtube": "~5.1.2"
   },
   "archivedDependencies": [
-    "shoutem.flurry-analytics"
+    "shoutem.flurry-analytics",
+    "shoutem.code-push"
   ]
 }

@@ -13,7 +13,7 @@
     android:appComponentFactory="dummyProperty"
     android:usesCleartextTraffic="true"
     android:name=".MainApplication"
-    android:allowBackup="true"
+    android:allowBackup="false"
     android:label="${appName}"
     android:icon="@mipmap/app_icon"
     android:theme="@style/AppTheme"
