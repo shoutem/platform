@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
 const _ = require('lodash');
-const AppConfigurator = require('./classes/app-configurator');
 // eslint-disable-next-line import/no-unresolved
 const commandLineArgs = require('command-line-args');
 const path = require('path');
 const fs = require('fs-extra');
+const AppConfigurator = require('./classes/app-configurator');
 
 const DEFAULT_CONFIG = 'config.json';
 

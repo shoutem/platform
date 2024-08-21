@@ -5,6 +5,9 @@ module.exports = function babelConfig(api) {
   const plugins = [
     ['@babel/plugin-proposal-decorators', { legacy: true }],
     'jest-hoist',
+        // stuff from Reanimated + web
+        '@babel/plugin-proposal-export-namespace-from',
+        'react-native-reanimated/plugin',
   ];
 
   return {

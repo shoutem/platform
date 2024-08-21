@@ -8,6 +8,7 @@ const {
 const constants = require('./const');
 
 module.exports = {
+  addPackageJsonDependency: require('./add-package-json-dependency'),
   findFileOnPath: require('./find-file-on-path'),
   forceLinkXCodeProject: require('./force-link-xcode-project'),
   fetchPublishingProperties: require('./fetch-publishing-properties'),
@@ -27,6 +28,8 @@ module.exports = {
   getAppGradlePath: require('./get-app-gradle-path'),
   getGradlePropertiesPath: require('./get-gradle-properties-path'),
   getGradleConstantsPath: require('./get-gradle-constants-path'),
+  getPackageJsonPath: require('./get-package-json-path'),
+  getWebpackConfigPath: require('./get-webpack-config-path'),
   getSettingsGradlePath: require('./get-settings-gradle-path'),
   getRootGradlePath: require('./get-root-gradle-path'),
   getAndroidManifestPath: require('./get-android-manifest-path'),

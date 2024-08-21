@@ -1,0 +1,466 @@
+diff --git a/node_modules/react-native-web/dist/cjs/exports/Alert/index.js b/node_modules/react-native-web/dist/cjs/exports/Alert/index.js
+index 6a30655..95f0d34 100644
+--- a/node_modules/react-native-web/dist/cjs/exports/Alert/index.js
++++ b/node_modules/react-native-web/dist/cjs/exports/Alert/index.js
+@@ -1,19 +1,90 @@
+ "use strict";
+ 
++var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault").default;
+ exports.__esModule = true;
+ exports.default = void 0;
+-/**
+- * Copyright (c) Nicolas Gallagher.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * 
+- */
+-
++var _sweetalert = _interopRequireDefault(require("sweetalert2"));
++var DEFAULT_CONFIRM_BUTTON = {
++  style: 'confirm',
++  text: 'OK'
++};
+ class Alert {
+-  static alert() {}
++  static alert(title, message, buttons, options) {
++    if (buttons === void 0) {
++      buttons = [DEFAULT_CONFIRM_BUTTON];
++    }
++    if (options === void 0) {
++      options = {};
++    }
++    var confirmButton = buttons.find(button => !button.style || button.style === 'confirm');
++    var denyButton = buttons.find(button => button.style === 'destructive');
++    var cancelButton = buttons.find(button => button.style === 'cancel');
++    var resolveButtonClass = buttonType => {
++      var classes = "alert-" + buttonType;
++      if (buttons.length === 3) {
++        classes = classes + ' full-width button-height';
++
++        // Cancel button is always the last button in this case and we don't the want border there.
++        if (buttonType !== "cancel") {
++          classes = classes + ' border-bottom';
++        }
++      } else if (buttons.length === 2) {
++        classes = classes + ' half-width';
++
++        // Cancel button is the last in this case and we want first button to have border-right only.
++        if (buttonType === "confirm" || buttonType === 'deny') {
++          classes = classes + ' border-right';
++        }
++      } else {
++        classes = classes + ' full-width';
++      }
++      return classes;
++    };
++    _sweetalert.default.fire({
++      title,
++      text: message,
++      animation: false,
++      showConfirmButton: true,
++      showDenyButton: !!denyButton,
++      showCancelButton: !!cancelButton,
++      confirmButtonText: confirmButton == null ? void 0 : confirmButton.text,
++      denyButtonText: denyButton == null ? void 0 : denyButton.text,
++      cancelButtonText: cancelButton == null ? void 0 : cancelButton.text,
++      width: '20em',
++      background: '#f7f7f7',
++      confirmButtonColor: 'transparent',
++      cancelButtonColor: 'transparent',
++      denyButtonColor: 'transparent',
++      customClass: {
++        container: 'alert-container',
++        popup: 'alert-popup',
++        title: 'alert-title',
++        actions: 'alert-actions',
++        confirmButton: resolveButtonClass("confirm"),
++        cancelButton: resolveButtonClass("cancel"),
++        denyButton: resolveButtonClass("deny")
++      }
++    }).then(result => {
++      if (result.isConfirmed) {
++        if ((confirmButton == null ? void 0 : confirmButton.onPress) !== undefined) {
++          confirmButton.onPress();
++        }
++      } else if (result.isDenied) {
++        if ((denyButton == null ? void 0 : denyButton.onPress) !== undefined) {
++          denyButton.onPress();
++        }
++      } else if (result.isDismissed) {
++        // Android Alert supports onDismiss callback. It is preferred over cancel button onPress.
++        if (options.onDismiss !== undefined) {
++          options.onDismiss();
++          return;
++        }
++        if ((cancelButton == null ? void 0 : cancelButton.onPress) !== undefined) {
++          cancelButton.onPress();
++        }
++      }
++    });
++  }
+ }
+-var _default = Alert;
+-exports.default = _default;
++var _default = exports.default = Alert;
+ module.exports = exports.default;
+\ No newline at end of file
+diff --git a/node_modules/react-native-web/dist/cjs/exports/Animated/useAnimatedValue.js b/node_modules/react-native-web/dist/cjs/exports/Animated/useAnimatedValue.js
+new file mode 100644
+index 0000000..c8dc222
+--- /dev/null
++++ b/node_modules/react-native-web/dist/cjs/exports/Animated/useAnimatedValue.js
+@@ -0,0 +1,29 @@
++"use strict";
++
++var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault").default;
++exports.__esModule = true;
++exports.default = void 0;
++var _objectSpread2 = _interopRequireDefault(require("@babel/runtime/helpers/objectSpread2"));
++var _react = require("react");
++var _Animated = _interopRequireDefault(require("../../vendor/react-native/Animated/Animated"));
++var useAnimatedValue = function useAnimatedValue(toValue, options) {
++  if (options === void 0) {
++    options = {};
++  }
++  var _options = options,
++    _options$method = _options.method,
++    method = _options$method === void 0 ? 'timing' : _options$method,
++    _options$animationCon = _options.animationConfig,
++    animationConfig = _options$animationCon === void 0 ? {} : _options$animationCon,
++    interpolationConfig = _options.interpolationConfig;
++  var animatedValue = (0, _react.useRef)(new _Animated.default.Value(toValue)).current;
++  (0, _react.useEffect)(() => {
++    _Animated.default[method](animatedValue, (0, _objectSpread2.default)({
++      toValue
++    }, animationConfig)).start();
++  }, [toValue]); // eslint-disable-line react-hooks/exhaustive-deps
++
++  return interpolationConfig ? animatedValue.interpolate(interpolationConfig) : animatedValue;
++};
++var _default = exports.default = useAnimatedValue;
++module.exports = exports.default;
+\ No newline at end of file
+diff --git a/node_modules/react-native-web/dist/cjs/index.js b/node_modules/react-native-web/dist/cjs/index.js
+index b696270..975a26e 100644
+--- a/node_modules/react-native-web/dist/cjs/index.js
++++ b/node_modules/react-native-web/dist/cjs/index.js
+@@ -2,7 +2,7 @@
+ 
+ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault").default;
+ exports.__esModule = true;
+-exports.useWindowDimensions = exports.useLocaleContext = exports.useColorScheme = exports.unstable_createElement = exports.unmountComponentAtNode = exports.render = exports.processColor = exports.findNodeHandle = exports.YellowBox = exports.VirtualizedList = exports.View = exports.Vibration = exports.UIManager = exports.TouchableWithoutFeedback = exports.TouchableOpacity = exports.TouchableNativeFeedback = exports.TouchableHighlight = exports.Touchable = exports.TextInput = exports.Text = exports.Switch = exports.StyleSheet = exports.StatusBar = exports.Share = exports.SectionList = exports.ScrollView = exports.SafeAreaView = exports.RefreshControl = exports.ProgressBar = exports.Pressable = exports.Platform = exports.PixelRatio = exports.Picker = exports.PanResponder = exports.NativeModules = exports.NativeEventEmitter = exports.Modal = exports.LogBox = exports.Linking = exports.LayoutAnimation = exports.KeyboardAvoidingView = exports.Keyboard = exports.InteractionManager = exports.ImageBackground = exports.Image = exports.I18nManager = exports.FlatList = exports.Easing = exports.Dimensions = exports.DeviceEventEmitter = exports.Clipboard = exports.CheckBox = exports.Button = exports.BackHandler = exports.Appearance = exports.AppState = exports.AppRegistry = exports.Animated = exports.Alert = exports.ActivityIndicator = exports.AccessibilityInfo = void 0;
++exports.useWindowDimensions = exports.useLocaleContext = exports.useColorScheme = exports.useAnimatedValue = exports.unstable_createElement = exports.unmountComponentAtNode = exports.render = exports.processColor = exports.findNodeHandle = exports.YellowBox = exports.VirtualizedList = exports.View = exports.Vibration = exports.UIManager = exports.TouchableWithoutFeedback = exports.TouchableOpacity = exports.TouchableNativeFeedback = exports.TouchableHighlight = exports.Touchable = exports.TextInput = exports.Text = exports.Switch = exports.StyleSheet = exports.StatusBar = exports.Share = exports.SectionList = exports.ScrollView = exports.SafeAreaView = exports.RefreshControl = exports.ProgressBar = exports.Pressable = exports.Platform = exports.PixelRatio = exports.Picker = exports.PanResponder = exports.NativeModules = exports.NativeEventEmitter = exports.Modal = exports.LogBox = exports.Linking = exports.LayoutAnimation = exports.KeyboardAvoidingView = exports.Keyboard = exports.InteractionManager = exports.ImageBackground = exports.Image = exports.I18nManager = exports.FlatList = exports.Easing = exports.Dimensions = exports.DeviceEventEmitter = exports.Clipboard = exports.CheckBox = exports.Button = exports.BackHandler = exports.Appearance = exports.AppState = exports.AppRegistry = exports.Animated = exports.Alert = exports.ActivityIndicator = exports.AccessibilityInfo = void 0;
+ var _createElement = _interopRequireDefault(require("./exports/createElement"));
+ exports.unstable_createElement = _createElement.default;
+ var _findNodeHandle = _interopRequireDefault(require("./exports/findNodeHandle"));
+@@ -125,3 +125,5 @@ var _useLocaleContext = _interopRequireDefault(require("./exports/useLocaleConte
+ exports.useLocaleContext = _useLocaleContext.default;
+ var _useWindowDimensions = _interopRequireDefault(require("./exports/useWindowDimensions"));
+ exports.useWindowDimensions = _useWindowDimensions.default;
++var _useAnimatedValue = _interopRequireDefault(require("./exports/Animated/useAnimatedValue"));
++exports.useAnimatedValue = _useAnimatedValue.default;
+diff --git a/node_modules/react-native-web/dist/exports/Alert/index.js b/node_modules/react-native-web/dist/exports/Alert/index.js
+index 705bda5..d3ea698 100644
+--- a/node_modules/react-native-web/dist/exports/Alert/index.js
++++ b/node_modules/react-native-web/dist/exports/Alert/index.js
+@@ -1,13 +1,84 @@
+-/**
+- * Copyright (c) Nicolas Gallagher.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * 
+- */
+-
++import Swal from 'sweetalert2';
++var DEFAULT_CONFIRM_BUTTON = {
++  style: 'confirm',
++  text: 'OK'
++};
+ class Alert {
+-  static alert() {}
++  static alert(title, message, buttons, options) {
++    if (buttons === void 0) {
++      buttons = [DEFAULT_CONFIRM_BUTTON];
++    }
++    if (options === void 0) {
++      options = {};
++    }
++    var confirmButton = buttons.find(button => !button.style || button.style === 'confirm');
++    var denyButton = buttons.find(button => button.style === 'destructive');
++    var cancelButton = buttons.find(button => button.style === 'cancel');
++    var resolveButtonClass = buttonType => {
++      var classes = "alert-" + buttonType;
++      if (buttons.length === 3) {
++        classes = classes + ' full-width button-height';
++
++        // Cancel button is always the last button in this case and we don't the want border there.
++        if (buttonType !== "cancel") {
++          classes = classes + ' border-bottom';
++        }
++      } else if (buttons.length === 2) {
++        classes = classes + ' half-width';
++
++        // Cancel button is the last in this case and we want first button to have border-right only.
++        if (buttonType === "confirm" || buttonType === 'deny') {
++          classes = classes + ' border-right';
++        }
++      } else {
++        classes = classes + ' full-width';
++      }
++      return classes;
++    };
++    Swal.fire({
++      title,
++      text: message,
++      animation: false,
++      showConfirmButton: true,
++      showDenyButton: !!denyButton,
++      showCancelButton: !!cancelButton,
++      confirmButtonText: confirmButton == null ? void 0 : confirmButton.text,
++      denyButtonText: denyButton == null ? void 0 : denyButton.text,
++      cancelButtonText: cancelButton == null ? void 0 : cancelButton.text,
++      width: '20em',
++      background: '#f7f7f7',
++      confirmButtonColor: 'transparent',
++      cancelButtonColor: 'transparent',
++      denyButtonColor: 'transparent',
++      customClass: {
++        container: 'alert-container',
++        popup: 'alert-popup',
++        title: 'alert-title',
++        actions: 'alert-actions',
++        confirmButton: resolveButtonClass("confirm"),
++        cancelButton: resolveButtonClass("cancel"),
++        denyButton: resolveButtonClass("deny")
++      }
++    }).then(result => {
++      if (result.isConfirmed) {
++        if ((confirmButton == null ? void 0 : confirmButton.onPress) !== undefined) {
++          confirmButton.onPress();
++        }
++      } else if (result.isDenied) {
++        if ((denyButton == null ? void 0 : denyButton.onPress) !== undefined) {
++          denyButton.onPress();
++        }
++      } else if (result.isDismissed) {
++        // Android Alert supports onDismiss callback. It is preferred over cancel button onPress.
++        if (options.onDismiss !== undefined) {
++          options.onDismiss();
++          return;
++        }
++        if ((cancelButton == null ? void 0 : cancelButton.onPress) !== undefined) {
++          cancelButton.onPress();
++        }
++      }
++    });
++  }
+ }
+ export default Alert;
+\ No newline at end of file
+diff --git a/node_modules/react-native-web/dist/exports/Animated/useAnimatedValue.js b/node_modules/react-native-web/dist/exports/Animated/useAnimatedValue.js
+new file mode 100644
+index 0000000..a078034
+--- /dev/null
++++ b/node_modules/react-native-web/dist/exports/Animated/useAnimatedValue.js
+@@ -0,0 +1,23 @@
++import _objectSpread from "@babel/runtime/helpers/objectSpread2";
++import { useEffect, useRef } from 'react';
++import Animated from '../../vendor/react-native/Animated/Animated';
++var useAnimatedValue = function useAnimatedValue(toValue, options) {
++  if (options === void 0) {
++    options = {};
++  }
++  var _options = options,
++    _options$method = _options.method,
++    method = _options$method === void 0 ? 'timing' : _options$method,
++    _options$animationCon = _options.animationConfig,
++    animationConfig = _options$animationCon === void 0 ? {} : _options$animationCon,
++    interpolationConfig = _options.interpolationConfig;
++  var animatedValue = useRef(new Animated.Value(toValue)).current;
++  useEffect(() => {
++    Animated[method](animatedValue, _objectSpread({
++      toValue
++    }, animationConfig)).start();
++  }, [toValue]); // eslint-disable-line react-hooks/exhaustive-deps
++
++  return interpolationConfig ? animatedValue.interpolate(interpolationConfig) : animatedValue;
++};
++export default useAnimatedValue;
+\ No newline at end of file
+diff --git a/node_modules/react-native-web/dist/exports/StyleSheet/compiler/createReactDOMStyle.js b/node_modules/react-native-web/dist/exports/StyleSheet/compiler/createReactDOMStyle.js
+index dc4ffb9..b247fc9 100644
+--- a/node_modules/react-native-web/dist/exports/StyleSheet/compiler/createReactDOMStyle.js
++++ b/node_modules/react-native-web/dist/exports/StyleSheet/compiler/createReactDOMStyle.js
+@@ -101,6 +101,10 @@ var createReactDOMStyle = (style, isInline) => {
+         resolvedStyle.flexGrow = 0;
+         resolvedStyle.flexShrink = 1;
+         resolvedStyle.flexBasis = 'auto';
++      } else if (value === 0) {
++        resolvedStyle.flexGrow = 0;
++        resolvedStyle.flexShrink = 0;
++        resolvedStyle.flexBasis = 'auto';
+       } else {
+         resolvedStyle.flex = value;
+       }
+diff --git a/node_modules/react-native-web/dist/index.js b/node_modules/react-native-web/dist/index.js
+index 4f69987..7362e22 100644
+--- a/node_modules/react-native-web/dist/index.js
++++ b/node_modules/react-native-web/dist/index.js
+@@ -67,3 +67,4 @@ export { default as DeviceEventEmitter } from './exports/DeviceEventEmitter';
+ export { default as useColorScheme } from './exports/useColorScheme';
+ export { default as useLocaleContext } from './exports/useLocaleContext';
+ export { default as useWindowDimensions } from './exports/useWindowDimensions';
++export { default as useAnimatedValue } from './exports/Animated/useAnimatedValue';
+diff --git a/node_modules/react-native-web/src/exports/Alert/index.js b/node_modules/react-native-web/src/exports/Alert/index.js
+index 8abdf5c..2689e86 100644
+--- a/node_modules/react-native-web/src/exports/Alert/index.js
++++ b/node_modules/react-native-web/src/exports/Alert/index.js
+@@ -1,14 +1,83 @@
+-/**
+- * Copyright (c) Nicolas Gallagher.
+- *
+- * This source code is licensed under the MIT license found in the
+- * LICENSE file in the root directory of this source tree.
+- *
+- * @flow
+- */
++import Swal from 'sweetalert2';
++
++const DEFAULT_CONFIRM_BUTTON = {style: 'confirm', text: 'OK'};
+ 
+ class Alert {
+-  static alert() {}
++  static alert(title, message, buttons = [DEFAULT_CONFIRM_BUTTON], options = {}) {
++    const confirmButton = buttons.find(button => !button.style || button.style === 'confirm')
++    const denyButton = buttons.find(button => button.style === 'destructive')
++    const cancelButton = buttons.find(button => button.style === 'cancel')
++
++    const resolveButtonClass = (buttonType) => {
++      let classes = `alert-${buttonType}`
++
++      if (buttons.length === 3) {
++        classes = classes + ' full-width button-height'
++
++        // Cancel button is always the last button in this case and we don't the want border there.
++        if (buttonType !== "cancel") {
++          classes = classes + ' border-bottom';
++        }
++      } else if (buttons.length === 2) {
++        classes = classes + ' half-width'
++
++        // Cancel button is the last in this case and we want first button to have border-right only.
++        if (buttonType === "confirm" || buttonType === 'deny') {
++          classes = classes + ' border-right';
++        }
++      } else {
++        classes = classes + ' full-width'
++      }
++
++      return classes;
++    }
++
++    Swal.fire({
++      title,
++      text: message,
++      animation: false,
++      showConfirmButton: true,
++      showDenyButton: !!denyButton,
++      showCancelButton: !!cancelButton,
++      confirmButtonText: confirmButton?.text,
++      denyButtonText: denyButton?.text,
++      cancelButtonText: cancelButton?.text,
++      width: '20em',
++      background: '#f7f7f7',
++      confirmButtonColor: 'transparent',
++      cancelButtonColor: 'transparent',
++      denyButtonColor: 'transparent',
++      customClass: {
++        container: 'alert-container',
++        popup: 'alert-popup',
++        title: 'alert-title',
++        actions: 'alert-actions',
++        confirmButton: resolveButtonClass("confirm"),
++        cancelButton: resolveButtonClass("cancel"),
++        denyButton: resolveButtonClass("deny")
++      }
++    }).then(result => {
++      if (result.isConfirmed) {
++        if (confirmButton?.onPress !== undefined) {
++          confirmButton.onPress();
++        }
++      } else if (result.isDenied) {
++        if (denyButton?.onPress !== undefined) {
++          denyButton.onPress();
++        }
++      } else if (result.isDismissed) {
++        // Android Alert supports onDismiss callback. It is preferred over cancel button onPress.
++        if (options.onDismiss !== undefined) {
++          options.onDismiss();
++          return;
++        }
++        
++        if (cancelButton?.onPress !== undefined) {
++          cancelButton.onPress();
++        }
++      }
++    });
++  }
+ }
+ 
+ export default Alert;
+diff --git a/node_modules/react-native-web/src/exports/Animated/useAnimatedValue.js b/node_modules/react-native-web/src/exports/Animated/useAnimatedValue.js
+new file mode 100644
+index 0000000..4c175ef
+--- /dev/null
++++ b/node_modules/react-native-web/src/exports/Animated/useAnimatedValue.js
+@@ -0,0 +1,22 @@
++import { useEffect, useRef } from 'react';
++import Animated from '../../vendor/react-native/Animated/Animated';
++
++const useAnimatedValue = (toValue, options = {}) => {
++  const { method = 'timing', animationConfig = {}, interpolationConfig } = options;
++
++  const animatedValue = useRef(new Animated.Value(toValue)).current;
++
++  useEffect(() => {
++    Animated[method](
++      animatedValue,
++      {
++        toValue,
++        ...animationConfig,
++      }
++    ).start();
++  }, [toValue]); // eslint-disable-line react-hooks/exhaustive-deps
++
++  return interpolationConfig ? animatedValue.interpolate(interpolationConfig) : animatedValue;
++};
++
++export default useAnimatedValue;
+diff --git a/node_modules/react-native-web/src/exports/StyleSheet/compiler/createReactDOMStyle.js b/node_modules/react-native-web/src/exports/StyleSheet/compiler/createReactDOMStyle.js
+index 6274527..510f2c4 100644
+--- a/node_modules/react-native-web/src/exports/StyleSheet/compiler/createReactDOMStyle.js
++++ b/node_modules/react-native-web/src/exports/StyleSheet/compiler/createReactDOMStyle.js
+@@ -139,6 +139,10 @@ const createReactDOMStyle = (style: Style, isInline?: boolean): Style => {
+         resolvedStyle.flexGrow = 0;
+         resolvedStyle.flexShrink = 1;
+         resolvedStyle.flexBasis = 'auto';
++      } else if (value === 0) {
++        resolvedStyle.flexGrow = 0;
++        resolvedStyle.flexShrink = 0;
++        resolvedStyle.flexBasis = 'auto';
+       } else {
+         resolvedStyle.flex = value;
+       }
+diff --git a/node_modules/react-native-web/src/index.js b/node_modules/react-native-web/src/index.js
+index f1a6f23..f1b3f55 100644
+--- a/node_modules/react-native-web/src/index.js
++++ b/node_modules/react-native-web/src/index.js
+@@ -68,3 +68,4 @@ export { default as DeviceEventEmitter } from './exports/DeviceEventEmitter';
+ export { default as useColorScheme } from './exports/useColorScheme';
+ export { default as useLocaleContext } from './exports/useLocaleContext';
+ export { default as useWindowDimensions } from './exports/useWindowDimensions';
++export { default as useAnimatedValue } from './exports/Animated/useAnimatedValue';

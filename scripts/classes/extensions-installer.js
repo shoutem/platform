@@ -9,10 +9,6 @@ const _ = require('lodash');
 const promisify = require('pify');
 const linkLocal = promisify(require('linklocal'));
 
-const packageJsonTemplateFileName = 'package.template.json';
-const packageJsonTemplatePath = path.resolve(packageJsonTemplateFileName);
-const packageJsonTemplate = fs.readJsonSync(packageJsonTemplatePath);
-
 function addDependencyToPackageJson(packageJson, name, version) {
   // eslint-disable-next-line no-param-reassign
   packageJson.dependencies[name] = version;
@@ -45,23 +41,6 @@ async function installJsDependencies() {
   console.timeEnd('Installing dependencies took');
 }
 
-function installNpmExtension(extension) {
-  // This could actually be any valid npm install argument (version range,
-  // GitHub repo, URL to a .tgz file, or even local path) but for now,
-  // it's always the URL to the .tgz stored on our server
-  const extensionPackageURL = _.get(
-    extension,
-    'attributes.location.app.package',
-  );
-  const packageName = extension.id;
-
-  addDependencyToPackageJson(
-    packageJsonTemplate,
-    packageName,
-    extensionPackageURL,
-  );
-}
-
 function writeJson(content, filePath) {
   const json = JSON.stringify(content, null, 2);
 
@@ -88,20 +67,53 @@ function writePackageJson(content) {
  * @param  String extensionsJsPath path to extension.js file
  */
 class ExtensionsInstaller {
-  constructor(localExtensions = [], extensions = [], extensionsJsPath = '') {
+  constructor(
+    localExtensions = [],
+    extensions = [],
+    extensionsJsPath = '',
+    packageJsonTemplateFileName = 'package.template.json',
+  ) {
     this.localExtensions = localExtensions;
     this.extensionsJsPath = extensionsJsPath;
     this.extensionsToInstall = extensions;
+
+    const packageJsonTemplatePath = path.resolve(packageJsonTemplateFileName);
+    this.packageJsonTemplate = fs.readJsonSync(packageJsonTemplatePath);
   }
 
-  installExtensions() {
+  installNpmExtension(extension, platform) {
+    const isWeb = platform === 'web';
+    // This could actually be any valid npm install argument (version range,
+    // GitHub repo, URL to a .tgz file, or even local path) but for now,
+    // it's always the URL to the .tgz stored on our server
+    const webExtensionPackageURL = _.get(
+      extension,
+      'attributes.location.web.package',
+    );
+    const mobileExtensionPackageURL = _.get(
+      extension,
+      'attributes.location.app.package',
+    );
+    const extensionPackageURL = isWeb && !!webExtensionPackageURL
+      ? webExtensionPackageURL
+      : mobileExtensionPackageURL;
+    const packageName = extension.id;
+
+    addDependencyToPackageJson(
+      this.packageJsonTemplate,
+      packageName,
+      extensionPackageURL,
+    );
+  }
+
+  installExtensions(platform) {
     const workingDir = process.cwd();
 
-    this.extensionsToInstall.forEach(extension => installNpmExtension(extension),);
+    this.extensionsToInstall.forEach(extension => this.installNpmExtension(extension, platform),);
 
     this.localExtensions.forEach(extension =>
       addDependencyToPackageJson(
-      packageJsonTemplate,
+      this.packageJsonTemplate,
       extension.id,
       `file:${extension.path}`,
     ));
@@ -111,7 +123,7 @@ class ExtensionsInstaller {
       ...this.extensionsToInstall,
     ];
 
-    return writePackageJson(packageJsonTemplate)
+    return writePackageJson(this.packageJsonTemplate)
       .then(() => installJsDependencies())
       .then(() => linkLocal(workingDir))
       .then(() => Promise.resolve(installedExtensions));

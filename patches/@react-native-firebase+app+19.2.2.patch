@@ -1,0 +1,41 @@
+diff --git a/node_modules/@react-native-firebase/app/lib/common/Base64.js b/node_modules/@react-native-firebase/app/lib/common/Base64.js
+index 8c8550f..81b0300 100644
+--- a/node_modules/@react-native-firebase/app/lib/common/Base64.js
++++ b/node_modules/@react-native-firebase/app/lib/common/Base64.js
+@@ -16,11 +16,16 @@
+  *
+  */
+ 
+-import binaryToBase64 from 'react-native/Libraries/Utilities/binaryToBase64';
++import { Buffer } from 'buffer'
+ import { promiseDefer } from './promise';
+ 
+ const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+ 
++export function toBase64(input) {
++  return Buffer.from(input, 'utf-8').toString('base64')
++}
++
++
+ /**
+  * window.btoa
+  */
+@@ -104,7 +109,7 @@ function fromData(data) {
+ 
+   if (data instanceof ArrayBuffer || data instanceof Uint8Array) {
+     return Promise.resolve({
+-      string: binaryToBase64(data),
++      string: toBase64(data),
+       format: 'base64',
+     });
+   }
+diff --git a/node_modules/@react-native-firebase/app/lib/internal/SharedEventEmitter.js b/node_modules/@react-native-firebase/app/lib/internal/SharedEventEmitter.js
+index 58b1ec9..b2340a0 100644
+--- a/node_modules/@react-native-firebase/app/lib/internal/SharedEventEmitter.js
++++ b/node_modules/@react-native-firebase/app/lib/internal/SharedEventEmitter.js
+@@ -17,4 +17,4 @@
+ 
+ import EventEmitter from 'react-native/Libraries/vendor/emitter/EventEmitter';
+ 
+-export default new EventEmitter();
++export default EventEmitter;
