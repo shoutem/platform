@@ -1,6 +1,6 @@
 {
-  "version": "15.0.0-beta.1",
-  "mobileAppVersion": "15.0.0-beta.1",
+  "version": "15.0.0-beta.2",
+  "mobileAppVersion": "15.0.0-beta.2",
   "releaseNotes": "Release notes\n* Added support for web preview",
   "builds": {
     "live": {
