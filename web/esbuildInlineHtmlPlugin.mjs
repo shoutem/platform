@@ -9,7 +9,7 @@ const inlineAssetsPlugin = options => {
   return {
     name: 'inline-assets',
     setup(build) {
-      build.onEnd(() => {
+      build.onEnd(async () => {
         try {
           const jsFilePath = path.join(outputDir, 'index.web.js');
           const cssFilePath = path.join(outputDir, 'index.web.css');
@@ -32,6 +32,12 @@ const inlineAssetsPlugin = options => {
 
           const outputHtmlPath = path.join(outputDir, 'index.html');
           fs.writeFileSync(outputHtmlPath, outputHtmlContent, 'utf8');
+
+          // Ignore errors if file does not exist
+          await Promise.all([
+            fs.promises.unlink(jsFilePath).catch(() => {}), 
+            fs.promises.unlink(cssFilePath).catch(() => {}),
+          ]);
 
           console.log('Inlining complete!');
         } catch (error) {
