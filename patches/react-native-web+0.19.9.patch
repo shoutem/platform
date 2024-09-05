@@ -142,8 +142,82 @@ index 0000000..c8dc222
 +var _default = exports.default = useAnimatedValue;
 +module.exports = exports.default;
 \ No newline at end of file
+diff --git a/node_modules/react-native-web/dist/cjs/exports/Share/index.js b/node_modules/react-native-web/dist/cjs/exports/Share/index.js
+index 963c4a8..b3f2832 100644
+--- a/node_modules/react-native-web/dist/cjs/exports/Share/index.js
++++ b/node_modules/react-native-web/dist/cjs/exports/Share/index.js
+@@ -49,6 +49,5 @@ class Share {
+     return 'dismissedAction';
+   }
+ }
+-var _default = Share;
+-exports.default = _default;
++var _default = exports.default = Share;
+ module.exports = exports.default;
+\ No newline at end of file
+diff --git a/node_modules/react-native-web/dist/cjs/exports/Switch/index.js b/node_modules/react-native-web/dist/cjs/exports/Switch/index.js
+index 52ed948..c08f478 100644
+--- a/node_modules/react-native-web/dist/cjs/exports/Switch/index.js
++++ b/node_modules/react-native-web/dist/cjs/exports/Switch/index.js
+@@ -13,6 +13,14 @@ var _multiplyStyleLengthValue = _interopRequireDefault(require("../../modules/mu
+ var _StyleSheet = _interopRequireDefault(require("../StyleSheet"));
+ var _View = _interopRequireDefault(require("../View"));
+ var _excluded = ["aria-label", "accessibilityLabel", "activeThumbColor", "activeTrackColor", "disabled", "onValueChange", "style", "thumbColor", "trackColor", "value"];
++/**
++ * Copyright (c) Nicolas Gallagher.
++ *
++ * This source code is licensed under the MIT license found in the
++ * LICENSE file in the root directory of this source tree.
++ *
++ * 
++ */
+ var emptyObject = {};
+ var thumbDefaultBoxShadow = '0px 1px 3px rgba(0,0,0,0.5)';
+ var thumbFocusedBoxShadow = thumbDefaultBoxShadow + ", 0 0 0 10px rgba(0,0,0,0.1)";
+@@ -53,7 +61,7 @@ var Switch = /*#__PURE__*/React.forwardRef((props, forwardedRef) => {
+   var _StyleSheet$flatten = _StyleSheet.default.flatten(style),
+     styleHeight = _StyleSheet$flatten.height,
+     styleWidth = _StyleSheet$flatten.width;
+-  var height = styleHeight || '20px';
++  var height = styleHeight || '26px';
+   var minWidth = (0, _multiplyStyleLengthValue.default)(height, 2);
+   var width = styleWidth > minWidth ? styleWidth : minWidth;
+   var trackBorderRadius = (0, _multiplyStyleLengthValue.default)(height, 0.5);
+@@ -155,10 +163,11 @@ var styles = _StyleSheet.default.create({
+   track: (0, _objectSpread2.default)((0, _objectSpread2.default)({
+     forcedColorAdjust: 'none'
+   }, _StyleSheet.default.absoluteFillObject), {}, {
+-    height: '70%',
++    height: '105%',
+     margin: 'auto',
+-    transitionDuration: '0.1s',
+-    width: '100%'
++    transitionDuration: '0.3s',
++    width: '90%',
++    marginLeft: 6
+   }),
+   thumb: {
+     forcedColorAdjust: 'none',
+@@ -167,7 +176,7 @@ var styles = _StyleSheet.default.create({
+     boxShadow: thumbDefaultBoxShadow,
+     start: '0%',
+     transform: 'translateZ(0)',
+-    transitionDuration: '0.1s'
++    transitionDuration: '0.3s'
+   },
+   thumbActive: {
+     insetInlineStart: '100%'
+@@ -180,6 +189,5 @@ var styles = _StyleSheet.default.create({
+     width: '100%'
+   })
+ });
+-var _default = Switch;
+-exports.default = _default;
++var _default = exports.default = Switch;
+ module.exports = exports.default;
+\ No newline at end of file
 diff --git a/node_modules/react-native-web/dist/cjs/index.js b/node_modules/react-native-web/dist/cjs/index.js
-index b696270..975a26e 100644
+index b696270..ddb9f0a 100644
 --- a/node_modules/react-native-web/dist/cjs/index.js
 +++ b/node_modules/react-native-web/dist/cjs/index.js
 @@ -2,7 +2,7 @@
@@ -151,11 +225,19 @@ index b696270..975a26e 100644
  var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault").default;
  exports.__esModule = true;
 -exports.useWindowDimensions = exports.useLocaleContext = exports.useColorScheme = exports.unstable_createElement = exports.unmountComponentAtNode = exports.render = exports.processColor = exports.findNodeHandle = exports.YellowBox = exports.VirtualizedList = exports.View = exports.Vibration = exports.UIManager = exports.TouchableWithoutFeedback = exports.TouchableOpacity = exports.TouchableNativeFeedback = exports.TouchableHighlight = exports.Touchable = exports.TextInput = exports.Text = exports.Switch = exports.StyleSheet = exports.StatusBar = exports.Share = exports.SectionList = exports.ScrollView = exports.SafeAreaView = exports.RefreshControl = exports.ProgressBar = exports.Pressable = exports.Platform = exports.PixelRatio = exports.Picker = exports.PanResponder = exports.NativeModules = exports.NativeEventEmitter = exports.Modal = exports.LogBox = exports.Linking = exports.LayoutAnimation = exports.KeyboardAvoidingView = exports.Keyboard = exports.InteractionManager = exports.ImageBackground = exports.Image = exports.I18nManager = exports.FlatList = exports.Easing = exports.Dimensions = exports.DeviceEventEmitter = exports.Clipboard = exports.CheckBox = exports.Button = exports.BackHandler = exports.Appearance = exports.AppState = exports.AppRegistry = exports.Animated = exports.Alert = exports.ActivityIndicator = exports.AccessibilityInfo = void 0;
-+exports.useWindowDimensions = exports.useLocaleContext = exports.useColorScheme = exports.useAnimatedValue = exports.unstable_createElement = exports.unmountComponentAtNode = exports.render = exports.processColor = exports.findNodeHandle = exports.YellowBox = exports.VirtualizedList = exports.View = exports.Vibration = exports.UIManager = exports.TouchableWithoutFeedback = exports.TouchableOpacity = exports.TouchableNativeFeedback = exports.TouchableHighlight = exports.Touchable = exports.TextInput = exports.Text = exports.Switch = exports.StyleSheet = exports.StatusBar = exports.Share = exports.SectionList = exports.ScrollView = exports.SafeAreaView = exports.RefreshControl = exports.ProgressBar = exports.Pressable = exports.Platform = exports.PixelRatio = exports.Picker = exports.PanResponder = exports.NativeModules = exports.NativeEventEmitter = exports.Modal = exports.LogBox = exports.Linking = exports.LayoutAnimation = exports.KeyboardAvoidingView = exports.Keyboard = exports.InteractionManager = exports.ImageBackground = exports.Image = exports.I18nManager = exports.FlatList = exports.Easing = exports.Dimensions = exports.DeviceEventEmitter = exports.Clipboard = exports.CheckBox = exports.Button = exports.BackHandler = exports.Appearance = exports.AppState = exports.AppRegistry = exports.Animated = exports.Alert = exports.ActivityIndicator = exports.AccessibilityInfo = void 0;
++exports.useWindowDimensions = exports.useLocaleContext = exports.useColorScheme = exports.useAnimatedValue = exports.unstable_createElement = exports.unmountComponentAtNode = exports.render = exports.processColor = exports.findNodeHandle = exports.YellowBox = exports.VirtualizedList = exports.View = exports.Vibration = exports.UIManager = exports.TouchableWithoutFeedback = exports.TouchableOpacity = exports.TouchableNativeFeedback = exports.TouchableHighlight = exports.Touchable = exports.TextInput = exports.Text = exports.Switch = exports.StyleSheet = exports.StatusBar = exports.Share = exports.SectionList = exports.ScrollView = exports.SafeAreaView = exports.RefreshControl = exports.ProgressBar = exports.Pressable = exports.Platform = exports.PixelRatio = exports.Picker = exports.PanResponder = exports.NativeModules = exports.NativeEventEmitter = exports.NativeAppEventEmitter = exports.Modal = exports.LogBox = exports.Linking = exports.LayoutAnimation = exports.KeyboardAvoidingView = exports.Keyboard = exports.InteractionManager = exports.ImageBackground = exports.Image = exports.I18nManager = exports.FlatList = exports.Easing = exports.Dimensions = exports.DeviceEventEmitter = exports.Clipboard = exports.CheckBox = exports.Button = exports.BackHandler = exports.Appearance = exports.AppState = exports.AppRegistry = exports.Animated = exports.Alert = exports.ActivityIndicator = exports.AccessibilityInfo = void 0;
  var _createElement = _interopRequireDefault(require("./exports/createElement"));
  exports.unstable_createElement = _createElement.default;
  var _findNodeHandle = _interopRequireDefault(require("./exports/findNodeHandle"));
-@@ -125,3 +125,5 @@ var _useLocaleContext = _interopRequireDefault(require("./exports/useLocaleConte
+@@ -47,6 +47,7 @@ var _Linking = _interopRequireDefault(require("./exports/Linking"));
+ exports.Linking = _Linking.default;
+ var _NativeEventEmitter = _interopRequireDefault(require("./exports/NativeEventEmitter"));
+ exports.NativeEventEmitter = _NativeEventEmitter.default;
++exports.NativeAppEventEmitter = _NativeEventEmitter.default;
+ var _PanResponder = _interopRequireDefault(require("./exports/PanResponder"));
+ exports.PanResponder = _PanResponder.default;
+ var _PixelRatio = _interopRequireDefault(require("./exports/PixelRatio"));
+@@ -125,3 +126,5 @@ var _useLocaleContext = _interopRequireDefault(require("./exports/useLocaleConte
  exports.useLocaleContext = _useLocaleContext.default;
  var _useWindowDimensions = _interopRequireDefault(require("./exports/useWindowDimensions"));
  exports.useWindowDimensions = _useWindowDimensions.default;
@@ -306,11 +388,56 @@ index dc4ffb9..b247fc9 100644
        } else {
          resolvedStyle.flex = value;
        }
+diff --git a/node_modules/react-native-web/dist/exports/Switch/index.js b/node_modules/react-native-web/dist/exports/Switch/index.js
+index 38b96ed..e50f4c1 100644
+--- a/node_modules/react-native-web/dist/exports/Switch/index.js
++++ b/node_modules/react-native-web/dist/exports/Switch/index.js
+@@ -56,7 +56,7 @@ var Switch = /*#__PURE__*/React.forwardRef((props, forwardedRef) => {
+   var _StyleSheet$flatten = StyleSheet.flatten(style),
+     styleHeight = _StyleSheet$flatten.height,
+     styleWidth = _StyleSheet$flatten.width;
+-  var height = styleHeight || '20px';
++  var height = styleHeight || '26px';
+   var minWidth = multiplyStyleLengthValue(height, 2);
+   var width = styleWidth > minWidth ? styleWidth : minWidth;
+   var trackBorderRadius = multiplyStyleLengthValue(height, 0.5);
+@@ -158,10 +158,11 @@ var styles = StyleSheet.create({
+   track: _objectSpread(_objectSpread({
+     forcedColorAdjust: 'none'
+   }, StyleSheet.absoluteFillObject), {}, {
+-    height: '70%',
++    height: '105%',
+     margin: 'auto',
+-    transitionDuration: '0.1s',
+-    width: '100%'
++    transitionDuration: '0.3s',
++    width: '90%',
++    marginLeft: 6
+   }),
+   thumb: {
+     forcedColorAdjust: 'none',
+@@ -170,7 +171,7 @@ var styles = StyleSheet.create({
+     boxShadow: thumbDefaultBoxShadow,
+     start: '0%',
+     transform: 'translateZ(0)',
+-    transitionDuration: '0.1s'
++    transitionDuration: '0.3s'
+   },
+   thumbActive: {
+     insetInlineStart: '100%'
 diff --git a/node_modules/react-native-web/dist/index.js b/node_modules/react-native-web/dist/index.js
-index 4f69987..7362e22 100644
+index 4f69987..38f180b 100644
 --- a/node_modules/react-native-web/dist/index.js
 +++ b/node_modules/react-native-web/dist/index.js
-@@ -67,3 +67,4 @@ export { default as DeviceEventEmitter } from './exports/DeviceEventEmitter';
+@@ -22,6 +22,7 @@ export { default as InteractionManager } from './exports/InteractionManager';
+ export { default as LayoutAnimation } from './exports/LayoutAnimation';
+ export { default as Linking } from './exports/Linking';
+ export { default as NativeEventEmitter } from './exports/NativeEventEmitter';
++export { default as NativeAppEventEmitter } from './exports/NativeEventEmitter';
+ export { default as PanResponder } from './exports/PanResponder';
+ export { default as PixelRatio } from './exports/PixelRatio';
+ export { default as Platform } from './exports/Platform';
+@@ -67,3 +68,4 @@ export { default as DeviceEventEmitter } from './exports/DeviceEventEmitter';
  export { default as useColorScheme } from './exports/useColorScheme';
  export { default as useLocaleContext } from './exports/useLocaleContext';
  export { default as useWindowDimensions } from './exports/useWindowDimensions';
@@ -455,11 +582,56 @@ index 6274527..510f2c4 100644
        } else {
          resolvedStyle.flex = value;
        }
+diff --git a/node_modules/react-native-web/src/exports/Switch/index.js b/node_modules/react-native-web/src/exports/Switch/index.js
+index 4f3e659..26bb320 100644
+--- a/node_modules/react-native-web/src/exports/Switch/index.js
++++ b/node_modules/react-native-web/src/exports/Switch/index.js
+@@ -74,7 +74,7 @@ const Switch: React.AbstractComponent<
+   }
+ 
+   const { height: styleHeight, width: styleWidth } = StyleSheet.flatten(style);
+-  const height = styleHeight || '20px';
++  const height = styleHeight || '26px';
+   const minWidth = multiplyStyleLengthValue(height, 2);
+   const width = styleWidth > minWidth ? styleWidth : minWidth;
+   const trackBorderRadius = multiplyStyleLengthValue(height, 0.5);
+@@ -204,10 +204,11 @@ const styles = StyleSheet.create({
+   track: {
+     forcedColorAdjust: 'none',
+     ...StyleSheet.absoluteFillObject,
+-    height: '70%',
++    height: '105%',
+     margin: 'auto',
+-    transitionDuration: '0.1s',
+-    width: '100%'
++    transitionDuration: '0.3s',
++    width: '90%',
++    marginLeft: 6
+   },
+   thumb: {
+     forcedColorAdjust: 'none',
+@@ -216,7 +217,7 @@ const styles = StyleSheet.create({
+     boxShadow: thumbDefaultBoxShadow,
+     start: '0%',
+     transform: 'translateZ(0)',
+-    transitionDuration: '0.1s'
++    transitionDuration: '0.3s'
+   },
+   thumbActive: {
+     insetInlineStart: '100%'
 diff --git a/node_modules/react-native-web/src/index.js b/node_modules/react-native-web/src/index.js
-index f1a6f23..f1b3f55 100644
+index f1a6f23..e28ad76 100644
 --- a/node_modules/react-native-web/src/index.js
 +++ b/node_modules/react-native-web/src/index.js
-@@ -68,3 +68,4 @@ export { default as DeviceEventEmitter } from './exports/DeviceEventEmitter';
+@@ -23,6 +23,7 @@ export { default as InteractionManager } from './exports/InteractionManager';
+ export { default as LayoutAnimation } from './exports/LayoutAnimation';
+ export { default as Linking } from './exports/Linking';
+ export { default as NativeEventEmitter } from './exports/NativeEventEmitter';
++export { default as NativeAppEventEmitter } from './exports/NativeEventEmitter';
+ export { default as PanResponder } from './exports/PanResponder';
+ export { default as PixelRatio } from './exports/PixelRatio';
+ export { default as Platform } from './exports/Platform';
+@@ -68,3 +69,4 @@ export { default as DeviceEventEmitter } from './exports/DeviceEventEmitter';
  export { default as useColorScheme } from './exports/useColorScheme';
  export { default as useLocaleContext } from './exports/useLocaleContext';
  export { default as useWindowDimensions } from './exports/useWindowDimensions';

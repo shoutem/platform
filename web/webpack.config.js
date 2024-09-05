@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlInlineScriptPlugin = require('html-inline-script-webpack-plugin');
 
 const appDirectory = path.resolve(__dirname, '../');
@@ -32,17 +32,21 @@ const babelLoaderConfiguration = {
       // The 'metro-react-native-babel-preset' preset is recommended to match React Native's packager
       presets: ['module:@react-native/babel-preset', '@babel/preset-flow'],
       // Re-write paths to import only the modules needed by the app
-      plugins: ['react-native-web',
-        ["module-resolver", {
-          "alias": {
-            "^react-native$": "react-native-web",
-            "^shoutem-core$": path.resolve(appDirectory, 'core'),
-          }
-        }],
+      plugins: [
+        'react-native-web',
+        [
+          'module-resolver',
+          {
+            alias: {
+              '^react-native$': 'react-native-web',
+              '^shoutem-core$': path.resolve(appDirectory, 'core'),
+            },
+          },
+        ],
         ['@babel/plugin-proposal-decorators', { legacy: true }],
       ],
-    }
-  }
+    },
+  },
 };
 
 // This is needed for webpack to import static images in JavaScript files.
@@ -53,24 +57,21 @@ const imageLoaderConfiguration = {
     options: {
       name: '[name].[ext]',
       esModule: false,
-    }
-  }
+    },
+  },
 };
 
 // SVG import support
 const svgImportLoaderConfiguration = {
   test: /\.svg$/,
   use: [{ loader: '@svgr/webpack', options: { dimensions: false } }],
-}
+};
 
 function styleRules(isProduction) {
   return [
     {
       test: /\.css$/,
-      use: [
-        'style-loader',
-        { loader: 'css-loader' },
-      ],
+      use: ['style-loader', { loader: 'css-loader' }],
     },
     {
       test: /\.scss$/,
@@ -85,8 +86,8 @@ function styleRules(isProduction) {
         {
           loader: 'postcss-loader',
           options: {
-            postcssOptions:{
-              plugins: [require('cssnano')({ preset: 'default' })], 
+            postcssOptions: {
+              plugins: [require('cssnano')({ preset: 'default' })],
             },
             sourceMap: !isProduction,
           },
@@ -117,7 +118,7 @@ const tsLoaderConfiguration = {
 
 const htmlLoaderConfiguration = {
   test: /\.html$/i,
-  loader: "html-loader",
+  loader: 'html-loader',
 };
 
 const fontLoaderConfiguration = {
@@ -138,7 +139,7 @@ module.exports = (env, argv) => {
       // load any web API polyfills
       // path.resolve(appDirectory, 'polyfills-web.js'),
       // your web-specific entry file
-      path.resolve(appDirectory, 'index.web.js')
+      path.resolve(appDirectory, 'index.web.js'),
     ],
 
     // configures where the build ends up
@@ -149,9 +150,11 @@ module.exports = (env, argv) => {
     },
 
     // DEV Only
-    ...(isDev ? {
-      devtool: 'source-map'
-    } : {}),
+    ...(isDev
+      ? {
+          devtool: 'source-map',
+        }
+      : {}),
 
     module: {
       rules: [
@@ -162,7 +165,7 @@ module.exports = (env, argv) => {
         svgImportLoaderConfiguration,
         fontLoaderConfiguration,
         ...styleRules(isProduction),
-      ]
+      ],
     },
 
     resolve: {
@@ -175,18 +178,19 @@ module.exports = (env, argv) => {
 
         // Solving the problem in general ( no extension ownership )
         'react-native-fast-image': 'react-native-web/dist/exports/Image',
-        'react-native/Libraries/vendor/emitter/EventEmitter': 'react-native-web/dist/vendor/react-native/EventEmitter/RCTDeviceEventEmitter.js',
+        'react-native/Libraries/vendor/emitter/EventEmitter':
+          'react-native-web/dist/vendor/react-native/EventEmitter/RCTDeviceEventEmitter.js',
       },
       // If you're working on a multi-platform React Native app, web-specific
       // module implementations should be written in files using the extension
       // `.web.js`.
-      extensions: [".web.tsx", ".web.ts", ".tsx", ".ts", '.web.js', '.js']
+      extensions: ['.web.tsx', '.web.ts', '.tsx', '.ts', '.web.js', '.js'],
     },
 
     plugins: [
       new HtmlWebpackPlugin({
-        template: path.join(__dirname, "index.html"),
-        inject: "body"
+        template: path.join(__dirname, 'index.html'),
+        inject: 'body',
       }),
       new webpack.DefinePlugin({
         __DEV__: JSON.stringify(isDev),
@@ -200,12 +204,14 @@ module.exports = (env, argv) => {
       ...(isDev ? [new webpack.HotModuleReplacementPlugin()] : []),
 
       // PROD Only
-      ...(isProduction ? [
-        new webpack.optimize.LimitChunkCountPlugin({
-          maxChunks: 1,
-        }),
-        new HtmlInlineScriptPlugin()
-      ] : []),
-    ]
-  }
-}
+      ...(isProduction
+        ? [
+            new webpack.optimize.LimitChunkCountPlugin({
+              maxChunks: 1,
+            }),
+            new HtmlInlineScriptPlugin(),
+          ]
+        : []),
+    ],
+  };
+};

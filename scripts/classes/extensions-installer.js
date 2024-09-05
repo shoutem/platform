@@ -22,7 +22,7 @@ async function installJsDependencies() {
   const bunCheckCommand = 'bun -v';
   const bunExists = shell.exec(bunCheckCommand).code === 0;
   if (bunExists) {
-    await spawn('bun', ['install'], stdArgs);
+    await spawn('bun', ['install', '--yarn'], stdArgs);
     // running postinstall manually
     await spawn('bun', ['run', 'postinstall'], stdArgs);
     console.timeEnd('Installing dependencies took');
