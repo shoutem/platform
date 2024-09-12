@@ -142,19 +142,44 @@ index 0000000..c8dc222
 +var _default = exports.default = useAnimatedValue;
 +module.exports = exports.default;
 \ No newline at end of file
-diff --git a/node_modules/react-native-web/dist/cjs/exports/Share/index.js b/node_modules/react-native-web/dist/cjs/exports/Share/index.js
-index 963c4a8..b3f2832 100644
---- a/node_modules/react-native-web/dist/cjs/exports/Share/index.js
-+++ b/node_modules/react-native-web/dist/cjs/exports/Share/index.js
-@@ -49,6 +49,5 @@ class Share {
-     return 'dismissedAction';
+diff --git a/node_modules/react-native-web/dist/cjs/exports/StyleSheet/compiler/createReactDOMStyle.js b/node_modules/react-native-web/dist/cjs/exports/StyleSheet/compiler/createReactDOMStyle.js
+index e9872d7..d58074f 100644
+--- a/node_modules/react-native-web/dist/cjs/exports/StyleSheet/compiler/createReactDOMStyle.js
++++ b/node_modules/react-native-web/dist/cjs/exports/StyleSheet/compiler/createReactDOMStyle.js
+@@ -92,7 +92,7 @@ var createReactDOMStyle = (style, isInline) => {
+     if (
+     // Ignore everything with a null value
+     value == null) {
+-      return "continue";
++      return 1; // continue
+     }
+     if (prop === 'backgroundClip') {
+       // TODO: remove once this issue is fixed
+@@ -106,6 +106,10 @@ var createReactDOMStyle = (style, isInline) => {
+         resolvedStyle.flexGrow = 0;
+         resolvedStyle.flexShrink = 1;
+         resolvedStyle.flexBasis = 'auto';
++      } else if (value === 0) {
++        resolvedStyle.flexGrow = 0;
++        resolvedStyle.flexShrink = 0;
++        resolvedStyle.flexBasis = 'auto';
+       } else {
+         resolvedStyle.flex = value;
+       }
+@@ -175,11 +179,9 @@ var createReactDOMStyle = (style, isInline) => {
+     }
+   };
+   for (var prop in style) {
+-    var _ret = _loop();
+-    if (_ret === "continue") continue;
++    if (_loop()) continue;
    }
- }
--var _default = Share;
+   return resolvedStyle;
+ };
+-var _default = createReactDOMStyle;
 -exports.default = _default;
-+var _default = exports.default = Share;
++var _default = exports.default = createReactDOMStyle;
  module.exports = exports.default;
-\ No newline at end of file
 diff --git a/node_modules/react-native-web/dist/cjs/exports/Switch/index.js b/node_modules/react-native-web/dist/cjs/exports/Switch/index.js
 index 52ed948..c08f478 100644
 --- a/node_modules/react-native-web/dist/cjs/exports/Switch/index.js
@@ -426,7 +451,7 @@ index 38b96ed..e50f4c1 100644
    thumbActive: {
      insetInlineStart: '100%'
 diff --git a/node_modules/react-native-web/dist/index.js b/node_modules/react-native-web/dist/index.js
-index 4f69987..38f180b 100644
+index 4f69987..4e05d5f 100644
 --- a/node_modules/react-native-web/dist/index.js
 +++ b/node_modules/react-native-web/dist/index.js
 @@ -22,6 +22,7 @@ export { default as InteractionManager } from './exports/InteractionManager';
@@ -442,6 +467,7 @@ index 4f69987..38f180b 100644
  export { default as useLocaleContext } from './exports/useLocaleContext';
  export { default as useWindowDimensions } from './exports/useWindowDimensions';
 +export { default as useAnimatedValue } from './exports/Animated/useAnimatedValue';
+\ No newline at end of file
 diff --git a/node_modules/react-native-web/src/exports/Alert/index.js b/node_modules/react-native-web/src/exports/Alert/index.js
 index 8abdf5c..2689e86 100644
 --- a/node_modules/react-native-web/src/exports/Alert/index.js

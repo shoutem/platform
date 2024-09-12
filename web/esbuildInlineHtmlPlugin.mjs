@@ -4,7 +4,7 @@ import path from 'path';
 
 // Plugin to inline JS and CSS into HTML
 const inlineAssetsPlugin = options => {
-  const { htmlTemplate, outputDir } = options;
+  const { htmlTemplate, outputDir, production = true } = options;
 
   return {
     name: 'inline-assets',
@@ -23,21 +23,37 @@ const inlineAssetsPlugin = options => {
 
           const template = fs.readFileSync(htmlTemplate, 'utf8');
 
-          const data = {
-            injectedCSS: cssContent,
-            injectedJS: jsContent,
-          };
+          let outputHtmlContent;
 
-          const outputHtmlContent = mustache.render(template, data);
+          if (production) {
+            // In production, inline JS and CSS
+            const data = {
+              injectedCSS: cssContent,
+              injectedJS: jsContent,
+            };
+            outputHtmlContent = mustache.render(template, data);
+          } else {
+            // In development, use script and link tags
+            outputHtmlContent = template
+              .replace(
+                /<script>\s*{{{injectedJS}}}\s*<\/script>/,
+                `<script src="index.web.js"></script>`,
+              )
+              .replace(
+                /<style>\s*{{{injectedCSS}}}\s*<\/style>/,
+                `<link rel="stylesheet" href="index.web.css">`,
+              );
+          }
 
           const outputHtmlPath = path.join(outputDir, 'index.html');
           fs.writeFileSync(outputHtmlPath, outputHtmlContent, 'utf8');
 
-          // Ignore errors if file does not exist
-          await Promise.all([
-            fs.promises.unlink(jsFilePath).catch(() => {}), 
-            fs.promises.unlink(cssFilePath).catch(() => {}),
-          ]);
+          if (production) {
+            await Promise.all([
+              fs.promises.unlink(jsFilePath).catch(() => {}),
+              fs.promises.unlink(cssFilePath).catch(() => {}),
+            ]);
+          }
 
           console.log('Inlining complete!');
         } catch (error) {

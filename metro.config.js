@@ -34,7 +34,6 @@ module.exports = (async () => {
         /\/extensions\/.*\/server\/.*/,
         /\/scripts\/.*/,
         /\/packages\/.*/,
-        /\/web\/.*/,
       ]),
       /**
        * Which other node_modules to include besides the ones relative

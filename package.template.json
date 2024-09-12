@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/platform",
-  "version": "15.0.0-beta.4",
+  "version": "15.0.0-beta.5",
   "scripts": {
     "android": "react-native run-android",
     "build": "node scripts/build",
@@ -13,9 +13,8 @@
     "postinstall": "node scripts/postinstall",
     "setup": "cd scripts && yarn install",
     "start": "react-native start --experimental-debugger",
-    "run-web": "./node_modules/.bin/webpack serve --mode=development --config web/webpack.config.js",
-    "build-web": "./node_modules/.bin/webpack --mode=production --config ./web/webpack.config.js",
-    "build-web-esbuild": "NODE_ENV=production node web/esbuild.config.mjs"
+    "build-web": "NODE_ENV=production node web/esbuild.config.mjs",
+    "run-web": "NODE_ENV=development node web/esbuild.config.dev.mjs"
   },
   "dependencies": {
     "auto-bind": "4.0.0",
@@ -48,8 +47,6 @@
     "babel-jest": "29.6.3",
     "ajv": "8.8.2",
     "babel-plugin-jest-hoist": "24.9.0",
-    "babel-plugin-module-resolver": "5.0.0",
-    "babel-plugin-react-native-web": "0.19.9",
     "eslint": "6.8.0",
     "eslint-plugin-import": "2.25.4",
     "eslint-plugin-jsx-a11y": "6.5.1",

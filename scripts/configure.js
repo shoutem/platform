@@ -25,7 +25,7 @@ const cliArgs = commandLineArgs([
   { name: 'excludePackages', type: String, multiple: true },
   { name: 'binaryVersionName', type: String },
   { name: 'binaryVersionCode', type: String },
-  { name: 'skipNativeDependencies', type: String },
+  { name: 'skipNativeDependencies', type: Boolean },
   { name: 'bundleIdPrefix', type: String },
   { name: 'iosBundleId', type: String },
   { name: 'androidApplicationId', type: String },

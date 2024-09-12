@@ -1,3 +1,6 @@
+// Shoutem moved away from Webpack in favour of ESBuild
+// Keeping the file here for a future reference
+
 const path = require('path');
 const webpack = require('webpack');
 

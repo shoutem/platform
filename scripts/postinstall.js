@@ -8,6 +8,11 @@ const { prependProjectPath, projectPath } = require('./helpers');
 
 const exec = util.promisify(require('child_process').exec);
 
+const config = fs.readJsonSync(path.resolve('config.json'));
+const isWeb = config.platform === 'web';
+const platformPatchesDirectoryName = isWeb ? 'patches-web' : 'patches';
+const extensionPatchesDirectoryName = isWeb ? 'patch-web' : 'patch';
+
 function execShellAsync(cmd, opts = {}) {
   return new Promise((resolve, reject) => {
     shell.exec(cmd, opts, (code, stdout, stderr) => {
@@ -91,7 +96,7 @@ async function applyExtensionPatches() {
     // the name string, so we do an explicit check
     const extensionName =
       typeof extension === 'object' ? extension.name : extension;
-    const patchPath = `node_modules/${extensionName}/patch`;
+    const patchPath = `node_modules/${extensionName}/${extensionPatchesDirectoryName}`;
 
     const pathExists = await fs.pathExists(patchPath);
     if (!pathExists) {
@@ -108,7 +113,7 @@ async function applyExtensionPatches() {
 }
 
 async function applyPlatformPatches() {
-  const patchesDir = path.join(projectPath, '/patches');
+  const patchesDir = path.join(projectPath, `${platformPatchesDirectoryName}`);
 
   console.time('Patching platform packages');
   console.log('Checking for patch-package patches...');
@@ -119,7 +124,7 @@ async function applyPlatformPatches() {
       return;
     }
 
-    await exec('node node_modules/patch-package --patch-dir patches', {
+    await exec(`node node_modules/patch-package --patch-dir ${platformPatchesDirectoryName}`, {
       cwd: projectPath,
     });
   } catch (error) {

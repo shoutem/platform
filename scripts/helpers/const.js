@@ -158,16 +158,6 @@ const ANCHORS = {
     CREATE_STYLESHEET: '// WebInjectionMark-create-stylesheet',
     APPEND_FONT_STYLES: '// WebInjectionMark-append-font-styles',
     INJECT_STYLESHEET: '// WebInjectionMark-inject-stylesheet',
-    WEBPACK: {
-      CONFIG: {
-        BABEL: {
-          INCLUDE: '//NativeModuleInjectionMark-webpack-config-babel-include',
-        },
-        RESOLVE: {
-          ALIAS: '//NativeModuleInjectionMark-webpack-config-resolve-alias'
-        }
-      }
-    }
   }
 };
 

@@ -23,8 +23,7 @@ async function installJsDependencies() {
   const bunExists = shell.exec(bunCheckCommand).code === 0;
   if (bunExists) {
     await spawn('bun', ['install', '--yarn'], stdArgs);
-    // running postinstall manually
-    await spawn('bun', ['run', 'postinstall'], stdArgs);
+
     console.timeEnd('Installing dependencies took');
     return;
   }
@@ -72,10 +71,12 @@ class ExtensionsInstaller {
     extensions = [],
     extensionsJsPath = '',
     packageJsonTemplateFileName = 'package.template.json',
+    platform
   ) {
     this.localExtensions = localExtensions;
     this.extensionsJsPath = extensionsJsPath;
     this.extensionsToInstall = extensions;
+    this.platform = platform;
 
     const packageJsonTemplatePath = path.resolve(packageJsonTemplateFileName);
     this.packageJsonTemplate = fs.readJsonSync(packageJsonTemplatePath);
@@ -106,17 +107,18 @@ class ExtensionsInstaller {
     );
   }
 
-  installExtensions(platform) {
+  installExtensions() {
     const workingDir = process.cwd();
 
-    this.extensionsToInstall.forEach(extension => this.installNpmExtension(extension, platform),);
+    this.extensionsToInstall.forEach(extension => this.installNpmExtension(extension, this.platform));
 
     this.localExtensions.forEach(extension =>
       addDependencyToPackageJson(
       this.packageJsonTemplate,
       extension.id,
       `file:${extension.path}`,
-    ));
+    ),
+    );
 
     const installedExtensions = [
       ...this.localExtensions,

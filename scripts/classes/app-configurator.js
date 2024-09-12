@@ -188,6 +188,7 @@ class AppConfigurator {
       extensionsToInstall,
       extensionsJsPath,
       packageJsonTemplateFileName,
+      platform,
     );
 
     return installer.installExtensions().then(installedExtensions => {
