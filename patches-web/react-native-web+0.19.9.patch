@@ -142,8 +142,512 @@ index 0000000..c8dc222
 +var _default = exports.default = useAnimatedValue;
 +module.exports = exports.default;
 \ No newline at end of file
+diff --git a/node_modules/react-native-web/dist/cjs/exports/ScrollView/ScrollViewBase.js b/node_modules/react-native-web/dist/cjs/exports/ScrollView/ScrollViewBase.js
+index 4a23f2e..0bb9403 100644
+--- a/node_modules/react-native-web/dist/cjs/exports/ScrollView/ScrollViewBase.js
++++ b/node_modules/react-native-web/dist/cjs/exports/ScrollView/ScrollViewBase.js
+@@ -10,7 +10,16 @@ var React = _interopRequireWildcard(require("react"));
+ var _StyleSheet = _interopRequireDefault(require("../StyleSheet"));
+ var _View = _interopRequireDefault(require("../View"));
+ var _useMergeRefs = _interopRequireDefault(require("../../modules/useMergeRefs"));
+-var _excluded = ["onScroll", "onTouchMove", "onWheel", "scrollEnabled", "scrollEventThrottle", "showsHorizontalScrollIndicator", "showsVerticalScrollIndicator", "style"];
++var _useDraggableScroll = _interopRequireDefault(require("../useDraggableScroll"));
++var _excluded = ["onScroll", "onTouchMove", "onWheel", "scrollEnabled", "scrollEventThrottle", "showsHorizontalScrollIndicator", "showsVerticalScrollIndicator", "style", "horizontal", "pagingEnabled"];
++/**
++ * Copyright (c) Nicolas Gallagher.
++ *
++ * This source code is licensed under the MIT license found in the
++ * LICENSE file in the root directory of this source tree.
++ *
++ * 
++ */
+ function normalizeScrollEvent(e) {
+   return {
+     nativeEvent: {
+@@ -61,6 +70,8 @@ var ScrollViewBase = /*#__PURE__*/React.forwardRef((props, forwardedRef) => {
+     showsHorizontalScrollIndicator = props.showsHorizontalScrollIndicator,
+     showsVerticalScrollIndicator = props.showsVerticalScrollIndicator,
+     style = props.style,
++    horizontal = props.horizontal,
++    pagingEnabled = props.pagingEnabled,
+     rest = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
+   var scrollState = React.useRef({
+     isScrolling: false,
+@@ -68,6 +79,11 @@ var ScrollViewBase = /*#__PURE__*/React.forwardRef((props, forwardedRef) => {
+   });
+   var scrollTimeout = React.useRef(null);
+   var scrollRef = React.useRef(null);
++  (0, _useDraggableScroll.default)({
++    outerRef: scrollRef,
++    horizontal,
++    pagingEnabled
++  });
+   function createPreventableScrollHandler(handler) {
+     return e => {
+       if (scrollEnabled) {
+@@ -138,6 +154,5 @@ var styles = _StyleSheet.default.create({
+     scrollbarWidth: 'none'
+   }
+ });
+-var _default = ScrollViewBase;
+-exports.default = _default;
++var _default = exports.default = ScrollViewBase;
+ module.exports = exports.default;
+\ No newline at end of file
+diff --git a/node_modules/react-native-web/dist/cjs/exports/ScrollView/index.js b/node_modules/react-native-web/dist/cjs/exports/ScrollView/index.js
+index 09f3a0f..d558c7e 100644
+--- a/node_modules/react-native-web/dist/cjs/exports/ScrollView/index.js
++++ b/node_modules/react-native-web/dist/cjs/exports/ScrollView/index.js
+@@ -19,6 +19,15 @@ var _View = _interopRequireDefault(require("../View"));
+ var _react = _interopRequireDefault(require("react"));
+ var _warning = _interopRequireDefault(require("fbjs/lib/warning"));
+ var _excluded = ["contentContainerStyle", "horizontal", "onContentSizeChange", "refreshControl", "stickyHeaderIndices", "pagingEnabled", "forwardedRef", "keyboardDismissMode", "onScroll", "centerContent"];
++/**
++ * Copyright (c) Nicolas Gallagher.
++ * Copyright (c) Meta Platforms, Inc. and affiliates.
++ *
++ * This source code is licensed under the MIT license found in the
++ * LICENSE file in the root directory of this source tree.
++ *
++ * 
++ */
+ var emptyObject = {};
+ var IS_ANIMATING_TOUCH_START_THRESHOLD_MS = 16;
+ class ScrollView extends _react.default.Component {
+@@ -26,14 +35,38 @@ class ScrollView extends _react.default.Component {
+     super(...arguments);
+     this._scrollNodeRef = null;
+     this._innerViewRef = null;
++    /**
++     * ------------------------------------------------------
++     * START SCROLLRESPONDER
++     * ------------------------------------------------------
++     */
+     this.isTouching = false;
+     this.lastMomentumScrollBeginTime = 0;
+     this.lastMomentumScrollEndTime = 0;
++    // Reset to false every time becomes responder. This is used to:
++    // - Determine if the scroll view has been scrolled and therefore should
++    // refuse to give up its responder lock.
++    // - Determine if releasing should dismiss the keyboard when we are in
++    // tap-to-dismiss mode (!this.props.keyboardShouldPersistTaps).
+     this.observedScrollSinceBecomingResponder = false;
+     this.becameResponderWhileAnimating = false;
++    /**
++     * Invoke this from an `onScroll` event.
++     */
+     this.scrollResponderHandleScrollShouldSetResponder = () => {
+       return this.isTouching;
+     };
++    /**
++     * There are times when the scroll view wants to become the responder
++     * (meaning respond to the next immediate `touchStart/touchEnd`), in a way
++     * that *doesn't* give priority to nested views (hence the capture phase):
++     *
++     * - Currently animating.
++     * - Tapping anywhere that is not the focused input, while the keyboard is
++     *   up (which should dismiss the keyboard).
++     *
++     * Invoke this from an `onStartShouldSetResponderCapture` event.
++     */
+     this.scrollResponderHandleStartShouldSetResponderCapture = e => {
+       // First see if we want to eat taps while the keyboard is up
+       // var currentlyFocusedTextInput = TextInputState.currentlyFocusedField();
+@@ -44,14 +77,37 @@ class ScrollView extends _react.default.Component {
+       // }
+       return this.scrollResponderIsAnimating();
+     };
++    /**
++     * We will allow the scroll view to give up its lock iff it acquired the lock
++     * during an animation. This is a very useful default that happens to satisfy
++     * many common user experiences.
++     *
++     * - Stop a scroll on the left edge, then turn that into an outer view's
++     *   backswipe.
++     * - Stop a scroll mid-bounce at the top, continue pulling to have the outer
++     *   view dismiss.
++     * - However, without catching the scroll view mid-bounce (while it is
++     *   motionless), if you drag far enough for the scroll view to become
++     *   responder (and therefore drag the scroll view a bit), any backswipe
++     *   navigation of a swipe gesture higher in the view hierarchy, should be
++     *   rejected.
++     */
+     this.scrollResponderHandleTerminationRequest = () => {
+       return !this.observedScrollSinceBecomingResponder;
+     };
++    /**
++     * Invoke this from an `onTouchEnd` event.
++     *
++     * @param {SyntheticEvent} e Event.
++     */
+     this.scrollResponderHandleTouchEnd = e => {
+       var nativeEvent = e.nativeEvent;
+       this.isTouching = nativeEvent.touches.length !== 0;
+       this.props.onTouchEnd && this.props.onTouchEnd(e);
+     };
++    /**
++     * Invoke this from an `onResponderRelease` event.
++     */
+     this.scrollResponderHandleResponderRelease = e => {
+       this.props.onResponderRelease && this.props.onResponderRelease(e);
+ 
+@@ -67,38 +123,95 @@ class ScrollView extends _react.default.Component {
+       this.observedScrollSinceBecomingResponder = true;
+       this.props.onScroll && this.props.onScroll(e);
+     };
++    /**
++     * Invoke this from an `onResponderGrant` event.
++     */
+     this.scrollResponderHandleResponderGrant = e => {
+       this.observedScrollSinceBecomingResponder = false;
+       this.props.onResponderGrant && this.props.onResponderGrant(e);
+       this.becameResponderWhileAnimating = this.scrollResponderIsAnimating();
+     };
++    /**
++     * Unfortunately, `onScrollBeginDrag` also fires when *stopping* the scroll
++     * animation, and there's not an easy way to distinguish a drag vs. stopping
++     * momentum.
++     *
++     * Invoke this from an `onScrollBeginDrag` event.
++     */
+     this.scrollResponderHandleScrollBeginDrag = e => {
+       this.props.onScrollBeginDrag && this.props.onScrollBeginDrag(e);
+     };
++    /**
++     * Invoke this from an `onScrollEndDrag` event.
++     */
+     this.scrollResponderHandleScrollEndDrag = e => {
+       this.props.onScrollEndDrag && this.props.onScrollEndDrag(e);
+     };
++    /**
++     * Invoke this from an `onMomentumScrollBegin` event.
++     */
+     this.scrollResponderHandleMomentumScrollBegin = e => {
+       this.lastMomentumScrollBeginTime = Date.now();
+       this.props.onMomentumScrollBegin && this.props.onMomentumScrollBegin(e);
+     };
++    /**
++     * Invoke this from an `onMomentumScrollEnd` event.
++     */
+     this.scrollResponderHandleMomentumScrollEnd = e => {
+       this.lastMomentumScrollEndTime = Date.now();
+       this.props.onMomentumScrollEnd && this.props.onMomentumScrollEnd(e);
+     };
++    /**
++     * Invoke this from an `onTouchStart` event.
++     *
++     * Since we know that the `SimpleEventPlugin` occurs later in the plugin
++     * order, after `ResponderEventPlugin`, we can detect that we were *not*
++     * permitted to be the responder (presumably because a contained view became
++     * responder). The `onResponderReject` won't fire in that case - it only
++     * fires when a *current* responder rejects our request.
++     *
++     * @param {SyntheticEvent} e Touch Start event.
++     */
+     this.scrollResponderHandleTouchStart = e => {
+       this.isTouching = true;
+       this.props.onTouchStart && this.props.onTouchStart(e);
+     };
++    /**
++     * Invoke this from an `onTouchMove` event.
++     *
++     * Since we know that the `SimpleEventPlugin` occurs later in the plugin
++     * order, after `ResponderEventPlugin`, we can detect that we were *not*
++     * permitted to be the responder (presumably because a contained view became
++     * responder). The `onResponderReject` won't fire in that case - it only
++     * fires when a *current* responder rejects our request.
++     *
++     * @param {SyntheticEvent} e Touch Start event.
++     */
+     this.scrollResponderHandleTouchMove = e => {
+       this.props.onTouchMove && this.props.onTouchMove(e);
+     };
++    /**
++     * A helper function for this class that lets us quickly determine if the
++     * view is currently animating. This is particularly useful to know when
++     * a touch has just started or ended.
++     */
+     this.scrollResponderIsAnimating = () => {
+       var now = Date.now();
+       var timeSinceLastMomentumScrollEnd = now - this.lastMomentumScrollEndTime;
+       var isAnimating = timeSinceLastMomentumScrollEnd < IS_ANIMATING_TOUCH_START_THRESHOLD_MS || this.lastMomentumScrollEndTime < this.lastMomentumScrollBeginTime;
+       return isAnimating;
+     };
++    /**
++     * A helper function to scroll to a specific point in the scrollview.
++     * This is currently used to help focus on child textviews, but can also
++     * be used to quickly scroll to any element we want to focus. Syntax:
++     *
++     * scrollResponderScrollTo(options: {x: number = 0; y: number = 0; animated: boolean = true})
++     *
++     * Note: The weird argument signature is due to the fact that, for historical reasons,
++     * the function also accepts separate arguments as as alternative to the options object.
++     * This is deprecated due to ambiguity (y before x), and SHOULD NOT BE USED.
++     */
+     this.scrollResponderScrollTo = (x, y, animated) => {
+       if (typeof x === 'number') {
+         console.warn('`scrollResponderScrollTo(x, y, animated)` is deprecated. Use `scrollResponderScrollTo({x: 5, y: 5, animated: true})` instead.');
+@@ -124,16 +237,42 @@ class ScrollView extends _react.default.Component {
+         }
+       }
+     };
++    /**
++     * A helper function to zoom to a specific rect in the scrollview. The argument has the shape
++     * {x: number; y: number; width: number; height: number; animated: boolean = true}
++     *
++     * @platform ios
++     */
+     this.scrollResponderZoomTo = (rect, animated) => {
+       if (_Platform.default.OS !== 'ios') {
+         (0, _invariant.default)('zoomToRect is not implemented');
+       }
+     };
++    /**
++     * This method should be used as the callback to onFocus in a TextInputs'
++     * parent view. Note that any module using this mixin needs to return
++     * the parent view's ref in getScrollViewRef() in order to use this method.
++     * @param {any} nodeHandle The TextInput node handle
++     * @param {number} additionalOffset The scroll view's top "contentInset".
++     *        Default is 0.
++     * @param {bool} preventNegativeScrolling Whether to allow pulling the content
++     *        down to make it meet the keyboard's top. Default is false.
++     */
+     this.scrollResponderScrollNativeHandleToKeyboard = (nodeHandle, additionalOffset, preventNegativeScrollOffset) => {
+       this.additionalScrollOffset = additionalOffset || 0;
+       this.preventNegativeScrollOffset = !!preventNegativeScrollOffset;
+       _UIManager.default.measureLayout(nodeHandle, this.getInnerViewNode(), this.scrollResponderTextInputFocusError, this.scrollResponderInputMeasureAndScrollToKeyboard);
+     };
++    /**
++     * The calculations performed here assume the scroll view takes up the entire
++     * screen - even if has some content inset. We then measure the offsets of the
++     * keyboard, and compensate both for the scroll view's "contentInset".
++     *
++     * @param {number} left Position of input w.r.t. table view.
++     * @param {number} top Position of input w.r.t. table view.
++     * @param {number} width Width of the text input.
++     * @param {number} height Height of the text input.
++     */
+     this.scrollResponderInputMeasureAndScrollToKeyboard = (left, top, width, height) => {
+       var keyboardScreenY = _Dimensions.default.get('window').height;
+       if (this.keyboardWillOpenTo) {
+@@ -156,6 +295,34 @@ class ScrollView extends _react.default.Component {
+       this.additionalOffset = 0;
+       this.preventNegativeScrollOffset = false;
+     };
++    /**
++     * Warning, this may be called several times for a single keyboard opening.
++     * It's best to store the information in this method and then take any action
++     * at a later point (either in `keyboardDidShow` or other).
++     *
++     * Here's the order that events occur in:
++     * - focus
++     * - willShow {startCoordinates, endCoordinates} several times
++     * - didShow several times
++     * - blur
++     * - willHide {startCoordinates, endCoordinates} several times
++     * - didHide several times
++     *
++     * The `ScrollResponder` providesModule callbacks for each of these events.
++     * Even though any user could have easily listened to keyboard events
++     * themselves, using these `props` callbacks ensures that ordering of events
++     * is consistent - and not dependent on the order that the keyboard events are
++     * subscribed to. This matters when telling the scroll view to scroll to where
++     * the keyboard is headed - the scroll responder better have been notified of
++     * the keyboard destination before being instructed to scroll to where the
++     * keyboard will be. Stick to the `ScrollResponder` callbacks, and everything
++     * will work.
++     *
++     * WARNING: These callbacks will fire even if a keyboard is displayed in a
++     * different navigation pane. Filter out the events to determine if they are
++     * relevant to you. (For example, only if you receive these callbacks after
++     * you had explicitly focused a node etc).
++     */
+     this.scrollResponderKeyboardWillShow = e => {
+       this.keyboardWillOpenTo = e;
+       this.props.onKeyboardWillShow && this.props.onKeyboardWillShow(e);
+@@ -176,9 +343,20 @@ class ScrollView extends _react.default.Component {
+       this.keyboardWillOpenTo = null;
+       this.props.onKeyboardDidHide && this.props.onKeyboardDidHide(e);
+     };
++    /**
++     * ------------------------------------------------------
++     * END SCROLLRESPONDER
++     * ------------------------------------------------------
++     */
+     this.flashScrollIndicators = () => {
+       this.scrollResponderFlashScrollIndicators();
+     };
++    /**
++     * Returns a reference to the underlying scroll responder, which supports
++     * operations like `scrollTo`. All ScrollView-like components should
++     * implement this method so that they can be composed while providing access
++     * to the underlying scroll responder's methods.
++     */
+     this.getScrollResponder = () => {
+       return this;
+     };
+@@ -194,6 +372,16 @@ class ScrollView extends _react.default.Component {
+     this.getNativeScrollRef = () => {
+       return this._scrollNodeRef;
+     };
++    /**
++     * Scrolls to a given x, y offset, either immediately or with a smooth animation.
++     * Syntax:
++     *
++     * scrollTo(options: {x: number = 0; y: number = 0; animated: boolean = true})
++     *
++     * Note: The weird argument signature is due to the fact that, for historical reasons,
++     * the function also accepts separate arguments as as alternative to the options object.
++     * This is deprecated due to ambiguity (y before x), and SHOULD NOT BE USED.
++     */
+     this.scrollTo = (y, x, animated) => {
+       if (typeof y === 'number') {
+         console.warn('`scrollTo(y, x, animated)` is deprecated. Use `scrollTo({x: 5, y: 5, animated: true})` instead.');
+@@ -209,6 +397,14 @@ class ScrollView extends _react.default.Component {
+         animated: animated !== false
+       });
+     };
++    /**
++     * If this is a vertical ScrollView scrolls to the bottom.
++     * If this is a horizontal ScrollView scrolls to the right.
++     *
++     * Use `scrollToEnd({ animated: true })` for smooth animated scrolling,
++     * `scrollToEnd({ animated: false })` for immediate scrolling.
++     * If no options are passed, `animated` defaults to true.
++     */
+     this.scrollToEnd = options => {
+       // Default to true
+       var animated = (options && options.animated) !== false;
+@@ -291,19 +487,6 @@ class ScrollView extends _react.default.Component {
+   scrollResponderHandleStartShouldSetResponder() {
+     return false;
+   }
+-
+-  /**
+-   * There are times when the scroll view wants to become the responder
+-   * (meaning respond to the next immediate `touchStart/touchEnd`), in a way
+-   * that *doesn't* give priority to nested views (hence the capture phase):
+-   *
+-   * - Currently animating.
+-   * - Tapping anywhere that is not the focused input, while the keyboard is
+-   *   up (which should dismiss the keyboard).
+-   *
+-   * Invoke this from an `onStartShouldSetResponderCapture` event.
+-   */
+-
+   /**
+    * Invoke this from an `onResponderReject` event.
+    *
+@@ -317,72 +500,13 @@ class ScrollView extends _react.default.Component {
+   scrollResponderHandleResponderReject() {
+     (0, _warning.default)(false, "ScrollView doesn't take rejection well - scrolls anyway");
+   }
+-
+-  /**
+-   * We will allow the scroll view to give up its lock iff it acquired the lock
+-   * during an animation. This is a very useful default that happens to satisfy
+-   * many common user experiences.
+-   *
+-   * - Stop a scroll on the left edge, then turn that into an outer view's
+-   *   backswipe.
+-   * - Stop a scroll mid-bounce at the top, continue pulling to have the outer
+-   *   view dismiss.
+-   * - However, without catching the scroll view mid-bounce (while it is
+-   *   motionless), if you drag far enough for the scroll view to become
+-   *   responder (and therefore drag the scroll view a bit), any backswipe
+-   *   navigation of a swipe gesture higher in the view hierarchy, should be
+-   *   rejected.
+-   */
+-
+   /**
+    * Displays the scroll indicators momentarily.
+    */
+   scrollResponderFlashScrollIndicators() {}
+-
+-  /**
+-   * This method should be used as the callback to onFocus in a TextInputs'
+-   * parent view. Note that any module using this mixin needs to return
+-   * the parent view's ref in getScrollViewRef() in order to use this method.
+-   * @param {any} nodeHandle The TextInput node handle
+-   * @param {number} additionalOffset The scroll view's top "contentInset".
+-   *        Default is 0.
+-   * @param {bool} preventNegativeScrolling Whether to allow pulling the content
+-   *        down to make it meet the keyboard's top. Default is false.
+-   */
+-
+   scrollResponderTextInputFocusError(e) {
+     console.error('Error measuring text field: ', e);
+   }
+-
+-  /**
+-   * Warning, this may be called several times for a single keyboard opening.
+-   * It's best to store the information in this method and then take any action
+-   * at a later point (either in `keyboardDidShow` or other).
+-   *
+-   * Here's the order that events occur in:
+-   * - focus
+-   * - willShow {startCoordinates, endCoordinates} several times
+-   * - didShow several times
+-   * - blur
+-   * - willHide {startCoordinates, endCoordinates} several times
+-   * - didHide several times
+-   *
+-   * The `ScrollResponder` providesModule callbacks for each of these events.
+-   * Even though any user could have easily listened to keyboard events
+-   * themselves, using these `props` callbacks ensures that ordering of events
+-   * is consistent - and not dependent on the order that the keyboard events are
+-   * subscribed to. This matters when telling the scroll view to scroll to where
+-   * the keyboard is headed - the scroll responder better have been notified of
+-   * the keyboard destination before being instructed to scroll to where the
+-   * keyboard will be. Stick to the `ScrollResponder` callbacks, and everything
+-   * will work.
+-   *
+-   * WARNING: These callbacks will fire even if a keyboard is displayed in a
+-   * different navigation pane. Filter out the events to determine if they are
+-   * relevant to you. (For example, only if you receive these callbacks after
+-   * you had explicitly focused a node etc).
+-   */
+-
+   render() {
+     var _this$props = this.props,
+       contentContainerStyle = _this$props.contentContainerStyle,
+@@ -408,11 +532,11 @@ class ScrollView extends _react.default.Component {
+       };
+     }
+     var hasStickyHeaderIndices = !horizontal && Array.isArray(stickyHeaderIndices);
+-    var children = hasStickyHeaderIndices || pagingEnabled ? _react.default.Children.map(this.props.children, (child, i) => {
++    var children = hasStickyHeaderIndices || pagingEnabled && !horizontal ? _react.default.Children.map(this.props.children, (child, i) => {
+       var isSticky = hasStickyHeaderIndices && stickyHeaderIndices.indexOf(i) > -1;
+-      if (child != null && (isSticky || pagingEnabled)) {
++      if (child != null && (isSticky || pagingEnabled && !horizontal)) {
+         return /*#__PURE__*/_react.default.createElement(_View.default, {
+-          style: [isSticky && styles.stickyHeader, pagingEnabled && styles.pagingEnabledChild]
++          style: [isSticky && styles.stickyHeader, pagingEnabled && !horizontal && styles.pagingEnabledChild]
+         }, child);
+       } else {
+         return child;
+@@ -427,7 +551,9 @@ class ScrollView extends _react.default.Component {
+     var baseStyle = horizontal ? styles.baseHorizontal : styles.baseVertical;
+     var pagingEnabledStyle = horizontal ? styles.pagingEnabledHorizontal : styles.pagingEnabledVertical;
+     var props = (0, _objectSpread2.default)((0, _objectSpread2.default)({}, other), {}, {
+-      style: [baseStyle, pagingEnabled && pagingEnabledStyle, this.props.style],
++      horizontal,
++      pagingEnabled,
++      style: [baseStyle, pagingEnabled && !horizontal && pagingEnabledStyle, this.props.style],
+       onTouchStart: this.scrollResponderHandleTouchStart,
+       onTouchMove: this.scrollResponderHandleTouchMove,
+       onTouchEnd: this.scrollResponderHandleTouchEnd,
+@@ -507,6 +633,5 @@ var ForwardedScrollView = /*#__PURE__*/_react.default.forwardRef((props, forward
+   }));
+ });
+ ForwardedScrollView.displayName = 'ScrollView';
+-var _default = ForwardedScrollView;
+-exports.default = _default;
++var _default = exports.default = ForwardedScrollView;
+ module.exports = exports.default;
+\ No newline at end of file
 diff --git a/node_modules/react-native-web/dist/cjs/exports/StyleSheet/compiler/createReactDOMStyle.js b/node_modules/react-native-web/dist/cjs/exports/StyleSheet/compiler/createReactDOMStyle.js
-index e9872d7..d58074f 100644
+index e9872d7..db26bbf 100644
 --- a/node_modules/react-native-web/dist/cjs/exports/StyleSheet/compiler/createReactDOMStyle.js
 +++ b/node_modules/react-native-web/dist/cjs/exports/StyleSheet/compiler/createReactDOMStyle.js
 @@ -92,7 +92,7 @@ var createReactDOMStyle = (style, isInline) => {
@@ -180,6 +684,7 @@ index e9872d7..d58074f 100644
 -exports.default = _default;
 +var _default = exports.default = createReactDOMStyle;
  module.exports = exports.default;
+\ No newline at end of file
 diff --git a/node_modules/react-native-web/dist/cjs/exports/Switch/index.js b/node_modules/react-native-web/dist/cjs/exports/Switch/index.js
 index 52ed948..c08f478 100644
 --- a/node_modules/react-native-web/dist/cjs/exports/Switch/index.js
@@ -241,8 +746,95 @@ index 52ed948..c08f478 100644
 +var _default = exports.default = Switch;
  module.exports = exports.default;
 \ No newline at end of file
+diff --git a/node_modules/react-native-web/dist/cjs/exports/useDraggableScroll/index.js b/node_modules/react-native-web/dist/cjs/exports/useDraggableScroll/index.js
+new file mode 100644
+index 0000000..9f09bdd
+--- /dev/null
++++ b/node_modules/react-native-web/dist/cjs/exports/useDraggableScroll/index.js
+@@ -0,0 +1,80 @@
++"use strict";
++
++var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault").default;
++exports.__esModule = true;
++exports.default = useDraggableScroll;
++var _react = require("react");
++var _Platform = _interopRequireDefault(require("../Platform"));
++var _findNodeHandle = _interopRequireDefault(require("../findNodeHandle"));
++function useDraggableScroll(_ref) {
++  var _ref$outerRef = _ref.outerRef,
++    outerRef = _ref$outerRef === void 0 ? null : _ref$outerRef,
++    _ref$horizontal = _ref.horizontal,
++    horizontal = _ref$horizontal === void 0 ? false : _ref$horizontal,
++    _ref$pagingEnabled = _ref.pagingEnabled,
++    pagingEnabled = _ref$pagingEnabled === void 0 ? false : _ref$pagingEnabled,
++    _ref$cursor = _ref.cursor,
++    cursor = _ref$cursor === void 0 ? 'grab' : _ref$cursor;
++  (0, _react.useEffect)(() => {
++    if (_Platform.default.OS !== 'web' || !outerRef || !outerRef.current || !horizontal) {
++      return;
++    }
++    var slider = (0, _findNodeHandle.default)(outerRef.current);
++    if (!slider) {
++      return;
++    }
++    var isDragging = false;
++    var isMouseDown = false;
++    var startX = 0;
++    var scrollLeft = 0;
++    var getPageWidth = () => {
++      if (slider.children.length > 0) {
++        return slider.children[0].children[0].offsetWidth; // Assume all pages are the same width
++      }
++      return slider.offsetWidth; // Default to slider's width if no children found
++    };
++    var mouseDown = e => {
++      isMouseDown = true;
++      startX = e.pageX - slider.offsetLeft;
++      scrollLeft = slider.scrollLeft;
++      slider.style.cursor = cursor;
++      slider.style.scrollBehavior = 'auto';
++    };
++    var mouseUp = () => {
++      if (isDragging) {
++        slider.addEventListener('click', e => e.stopPropagation(), {
++          once: true
++        });
++      }
++      isMouseDown = false;
++      isDragging = false;
++      slider.style.cursor = 'default';
++      if (pagingEnabled) {
++        slider.style.scrollBehavior = 'smooth';
++        var currentScroll = slider.scrollLeft;
++        var pageWidth = getPageWidth();
++        var nearestPage = Math.round(currentScroll / pageWidth);
++        slider.scrollLeft = nearestPage * pageWidth;
++      }
++    };
++    var mouseMove = e => {
++      if (!isMouseDown) return;
++      var x = e.pageX - slider.offsetLeft;
++      // Only activate drag if moved enough pixels
++      if (Math.abs(x - startX) < 3) return;
++      isDragging = true;
++      e.preventDefault();
++      var walk = x - startX;
++      slider.scrollLeft = scrollLeft - walk;
++    };
++    slider.addEventListener('mousedown', mouseDown);
++    window.addEventListener('mouseup', mouseUp);
++    window.addEventListener('mousemove', mouseMove);
++    return () => {
++      slider.removeEventListener('mousedown', mouseDown);
++      window.removeEventListener('mouseup', mouseUp);
++      window.removeEventListener('mousemove', mouseMove);
++    };
++  }, [outerRef, cursor, pagingEnabled]);
++}
++module.exports = exports.default;
+\ No newline at end of file
 diff --git a/node_modules/react-native-web/dist/cjs/index.js b/node_modules/react-native-web/dist/cjs/index.js
-index b696270..ddb9f0a 100644
+index b696270..512ff86 100644
 --- a/node_modules/react-native-web/dist/cjs/index.js
 +++ b/node_modules/react-native-web/dist/cjs/index.js
 @@ -2,7 +2,7 @@
@@ -268,6 +860,7 @@ index b696270..ddb9f0a 100644
  exports.useWindowDimensions = _useWindowDimensions.default;
 +var _useAnimatedValue = _interopRequireDefault(require("./exports/Animated/useAnimatedValue"));
 +exports.useAnimatedValue = _useAnimatedValue.default;
+\ No newline at end of file
 diff --git a/node_modules/react-native-web/dist/exports/Alert/index.js b/node_modules/react-native-web/dist/exports/Alert/index.js
 index 705bda5..d3ea698 100644
 --- a/node_modules/react-native-web/dist/exports/Alert/index.js
@@ -398,6 +991,511 @@ index 0000000..a078034
 +};
 +export default useAnimatedValue;
 \ No newline at end of file
+diff --git a/node_modules/react-native-web/dist/exports/ScrollView/ScrollViewBase.js b/node_modules/react-native-web/dist/exports/ScrollView/ScrollViewBase.js
+index 677b4a3..6de8472 100644
+--- a/node_modules/react-native-web/dist/exports/ScrollView/ScrollViewBase.js
++++ b/node_modules/react-native-web/dist/exports/ScrollView/ScrollViewBase.js
+@@ -1,6 +1,6 @@
+ import _extends from "@babel/runtime/helpers/extends";
+ import _objectWithoutPropertiesLoose from "@babel/runtime/helpers/objectWithoutPropertiesLoose";
+-var _excluded = ["onScroll", "onTouchMove", "onWheel", "scrollEnabled", "scrollEventThrottle", "showsHorizontalScrollIndicator", "showsVerticalScrollIndicator", "style"];
++var _excluded = ["onScroll", "onTouchMove", "onWheel", "scrollEnabled", "scrollEventThrottle", "showsHorizontalScrollIndicator", "showsVerticalScrollIndicator", "style", "horizontal", "pagingEnabled"];
+ /**
+  * Copyright (c) Nicolas Gallagher.
+  *
+@@ -14,6 +14,7 @@ import * as React from 'react';
+ import StyleSheet from '../StyleSheet';
+ import View from '../View';
+ import useMergeRefs from '../../modules/useMergeRefs';
++import useDraggableScroll from '../useDraggableScroll';
+ function normalizeScrollEvent(e) {
+   return {
+     nativeEvent: {
+@@ -64,6 +65,8 @@ var ScrollViewBase = /*#__PURE__*/React.forwardRef((props, forwardedRef) => {
+     showsHorizontalScrollIndicator = props.showsHorizontalScrollIndicator,
+     showsVerticalScrollIndicator = props.showsVerticalScrollIndicator,
+     style = props.style,
++    horizontal = props.horizontal,
++    pagingEnabled = props.pagingEnabled,
+     rest = _objectWithoutPropertiesLoose(props, _excluded);
+   var scrollState = React.useRef({
+     isScrolling: false,
+@@ -71,6 +74,11 @@ var ScrollViewBase = /*#__PURE__*/React.forwardRef((props, forwardedRef) => {
+   });
+   var scrollTimeout = React.useRef(null);
+   var scrollRef = React.useRef(null);
++  useDraggableScroll({
++    outerRef: scrollRef,
++    horizontal,
++    pagingEnabled
++  });
+   function createPreventableScrollHandler(handler) {
+     return e => {
+       if (scrollEnabled) {
+diff --git a/node_modules/react-native-web/dist/exports/ScrollView/ScrollViewBase.js.flow b/node_modules/react-native-web/dist/exports/ScrollView/ScrollViewBase.js.flow
+index 33346dd..cc5bfc1 100644
+--- a/node_modules/react-native-web/dist/exports/ScrollView/ScrollViewBase.js.flow
++++ b/node_modules/react-native-web/dist/exports/ScrollView/ScrollViewBase.js.flow
+@@ -12,8 +12,11 @@ import * as React from 'react';
+ import StyleSheet from '../StyleSheet';
+ import View from '../View';
+ import useMergeRefs from '../../modules/useMergeRefs';
++import useDraggableScroll from '../useDraggableScroll';
+ type Props = {
+   ...ViewProps,
++  horizontal?: boolean,
++  pagingEnabled?: boolean,
+   onMomentumScrollBegin?: (e: any) => void,
+   onMomentumScrollEnd?: (e: any) => void,
+   onScroll?: (e: any) => void,
+@@ -41,6 +44,8 @@ const ScrollViewBase: React.AbstractComponent<Props, React.ElementRef<typeof Vie
+     showsHorizontalScrollIndicator,
+     showsVerticalScrollIndicator,
+     style,
++    horizontal,
++    pagingEnabled,
+     ...rest
+   } = props;
+   const scrollState = React.useRef({
+@@ -49,6 +54,11 @@ const ScrollViewBase: React.AbstractComponent<Props, React.ElementRef<typeof Vie
+   });
+   const scrollTimeout = React.useRef(null);
+   const scrollRef = React.useRef(null);
++  useDraggableScroll({
++    outerRef: scrollRef,
++    horizontal,
++    pagingEnabled
++  });
+   declare function createPreventableScrollHandler(handler: Function): any;
+   declare function handleScroll(e: Object): any;
+   declare function handleScrollStart(e: Object): any;
+diff --git a/node_modules/react-native-web/dist/exports/ScrollView/index.js b/node_modules/react-native-web/dist/exports/ScrollView/index.js
+index 63a2220..409a4d6 100644
+--- a/node_modules/react-native-web/dist/exports/ScrollView/index.js
++++ b/node_modules/react-native-web/dist/exports/ScrollView/index.js
+@@ -31,14 +31,38 @@ class ScrollView extends React.Component {
+     super(...arguments);
+     this._scrollNodeRef = null;
+     this._innerViewRef = null;
++    /**
++     * ------------------------------------------------------
++     * START SCROLLRESPONDER
++     * ------------------------------------------------------
++     */
+     this.isTouching = false;
+     this.lastMomentumScrollBeginTime = 0;
+     this.lastMomentumScrollEndTime = 0;
++    // Reset to false every time becomes responder. This is used to:
++    // - Determine if the scroll view has been scrolled and therefore should
++    // refuse to give up its responder lock.
++    // - Determine if releasing should dismiss the keyboard when we are in
++    // tap-to-dismiss mode (!this.props.keyboardShouldPersistTaps).
+     this.observedScrollSinceBecomingResponder = false;
+     this.becameResponderWhileAnimating = false;
++    /**
++     * Invoke this from an `onScroll` event.
++     */
+     this.scrollResponderHandleScrollShouldSetResponder = () => {
+       return this.isTouching;
+     };
++    /**
++     * There are times when the scroll view wants to become the responder
++     * (meaning respond to the next immediate `touchStart/touchEnd`), in a way
++     * that *doesn't* give priority to nested views (hence the capture phase):
++     *
++     * - Currently animating.
++     * - Tapping anywhere that is not the focused input, while the keyboard is
++     *   up (which should dismiss the keyboard).
++     *
++     * Invoke this from an `onStartShouldSetResponderCapture` event.
++     */
+     this.scrollResponderHandleStartShouldSetResponderCapture = e => {
+       // First see if we want to eat taps while the keyboard is up
+       // var currentlyFocusedTextInput = TextInputState.currentlyFocusedField();
+@@ -49,14 +73,37 @@ class ScrollView extends React.Component {
+       // }
+       return this.scrollResponderIsAnimating();
+     };
++    /**
++     * We will allow the scroll view to give up its lock iff it acquired the lock
++     * during an animation. This is a very useful default that happens to satisfy
++     * many common user experiences.
++     *
++     * - Stop a scroll on the left edge, then turn that into an outer view's
++     *   backswipe.
++     * - Stop a scroll mid-bounce at the top, continue pulling to have the outer
++     *   view dismiss.
++     * - However, without catching the scroll view mid-bounce (while it is
++     *   motionless), if you drag far enough for the scroll view to become
++     *   responder (and therefore drag the scroll view a bit), any backswipe
++     *   navigation of a swipe gesture higher in the view hierarchy, should be
++     *   rejected.
++     */
+     this.scrollResponderHandleTerminationRequest = () => {
+       return !this.observedScrollSinceBecomingResponder;
+     };
++    /**
++     * Invoke this from an `onTouchEnd` event.
++     *
++     * @param {SyntheticEvent} e Event.
++     */
+     this.scrollResponderHandleTouchEnd = e => {
+       var nativeEvent = e.nativeEvent;
+       this.isTouching = nativeEvent.touches.length !== 0;
+       this.props.onTouchEnd && this.props.onTouchEnd(e);
+     };
++    /**
++     * Invoke this from an `onResponderRelease` event.
++     */
+     this.scrollResponderHandleResponderRelease = e => {
+       this.props.onResponderRelease && this.props.onResponderRelease(e);
+ 
+@@ -72,38 +119,95 @@ class ScrollView extends React.Component {
+       this.observedScrollSinceBecomingResponder = true;
+       this.props.onScroll && this.props.onScroll(e);
+     };
++    /**
++     * Invoke this from an `onResponderGrant` event.
++     */
+     this.scrollResponderHandleResponderGrant = e => {
+       this.observedScrollSinceBecomingResponder = false;
+       this.props.onResponderGrant && this.props.onResponderGrant(e);
+       this.becameResponderWhileAnimating = this.scrollResponderIsAnimating();
+     };
++    /**
++     * Unfortunately, `onScrollBeginDrag` also fires when *stopping* the scroll
++     * animation, and there's not an easy way to distinguish a drag vs. stopping
++     * momentum.
++     *
++     * Invoke this from an `onScrollBeginDrag` event.
++     */
+     this.scrollResponderHandleScrollBeginDrag = e => {
+       this.props.onScrollBeginDrag && this.props.onScrollBeginDrag(e);
+     };
++    /**
++     * Invoke this from an `onScrollEndDrag` event.
++     */
+     this.scrollResponderHandleScrollEndDrag = e => {
+       this.props.onScrollEndDrag && this.props.onScrollEndDrag(e);
+     };
++    /**
++     * Invoke this from an `onMomentumScrollBegin` event.
++     */
+     this.scrollResponderHandleMomentumScrollBegin = e => {
+       this.lastMomentumScrollBeginTime = Date.now();
+       this.props.onMomentumScrollBegin && this.props.onMomentumScrollBegin(e);
+     };
++    /**
++     * Invoke this from an `onMomentumScrollEnd` event.
++     */
+     this.scrollResponderHandleMomentumScrollEnd = e => {
+       this.lastMomentumScrollEndTime = Date.now();
+       this.props.onMomentumScrollEnd && this.props.onMomentumScrollEnd(e);
+     };
++    /**
++     * Invoke this from an `onTouchStart` event.
++     *
++     * Since we know that the `SimpleEventPlugin` occurs later in the plugin
++     * order, after `ResponderEventPlugin`, we can detect that we were *not*
++     * permitted to be the responder (presumably because a contained view became
++     * responder). The `onResponderReject` won't fire in that case - it only
++     * fires when a *current* responder rejects our request.
++     *
++     * @param {SyntheticEvent} e Touch Start event.
++     */
+     this.scrollResponderHandleTouchStart = e => {
+       this.isTouching = true;
+       this.props.onTouchStart && this.props.onTouchStart(e);
+     };
++    /**
++     * Invoke this from an `onTouchMove` event.
++     *
++     * Since we know that the `SimpleEventPlugin` occurs later in the plugin
++     * order, after `ResponderEventPlugin`, we can detect that we were *not*
++     * permitted to be the responder (presumably because a contained view became
++     * responder). The `onResponderReject` won't fire in that case - it only
++     * fires when a *current* responder rejects our request.
++     *
++     * @param {SyntheticEvent} e Touch Start event.
++     */
+     this.scrollResponderHandleTouchMove = e => {
+       this.props.onTouchMove && this.props.onTouchMove(e);
+     };
++    /**
++     * A helper function for this class that lets us quickly determine if the
++     * view is currently animating. This is particularly useful to know when
++     * a touch has just started or ended.
++     */
+     this.scrollResponderIsAnimating = () => {
+       var now = Date.now();
+       var timeSinceLastMomentumScrollEnd = now - this.lastMomentumScrollEndTime;
+       var isAnimating = timeSinceLastMomentumScrollEnd < IS_ANIMATING_TOUCH_START_THRESHOLD_MS || this.lastMomentumScrollEndTime < this.lastMomentumScrollBeginTime;
+       return isAnimating;
+     };
++    /**
++     * A helper function to scroll to a specific point in the scrollview.
++     * This is currently used to help focus on child textviews, but can also
++     * be used to quickly scroll to any element we want to focus. Syntax:
++     *
++     * scrollResponderScrollTo(options: {x: number = 0; y: number = 0; animated: boolean = true})
++     *
++     * Note: The weird argument signature is due to the fact that, for historical reasons,
++     * the function also accepts separate arguments as as alternative to the options object.
++     * This is deprecated due to ambiguity (y before x), and SHOULD NOT BE USED.
++     */
+     this.scrollResponderScrollTo = (x, y, animated) => {
+       if (typeof x === 'number') {
+         console.warn('`scrollResponderScrollTo(x, y, animated)` is deprecated. Use `scrollResponderScrollTo({x: 5, y: 5, animated: true})` instead.');
+@@ -129,16 +233,42 @@ class ScrollView extends React.Component {
+         }
+       }
+     };
++    /**
++     * A helper function to zoom to a specific rect in the scrollview. The argument has the shape
++     * {x: number; y: number; width: number; height: number; animated: boolean = true}
++     *
++     * @platform ios
++     */
+     this.scrollResponderZoomTo = (rect, animated) => {
+       if (Platform.OS !== 'ios') {
+         invariant('zoomToRect is not implemented');
+       }
+     };
++    /**
++     * This method should be used as the callback to onFocus in a TextInputs'
++     * parent view. Note that any module using this mixin needs to return
++     * the parent view's ref in getScrollViewRef() in order to use this method.
++     * @param {any} nodeHandle The TextInput node handle
++     * @param {number} additionalOffset The scroll view's top "contentInset".
++     *        Default is 0.
++     * @param {bool} preventNegativeScrolling Whether to allow pulling the content
++     *        down to make it meet the keyboard's top. Default is false.
++     */
+     this.scrollResponderScrollNativeHandleToKeyboard = (nodeHandle, additionalOffset, preventNegativeScrollOffset) => {
+       this.additionalScrollOffset = additionalOffset || 0;
+       this.preventNegativeScrollOffset = !!preventNegativeScrollOffset;
+       UIManager.measureLayout(nodeHandle, this.getInnerViewNode(), this.scrollResponderTextInputFocusError, this.scrollResponderInputMeasureAndScrollToKeyboard);
+     };
++    /**
++     * The calculations performed here assume the scroll view takes up the entire
++     * screen - even if has some content inset. We then measure the offsets of the
++     * keyboard, and compensate both for the scroll view's "contentInset".
++     *
++     * @param {number} left Position of input w.r.t. table view.
++     * @param {number} top Position of input w.r.t. table view.
++     * @param {number} width Width of the text input.
++     * @param {number} height Height of the text input.
++     */
+     this.scrollResponderInputMeasureAndScrollToKeyboard = (left, top, width, height) => {
+       var keyboardScreenY = Dimensions.get('window').height;
+       if (this.keyboardWillOpenTo) {
+@@ -161,6 +291,34 @@ class ScrollView extends React.Component {
+       this.additionalOffset = 0;
+       this.preventNegativeScrollOffset = false;
+     };
++    /**
++     * Warning, this may be called several times for a single keyboard opening.
++     * It's best to store the information in this method and then take any action
++     * at a later point (either in `keyboardDidShow` or other).
++     *
++     * Here's the order that events occur in:
++     * - focus
++     * - willShow {startCoordinates, endCoordinates} several times
++     * - didShow several times
++     * - blur
++     * - willHide {startCoordinates, endCoordinates} several times
++     * - didHide several times
++     *
++     * The `ScrollResponder` providesModule callbacks for each of these events.
++     * Even though any user could have easily listened to keyboard events
++     * themselves, using these `props` callbacks ensures that ordering of events
++     * is consistent - and not dependent on the order that the keyboard events are
++     * subscribed to. This matters when telling the scroll view to scroll to where
++     * the keyboard is headed - the scroll responder better have been notified of
++     * the keyboard destination before being instructed to scroll to where the
++     * keyboard will be. Stick to the `ScrollResponder` callbacks, and everything
++     * will work.
++     *
++     * WARNING: These callbacks will fire even if a keyboard is displayed in a
++     * different navigation pane. Filter out the events to determine if they are
++     * relevant to you. (For example, only if you receive these callbacks after
++     * you had explicitly focused a node etc).
++     */
+     this.scrollResponderKeyboardWillShow = e => {
+       this.keyboardWillOpenTo = e;
+       this.props.onKeyboardWillShow && this.props.onKeyboardWillShow(e);
+@@ -181,9 +339,20 @@ class ScrollView extends React.Component {
+       this.keyboardWillOpenTo = null;
+       this.props.onKeyboardDidHide && this.props.onKeyboardDidHide(e);
+     };
++    /**
++     * ------------------------------------------------------
++     * END SCROLLRESPONDER
++     * ------------------------------------------------------
++     */
+     this.flashScrollIndicators = () => {
+       this.scrollResponderFlashScrollIndicators();
+     };
++    /**
++     * Returns a reference to the underlying scroll responder, which supports
++     * operations like `scrollTo`. All ScrollView-like components should
++     * implement this method so that they can be composed while providing access
++     * to the underlying scroll responder's methods.
++     */
+     this.getScrollResponder = () => {
+       return this;
+     };
+@@ -199,6 +368,16 @@ class ScrollView extends React.Component {
+     this.getNativeScrollRef = () => {
+       return this._scrollNodeRef;
+     };
++    /**
++     * Scrolls to a given x, y offset, either immediately or with a smooth animation.
++     * Syntax:
++     *
++     * scrollTo(options: {x: number = 0; y: number = 0; animated: boolean = true})
++     *
++     * Note: The weird argument signature is due to the fact that, for historical reasons,
++     * the function also accepts separate arguments as as alternative to the options object.
++     * This is deprecated due to ambiguity (y before x), and SHOULD NOT BE USED.
++     */
+     this.scrollTo = (y, x, animated) => {
+       if (typeof y === 'number') {
+         console.warn('`scrollTo(y, x, animated)` is deprecated. Use `scrollTo({x: 5, y: 5, animated: true})` instead.');
+@@ -214,6 +393,14 @@ class ScrollView extends React.Component {
+         animated: animated !== false
+       });
+     };
++    /**
++     * If this is a vertical ScrollView scrolls to the bottom.
++     * If this is a horizontal ScrollView scrolls to the right.
++     *
++     * Use `scrollToEnd({ animated: true })` for smooth animated scrolling,
++     * `scrollToEnd({ animated: false })` for immediate scrolling.
++     * If no options are passed, `animated` defaults to true.
++     */
+     this.scrollToEnd = options => {
+       // Default to true
+       var animated = (options && options.animated) !== false;
+@@ -296,19 +483,6 @@ class ScrollView extends React.Component {
+   scrollResponderHandleStartShouldSetResponder() {
+     return false;
+   }
+-
+-  /**
+-   * There are times when the scroll view wants to become the responder
+-   * (meaning respond to the next immediate `touchStart/touchEnd`), in a way
+-   * that *doesn't* give priority to nested views (hence the capture phase):
+-   *
+-   * - Currently animating.
+-   * - Tapping anywhere that is not the focused input, while the keyboard is
+-   *   up (which should dismiss the keyboard).
+-   *
+-   * Invoke this from an `onStartShouldSetResponderCapture` event.
+-   */
+-
+   /**
+    * Invoke this from an `onResponderReject` event.
+    *
+@@ -322,72 +496,13 @@ class ScrollView extends React.Component {
+   scrollResponderHandleResponderReject() {
+     warning(false, "ScrollView doesn't take rejection well - scrolls anyway");
+   }
+-
+-  /**
+-   * We will allow the scroll view to give up its lock iff it acquired the lock
+-   * during an animation. This is a very useful default that happens to satisfy
+-   * many common user experiences.
+-   *
+-   * - Stop a scroll on the left edge, then turn that into an outer view's
+-   *   backswipe.
+-   * - Stop a scroll mid-bounce at the top, continue pulling to have the outer
+-   *   view dismiss.
+-   * - However, without catching the scroll view mid-bounce (while it is
+-   *   motionless), if you drag far enough for the scroll view to become
+-   *   responder (and therefore drag the scroll view a bit), any backswipe
+-   *   navigation of a swipe gesture higher in the view hierarchy, should be
+-   *   rejected.
+-   */
+-
+   /**
+    * Displays the scroll indicators momentarily.
+    */
+   scrollResponderFlashScrollIndicators() {}
+-
+-  /**
+-   * This method should be used as the callback to onFocus in a TextInputs'
+-   * parent view. Note that any module using this mixin needs to return
+-   * the parent view's ref in getScrollViewRef() in order to use this method.
+-   * @param {any} nodeHandle The TextInput node handle
+-   * @param {number} additionalOffset The scroll view's top "contentInset".
+-   *        Default is 0.
+-   * @param {bool} preventNegativeScrolling Whether to allow pulling the content
+-   *        down to make it meet the keyboard's top. Default is false.
+-   */
+-
+   scrollResponderTextInputFocusError(e) {
+     console.error('Error measuring text field: ', e);
+   }
+-
+-  /**
+-   * Warning, this may be called several times for a single keyboard opening.
+-   * It's best to store the information in this method and then take any action
+-   * at a later point (either in `keyboardDidShow` or other).
+-   *
+-   * Here's the order that events occur in:
+-   * - focus
+-   * - willShow {startCoordinates, endCoordinates} several times
+-   * - didShow several times
+-   * - blur
+-   * - willHide {startCoordinates, endCoordinates} several times
+-   * - didHide several times
+-   *
+-   * The `ScrollResponder` providesModule callbacks for each of these events.
+-   * Even though any user could have easily listened to keyboard events
+-   * themselves, using these `props` callbacks ensures that ordering of events
+-   * is consistent - and not dependent on the order that the keyboard events are
+-   * subscribed to. This matters when telling the scroll view to scroll to where
+-   * the keyboard is headed - the scroll responder better have been notified of
+-   * the keyboard destination before being instructed to scroll to where the
+-   * keyboard will be. Stick to the `ScrollResponder` callbacks, and everything
+-   * will work.
+-   *
+-   * WARNING: These callbacks will fire even if a keyboard is displayed in a
+-   * different navigation pane. Filter out the events to determine if they are
+-   * relevant to you. (For example, only if you receive these callbacks after
+-   * you had explicitly focused a node etc).
+-   */
+-
+   render() {
+     var _this$props = this.props,
+       contentContainerStyle = _this$props.contentContainerStyle,
+@@ -413,11 +528,11 @@ class ScrollView extends React.Component {
+       };
+     }
+     var hasStickyHeaderIndices = !horizontal && Array.isArray(stickyHeaderIndices);
+-    var children = hasStickyHeaderIndices || pagingEnabled ? React.Children.map(this.props.children, (child, i) => {
++    var children = hasStickyHeaderIndices || pagingEnabled && !horizontal ? React.Children.map(this.props.children, (child, i) => {
+       var isSticky = hasStickyHeaderIndices && stickyHeaderIndices.indexOf(i) > -1;
+-      if (child != null && (isSticky || pagingEnabled)) {
++      if (child != null && (isSticky || pagingEnabled && !horizontal)) {
+         return /*#__PURE__*/React.createElement(View, {
+-          style: [isSticky && styles.stickyHeader, pagingEnabled && styles.pagingEnabledChild]
++          style: [isSticky && styles.stickyHeader, pagingEnabled && !horizontal && styles.pagingEnabledChild]
+         }, child);
+       } else {
+         return child;
+@@ -432,7 +547,9 @@ class ScrollView extends React.Component {
+     var baseStyle = horizontal ? styles.baseHorizontal : styles.baseVertical;
+     var pagingEnabledStyle = horizontal ? styles.pagingEnabledHorizontal : styles.pagingEnabledVertical;
+     var props = _objectSpread(_objectSpread({}, other), {}, {
+-      style: [baseStyle, pagingEnabled && pagingEnabledStyle, this.props.style],
++      horizontal,
++      pagingEnabled,
++      style: [baseStyle, pagingEnabled && !horizontal && pagingEnabledStyle, this.props.style],
+       onTouchStart: this.scrollResponderHandleTouchStart,
+       onTouchMove: this.scrollResponderHandleTouchMove,
+       onTouchEnd: this.scrollResponderHandleTouchEnd,
 diff --git a/node_modules/react-native-web/dist/exports/StyleSheet/compiler/createReactDOMStyle.js b/node_modules/react-native-web/dist/exports/StyleSheet/compiler/createReactDOMStyle.js
 index dc4ffb9..b247fc9 100644
 --- a/node_modules/react-native-web/dist/exports/StyleSheet/compiler/createReactDOMStyle.js
@@ -450,8 +1548,89 @@ index 38b96ed..e50f4c1 100644
    },
    thumbActive: {
      insetInlineStart: '100%'
+diff --git a/node_modules/react-native-web/dist/exports/useDraggableScroll/index.js b/node_modules/react-native-web/dist/exports/useDraggableScroll/index.js
+new file mode 100644
+index 0000000..d35098c
+--- /dev/null
++++ b/node_modules/react-native-web/dist/exports/useDraggableScroll/index.js
+@@ -0,0 +1,74 @@
++import { useEffect } from 'react';
++import Platform from '../Platform';
++import findNodeHandle from '../findNodeHandle';
++export default function useDraggableScroll(_ref) {
++  var _ref$outerRef = _ref.outerRef,
++    outerRef = _ref$outerRef === void 0 ? null : _ref$outerRef,
++    _ref$horizontal = _ref.horizontal,
++    horizontal = _ref$horizontal === void 0 ? false : _ref$horizontal,
++    _ref$pagingEnabled = _ref.pagingEnabled,
++    pagingEnabled = _ref$pagingEnabled === void 0 ? false : _ref$pagingEnabled,
++    _ref$cursor = _ref.cursor,
++    cursor = _ref$cursor === void 0 ? 'grab' : _ref$cursor;
++  useEffect(() => {
++    if (Platform.OS !== 'web' || !outerRef || !outerRef.current || !horizontal) {
++      return;
++    }
++    var slider = findNodeHandle(outerRef.current);
++    if (!slider) {
++      return;
++    }
++    var isDragging = false;
++    var isMouseDown = false;
++    var startX = 0;
++    var scrollLeft = 0;
++    var getPageWidth = () => {
++      if (slider.children.length > 0) {
++        return slider.children[0].children[0].offsetWidth; // Assume all pages are the same width
++      }
++      return slider.offsetWidth; // Default to slider's width if no children found
++    };
++    var mouseDown = e => {
++      isMouseDown = true;
++      startX = e.pageX - slider.offsetLeft;
++      scrollLeft = slider.scrollLeft;
++      slider.style.cursor = cursor;
++      slider.style.scrollBehavior = 'auto';
++    };
++    var mouseUp = () => {
++      if (isDragging) {
++        slider.addEventListener('click', e => e.stopPropagation(), {
++          once: true
++        });
++      }
++      isMouseDown = false;
++      isDragging = false;
++      slider.style.cursor = 'default';
++      if (pagingEnabled) {
++        slider.style.scrollBehavior = 'smooth';
++        var currentScroll = slider.scrollLeft;
++        var pageWidth = getPageWidth();
++        var nearestPage = Math.round(currentScroll / pageWidth);
++        slider.scrollLeft = nearestPage * pageWidth;
++      }
++    };
++    var mouseMove = e => {
++      if (!isMouseDown) return;
++      var x = e.pageX - slider.offsetLeft;
++      // Only activate drag if moved enough pixels
++      if (Math.abs(x - startX) < 3) return;
++      isDragging = true;
++      e.preventDefault();
++      var walk = x - startX;
++      slider.scrollLeft = scrollLeft - walk;
++    };
++    slider.addEventListener('mousedown', mouseDown);
++    window.addEventListener('mouseup', mouseUp);
++    window.addEventListener('mousemove', mouseMove);
++    return () => {
++      slider.removeEventListener('mousedown', mouseDown);
++      window.removeEventListener('mouseup', mouseUp);
++      window.removeEventListener('mousemove', mouseMove);
++    };
++  }, [outerRef, cursor, pagingEnabled]);
++}
+\ No newline at end of file
 diff --git a/node_modules/react-native-web/dist/index.js b/node_modules/react-native-web/dist/index.js
-index 4f69987..4e05d5f 100644
+index 4f69987..1e8b8a4 100644
 --- a/node_modules/react-native-web/dist/index.js
 +++ b/node_modules/react-native-web/dist/index.js
 @@ -22,6 +22,7 @@ export { default as InteractionManager } from './exports/InteractionManager';
@@ -462,12 +1641,6 @@ index 4f69987..4e05d5f 100644
  export { default as PanResponder } from './exports/PanResponder';
  export { default as PixelRatio } from './exports/PixelRatio';
  export { default as Platform } from './exports/Platform';
-@@ -67,3 +68,4 @@ export { default as DeviceEventEmitter } from './exports/DeviceEventEmitter';
- export { default as useColorScheme } from './exports/useColorScheme';
- export { default as useLocaleContext } from './exports/useLocaleContext';
- export { default as useWindowDimensions } from './exports/useWindowDimensions';
-+export { default as useAnimatedValue } from './exports/Animated/useAnimatedValue';
-\ No newline at end of file
 diff --git a/node_modules/react-native-web/src/exports/Alert/index.js b/node_modules/react-native-web/src/exports/Alert/index.js
 index 8abdf5c..2689e86 100644
 --- a/node_modules/react-native-web/src/exports/Alert/index.js
@@ -593,6 +1766,80 @@ index 0000000..4c175ef
 +};
 +
 +export default useAnimatedValue;
+diff --git a/node_modules/react-native-web/src/exports/ScrollView/ScrollViewBase.js b/node_modules/react-native-web/src/exports/ScrollView/ScrollViewBase.js
+index a006d2b..e9a16eb 100644
+--- a/node_modules/react-native-web/src/exports/ScrollView/ScrollViewBase.js
++++ b/node_modules/react-native-web/src/exports/ScrollView/ScrollViewBase.js
+@@ -13,9 +13,12 @@ import * as React from 'react';
+ import StyleSheet from '../StyleSheet';
+ import View from '../View';
+ import useMergeRefs from '../../modules/useMergeRefs';
++import useDraggableScroll from '../useDraggableScroll';
+ 
+ type Props = {
+   ...ViewProps,
++  horizontal?: boolean,
++  pagingEnabled?: boolean,
+   onMomentumScrollBegin?: (e: any) => void,
+   onMomentumScrollEnd?: (e: any) => void,
+   onScroll?: (e: any) => void,
+@@ -82,6 +85,8 @@ const ScrollViewBase: React.AbstractComponent<
+     showsHorizontalScrollIndicator,
+     showsVerticalScrollIndicator,
+     style,
++    horizontal,
++    pagingEnabled,
+     ...rest
+   } = props;
+ 
+@@ -89,6 +94,12 @@ const ScrollViewBase: React.AbstractComponent<
+   const scrollTimeout = React.useRef(null);
+   const scrollRef = React.useRef(null);
+ 
++  useDraggableScroll({
++    outerRef: scrollRef,
++    horizontal,
++    pagingEnabled,
++  })
++
+   function createPreventableScrollHandler(handler: Function) {
+     return (e: Object) => {
+       if (scrollEnabled) {
+diff --git a/node_modules/react-native-web/src/exports/ScrollView/index.js b/node_modules/react-native-web/src/exports/ScrollView/index.js
+index d387e26..9e83c4c 100644
+--- a/node_modules/react-native-web/src/exports/ScrollView/index.js
++++ b/node_modules/react-native-web/src/exports/ScrollView/index.js
+@@ -582,16 +582,16 @@ class ScrollView extends React.Component<ScrollViewProps> {
+     const hasStickyHeaderIndices =
+       !horizontal && Array.isArray(stickyHeaderIndices);
+     const children =
+-      hasStickyHeaderIndices || pagingEnabled
++      hasStickyHeaderIndices || (pagingEnabled && !horizontal)
+         ? React.Children.map(this.props.children, (child, i) => {
+             const isSticky =
+               hasStickyHeaderIndices && stickyHeaderIndices.indexOf(i) > -1;
+-            if (child != null && (isSticky || pagingEnabled)) {
++            if (child != null && (isSticky || (pagingEnabled && !horizontal))) {
+               return (
+                 <View
+                   style={[
+                     isSticky && styles.stickyHeader,
+-                    pagingEnabled && styles.pagingEnabledChild
++                    (pagingEnabled && !horizontal) && styles.pagingEnabledChild
+                   ]}
+                 >
+                   {child}
+@@ -624,7 +624,9 @@ class ScrollView extends React.Component<ScrollViewProps> {
+ 
+     const props = {
+       ...other,
+-      style: [baseStyle, pagingEnabled && pagingEnabledStyle, this.props.style],
++      horizontal,
++      pagingEnabled,
++      style: [baseStyle, (pagingEnabled && !horizontal) && pagingEnabledStyle, this.props.style],
+       onTouchStart: this.scrollResponderHandleTouchStart,
+       onTouchMove: this.scrollResponderHandleTouchMove,
+       onTouchEnd: this.scrollResponderHandleTouchEnd,
 diff --git a/node_modules/react-native-web/src/exports/StyleSheet/compiler/createReactDOMStyle.js b/node_modules/react-native-web/src/exports/StyleSheet/compiler/createReactDOMStyle.js
 index 6274527..510f2c4 100644
 --- a/node_modules/react-native-web/src/exports/StyleSheet/compiler/createReactDOMStyle.js
@@ -645,6 +1892,99 @@ index 4f3e659..26bb320 100644
    },
    thumbActive: {
      insetInlineStart: '100%'
+diff --git a/node_modules/react-native-web/src/exports/useDraggableScroll/index.js b/node_modules/react-native-web/src/exports/useDraggableScroll/index.js
+new file mode 100644
+index 0000000..014cc48
+--- /dev/null
++++ b/node_modules/react-native-web/src/exports/useDraggableScroll/index.js
+@@ -0,0 +1,87 @@
++import { useEffect } from 'react'
++import Platform from '../Platform';
++import findNodeHandle from '../findNodeHandle';
++
++export default function useDraggableScroll({
++  outerRef = null,
++  horizontal = false,
++  pagingEnabled = false,
++  cursor = 'grab',
++}) {
++
++  useEffect(() => {
++      if (Platform.OS !== 'web' || !outerRef || !outerRef.current || !horizontal) {
++        return;
++      }
++      const slider = (findNodeHandle(outerRef.current));
++      if (!slider) {
++        return;
++      }
++      let isDragging = false;
++      let isMouseDown = false;
++      let startX = 0;
++      let scrollLeft = 0;
++
++      const getPageWidth = () => {
++        if (slider.children.length > 0) {
++          return slider.children[0].children[0].offsetWidth; // Assume all pages are the same width
++        }
++        return slider.offsetWidth; // Default to slider's width if no children found
++      };
++
++      const mouseDown = (e) => {
++        isMouseDown = true;
++        startX = e.pageX - slider.offsetLeft;
++        scrollLeft = slider.scrollLeft;
++        slider.style.cursor = cursor;
++        slider.style.scrollBehavior = 'auto';
++      };
++
++      const mouseUp = () => {
++        if (isDragging) {
++          slider.addEventListener(
++            'click',
++            (e) => e.stopPropagation(),
++            { once: true }
++          );
++        }
++        isMouseDown = false;
++        isDragging = false;
++        slider.style.cursor = 'default';
++
++        if (pagingEnabled) {
++          slider.style.scrollBehavior = 'smooth';
++          const currentScroll = slider.scrollLeft;
++          const pageWidth = getPageWidth();
++          const nearestPage = Math.round(currentScroll / pageWidth);
++          slider.scrollLeft = nearestPage * pageWidth;
++        }
++      };
++
++      const mouseMove = (e) => {
++        if (!isMouseDown) return;
++        
++        const x = e.pageX - slider.offsetLeft;
++        // Only activate drag if moved enough pixels
++        if (Math.abs(x - startX) < 3) return;
++        
++        isDragging = true;
++        e.preventDefault();
++  
++        const walk = x - startX;
++        slider.scrollLeft = scrollLeft - walk;
++      }
++
++      slider.addEventListener('mousedown', mouseDown);
++      window.addEventListener('mouseup', mouseUp);
++      window.addEventListener('mousemove', mouseMove);
++
++      return () => {
++        slider.removeEventListener('mousedown', mouseDown);
++        window.removeEventListener('mouseup', mouseUp);
++        window.removeEventListener('mousemove', mouseMove);
++      };
++    },
++    [outerRef, cursor, pagingEnabled]
++  );
++}
 diff --git a/node_modules/react-native-web/src/index.js b/node_modules/react-native-web/src/index.js
 index f1a6f23..e28ad76 100644
 --- a/node_modules/react-native-web/src/index.js
