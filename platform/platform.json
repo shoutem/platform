@@ -38,7 +38,7 @@
     "shoutem.preview": "~7.0.0",
     "shoutem.products": "~6.0.0",
     "shoutem.push-notifications": "~5.0.0",
-    "shoutem.redux": "~5.0.0",
+    "shoutem.redux": "~5.0.1",
     "shoutem.rss": "~6.0.0",
     "shoutem.rss-monitoring": "~5.0.0",
     "shoutem.rss-news": "~6.0.0",
