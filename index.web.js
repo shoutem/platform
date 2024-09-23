@@ -4,7 +4,6 @@ import { AppRegistry } from 'react-native';
 import { NavigationBar } from '@shoutem/ui';
 import { AppBuilder } from 'shoutem-core';
 import 'es6-symbol/implement';
-import 'react-native-gesture-handler';
 import extensions from './extensions.js';
 // WebInjectionMark-font-imports
 // Web styling
