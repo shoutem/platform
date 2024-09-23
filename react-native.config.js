@@ -8,10 +8,5 @@ module.exports = {
         android: null,
       },
     },
-    'react-native-maps': {
-      platforms: {
-        android: null,
-      },
-    },
   },
 };

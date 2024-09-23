@@ -152,18 +152,25 @@ class AppConfigurator {
       });
   }
 
-  buildExtensions() {
+  async buildExtensions() {
     const { buildConfig } = this;
     const {
       extensionsJsPath,
       skipNativeDependencies,
       production: isProduction,
-      skipLinking,
-      skipPreBuildActions,
+      platform,
     } = buildConfig;
 
+    const isWeb = platform === 'web';
+    const packageJsonTemplateFileName = isWeb
+      ? 'package.template.web.json'
+      : 'package.template.json';
+
     const extensions = getExtensionsFromConfiguration(this.configuration);
-    const linkedExtensions = getLocalExtensions(buildConfig.linkedExtensions);
+    const linkedExtensions = await getLocalExtensions(
+      buildConfig.linkedExtensions,
+      platform,
+    );
 
     // npm link all extensions available locally and installed in app configuration
     const localExtensions = _.filter(linkedExtensions, localExt =>
@@ -180,40 +187,44 @@ class AppConfigurator {
       localExtensions,
       extensionsToInstall,
       extensionsJsPath,
+      packageJsonTemplateFileName,
+      platform,
     );
 
-    return installer
-      .installExtensions(isProduction)
-      .then(installedExtensions => {
-        const appBinaryConfigurator = new AppBinaryConfigurator(buildConfig);
-        const extensionsJs = installer.createExtensionsJs(installedExtensions);
+    return installer.installExtensions().then(installedExtensions => {
+      const appBinaryConfigurator = new AppBinaryConfigurator(buildConfig);
+      const extensionsJs = installer.createExtensionsJs(installedExtensions);
 
-        if (!_.isEmpty(installedExtensions)) {
-          installedExtensions.map(ext => {
-            this.insertNativeDependencies(ext.id);
-          });
-        }
+      if (!_.isEmpty(installedExtensions) && !skipNativeDependencies) {
+        installedExtensions.map(ext => {
+          this.insertNativeDependencies(ext.id);
+        });
+      }
 
-        const lifeCycleHook = skipPreBuildActions ? 'previewBuild' : 'preBuild';
-        const preBuild = this.executeBuildLifecycleHook(
-          installedExtensions,
-          lifeCycleHook,
-        );
+      const lifeCycleHook = isWeb ? 'previewBuild' : 'preBuild';
+      const preBuild = this.executeBuildLifecycleHook(
+        installedExtensions,
+        lifeCycleHook,
+      );
 
-        let configureProject;
+      let configureProject;
 
-        if (!skipNativeDependencies) {
-          configureProject = appBinaryConfigurator
-            .customizeProject()
-            .then(() => installer.installNativeDependencies(installedExtensions))
-            .then(() => appBinaryConfigurator.configureApp());
-        } else if (isProduction) {
-          // rename the root view for republish build
-          configureProject = appBinaryConfigurator.customizeProject();
-        }
+      if (!skipNativeDependencies) {
+        configureProject = appBinaryConfigurator
+          .customizeProject()
+          .then(() => {
+            if (!isWeb) {
+              return installer.installNativeDependencies(installedExtensions);
+            }
+          })
+          .then(() => appBinaryConfigurator.configureApp());
+      } else if (isProduction) {
+        // rename the root view for republish build
+        configureProject = appBinaryConfigurator.customizeProject();
+      }
 
-        return Promise.all([extensionsJs, preBuild, configureProject]);
-      });
+      return Promise.all([extensionsJs, preBuild, configureProject]);
+    });
   }
 
   runPostConfigurationStep() {
@@ -243,6 +254,14 @@ class AppConfigurator {
   }
 
   linkAllAssets() {
+    const { buildConfig } = this;
+    const { platform } = buildConfig;
+    const isWeb = platform === 'web';
+
+    if (isWeb) {
+      return;
+    }
+
     const extensions = getExtensionsFromConfiguration(this.configuration);
 
     return new Promise(resolve => {
@@ -307,6 +326,7 @@ class AppConfigurator {
               '--lifeCycleStep',
               `${lifeCycleStep}`,
             ];
+
             const options = {
               // extension build hooks expect to be run in their own folder
               cwd: `${NODE_MODULES_DIR}/${extension.id}`,

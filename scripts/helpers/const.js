@@ -152,6 +152,13 @@ const ANCHORS = {
       },
     },
   },
+  WEB: {
+    FONT_IMPORTS: '// WebInjectionMark-font-imports',
+    FONT_STYLES: '// WebInjectionMark-font-styles',
+    CREATE_STYLESHEET: '// WebInjectionMark-create-stylesheet',
+    APPEND_FONT_STYLES: '// WebInjectionMark-append-font-styles',
+    INJECT_STYLESHEET: '// WebInjectionMark-inject-stylesheet',
+  }
 };
 
 module.exports = {

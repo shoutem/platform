@@ -1,27 +1,15 @@
 export {
   assertExtensionsExist,
   assertNotEmpty,
+  createAppContextConsumer,
   extractCanonicalObjectsFromExtensions,
   getApplicationCanonicalObject,
   renderMainContent,
   renderProviders,
-  createAppContextConsumer,
 } from './builder';
-
-export {
-  canonicalResource,
-  canonicalRenderResource,
-} from './resource';
-
-export {
-  extractNamedExports,
-  extractFlattenedNamedExports,
-} from './exports';
-
-export {
-  callLifecycleFunction,
-} from './lifecycle';
-
+export { extractFlattenedNamedExports, extractNamedExports } from './exports';
+export { callLifecycleFunction } from './lifecycle';
+export { isAndroid, isIos, isWeb } from './platform';
 export {
   after,
   before,
@@ -30,7 +18,5 @@ export {
   prioritizeItems,
   setPriority,
 } from './priority';
-
-export {
-  restartApp,
-} from './restart';
+export { canonicalRenderResource, canonicalResource } from './resource';
+export { restartApp } from './restart';
