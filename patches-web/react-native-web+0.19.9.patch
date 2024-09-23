@@ -834,7 +834,7 @@ index 0000000..9f09bdd
 +module.exports = exports.default;
 \ No newline at end of file
 diff --git a/node_modules/react-native-web/dist/cjs/index.js b/node_modules/react-native-web/dist/cjs/index.js
-index b696270..512ff86 100644
+index b696270..ddb9f0a 100644
 --- a/node_modules/react-native-web/dist/cjs/index.js
 +++ b/node_modules/react-native-web/dist/cjs/index.js
 @@ -2,7 +2,7 @@
@@ -860,7 +860,6 @@ index b696270..512ff86 100644
  exports.useWindowDimensions = _useWindowDimensions.default;
 +var _useAnimatedValue = _interopRequireDefault(require("./exports/Animated/useAnimatedValue"));
 +exports.useAnimatedValue = _useAnimatedValue.default;
-\ No newline at end of file
 diff --git a/node_modules/react-native-web/dist/exports/Alert/index.js b/node_modules/react-native-web/dist/exports/Alert/index.js
 index 705bda5..d3ea698 100644
 --- a/node_modules/react-native-web/dist/exports/Alert/index.js
