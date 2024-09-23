@@ -1,0 +1,11 @@
+diff --git a/node_modules/@openspacelabs/react-native-zoomable-view/lib/module/index.js b/node_modules/@openspacelabs/react-native-zoomable-view/lib/module/index.js
+index 5c58bf8..3f568a3 100644
+--- a/node_modules/@openspacelabs/react-native-zoomable-view/lib/module/index.js
++++ b/node_modules/@openspacelabs/react-native-zoomable-view/lib/module/index.js
+@@ -1,5 +1,4 @@
+ import ReactNativeZoomableView from './ReactNativeZoomableView';
+ import ReactNativeZoomableViewWithGestures from './ReactNativeZoomableViewWithGestures';
+-import { ReactNativeZoomableViewProps, ZoomableViewEvent } from './typings';
+-export { ReactNativeZoomableView, ReactNativeZoomableViewWithGestures, ReactNativeZoomableViewProps, ZoomableViewEvent };
++export { ReactNativeZoomableView, ReactNativeZoomableViewWithGestures };
+ //# sourceMappingURL=index.js.map

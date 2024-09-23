@@ -1,6 +1,6 @@
 'use strict';
 
-/* eslint-disable camelcase*/
+/* eslint-disable camelcase */
 
 const autoBind = require('auto-bind');
 const fs = require('fs-extra');
@@ -85,29 +85,29 @@ function downloadAndResizeImage(
       resizeConfig.images,
       image =>
         new Promise((resolve, reject) => {
-          Jimp.read(imagePath)
-            .then(imageFile => {
-              if (_.endsWith(image.savePath, 'marketing.png')) {
-                imageFile
-                  .colorType(2)
-                  .cover(image.width, image.height)
-                  .write(image.savePath);
-              } else {
-                imageFile
-                  .rgba(true)
-                  .cover(image.width, image.height)
-                  .write(image.savePath);
-              }
-            })
-            .then(() => resolve())
-            .catch(error => {
-              if (production) {
-                return reject(error);
-              }
+        Jimp.read(imagePath)
+          .then(imageFile => {
+            if (_.endsWith(image.savePath, 'marketing.png')) {
+              imageFile
+                .colorType(2)
+                .cover(image.width, image.height)
+                .write(image.savePath);
+            } else {
+              imageFile
+                .rgba(true)
+                .cover(image.width, image.height)
+                .write(image.savePath);
+            }
+          })
+          .then(() => resolve())
+          .catch(error => {
+            if (production) {
+              return reject(error);
+            }
 
-              return resolve();
-            });
-        }),
+            return resolve();
+          });
+      }),
     );
 
     return Promise.all(resizingPromises);
@@ -233,11 +233,18 @@ class AppBinaryConfigurator {
   }
 
   configureLaunchScreen(settings, platform) {
+    if (platform === 'web') {
+      console.log(
+        `Skipping ${`${platform}`.bold} launch screen configuration ...`,
+      );
+      return Promise.resolve();
+    }
+
     console.log(`Configuring ${`${platform}`.bold} launch screen...`);
 
     const launchScreen = this.getLaunchScreenUrl();
     const resizeConfig = settings.launchScreen;
-    const production = this.config.production;
+    const { production } = this.config;
     const launchScreenPath = './assets/launchScreen.png';
 
     return downloadAndResizeImage(
@@ -259,7 +266,7 @@ class AppBinaryConfigurator {
     const iPadLaunchScreen =
       this.getIPadLaunchScreenUrl() || this.getLaunchScreenUrl();
     const resizeConfig = settings.iPadLaunchScreen;
-    const production = this.config.production;
+    const { production } = this.config;
     const iPadLaunchScreenPath = './assets/iPadLaunchScreen.png';
 
     return downloadAndResizeImage(
@@ -271,10 +278,15 @@ class AppBinaryConfigurator {
   }
 
   configureAppIcon(settings, platform) {
+    if (platform === 'web') {
+      console.log(`Skipping ${`${platform}`.bold} app icon configuration ...`);
+      return Promise.resolve();
+    }
+
     console.log(`Configuring ${`${platform}`.bold} app icons...`);
 
     const resizeConfig = settings.appIcon;
-    const production = this.config.production;
+    const { production } = this.config;
 
     let imagePath;
     let appIcon;

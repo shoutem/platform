@@ -4,8 +4,6 @@ const path = require('path');
 const repos = ['builder-preview', 'disclose', 'mobilizer'];
 
 const excludedDeps = [
-  'react-native-iap',
-  'react-native-iaphub',
   'react-native-marketingcloudsdk',
   '@intercom/intercom-react-native',
 ];

@@ -1,0 +1,69 @@
+diff --git a/node_modules/react-native-maps/android/src/main/java/com/rnmaps/maps/MapUIBlock.java b/node_modules/react-native-maps/android/src/main/java/com/rnmaps/maps/MapUIBlock.java
+index cceab1a..d0f5b9c 100644
+--- a/node_modules/react-native-maps/android/src/main/java/com/rnmaps/maps/MapUIBlock.java
++++ b/node_modules/react-native-maps/android/src/main/java/com/rnmaps/maps/MapUIBlock.java
+@@ -1,11 +1,9 @@
+ package com.rnmaps.maps;
+ 
++import android.os.Build;
++
+ import com.facebook.react.bridge.Promise;
+ import com.facebook.react.bridge.ReactApplicationContext;
+-import com.facebook.react.bridge.UIManager;
+-import com.facebook.react.fabric.FabricUIManager;
+-import com.facebook.react.fabric.interop.UIBlockViewResolver;
+-import com.facebook.react.uimanager.common.UIManagerType;
+ import com.facebook.react.uimanager.NativeViewHierarchyManager;
+ import com.facebook.react.uimanager.UIBlock;
+ import com.facebook.react.uimanager.UIManagerHelper;
+@@ -13,7 +11,7 @@ import com.facebook.react.uimanager.UIManagerModule;
+ 
+ import java.util.function.Function;
+ 
+-public class MapUIBlock implements UIBlockInterface {
++public class MapUIBlock implements UIBlock {
+     private int tag;
+     private Promise promise;
+     private ReactApplicationContext context;
+@@ -28,16 +26,7 @@ public class MapUIBlock implements UIBlockInterface {
+ 
+     @Override
+     public void execute(NativeViewHierarchyManager nvhm) {
+-        executeImpl(nvhm, null);
+-    }
+-
+-    @Override
+-    public void execute(UIBlockViewResolver uiBlockViewResolver) {
+-        executeImpl(null, uiBlockViewResolver);
+-    }
+-
+-    private void executeImpl(NativeViewHierarchyManager nvhm, UIBlockViewResolver uiBlockViewResolver) {
+-        MapView view = uiBlockViewResolver != null ? (MapView) uiBlockViewResolver.resolveView(tag) : (MapView) nvhm.resolveView(tag);
++        MapView view = (MapView) nvhm.resolveView(tag);
+         if (view == null) {
+             promise.reject("AirMapView not found");
+             return;
+@@ -47,18 +36,13 @@ public class MapUIBlock implements UIBlockInterface {
+             return;
+         }
+ 
+-        mapOperation.apply(view);
++        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
++            mapOperation.apply(view);
++        }
+     }
+ 
+     public void addToUIManager() {
+-        if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
+-            UIManager uiManager = UIManagerHelper.getUIManager(context, UIManagerType.FABRIC);
+-            ((FabricUIManager) uiManager).addUIBlock(this);
+-        } else {
+-            UIManagerModule uiManager = context.getNativeModule(UIManagerModule.class);
+-            uiManager.addUIBlock(this);
+-        }
++        UIManagerModule uiManager = context.getNativeModule(UIManagerModule.class);
++        uiManager.addUIBlock(this);
+     }
+ }
+-
+-interface UIBlockInterface extends UIBlock, com.facebook.react.fabric.interop.UIBlock  {}

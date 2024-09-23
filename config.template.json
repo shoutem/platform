@@ -27,5 +27,7 @@
   "binaryVersionName": null,
   "binaryVersionCode": null,
   "skipNativeDependencies": false,
-  "skipPreBuildActions": false
+  "skipPreBuildActions": false,
+  "googleMapsWebApiKey": "",
+  "platform": "ios"
 }

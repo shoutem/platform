@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/platform",
-  "version": "14.1.2",
+  "version": "15.0.0",
   "scripts": {
     "android": "react-native run-android",
     "build": "node scripts/build",
@@ -12,7 +12,9 @@
     "list-dependencies": "node scripts/platform-dependencies",
     "postinstall": "node scripts/postinstall",
     "setup": "cd scripts && yarn install",
-    "start": "react-native start --experimental-debugger"
+    "start": "react-native start --experimental-debugger",
+    "build-web": "NODE_ENV=production node web/esbuild.config.mjs",
+    "run-web": "NODE_ENV=development node web/esbuild.config.dev.mjs"
   },
   "dependencies": {
     "auto-bind": "4.0.0",
