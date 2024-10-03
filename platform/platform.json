@@ -10,7 +10,7 @@
   "dependencies": {
     "shoutem.about": "~8.0.0",
     "shoutem.analytics": "~5.0.0",
-    "shoutem.application": "~7.0.0",
+    "shoutem.application": "~7.0.1",
     "shoutem.audio": "~8.0.0",
     "shoutem.auth": "~9.0.0",
     "shoutem.camera": "~6.0.0",

@@ -29,5 +29,6 @@
   "skipNativeDependencies": false,
   "skipPreBuildActions": false,
   "googleMapsWebApiKey": "",
+  "googleMapsAndroidKey": "",
   "platform": "ios"
 }
