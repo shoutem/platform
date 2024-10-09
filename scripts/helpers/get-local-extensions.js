@@ -14,7 +14,7 @@ function writeJson(content, filePath) {
   const json = JSON.stringify(content, null, 2);
 
   return new Promise((resolve, reject) => {
-    fs.writeFile(filePath, json, (err) => {
+    fs.writeFile(filePath, json, err => {
       if (err) {
         return reject(err);
       }
@@ -32,8 +32,8 @@ function substituteWebDependencies(isWeb = false, packageJson = {}) {
   const resultPackageJson = { ...packageJson };
   const { webDependencies } = packageJson;
 
-  if (!webDependencies || _.isEmpty(webDependencies)) {
-    resultPackageJson.dependencies = {};
+  if (!webDependencies) {
+    return resultPackageJson;
   } else {
     resultPackageJson.dependencies = webDependencies;
   }
@@ -53,7 +53,7 @@ function getLocalExtensions(workingDirectories, platform) {
 
   console.time('Load local extensions'.bold.green);
 
-  [].concat(workingDirectories).forEach((workDirPattern) => {
+  [].concat(workingDirectories).forEach(workDirPattern => {
     const paths = glob.sync(path.join(workDirPattern, '/app'));
 
     paths.forEach(packagePath => {
