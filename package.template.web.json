@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/platform",
-  "version": "15.0.0",
+  "version": "15.0.1",
   "scripts": {
     "build": "node scripts/build",
     "bundle": "node scripts/bundle",
