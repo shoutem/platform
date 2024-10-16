@@ -1,7 +1,7 @@
 {
   "version": "15.0.2-rc.0",
   "mobileAppVersion": "15.0.2-rc.0",
-  "releaseNotes": "Release notes\n* Adjusted the iOS minimum system version to comply with Apple Store Connect recommendations",
+  "releaseNotes": "Release notes\n* Adjusted minimum system version in iOS project, to comply with App Store Connect recommendations",
   "builds": {
     "live": {
       "excludedPackages": []
