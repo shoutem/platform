@@ -1,7 +1,7 @@
 {
-  "version": "15.0.1",
-  "mobileAppVersion": "15.0.1",
-  "releaseNotes": "Release notes\n* Audio and audio based extensions new features, fixes and improvements\n\nDeveloper notes\n* (Breaking changes) Removed few components we're not using, after recent changes",
+  "version": "15.0.2",
+  "mobileAppVersion": "15.0.2",
+  "releaseNotes": "Release notes\n* Adjusted minimum system version in iOS project, to comply with App Store Connect recommendations",
   "builds": {
     "live": {
       "excludedPackages": []
