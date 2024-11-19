@@ -1,7 +1,7 @@
 {
-  "version": "15.0.2",
-  "mobileAppVersion": "15.0.2",
-  "releaseNotes": "Release notes\n* Adjusted minimum system version in iOS project, to comply with App Store Connect recommendations",
+  "version": "15.0.3",
+  "mobileAppVersion": "15.0.3",
+  "releaseNotes": "Release notes\n* (Loyalty) Updates to QR code and Camera libraries, to resolve issues when scanning QR codes containing special characters within them.\n* (Podcast) When playing episode from episode details screen, it'll play as a single track. After episode is finished, player will be stopped. Playing episodes this way does not not affect playlist's saved progress.",
   "builds": {
     "live": {
       "excludedPackages": []
@@ -10,10 +10,10 @@
   "dependencies": {
     "shoutem.about": "~8.0.0",
     "shoutem.analytics": "~5.0.0",
-    "shoutem.application": "~7.0.1",
-    "shoutem.audio": "~8.1.0",
-    "shoutem.auth": "~9.0.0",
-    "shoutem.camera": "~6.0.0",
+    "shoutem.application": "~7.0.2",
+    "shoutem.audio": "~8.1.1",
+    "shoutem.auth": "~9.1.0",
+    "shoutem.camera": "~6.1.0",
     "shoutem.cms": "~8.0.0",
     "shoutem.deals": "~8.0.0",
     "shoutem.events": "~6.0.0",
@@ -25,8 +25,8 @@
     "shoutem.ical-events": "~6.0.0",
     "shoutem.layouts": "~8.0.1",
     "shoutem.live-update": "~2.0.3",
-    "shoutem.loyalty": "~8.0.1",
-    "shoutem.navigation": "~7.0.1",
+    "shoutem.loyalty": "~8.0.2",
+    "shoutem.navigation": "~7.0.3",
     "shoutem.news": "~7.0.0",
     "shoutem.notification-center": "~10.0.0",
     "shoutem.page": "~6.0.0",
@@ -47,10 +47,10 @@
     "shoutem.rubicon-theme": "~7.0.0",
     "shoutem.social": "~13.0.0",
     "shoutem.sub-navigation": "~5.0.0",
-    "shoutem.theme": "~9.0.1",
+    "shoutem.theme": "~9.0.2",
     "shoutem.user-profile": "~6.0.1",
     "shoutem.video": "~8.0.0",
-    "shoutem.web-view": "~7.0.0",
+    "shoutem.web-view": "~7.1.0",
     "shoutem.wordpress": "~6.0.0",
     "shoutem.youtube": "~6.0.0"
   },
