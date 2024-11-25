@@ -192,7 +192,7 @@ class AppConfigurator {
     );
 
     return installer.installExtensions().then(installedExtensions => {
-      const appBinaryConfigurator = new AppBinaryConfigurator(buildConfig);
+      const appBinaryConfigurator = new AppBinaryConfigurator({ ...buildConfig, installedExtensions });
       const extensionsJs = installer.createExtensionsJs(installedExtensions);
 
       if (!_.isEmpty(installedExtensions) && !skipNativeDependencies) {

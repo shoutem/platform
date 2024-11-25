@@ -19,6 +19,7 @@ const getXcodeProjectPath = require('../helpers/get-xcode-project-path');
 const getErrorMessageFromResponse = require('../helpers/get-error-message-from-response');
 const updateAndroidPackageName = require('../helpers/update-android-package-name');
 const rootProjectDir = require('../helpers/get-project-path');
+const { projectPath } = require('../helpers');
 
 const binarySettings = {
   ios: iosBinarySettings,
@@ -330,7 +331,7 @@ class AppBinaryConfigurator {
     console.log(`Configuring ${'Info.plist'.bold}...`);
 
     const { config, publishingProperties } = this;
-    const { bundleIdPrefix, iosBundleId, production } = config;
+    const { bundleIdPrefix, iosBundleId, production, installedExtensions } = config;
     const {
       iphone_bundle_id,
       iphone_name,
@@ -341,27 +342,35 @@ class AppBinaryConfigurator {
     const infoPlistFile = fs.readFileSync(infoPlistPath, 'utf8');
     let infoPlist = plist.parse(infoPlistFile);
 
-    const extensionInfoPlistFiles = glob.sync(
-      './extensions/?(**)/app/ios/Info.plist',
-    );
+    const includedExtensions = _.map(installedExtensions, extension => extension.id);
 
-    // We merge all Info.plist files from extensions with the platform one
-    // If the value of the key is an array it will concatenate both arrays
-    infoPlist = _.reduce(
-      extensionInfoPlistFiles,
-      (finalPlist, extPlistPath) => {
+    infoPlist = includedExtensions.reduce((finalPlist, extensionKey) => {
+      const extPlistPath = path.join(
+        projectPath,
+        './extensions',
+        extensionKey,
+        'app',
+        'ios',
+        'Info.plist'
+      );
+    
+      // Check if the Info.plist file exists
+      if (fs.existsSync(extPlistPath)) {
+        // Parse the plist file if it exists
         const extPlist = parsePlist(extPlistPath);
-
+    
+        // Merge with the final plist
         return _.mergeWith(finalPlist, extPlist, (objValue, srcValue) => {
           if (_.isArray(objValue)) {
             return _.uniq(objValue.concat(srcValue));
           }
-
+    
           return srcValue;
         });
-      },
-      infoPlist,
-    );
+      }
+    
+      return finalPlist;
+    }, infoPlist);
 
     // We use this prefix for building apps with wildcard application identifier
     const bundlePrefix = bundleIdPrefix ? `${bundleIdPrefix}.` : '';
