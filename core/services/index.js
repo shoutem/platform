@@ -19,4 +19,3 @@ export {
   setPriority,
 } from './priority';
 export { canonicalRenderResource, canonicalResource } from './resource';
-export { restartApp } from './restart';

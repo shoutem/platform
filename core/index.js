@@ -18,6 +18,5 @@ export {
   prioritizeItems,
   renderMainContent,
   renderProviders,
-  restartApp,
   setPriority,
 } from './services';
