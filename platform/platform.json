@@ -1,6 +1,6 @@
 {
-  "version": "15.0.4",
-  "mobileAppVersion": "15.0.4",
+  "version": "15.0.4-beta.99",
+  "mobileAppVersion": "15.0.4-beta.99",
   "releaseNotes": "Release notes\n* (Audio & Radio) Support CarPlay modules\n* (Shopify) Deeper customer integration & cart sync",
   "builds": {
     "live": {
