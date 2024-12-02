@@ -1,7 +1,7 @@
 {
-  "version": "15.0.3",
-  "mobileAppVersion": "15.0.3",
-  "releaseNotes": "Release notes\n* (Loyalty) Updates to QR code and Camera libraries, to resolve issues when scanning QR codes containing special characters within them.\n* (Podcast) When playing episode from episode details screen, it'll play as a single track. After episode is finished, player will be stopped. Playing episodes this way does not not affect playlist's saved progress.",
+  "version": "15.0.4",
+  "mobileAppVersion": "15.0.4",
+  "releaseNotes": "Release notes\n* (Audio & Radio) Support CarPlay modules\n* (Shopify) Deeper customer integration & cart sync",
   "builds": {
     "live": {
       "excludedPackages": []
@@ -11,7 +11,7 @@
     "shoutem.about": "~8.0.0",
     "shoutem.analytics": "~5.0.0",
     "shoutem.application": "~7.0.2",
-    "shoutem.audio": "~8.1.1",
+    "shoutem.audio": "~8.1.2",
     "shoutem.auth": "~9.1.0",
     "shoutem.camera": "~6.1.0",
     "shoutem.cms": "~8.0.0",
