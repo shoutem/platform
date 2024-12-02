@@ -1,6 +1,6 @@
 {
-  "version": "15.0.4-rc.0",
-  "mobileAppVersion": "15.0.4-rc.0",
+  "version": "15.0.4",
+  "mobileAppVersion": "15.0.4",
   "releaseNotes": "Release notes\n* (Audio & Radio) Support CarPlay modules\n* (Shopify) Deeper customer integration & cart sync",
   "builds": {
     "live": {
@@ -11,7 +11,7 @@
     "shoutem.about": "~8.0.0",
     "shoutem.analytics": "~5.0.0",
     "shoutem.application": "~7.0.2",
-    "shoutem.audio": "~8.1.2-rc.0",
+    "shoutem.audio": "~8.1.2",
     "shoutem.auth": "~9.1.0",
     "shoutem.camera": "~6.1.0",
     "shoutem.cms": "~8.0.0",
