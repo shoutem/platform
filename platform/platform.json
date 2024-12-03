@@ -1,7 +1,7 @@
 {
   "version": "15.0.5-rc.0",
   "mobileAppVersion": "15.0.5-rc.0",
-  "releaseNotes": "No user facing changesFor app owners\n* (New) Members search in Social extension now supports filtering by selected user profile fields & shows the map & pins with user result locations\n* (New) Events and Deals extension screens can now hide map button or map view, as per selected option inside Builder's layout settings for respective screen\n* (New) User profile now supports location\n* (New) Clickable user profile information (e.g. phone, email) will now open respective app. Other text information can now be copied into clipboard\n\nFor developers\n* Improvements to prebuild phase",
+  "releaseNotes": "No user facing changes\n\nFor app owners\n* (New) Members search in Social extension now supports filtering by selected user profile fields & shows the map & pins with user result locations\n* (New) Events and Deals extension screens can now hide map button or map view, as per selected option inside Builder's layout settings for respective screen\n* (New) User profile now supports location\n* (New) Clickable user profile information (e.g. phone, email) will now open respective app. Other text information can now be copied into clipboard\n\nFor developers\n* Improvements to prebuild phase",
   "builds": {
     "live": {
       "excludedPackages": []
