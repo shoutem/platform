@@ -1,7 +1,5 @@
 /* eslint-disable no-undef */
-import React from 'react';
 import { AppRegistry } from 'react-native';
-import { NavigationBar } from '@shoutem/ui';
 import { AppBuilder } from 'shoutem-core';
 import 'es6-symbol/implement';
 import extensions from './extensions.js';
@@ -31,13 +29,8 @@ console.error = function filterWarnings(msg, ...args) {
 
 // WebInjectionMark-inject-stylesheet
 
-function renderNavigationBar(navBarProps) {
-  return <NavigationBar {...navBarProps} />;
-}
-
 const App = new AppBuilder()
   .setExtensions(extensions)
-  .setRenderNavigationBar(renderNavigationBar)
   .build();
 
 AppRegistry.registerComponent('ShoutemApp', () => App);

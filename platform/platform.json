@@ -1,7 +1,7 @@
 {
-  "version": "15.0.5",
-  "mobileAppVersion": "15.0.5",
-  "releaseNotes": "No user facing changes\n\nFor app owners\n* (New) Members search in Social extension now supports filtering by selected user profile fields & shows the map & pins with user result locations\n* (New) Events and Deals extension screens can now hide map button or map view, as per selected option inside Builder's layout settings for respective screen\n* (New) User profile now supports location\n* (New) Clickable user profile information (e.g. phone, email) will now open respective app. Other text information can now be copied into clipboard\n\nFor developers\n* Improvements to prebuild phase",
+  "version": "15.0.6-rc.0",
+  "mobileAppVersion": "15.0.6-rc.0",
+  "releaseNotes": "No user facing changes\n\nFor developers\n* Reworked the device size & scaling strategy, per changes in latest shoutem/UI\n* Removed deprecated screens and components",
   "builds": {
     "live": {
       "excludedPackages": []
@@ -12,7 +12,7 @@
     "shoutem.analytics": "~5.0.0",
     "shoutem.application": "~7.1.0",
     "shoutem.audio": "~8.1.2",
-    "shoutem.auth": "~9.1.1",
+    "shoutem.auth": "~9.2.0-rc.0",
     "shoutem.camera": "~6.1.0",
     "shoutem.cms": "~8.0.1",
     "shoutem.deals": "~8.1.0",
@@ -26,7 +26,7 @@
     "shoutem.layouts": "~8.1.0",
     "shoutem.live-update": "~2.0.3",
     "shoutem.loyalty": "~8.0.2",
-    "shoutem.navigation": "~7.0.3",
+    "shoutem.navigation": "~7.0.5-rc.0",
     "shoutem.news": "~7.0.0",
     "shoutem.notification-center": "~10.0.0",
     "shoutem.page": "~6.0.0",
@@ -35,7 +35,7 @@
     "shoutem.persist": "~5.0.0",
     "shoutem.photos": "~6.0.0",
     "shoutem.places": "~8.0.0",
-    "shoutem.preview": "~7.0.1",
+    "shoutem.preview": "~7.0.2-rc.0",
     "shoutem.products": "~6.0.0",
     "shoutem.push-notifications": "~5.0.0",
     "shoutem.redux": "~5.0.1",
@@ -47,8 +47,8 @@
     "shoutem.rubicon-theme": "~7.0.0",
     "shoutem.social": "~13.1.0",
     "shoutem.sub-navigation": "~5.0.0",
-    "shoutem.theme": "~9.0.3",
-    "shoutem.user-profile": "~6.1.0",
+    "shoutem.theme": "~9.0.4-rc.0",
+    "shoutem.user-profile": "~6.1.2-rc.0",
     "shoutem.video": "~8.0.0",
     "shoutem.web-view": "~7.1.1",
     "shoutem.wordpress": "~6.0.0",
