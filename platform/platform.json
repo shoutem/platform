@@ -12,7 +12,7 @@
     "shoutem.analytics": "~5.0.0",
     "shoutem.application": "~7.1.0",
     "shoutem.audio": "~8.1.2",
-    "shoutem.auth": "~9.2.0-rc.0",
+    "shoutem.auth": "~10.0.0-rc.0",
     "shoutem.camera": "~6.1.0",
     "shoutem.cms": "~8.0.1",
     "shoutem.deals": "~8.1.0",
