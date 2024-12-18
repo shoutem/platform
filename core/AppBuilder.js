@@ -182,19 +182,6 @@ export class AppBuilder {
   }
 
   /**
-   * *** WARNING ***
-   * This is only temporary here, it will be removed once shoutem.navigation ext is rewritten
-   * in React Navigation.
-   * For now, we have to support previous AppBuilder interface to avoid crashes.
-   *
-   * @param {Function} renderFunction Navigation bar render function
-   */
-  setRenderNavigationBar(renderFunction = () => { }) {
-    this[APP_CONTEXT].renderNavigationBar = renderFunction;
-    return this;
-  }
-
-  /**
    * Save only static content in app context, do not resolve dynamic content
    * which depends on state or it can be changed without new configuration.
    * We want everything to propagate through components properties and
