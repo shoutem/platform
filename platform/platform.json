@@ -1,7 +1,7 @@
 {
-  "version": "15.0.6",
-  "mobileAppVersion": "15.0.6",
-  "releaseNotes": "No user facing changes\n\nFor developers\n* Reworked the device size & scaling strategy, per changes in latest shoutem/UI\n* Removed deprecated screens and components",
+  "version": "15.0.7",
+  "mobileAppVersion": "15.0.7",
+  "releaseNotes": "No user facing changes\n\nFor developers\n* Support new Shopify and sub-navigation layouts",
   "builds": {
     "live": {
       "excludedPackages": []
@@ -26,7 +26,7 @@
     "shoutem.layouts": "~8.1.0",
     "shoutem.live-update": "~2.0.3",
     "shoutem.loyalty": "~8.0.2",
-    "shoutem.navigation": "~7.0.5",
+    "shoutem.navigation": "~7.1.0",
     "shoutem.news": "~7.0.0",
     "shoutem.notification-center": "~10.0.0",
     "shoutem.page": "~6.0.1",
@@ -46,8 +46,8 @@
     "shoutem.rss-videos": "~6.0.0",
     "shoutem.rubicon-theme": "~7.0.0",
     "shoutem.social": "~13.1.0",
-    "shoutem.sub-navigation": "~5.0.0",
-    "shoutem.theme": "~9.0.4",
+    "shoutem.sub-navigation": "~5.1.0",
+    "shoutem.theme": "~9.0.7",
     "shoutem.user-profile": "~6.1.2",
     "shoutem.video": "~8.0.0",
     "shoutem.web-view": "~7.1.1",
