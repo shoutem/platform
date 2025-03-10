@@ -1,6 +1,6 @@
 {
-  "version": "15.0.9-rc.0",
-  "mobileAppVersion": "15.0.9-rc.0",
+  "version": "15.0.9",
+  "mobileAppVersion": "15.0.9",
   "releaseNotes": "Support for new feature - like analytics inside Builder",
   "builds": {
     "live": {
