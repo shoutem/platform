@@ -57,6 +57,8 @@
   },
   "requiredDependencies": {
     "shoutem.application": "~7.1.1",
+    "shoutem.i18n": "~5.0.0",
+    "shoutem.layouts": "~8.1.0",
     "shoutem.navigation": "~7.1.2",
     "shoutem.redux": "~5.0.1",
     "shoutem.sub-navigation": "~5.1.0",
