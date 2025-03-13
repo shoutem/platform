@@ -268,6 +268,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "";
 				PRODUCT_NAME = ShoutemApp;
 				STRIP_SWIFT_SYMBOLS = NO;
+        SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -302,6 +303,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "";
 				PRODUCT_NAME = ShoutemApp;
 				STRIP_SWIFT_SYMBOLS = NO;
+        SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
