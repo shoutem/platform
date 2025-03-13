@@ -1,6 +1,6 @@
 {
-  "version": "15.0.10-rc.0",
-  "mobileAppVersion": "15.0.10-rc.0",
+  "version": "15.0.10",
+  "mobileAppVersion": "15.0.10",
   "releaseNotes": "* Like feature improvements\n* Swift version is now defined by platform, not extensions",
   "builds": {
     "live": {
@@ -11,7 +11,7 @@
     "shoutem.about": "~9.0.2",
     "shoutem.analytics": "~5.0.0",
     "shoutem.application": "~7.1.1",
-    "shoutem.audio": "~8.3.0-rc.0",
+    "shoutem.audio": "~8.3.0",
     "shoutem.auth": "~10.0.0",
     "shoutem.camera": "~6.1.0",
     "shoutem.cms": "~8.0.1",
@@ -45,8 +45,8 @@
     "shoutem.rss-photos": "~6.0.0",
     "shoutem.rss-videos": "~6.0.0",
     "shoutem.rubicon-theme": "~7.0.0",
-    "shoutem.shopify": "11.0.8-beta.0",
-    "shoutem.social": "~13.3.1-rc.0",
+    "shoutem.shopify": "11.0.8",
+    "shoutem.social": "~13.3.1",
     "shoutem.sub-navigation": "~5.1.0",
     "shoutem.theme": "~9.0.8",
     "shoutem.user-profile": "~6.1.4",
