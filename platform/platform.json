@@ -55,7 +55,7 @@
     "shoutem.push-notifications": "~5.0.1",
     "shoutem.radio-player": "~12.1.1",
     "shoutem.recombee": "~3.0.0",
-    "shoutem.redux": "~5.0.2-rc.0",
+    "shoutem.redux": "~5.0.3-rc.0",
     "shoutem.rss": "~6.0.0",
     "shoutem.rss-monitoring": "~5.0.0",
     "shoutem.rss-news": "~6.0.0",
@@ -79,7 +79,7 @@
     "shoutem.i18n": "~5.0.0",
     "shoutem.layouts": "~8.1.0",
     "shoutem.navigation": "~7.1.2",
-    "shoutem.redux": "~5.0.2-rc.0",
+    "shoutem.redux": "~5.0.3-rc.0",
     "shoutem.sub-navigation": "~5.1.0",
     "shoutem.theme": "~9.0.8"
   },
