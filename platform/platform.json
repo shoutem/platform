@@ -1,7 +1,7 @@
 {
   "version": "15.0.12-rc.0",
   "mobileAppVersion": "15.0.12-rc.0",
-  "releaseNotes": "User facing changes\n* Support for related articles and like article features in News extension\n\n*Developer notes\n* Updated RIO package in app segment",
+  "releaseNotes": "User facing changes\n* Support for related articles and like article features in News extension\n\nDeveloper notes\n* Updated RIO package in app segment",
   "builds": {
     "live": {
       "excludedPackages": []
