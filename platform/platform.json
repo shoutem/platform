@@ -79,7 +79,7 @@
     "shoutem.i18n": "~5.0.0",
     "shoutem.layouts": "~8.1.0",
     "shoutem.navigation": "~7.1.2",
-    "shoutem.redux": "~5.0.1",
+    "shoutem.redux": "~5.0.2-rc.0",
     "shoutem.sub-navigation": "~5.1.0",
     "shoutem.theme": "~9.0.8"
   },
