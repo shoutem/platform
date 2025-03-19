@@ -1,7 +1,7 @@
 {
-  "version": "15.0.10",
-  "mobileAppVersion": "15.0.10",
-  "releaseNotes": "* Like feature improvements\n* Swift version is now defined by platform, not extensions",
+  "version": "15.0.11",
+  "mobileAppVersion": "15.0.11",
+  "releaseNotes": "* Improvements to navigation performance",
   "builds": {
     "live": {
       "excludedPackages": []
@@ -9,10 +9,10 @@
   },
   "dependencies": {
     "shoutem.about": "~9.0.2",
-    "shoutem.analytics": "~5.0.0",
-    "shoutem.application": "~7.1.1",
+    "shoutem.analytics": "~5.1.0",
+    "shoutem.application": "~7.1.2",
     "shoutem.audio": "~8.3.0",
-    "shoutem.auth": "~10.0.0",
+    "shoutem.auth": "~10.1.0",
     "shoutem.camera": "~6.1.0",
     "shoutem.cms": "~8.0.1",
     "shoutem.deals": "~8.1.0",
@@ -26,7 +26,7 @@
     "shoutem.layouts": "~8.1.0",
     "shoutem.live-update": "~2.0.3",
     "shoutem.loyalty": "~8.0.2",
-    "shoutem.navigation": "~7.1.2",
+    "shoutem.navigation": "~7.2.0",
     "shoutem.news": "~7.0.0",
     "shoutem.notification-center": "~10.0.0",
     "shoutem.page": "~6.0.1",
@@ -38,17 +38,17 @@
     "shoutem.preview": "~7.0.2",
     "shoutem.products": "~6.0.0",
     "shoutem.push-notifications": "~5.0.1",
-    "shoutem.redux": "~5.0.1",
+    "shoutem.redux": "~5.0.2",
     "shoutem.rss": "~6.0.0",
     "shoutem.rss-monitoring": "~5.0.0",
     "shoutem.rss-news": "~6.0.0",
     "shoutem.rss-photos": "~6.0.0",
     "shoutem.rss-videos": "~6.0.0",
     "shoutem.rubicon-theme": "~7.0.0",
-    "shoutem.shopify": "~11.0.8",
+    "shoutem.shopify": "~11.0.9",
     "shoutem.social": "~13.3.1",
     "shoutem.sub-navigation": "~5.1.0",
-    "shoutem.theme": "~9.0.8",
+    "shoutem.theme": "~9.0.9",
     "shoutem.user-profile": "~6.1.4",
     "shoutem.video": "~8.0.0",
     "shoutem.web-view": "~8.0.1",
@@ -56,13 +56,13 @@
     "shoutem.youtube": "~6.0.0"
   },
   "requiredDependencies": {
-    "shoutem.application": "~7.1.1",
+    "shoutem.application": "~7.1.2",
     "shoutem.i18n": "~5.0.0",
     "shoutem.layouts": "~8.1.0",
-    "shoutem.navigation": "~7.1.2",
-    "shoutem.redux": "~5.0.1",
+    "shoutem.navigation": "~7.2.0",
+    "shoutem.redux": "~5.0.2",
     "shoutem.sub-navigation": "~5.1.0",
-    "shoutem.theme": "~9.0.8"
+    "shoutem.theme": "~9.0.9"
   },
   "archivedDependencies": [
     "shoutem.flurry-analytics",
