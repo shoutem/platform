@@ -8,7 +8,7 @@ const glob = require('glob');
  * Gets collection of all extension name - extension version pairs
  * from shoutem-extensions repository path
  */
-function getPlatformDependencies(shoutemExtensionsPath, extensionsToIgnore) {
+function getPlatformDependencies(shoutemExtensionsPath) {
   const dependencies = {};
   const paths = glob.sync(path.join(shoutemExtensionsPath, '*'));
 
@@ -26,10 +26,6 @@ function getPlatformDependencies(shoutemExtensionsPath, extensionsToIgnore) {
           const extensionJson = fs.readJsonSync(extensionJsonPath);
           const extensionName = extensionJson.name;
           const extensionVersion = extensionJson.version;
-
-          if (extensionsToIgnore.includes(extensionName)) {
-            return;
-          }
 
           dependencies[`shoutem.${extensionName}`] = `~${extensionVersion}`;
         }
