@@ -1,11 +1,13 @@
 {
-  "version": "15.0.12",
-  "mobileAppVersion": "15.0.12",
-  "releaseNotes": "User facing changes\n* Support for related articles and like article features in News extension\n\nDeveloper notes\n* Updated RIO package in app segment",
+  "version": "15.0.13",
+  "releaseNotes": "Developer notes\n* Updated behaviour for extensions locking screens based on specific criteria\n* Fixed ESBuild reanimated plugin for Web preview\n* Reduce frequency of store resubmissions with platform updates. For the future platform upgrades, store resubmission will be required only if there are actual native changes",
   "builds": {
     "live": {
       "excludedPackages": []
     }
+  },
+  "nativeChanges": {
+    "lastVersion": "15.0.13"
   },
   "dependencies": {
     "shoutem.about": "~9.0.2",
@@ -16,7 +18,7 @@
     "shoutem.analytics": "~5.1.1",
     "shoutem.application": "~7.1.2",
     "shoutem.audio": "~8.3.0",
-    "shoutem.auth": "~10.1.1",
+    "shoutem.auth": "~10.1.3",
     "shoutem.bands-in-town": "~2.0.0",
     "shoutem.besttime": "~6.0.0",
     "shoutem.books": "~7.0.0",
@@ -29,19 +31,19 @@
     "shoutem.favorites": "~7.0.0",
     "shoutem.firebase": "~6.0.0",
     "shoutem.fonts": "~3.0.0",
-    "shoutem.geo-restrictions": "~5.1.1",
+    "shoutem.geo-restrictions": "~5.1.2",
     "shoutem.google-analytics": "~4.0.0",
     "shoutem.i18n": "~5.0.0",
     "shoutem.ical-events": "~6.0.0",
-    "shoutem.in-app-purchases": "~7.1.1",
+    "shoutem.in-app-purchases": "~7.1.2",
     "shoutem.interactive-faq": "~8.0.1",
     "shoutem.layouts": "~8.1.0",
     "shoutem.live-update": "~2.0.3",
     "shoutem.loyalty": "~8.0.2",
     "shoutem.menu": "~6.0.0",
     "shoutem.navigation": "~7.2.1",
-    "shoutem.news": "~7.1.0",
-    "shoutem.notification-center": "~10.0.0",
+    "shoutem.news": "~7.1.1",
+    "shoutem.notification-center": "~10.0.1",
     "shoutem.onboarding": "~6.0.0",
     "shoutem.page": "~6.0.1",
     "shoutem.people": "~6.0.0",
@@ -65,7 +67,7 @@
     "shoutem.salesforce": "~3.0.0",
     "shoutem.sendbird": "~7.0.1",
     "shoutem.shopify": "~11.0.9",
-    "shoutem.social": "~13.3.2",
+    "shoutem.social": "~13.3.5",
     "shoutem.sub-navigation": "~5.1.0",
     "shoutem.theme": "~9.0.9",
     "shoutem.user-profile": "~6.1.4",
