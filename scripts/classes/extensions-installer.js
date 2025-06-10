@@ -188,20 +188,7 @@ class ExtensionsInstaller {
     console.timeEnd('Cocoapods installation took');
   }
 
-  async jetify() {
-    console.time('Jetified in');
-
-    await spawn('node', ['node_modules/jetifier/bin/jetify'], {
-      stdio: 'inherit',
-      env: _.merge(process.env, { FORCE_COLOR: true }),
-    });
-
-    console.timeEnd('Jetified in');
-  }
-
   async installNativeDependencies() {
-    await this.jetify();
-
     // If the process is running on OSX, then run 'pod install' to configure
     // iOS native dependencies
     if (process.platform === 'darwin') {

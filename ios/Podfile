@@ -19,42 +19,49 @@ node_require('react-native/scripts/react_native_pods.rb')
 platform :ios, min_ios_version_supported
 prepare_react_native_project!
 
+linkage = ENV['USE_FRAMEWORKS']
+if linkage != nil
+  Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
+  use_frameworks! :linkage => linkage.to_sym
+end
+
 ## <Post prepare RN project>
 
-install! 'cocoapods', :deterministic_uuids => false
-
 target 'ShoutemApp' do
-  $config = use_native_modules!
-  
+  config = use_native_modules!
+
   ## <Subspecs>
   
   use_frameworks! :linkage => :static
   ## <Static frameworks>
 
   use_react_native!(
-    :path => $config[:reactNativePath],
+    :path => config[:reactNativePath],
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
+
+  post_install do |installer|
+    # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202
+    react_native_post_install(
+      installer,
+      config[:reactNativePath],
+      :mac_catalyst_enabled => false,
+      # :ccache_enabled => true
+    )
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings['EXPANDED_CODE_SIGN_IDENTITY'] = ""
+        config.build_settings['CODE_SIGNING_REQUIRED'] = "NO"
+        config.build_settings['CODE_SIGNING_ALLOWED'] = "NO"
+      end
+  
+      ## <Extension postinstall targets>
+    end
+  end
 
   ## <Extension dependencies>
 
 end
 
 ## <Additional target>
-
-post_install do |installer|
-  # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202
-  react_native_post_install(
-    installer,
-  )
-  installer.pods_project.targets.each do |target|
-    target.build_configurations.each do |config|
-      config.build_settings['EXPANDED_CODE_SIGN_IDENTITY'] = ""
-      config.build_settings['CODE_SIGNING_REQUIRED'] = "NO"
-      config.build_settings['CODE_SIGNING_ALLOWED'] = "NO"
-    end
-
-    ## <Extension postinstall targets>
-  end
-end
