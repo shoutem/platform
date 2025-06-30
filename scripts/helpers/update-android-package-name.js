@@ -14,7 +14,7 @@ function getSearchReplaceFiles(oldPackageName, newPackageName) {
       fileName: 'build.gradle',
     },
     {
-      path: getMainActivityPath(),
+      path: getMainActivityPath().replace("MainActivity.java", "MainActivity.kt"),
       search: `package ${oldPackageName};`,
       replace: `package ${newPackageName};`,
       fileName: 'MainActivity.kt',
