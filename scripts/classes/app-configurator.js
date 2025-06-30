@@ -213,7 +213,11 @@ class AppConfigurator {
         configureProject = appBinaryConfigurator
           .customizeProject()
           .then(() => {
-            if (!isWeb) {
+            // Currently, installNativeDependencies only installs Pods. We want to skip that
+            // step for Android.
+            // We're using NOT android condition because in local env, there's no env provided,
+            // and we want to install pods.
+            if (!isWeb && platform !== 'android') {
               return installer.installNativeDependencies(installedExtensions);
             }
           })

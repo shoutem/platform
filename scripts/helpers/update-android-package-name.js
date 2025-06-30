@@ -16,13 +16,13 @@ function getSearchReplaceFiles(oldPackageName, newPackageName) {
       path: getMainActivityPath(),
       search: `package ${oldPackageName};`,
       replace: `package ${newPackageName};`,
-      fileName: 'MainActivity.java',
+      fileName: 'MainActivity.kt',
     },
     {
       path: getMainApplicationPath(),
       search: `package ${oldPackageName};`,
       replace: `package ${newPackageName};`,
-      fileName: 'MainApplication.java',
+      fileName: 'MainApplication.kt',
     },
   ];
 }
@@ -30,7 +30,7 @@ function getSearchReplaceFiles(oldPackageName, newPackageName) {
 function updateAndroidPackageName(oldPackageName, newPackageName) {
   const files = getSearchReplaceFiles(oldPackageName, newPackageName);
 
-  files.forEach(file => {
+  files.forEach((file) => {
     const fileContents = fs.readFileSync(file.path, 'utf8');
     const newFileContents = fileContents.replace(file.search, file.replace);
     fs.writeFileSync(file.path, newFileContents);
