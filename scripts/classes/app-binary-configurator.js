@@ -20,6 +20,7 @@ const getErrorMessageFromResponse = require('../helpers/get-error-message-from-r
 const updateAndroidPackageName = require('../helpers/update-android-package-name');
 const rootProjectDir = require('../helpers/get-project-path');
 const { projectPath } = require('../helpers');
+require('colors');
 
 const binarySettings = {
   ios: iosBinarySettings,
@@ -423,6 +424,8 @@ class AppBinaryConfigurator {
 
     let applicationId;
 
+    console.log(`TEST---configureAppInfoAndroid, ${androidApplicationId, production}`.bold.red);
+
     if (androidApplicationId) {
       applicationId = androidApplicationId;
     } else if (production) {
@@ -545,6 +548,7 @@ class AppBinaryConfigurator {
   }
 
   renameRCTRootView() {
+    console.log(`TEST---renameRCTRootView`.bold.red);
     const AppDelegatePath = findFileOnPath('AppDelegate.mm', 'ios');
     const MainActivityPath =
       'android/app/src/main/java/com/shoutemapp/MainActivity.kt';
