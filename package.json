@@ -12,7 +12,7 @@
     "list-dependencies": "node scripts/platform-dependencies",
     "postinstall": "node scripts/postinstall",
     "setup": "cd scripts && yarn install",
-    "start": "react-native start --experimental-debugger",
+    "start": "react-native start ",
     "build-web": "NODE_ENV=production node web/esbuild.config.mjs",
     "run-web": "NODE_ENV=development node web/esbuild.config.dev.mjs"
   },
