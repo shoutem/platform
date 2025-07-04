@@ -1,7 +1,6 @@
 /* eslint-disable max-classes-per-file */
-import { Component } from 'react';
+import React, { Component, createContext } from 'react';
 import { YellowBox } from 'react-native';
-import PropTypes from 'prop-types';
 import {
   assertExtensionsExist,
   assertNotEmpty,
@@ -31,10 +30,12 @@ YellowBox.ignoreWarnings([
  * through the AppBuilder API. Each call to this method will
  * return a new class.
  *
- * @param appContext The context configured through the builder API.
+ * @param appData The context configured through the builder API.
  * @returns {App} The App class.
  */
-function createApplication(appContext) {
+function createApplication(appData) {
+  const AppContext = createContext();
+
   const App = class App extends Component {
     constructor(props) {
       super(props);
@@ -43,20 +44,16 @@ function createApplication(appContext) {
       this.state = { appReady: false };
     }
 
-    getChildContext() {
-      return { screens: appContext.screens };
-    }
-
     /**
      * Returns the extensions used to initialize the app.
      * @returns {*} The extensions.
      */
     getExtensions() {
-      return { ...appContext.extensions };
+      return { ...appData.extensions };
     }
 
     getProviders() {
-      return { ...appContext.providers };
+      return { ...appData.providers };
     }
 
     /**
@@ -64,7 +61,7 @@ function createApplication(appContext) {
      * @returns {*} Exported screens from all extensions
      */
     getScreens() {
-      return { ...appContext.screens };
+      return { ...appData.screens };
     }
 
     /**
@@ -89,11 +86,11 @@ function createApplication(appContext) {
      * @returns {*} The screens.
      */
     getThemes() {
-      return { ...appContext.themes };
+      return { ...appData.themes };
     }
 
     setScreens(screens) {
-      Object.assign(appContext.screens, screens);
+      Object.assign(appData.screens, screens);
     }
 
     /**
@@ -112,7 +109,7 @@ function createApplication(appContext) {
     UNSAFE_componentWillMount() {
       this.lifecyclePromise = callLifecycleFunction(
         this,
-        appContext.extensions,
+        appData.extensions,
         'appWillMount',
       ).then(() => this.setState({ appReady: true }));
     }
@@ -120,19 +117,19 @@ function createApplication(appContext) {
     componentDidMount() {
       this.lifecyclePromise
         .then(() =>
-          callLifecycleFunction(this, appContext.extensions, 'appDidMount'),
+          callLifecycleFunction(this, appData.extensions, 'appDidMount'),
         )
         .then(() =>
           callLifecycleFunction(
             this,
-            appContext.extensions,
+            appData.extensions,
             'appDidFinishLaunching',
           ),
         );
     }
 
     componentWillUnmount() {
-      callLifecycleFunction(this, appContext.extensions, 'appWillUnmount');
+      callLifecycleFunction(this, appData.extensions, 'appWillUnmount');
     }
 
     render() {
@@ -142,20 +139,16 @@ function createApplication(appContext) {
         return null;
       }
 
-      const { extensions } = appContext;
+      const { extensions } = appData;
       const mainContent = renderMainContent(this, extensions);
       const renderedContent = renderProviders(extensions, mainContent);
 
-      return renderedContent;
+      return (
+        <AppContext value={{ screens: appData.screens }}>
+          {renderedContent}
+        </AppContext>
+      );
     }
-  };
-
-  App.propTypes = {
-    children: PropTypes.node,
-  };
-
-  App.childContextTypes = {
-    screens: PropTypes.object,
   };
 
   return App;

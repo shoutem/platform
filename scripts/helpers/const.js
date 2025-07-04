@@ -83,12 +83,13 @@ const ANCHORS = {
         '//NativeModuleInjectionMark-appDelegate-applicationDidFinishLaunchingWithOptions-end',
       BODY: '//NativeModuleInjectionMark-appDelegate-body',
     },
-    APP_DELEGATE_HEADER: {
-      IMPORT: '//NativeModuleInjectionMark-appDelegateHeader-import',
-    },
     ENTITLEMENTS: {
       ADD_ENTITLEMENTS:
         '<!-- //NativeModuleInjectionMark-entitlements-addEntitlements -->',
+    },
+    BRIDGING_HEADER: {
+      IMPORT: '//NativeModuleInjectionMark-bridgingHeader-import',
+      BODY: '//NativeModuleInjectionMark-bridgingHeader-body',
     },
   },
   ANDROID: {

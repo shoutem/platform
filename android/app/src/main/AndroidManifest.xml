@@ -1,8 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools">
 
-  <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-
   <!--//NativeModuleInjectionMark-android-manifest-root-->
 
   <queries>
@@ -17,6 +15,7 @@
     android:label="${appName}"
     android:icon="@mipmap/app_icon"
     android:theme="@style/AppTheme"
+    android:supportsRtl="true"
     android:extractNativeLibs="true"
     android:requestLegacyExternalStorage="true">
 

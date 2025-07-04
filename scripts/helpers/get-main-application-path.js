@@ -6,7 +6,7 @@ function getMainApplicationPath(options = { cwd: '.' }) {
   return systemSlash(
     path.resolve(
       options.cwd,
-      'android/app/src/main/java/com/shoutemapp/MainApplication.java',
+      'android/app/src/main/java/com/shoutemapp/MainApplication.kt',
     ),
   );
 }
