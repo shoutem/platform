@@ -4,7 +4,7 @@ config.json
 temp
 cached-bundles
 ci-metro-params.json
-ios/Pods
+**/Pods/
 ios/Podfile.lock
 config/
 dependencies.json
@@ -90,6 +90,7 @@ DerivedData
 *.xcuserstate
 project.xcworkspace
 ios/ShoutemApp/Images.xcassets/Image.imageset/background.png
+**/.xcode.env.local
 
 .vscode
 # Android/IntelliJ
@@ -106,6 +107,14 @@ local.properties
 node_modules/
 npm-debug.log
 yarn-error.log
+
+# Yarn
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
 
 # fastlane
 #
