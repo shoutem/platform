@@ -1,5 +1,5 @@
 {
-  "version": "16.0.0-rc.4",
+  "version": "16.0.0",
   "releaseNotes": "Release notes\n* ✨ Upgrade React native, extensions, and @shoutem packages to support React Native 0.74.7",
   "builds": {
     "live": {
@@ -7,7 +7,7 @@
     }
   },
   "nativeChanges": {
-    "lastVersion": "16.0.0-rc.4"
+    "lastVersion": "16.0.0"
   },
   "dependencies": {
     "shoutem.about": "~9.0.3",
