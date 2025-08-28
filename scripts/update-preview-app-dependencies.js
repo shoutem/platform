@@ -3,6 +3,8 @@ const path = require('path');
 
 const repos = ['builder-preview', 'disclose', 'mobilizer'];
 
+// TODO - remove because both intercom and salesforce extensions were removed and these deps are
+// not used any more.
 const excludedDeps = [
   'react-native-marketingcloudsdk',
   '@intercom/intercom-react-native',

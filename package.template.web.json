@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/platform",
-  "version": "15.0.15",
+  "version": "16.0.0",
   "scripts": {
     "build": "node scripts/build",
     "bundle": "node scripts/bundle",
@@ -39,10 +39,11 @@
     "@babel/preset-env": "7.20.2",
     "@babel/preset-flow": "7.21.4",
     "@babel/runtime": "7.20.13",
-    "@react-native/babel-preset": "0.73.21",
-    "@react-native/metro-config": "0.73.5",
+    "@react-native/babel-preset": "0.74.89",
+    "@react-native/metro-config": "0.74.89",
     "@shoutem/build-tools": "file:scripts/helpers",
     "@shoutem/eslint-config-react-native": "~1.0.2",
+    "@welldone-software/why-did-you-render": "10.0.1",
     "babel-eslint": "10.1.0",
     "babel-jest": "29.6.3",
     "ajv": "8.8.2",
