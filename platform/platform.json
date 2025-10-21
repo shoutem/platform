@@ -1,13 +1,13 @@
 {
-  "version": "16.0.1",
-  "releaseNotes": "Release notes\n* 🗺️ Map screen clustering and map user experience improvements",
+  "version": "16.0.2",
+  "releaseNotes": "Release notes\n* 🤖 Added Android photo library and camera permission prompts.",
   "builds": {
     "live": {
       "excludedPackages": []
     }
   },
   "nativeChanges": {
-    "lastVersion": "16.0.1"
+    "lastVersion": "16.0.0"
   },
   "dependencies": {
     "shoutem.about": "~9.0.3",
@@ -35,7 +35,7 @@
     "shoutem.google-analytics": "~4.0.0",
     "shoutem.i18n": "~5.0.1",
     "shoutem.ical-events": "~6.0.1",
-    "shoutem.in-app-purchases": "~7.2.0",
+    "shoutem.in-app-purchases": "~7.2.1",
     "shoutem.interactive-faq": "~8.0.1",
     "shoutem.layouts": "~8.1.0",
     "shoutem.live-update": "~2.0.3",
@@ -47,7 +47,7 @@
     "shoutem.onboarding": "~6.0.0",
     "shoutem.page": "~6.0.2",
     "shoutem.people": "~6.0.1",
-    "shoutem.permissions": "~6.1.0",
+    "shoutem.permissions": "~6.1.1",
     "shoutem.persist": "~5.0.0",
     "shoutem.photos": "~6.0.0",
     "shoutem.places": "~8.1.0",
@@ -66,10 +66,10 @@
     "shoutem.rubicon-theme": "~7.0.0",
     "shoutem.sendbird": "~7.0.1",
     "shoutem.shopify": "~11.0.10",
-    "shoutem.social": "~14.2.1",
+    "shoutem.social": "~14.2.2",
     "shoutem.sub-navigation": "~5.1.0",
     "shoutem.theme": "~9.0.11",
-    "shoutem.user-profile": "~6.2.1",
+    "shoutem.user-profile": "~6.2.3",
     "shoutem.video": "~8.0.0",
     "shoutem.web-view": "~8.0.2",
     "shoutem.wordpress": "~6.0.0",
