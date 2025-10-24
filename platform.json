@@ -1,5 +1,5 @@
 {
-  "version": "16.0.2",
+  "version": "16.0.3",
   "releaseNotes": "Release notes\n* 🤖 Added Android photo library and camera permission prompts.",
   "builds": {
     "live": {
