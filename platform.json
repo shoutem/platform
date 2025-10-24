@@ -1,6 +1,6 @@
 {
   "version": "16.0.3",
-  "releaseNotes": "Release notes\n* 🤖 Added Android photo library and camera permission prompts.",
+  "releaseNotes": "No user facing changes.\n\nApp build & Play (re)submission changes\n* 🤖 Added Builder Permission settings for Android foreground services. You can now select which ones is your app using. This is required information for Play Store (re)submission",
   "builds": {
     "live": {
       "excludedPackages": []
@@ -14,10 +14,10 @@
     "shoutem.advertising": "~8.0.0",
     "shoutem.affiliate": "~4.0.0",
     "shoutem.age-restriction": "~2.0.1",
-    "shoutem.agora": "~7.0.0",
+    "shoutem.agora": "~7.0.1",
     "shoutem.analytics": "~5.1.1",
     "shoutem.application": "~7.3.1",
-    "shoutem.audio": "~8.3.1",
+    "shoutem.audio": "~8.3.2",
     "shoutem.auth": "~10.1.8",
     "shoutem.bands-in-town": "~2.0.0",
     "shoutem.besttime": "~6.0.0",
@@ -47,7 +47,7 @@
     "shoutem.onboarding": "~6.0.0",
     "shoutem.page": "~6.0.2",
     "shoutem.people": "~6.0.1",
-    "shoutem.permissions": "~6.1.1",
+    "shoutem.permissions": "~7.0.0",
     "shoutem.persist": "~5.0.0",
     "shoutem.photos": "~6.0.0",
     "shoutem.places": "~8.1.0",
@@ -66,10 +66,10 @@
     "shoutem.rubicon-theme": "~7.0.0",
     "shoutem.sendbird": "~7.0.1",
     "shoutem.shopify": "~11.0.10",
-    "shoutem.social": "~14.2.2",
+    "shoutem.social": "~14.2.3",
     "shoutem.sub-navigation": "~5.1.0",
     "shoutem.theme": "~9.0.11",
-    "shoutem.user-profile": "~6.2.3",
+    "shoutem.user-profile": "~6.2.4",
     "shoutem.video": "~8.0.0",
     "shoutem.web-view": "~8.0.2",
     "shoutem.wordpress": "~6.0.0",
