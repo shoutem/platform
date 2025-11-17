@@ -547,7 +547,7 @@ class AppBinaryConfigurator {
   renameRCTRootView() {
     const AppDelegatePath = findFileOnPath('AppDelegate.mm', 'ios');
     const MainActivityPath =
-      'android/app/src/main/java/com/shoutemapp/MainActivity.java';
+      'android/app/src/main/java/com/shoutemapp/MainActivity.kt';
 
     if (!AppDelegatePath) {
       return Promise.resolve();
