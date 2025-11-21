@@ -1,4 +1,4 @@
-package com.shoutemapp;
+package com.shoutemapp
 
 import android.content.Intent
 import android.os.Bundle

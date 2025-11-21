@@ -14,14 +14,14 @@ function getSearchReplaceFiles(oldPackageName, newPackageName) {
     },
     {
       path: getMainActivityPath(),
-      search: `package ${oldPackageName};`,
-      replace: `package ${newPackageName};`,
+      search: `package ${oldPackageName}`,
+      replace: `package ${newPackageName}`,
       fileName: 'MainActivity.kt',
     },
     {
       path: getMainApplicationPath(),
-      search: `package ${oldPackageName};`,
-      replace: `package ${newPackageName};`,
+      search: `package ${oldPackageName}`,
+      replace: `package ${newPackageName}`,
       fileName: 'MainApplication.kt',
     },
   ];
