@@ -338,7 +338,10 @@ class AppBinaryConfigurator {
       primary_category_name,
     } = publishingProperties;
 
-    const infoPlistPath = findFileOnPath('Info.plist', 'ios');
+    const infoPlistPath = findFileOnPath(
+      'Info.plist',
+      `ios/${this.getProjectName()}`,
+    );
     const infoPlistFile = fs.readFileSync(infoPlistPath, 'utf8');
     let infoPlist = plist.parse(infoPlistFile);
 
@@ -545,7 +548,7 @@ class AppBinaryConfigurator {
   }
 
   renameRCTRootView() {
-    const AppDelegatePath = findFileOnPath('AppDelegate.mm', 'ios');
+    const AppDelegatePath = findFileOnPath('AppDelegate.swift', 'ios');
     const MainActivityPath =
       'android/app/src/main/java/com/shoutemapp/MainActivity.kt';
 
