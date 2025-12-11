@@ -1,0 +1,15 @@
+diff --git a/node_modules/react-native-screens/android/build.gradle b/node_modules/react-native-screens/android/build.gradle
+index bbca48a..39aa019 100644
+--- a/node_modules/react-native-screens/android/build.gradle
++++ b/node_modules/react-native-screens/android/build.gradle
+@@ -82,7 +82,9 @@ android {
+         externalNativeBuild {
+             cmake {
+                 arguments "-DANDROID_STL=c++_shared",
+-                        "-DRNS_NEW_ARCH_ENABLED=${IS_NEW_ARCHITECTURE_ENABLED}"
++                        "-DRNS_NEW_ARCH_ENABLED=${IS_NEW_ARCHITECTURE_ENABLED}",
++                        // 16KB alignment with NDK 27: https://github.com/software-mansion/react-native-screens/issues/2996#issuecomment-3214382789
++                        "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
+             }
+         }
+     }
