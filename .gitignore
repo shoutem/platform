@@ -1,6 +1,7 @@
 build-script/tmp
 extensions.js
 config.json
+web/buildConfig.json
 temp
 cached-bundles
 ci-metro-params.json
@@ -13,7 +14,9 @@ nativeDependencies.json
 !extensions/**/app/ios
 /firebase.json
 /ios/RNPlaceholder.swift
+/ios/link-assets-manifest.json
 /android/app/google-services.json
+/android/link-assets-manifest.json
 /vendor/bundle/
 
 /ios/*.xcodeproj
@@ -101,6 +104,10 @@ ios/ShoutemApp/Images.xcassets/Image.imageset/background.png
 local.properties
 *.iml
 *.hprof
+.cxx/
+*.keystore
+!debug.keystore
+.kotlin/
 
 # node.js
 #
@@ -131,11 +138,28 @@ yarn-error.log
 # Bundle artifact
 *.jsbundle
 
+# assets
+android/app/src/main/assets
+/assets/
+
 # explicitly allow extension/app/build folders containing lifecycle scripts
 !extensions/**/app/build
 
 # Temporary files created by Metro to check the health of the file watcher
 .metro-health-check*
 
-#assets
-/assets
+# .env files
+.env
+
+# RNWeb
+dist
+
+extensions/shoutem.i18n/app/translations/*
+
+# Yarn
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

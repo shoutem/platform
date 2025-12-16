@@ -7,6 +7,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import inlineAssetsPlugin from './esbuildInlineHtmlPlugin.mjs';
 import reanimatedPlugin from './esbuildReanimatedPlugin.js';
+import reactNativeFlowFixPlugin from './esbuildReactNativeFlowFixPlugin.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -51,6 +52,7 @@ const ctx = await esbuild.context({
   resolveExtensions: ['.web.tsx', '.web.ts', '.tsx', '.ts', '.web.js', '.js'],
   alias: extractAliases(),
   plugins: [
+    reactNativeFlowFixPlugin(),
     reanimatedPlugin(),
     // Plugin for handling SASS styles
     sassPlugin({

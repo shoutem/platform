@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+// import React from 'react';
 import { AppRegistry } from 'react-native';
 import { AppBuilder } from 'shoutem-core';
 import 'es6-symbol/implement';
@@ -29,9 +30,17 @@ console.error = function filterWarnings(msg, ...args) {
 
 // WebInjectionMark-inject-stylesheet
 
-const App = new AppBuilder()
-  .setExtensions(extensions)
-  .build();
+// const whyDidYouRender = require('@welldone-software/why-did-you-render');
+
+// whyDidYouRender(React, {
+//   trackAllPureComponents: true,
+//   collapseGroups: false,
+//   trackHooks: true,
+//   logOnDifferentValues: false,
+//   logOwnerReasons: false,
+// });
+
+const App = new AppBuilder().setExtensions(extensions).build();
 
 AppRegistry.registerComponent('ShoutemApp', () => App);
 AppRegistry.runApplication('ShoutemApp', {
