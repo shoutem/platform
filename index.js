@@ -1,7 +1,6 @@
 import { AppRegistry, LogBox } from 'react-native';
 import { AppBuilder } from 'shoutem-core';
 import 'es6-symbol/implement';
-import 'react-native-gesture-handler';
 import extensions from './extensions.js';
 
 // Suppress legacy warnings and errors

@@ -1,28 +1,28 @@
 apply plugin: "com.android.application"
+apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
-
-import org.apache.tools.ant.taskdefs.condition.Os
 
 /**
  * This is the configuration block to customize your React Native Android app.
  * By default you don't need to apply any configuration, just uncomment the lines you need.
  */
-
 react {
     /* Folders */
-    //   The root of your project, i.e. where "package.json" lives. Default is '..'
-    // root = file("../")
-    //   The folder where the react-native NPM package is. Default is ../node_modules/react-native
-    // reactNativeDir = file("../node_modules/react-native")
-    //   The folder where the react-native Codegen package is. Default is ../node_modules/@react-native/codegen
-    // codegenDir = file("../node_modules/@react-native/codegen")
-    //   The cli.js file which is the React Native CLI entrypoint. Default is ../node_modules/react-native/cli.js
-    // cliFile = file("../node_modules/react-native/cli.js")
+    //   The root of your project, i.e. where "package.json" lives. Default is '../..'
+    // root = file("../../")
+    //   The folder where the react-native NPM package is. Default is ../../node_modules/react-native
+    // reactNativeDir = file("../../node_modules/react-native")
+    //   The folder where the react-native Codegen package is. Default is ../../node_modules/@react-native/codegen
+    // codegenDir = file("../../node_modules/@react-native/codegen")
+    //   The cli.js file which is the React Native CLI entrypoint. Default is ../../node_modules/react-native/cli.js
+    // cliFile = file("../../node_modules/react-native/cli.js")
+
     /* Variants */
     //   The list of variants to that are debuggable. For those we're going to
     //   skip the bundling of the JS bundle and the assets. By default is just 'debug'.
     //   If you add flavors like lite, prod, etc. you'll have to list your debuggableVariants.
     // debuggableVariants = ["liteDebug", "prodDebug"]
+
     /* Bundling */
     //   A list containing the node command and its flags. Default is just 'node'.
     // nodeExecutableAndArgs = ["node"]
@@ -42,12 +42,16 @@ react {
     //   A list of extra flags to pass to the 'bundle' commands.
     //   See https://github.com/react-native-community/cli/blob/main/docs/commands.md#bundle
     // extraPackagerArgs = []
+
     /* Hermes Commands */
     //   The hermes compiler command to run. By default it is 'hermesc'
     // hermesCommand = "$rootDir/my-custom-hermesc/bin/hermesc"
     //
     //   The list of flags to pass to the Hermes compiler. By default is "-O", "-output-source-map"
     // hermesFlags = ["-O", "-output-source-map"]
+
+    /* Autolinking */
+    autolinkLibrariesWithApp()
 }
 
 //NativeModuleInjectionMark-app-gradle-reactGradle
@@ -61,26 +65,20 @@ def enableProguardInReleaseBuilds = false
  * The preferred build flavor of JavaScriptCore (JSC)
  *
  * For example, to use the international variant, you can use:
- * `def jscFlavor = 'org.webkit:android-jsc-intl:+'`
+ * `def jscFlavor = io.github.react-native-community:jsc-android-intl:2026004.+`
  *
  * The international variant includes ICU i18n library and necessary data
  * allowing to use e.g. `Date.toLocaleString` and `String.localeCompare` that
  * give correct results when using with locales other than en-US. Note that
  * this variant is about 6MiB larger per architecture than default.
  */
-def jscFlavor = 'org.webkit:android-jsc:+'
+def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
 
 android {
     ndkVersion rootProject.ext.ndkVersion
 
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdkVersion rootProject.ext.compileSdkVersion
-
-    configurations.all {
-        resolutionStrategy {
-            force 'com.facebook.fresco:fresco:3.1.3'
-        }
-    }
 
     lint {
         abortOnError false
@@ -134,6 +132,9 @@ android {
         pickFirst "lib/x86/libc++_shared.so"
         pickFirst "lib/x86_64/libc++_shared.so"
     }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
 
     //NativeModuleInjectionMark-app-gradle-android-end
 }
@@ -148,10 +149,11 @@ dependencies {
 
     implementation "androidx.appcompat:appcompat:1.1.0"
     implementation "androidx.multidex:multidex:2.0.1"
-    implementation "com.facebook.fresco:animated-gif:3.1.3" // For animated GIFs
+    implementation "com.facebook.fresco:animated-gif:3.4.0"// For animated GIFs
 
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
+    implementation 'androidx.core:core-ktx:1.15.0'
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
@@ -160,7 +162,6 @@ dependencies {
     }
 }
 
-apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
 //NativeModuleInjectionMark-app-gradle-plugins
 
 

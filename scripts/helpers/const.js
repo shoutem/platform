@@ -1,11 +1,11 @@
 const filesChangedByConfigurationScript = [
   'android/app/build.gradle',
   'android/app/src/main/AndroidManifest.xml',
-  'android/app/src/main/java/com/shoutemapp/MainActivity.java',
-  'android/app/src/main/java/com/shoutemapp/MainApplication.java',
-  'android/app/src/main/java/com/shoutemapp/newarchitecture/MainApplicationReactNativeHost.java',
-  'android/app/src/main/java/com/shoutemapp/newarchitecture/components/MainComponentsRegistry.java',
-  'android/app/src/main/java/com/shoutemapp/newarchitecture/modules/MainApplicationTurboModuleManagerDelegate.java',
+  'android/app/src/main/java/com/shoutemapp/MainActivity.kt',
+  'android/app/src/main/java/com/shoutemapp/MainApplication.kt',
+  'android/app/src/main/java/com/shoutemapp/newarchitecture/MainApplicationReactNativeHost.kt',
+  'android/app/src/main/java/com/shoutemapp/newarchitecture/components/MainComponentsRegistry.kt',
+  'android/app/src/main/java/com/shoutemapp/newarchitecture/modules/MainApplicationTurboModuleManagerDelegate.kt',
   'android/app/src/main/res/drawable-hdpi/splash.png',
   'android/app/src/main/res/drawable-ldpi/splash.png',
   'android/app/src/main/res/drawable-mdpi/splash.png',
@@ -83,12 +83,13 @@ const ANCHORS = {
         '//NativeModuleInjectionMark-appDelegate-applicationDidFinishLaunchingWithOptions-end',
       BODY: '//NativeModuleInjectionMark-appDelegate-body',
     },
-    APP_DELEGATE_HEADER: {
-      IMPORT: '//NativeModuleInjectionMark-appDelegateHeader-import',
-    },
     ENTITLEMENTS: {
       ADD_ENTITLEMENTS:
         '<!-- //NativeModuleInjectionMark-entitlements-addEntitlements -->',
+    },
+    BRIDGING_HEADER: {
+      IMPORT: '//NativeModuleInjectionMark-bridgingHeader-import',
+      BODY: '//NativeModuleInjectionMark-bridgingHeader-body',
     },
   },
   ANDROID: {
@@ -158,7 +159,7 @@ const ANCHORS = {
     CREATE_STYLESHEET: '// WebInjectionMark-create-stylesheet',
     APPEND_FONT_STYLES: '// WebInjectionMark-append-font-styles',
     INJECT_STYLESHEET: '// WebInjectionMark-inject-stylesheet',
-  }
+  },
 };
 
 module.exports = {
