@@ -8,7 +8,7 @@
     "sanitize-diff": "node manual-sanitize-diff",
     "update-preview-app-dependencies": "node get-app-dependencies && node update-preview-app-dependencies",
     "update-platform-dependencies": "node update-platform-dependencies ../extensions",
-    "check-16kb-alignment": "python3 check_apk_alignment.py ../android/app/build/outputs/apk/debug/app-debug.apk"
+    "check-16kb-alignment": "chmod +x check-alignment.sh && ./check-alignment.sh ../android/app/build/outputs/apk/release/app-release.apk "
   },
   "dependencies": {
     "auto-bind": "4.0.0",

@@ -1,5 +1,5 @@
 {
-  "version": "17.0.0-rc.3",
+  "version": "17.0.0-rc.4",
   "releaseNotes": "Release notes\n* ✨ Upgrade React native, extensions, and @shoutem packages to support React Native 0.78",
   "builds": {
     "live": {
@@ -7,7 +7,7 @@
     }
   },
   "nativeChanges": {
-    "lastVersion": "17.0.0-rc.3"
+    "lastVersion": "17.0.0-rc.4"
   },
   "dependencies": {
     "shoutem.about": "~9.0.3",
@@ -16,7 +16,7 @@
     "shoutem.age-restriction": "~2.0.1",
     "shoutem.agora": "~7.1.0-rc.1",
     "shoutem.analytics": "~5.1.1",
-    "shoutem.application": "~7.4.0-rc.1",
+    "shoutem.application": "~7.4.0-rc.5",
     "shoutem.audio": "~8.4.0-rc.1",
     "shoutem.auth": "~10.2.0-rc.5",
     "shoutem.bands-in-town": "~2.0.0",
@@ -69,14 +69,14 @@
     "shoutem.social": "~14.3.0-rc.0",
     "shoutem.sub-navigation": "~5.1.0",
     "shoutem.theme": "~9.1.0-rc.1",
-    "shoutem.user-profile": "~6.3.0-rc.0",
+    "shoutem.user-profile": "~6.3.0-rc.1",
     "shoutem.video": "~8.0.0",
     "shoutem.web-view": "~9.0.0-rc.1",
     "shoutem.wordpress": "~6.0.1-rc.1",
     "shoutem.youtube": "~6.0.0"
   },
   "requiredDependencies": {
-    "shoutem.application": "~7.4.0-rc.1",
+    "shoutem.application": "~7.4.0-rc.5",
     "shoutem.i18n": "~5.0.1",
     "shoutem.layouts": "~8.1.0",
     "shoutem.navigation": "~7.3.0-rc.0",
