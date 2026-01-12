@@ -1,5 +1,5 @@
 {
-  "version": "17.0.1-rc.2",
+  "version": "17.0.1",
   "releaseNotes": "Release notes\n* 🔧 Map fixes and improvements in Social and Events extensions.\n* 🔧 Audio performance improvements for Android users\n* 🔧 Various Youtube fixes: video description, channel URLs with @ handle, video playing in Details screen etc.",
   "builds": {
     "live": {
