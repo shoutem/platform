@@ -395,7 +395,9 @@ class AppBinaryConfigurator {
 
     if (this.shouldUseUniversalBuild()) {
       console.log(`Configuring ${'xcodeproj'.bold}...`);
-      const xcodeProjectPath = getXcodeProjectPath();
+      const xcodeProjectPath = getXcodeProjectPath({
+        cwd: `${projectPath}/ios/${this.getProjectName()}.xcodeproj`,
+      });
       const xcodeProject = xcode.project(xcodeProjectPath);
 
       xcodeProject.parse(() => {
