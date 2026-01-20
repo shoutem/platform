@@ -1,13 +1,13 @@
 {
-  "version": "17.0.1",
-  "releaseNotes": "Release notes\n* 🔧 Map fixes and improvements in Social and Events extensions.\n* 🔧 Audio performance improvements for Android users\n* 🔧 Various Youtube fixes: video description, channel URLs with @ handle, video playing in Details screen etc.",
+  "version": "17.0.2",
+  "releaseNotes": "Release notes\n* Fixed map marker issues.\n\nApp Build improvements\n* Improved App build scripts",
   "builds": {
     "live": {
       "excludedPackages": []
     }
   },
   "nativeChanges": {
-    "lastVersion": "17.0.0"
+    "lastVersion": "17.0.2"
   },
   "dependencies": {
     "shoutem.about": "~9.0.3",
@@ -26,7 +26,7 @@
     "shoutem.carplay": "~2.0.0",
     "shoutem.checklist": "~6.0.0",
     "shoutem.cms": "~8.0.5",
-    "shoutem.deals": "~8.1.0",
+    "shoutem.deals": "~8.1.1",
     "shoutem.events": "~6.1.3",
     "shoutem.favorites": "~7.0.0",
     "shoutem.firebase": "~7.0.0",
@@ -34,12 +34,12 @@
     "shoutem.geo-restrictions": "~5.1.2",
     "shoutem.google-analytics": "~4.1.0",
     "shoutem.i18n": "~5.0.1",
-    "shoutem.ical-events": "~6.0.1",
+    "shoutem.ical-events": "~6.0.2",
     "shoutem.in-app-purchases": "~7.3.0",
     "shoutem.interactive-faq": "~8.0.1",
     "shoutem.layouts": "~8.1.0",
     "shoutem.live-update": "~2.1.0",
-    "shoutem.loyalty": "~8.0.2",
+    "shoutem.loyalty": "~8.0.3",
     "shoutem.menu": "~6.0.0",
     "shoutem.navigation": "~7.3.0",
     "shoutem.news": "~7.2.0",
@@ -68,7 +68,7 @@
     "shoutem.shopify": "~11.1.0",
     "shoutem.social": "~16.0.1",
     "shoutem.sub-navigation": "~5.1.0",
-    "shoutem.theme": "~9.1.1",
+    "shoutem.theme": "~9.1.4",
     "shoutem.user-profile": "~6.3.0",
     "shoutem.video": "~8.0.1",
     "shoutem.web-view": "~10.0.0",
@@ -82,7 +82,7 @@
     "shoutem.navigation": "~7.3.0",
     "shoutem.redux": "~5.0.3",
     "shoutem.sub-navigation": "~5.1.0",
-    "shoutem.theme": "~9.1.1"
+    "shoutem.theme": "~9.1.4"
   },
   "archivedDependencies": [
     "shoutem.flurry-analytics",
