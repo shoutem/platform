@@ -1,6 +1,6 @@
 {
   "version": "17.0.2-rc.0",
-  "releaseNotes": "Release notes\n* Fixed map marker issues.\n\n App Build\n Improved App build scripts",
+  "releaseNotes": "Release notes\n* Fixed map marker issues.\n\nApp Build improvements\n* Improved App build scripts",
   "builds": {
     "live": {
       "excludedPackages": []
