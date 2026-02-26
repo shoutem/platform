@@ -1,5 +1,5 @@
 {
-  "version": "17.0.3-rc.0",
+  "version": "17.0.3-rc.1",
   "releaseNotes": "Release notes\n* Removed UIRequiredDeviceCapabilities from iOS Info.plist due to App Store rejection (Guideline 2.3 - Accurate Metadata).\n* Fixed stretched Android launch screen.",
   "builds": {
     "live": {
@@ -7,7 +7,7 @@
     }
   },
   "nativeChanges": {
-    "lastVersion": "17.0.3-rc.0"
+    "lastVersion": "17.0.3-rc.1"
   },
   "dependencies": {
     "shoutem.about": "~9.0.3",
