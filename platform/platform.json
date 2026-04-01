@@ -1,5 +1,5 @@
 {
-  "version": "17.0.4-rc.0",
+  "version": "17.0.4",
   "releaseNotes": "Release notes\n* Added iOS 26 build support",
   "builds": {
     "live": {
@@ -7,7 +7,7 @@
     }
   },
   "nativeChanges": {
-    "lastVersion": "17.0.4-rc.0"
+    "lastVersion": "17.0.4"
   },
   "dependencies": {
     "shoutem.about": "~9.0.3",
