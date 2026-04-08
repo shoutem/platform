@@ -22,7 +22,7 @@
     "glob-to-regexp": "0.3.0",
     "jimp": "0.16.1",
     "linklocal": "2.8.2",
-    "lodash": "4.17.21",
+    "lodash": "4.18.1",
     "parse-gitignore": "0.3.1",
     "path": "0.12.7",
     "pify": "3.0.0",
