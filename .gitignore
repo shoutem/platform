@@ -17,6 +17,7 @@ nativeDependencies.json
 /ios/RNPlaceholder.swift
 /ios/link-assets-manifest.json
 /android/app/google-services.json
+/android/app/src/main/java/com/shoutem/splash
 /android/link-assets-manifest.json
 /vendor/bundle/
 

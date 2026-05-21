@@ -1,6 +1,6 @@
 {
-  "version": "17.0.6",
-  "releaseNotes": "Release notes\n* 📱 Simplification of notification permissions first-launch flow.",
+  "version": "17.0.7-rc.0",
+  "releaseNotes": "Release notes\n* Fixed issues with splash screen on iOS.",
   "builds": {
     "live": {
       "excludedPackages": []
@@ -16,8 +16,8 @@
     "shoutem.age-restriction": "~2.0.1",
     "shoutem.agora": "~7.1.0",
     "shoutem.analytics": "~5.1.1",
-    "shoutem.application": "~7.5.3",
-    "shoutem.audio": "~9.0.0",
+    "shoutem.application": "~7.6.0-rc.0",
+    "shoutem.audio": "~9.0.2-rc.0",
     "shoutem.auth": "~11.0.2",
     "shoutem.bands-in-town": "~2.0.0",
     "shoutem.besttime": "~6.0.0",
@@ -52,7 +52,7 @@
     "shoutem.persist": "~5.0.0",
     "shoutem.photos": "~6.0.1",
     "shoutem.places": "~8.3.0",
-    "shoutem.podcast": "~13.1.1",
+    "shoutem.podcast": "~13.1.2-rc.1",
     "shoutem.preview": "~7.1.1",
     "shoutem.products": "~6.0.0",
     "shoutem.push-notifications": "~5.1.0",
@@ -78,9 +78,8 @@
     "shoutem.youtube": "~6.0.1"
   },
   "requiredDependencies": {
-    "shoutem.application": "~7.5.3",
+    "shoutem.application": "~7.6.0-rc.0",
     "shoutem.i18n": "~5.0.1",
-    "shoutem.importers": "~1.0.0",
     "shoutem.layouts": "~8.1.2",
     "shoutem.navigation": "~7.4.5",
     "shoutem.redux": "~5.0.3",
