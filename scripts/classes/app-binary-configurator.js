@@ -235,6 +235,13 @@ class AppBinaryConfigurator {
   }
 
   configureBootsplash() {
+    // Web builds don't install native dependencies, so the bootsplash CLI
+    // binary isn't present and there are no native splash assets to generate.
+    if (this.config.platform === 'web') {
+      console.log('Skipping bootsplash configuration: web build.');
+      return Promise.resolve();
+    }
+
     const launchScreen = this.getLaunchScreenUrl();
     const iPadLaunchScreen = this.getIPadLaunchScreenUrl();
 
