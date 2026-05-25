@@ -234,11 +234,11 @@ class AppBinaryConfigurator {
     return this.publishingSettings.ios.useUniversalBuild;
   }
 
-  configureBootsplash() {
-    // Web builds don't install native dependencies, so the bootsplash CLI
+  configureLaunchScreen() {
+    // Web builds don't install native dependencies, so the launch-screen CLI
     // binary isn't present and there are no native splash assets to generate.
     if (this.config.platform === 'web') {
-      console.log('Skipping bootsplash configuration: web build.');
+      console.log('Skipping launch screen configuration: web build.');
       return Promise.resolve();
     }
 
@@ -246,16 +246,16 @@ class AppBinaryConfigurator {
     const iPadLaunchScreen = this.getIPadLaunchScreenUrl();
 
     if (!launchScreen) {
-      console.log('Skipping bootsplash configuration: no launch screen URL.');
+      console.log('Skipping launch screen configuration: no launch screen URL.');
       return Promise.resolve();
     }
 
-    console.log(`Configuring ${'bootsplash'.bold} (iOS + Android)...`);
+    console.log(`Configuring ${'launch screen'.bold} (iOS + Android)...`);
 
-    const logoPath = path.resolve(rootProjectDir, 'assets/bootsplashLogo.png');
+    const logoPath = path.resolve(rootProjectDir, 'assets/launchScreenLogo.png');
     const iPadLogoPath = path.resolve(
       rootProjectDir,
-      'assets/bootsplashLogoIpad.png',
+      'assets/launchScreenLogoIpad.png',
     );
     const backgroundColor = '#ffffff';
 
@@ -282,7 +282,7 @@ class AppBinaryConfigurator {
       .then(() => {
         // iPad-specific splash: when the app owner uploaded a separate tablet
         // image, download and resize to iPad portrait native @2x (1536×2048)
-        // so we can inject it as an idiom="ipad" variant into the bootsplash
+        // so we can inject it as an idiom="ipad" variant into the launch-screen
         // imageset. Without this, iPad falls back to the iPhone image via
         // scaleAspectFill, cropping app-owner art.
         if (!iPadLaunchScreen) {
@@ -296,40 +296,40 @@ class AppBinaryConfigurator {
           );
       })
       .then(() => {
-        const bootsplashCli = path.resolve(
+        const launchScreenCli = path.resolve(
           rootProjectDir,
           'node_modules/.bin/react-native-bootsplash',
         );
 
-        // iOS: bootsplash CLI generates the image asset and storyboard; we
-        // override the storyboard to display it edge-to-edge (scaleAspectFill).
+        // iOS: the launch-screen CLI generates the image asset and storyboard;
+        // we override the storyboard to display it edge-to-edge (scaleAspectFill).
         execSync(
-          `${bootsplashCli} generate ${logoPath} --background "${backgroundColor}" --logo-width 1200 --platforms ios`,
+          `${launchScreenCli} generate ${logoPath} --background "${backgroundColor}" --logo-width 1200 --platforms ios`,
           { stdio: 'inherit', cwd: rootProjectDir },
         );
 
         this.writeFullScreenIosStoryboard();
 
         if (iPadLaunchScreen) {
-          this.addIPadVariantToBootsplashImageset(iPadLogoPath);
+          this.addIPadVariantToLaunchScreenImageset(iPadLogoPath);
         }
       });
   }
 
-  // Overwrites bootsplash's generated BootSplash.storyboard with a custom
-  // one that pins the imageView to all four edges with scaleAspectFill (the
-  // CLI default is scaleAspectFit, which inset-letterboxes the logo on a
-  // background color — not what app owners upload).
+  // Overwrites the generated BootSplash.storyboard with a custom one that pins
+  // the imageView to all four edges with scaleAspectFill (the CLI default is
+  // scaleAspectFit, which inset-letterboxes the logo on a background color —
+  // not what app owners upload).
   //
-  // COUPLING WARNING: this discovers bootsplash's imageset by glob because
-  // bootsplash 6.x suffixes a content hash to the imageset name (e.g.
-  // BootSplashLogo-c86379.imageset). If you bump react-native-bootsplash,
+  // COUPLING WARNING: this discovers the launch-screen imageset by glob because
+  // react-native-bootsplash 6.x suffixes a content hash to the imageset name
+  // (e.g. BootSplashLogo-c86379.imageset). If you bump react-native-bootsplash,
   // re-verify (1) the imageset is still named BootSplashLogo*, (2) the
   // storyboard XML schema is still compatible, and (3) the Contents.json
-  // entries we inject for the iPad variant in addIPadVariantToBootsplashImageset
-  // still match bootsplash's format. The override is defensive — it skips
-  // silently on mismatch — so configure won't crash, but you'll get a
-  // centered logo instead of full-bleed art.
+  // entries we inject for the iPad variant in addIPadVariantToLaunchScreenImageset
+  // still match the CLI's format. The override is defensive — it skips silently
+  // on mismatch — so configure won't crash, but you'll get a centered logo
+  // instead of full-bleed art.
   writeFullScreenIosStoryboard() {
     const storyboardPath = findFileOnPath(
       'BootSplash.storyboard',
@@ -337,7 +337,7 @@ class AppBinaryConfigurator {
     );
 
     if (!storyboardPath) {
-      console.log('[bootsplash] BootSplash.storyboard not found, skipping iOS full-screen override.');
+      console.log('[launch screen] BootSplash.storyboard not found, skipping iOS full-screen override.');
       return;
     }
 
@@ -347,7 +347,7 @@ class AppBinaryConfigurator {
     );
 
     if (_.isEmpty(imagesetMatches)) {
-      console.log('[bootsplash] BootSplashLogo imageset not found, skipping iOS full-screen override.');
+      console.log('[launch screen] BootSplashLogo imageset not found, skipping iOS full-screen override.');
       return;
     }
 
@@ -390,21 +390,21 @@ class AppBinaryConfigurator {
 `;
 
     fs.writeFileSync(storyboardPath, storyboardXml);
-    console.log(`[bootsplash] iOS storyboard overridden for full-screen splash (image: ${imageName}).`);
+    console.log(`[launch screen] iOS storyboard overridden for full-screen splash (image: ${imageName}).`);
   }
 
-  addIPadVariantToBootsplashImageset(iPadLogoPath) {
-    // Adds an idiom="ipad" entry to the bootsplash-generated imageset so iOS
+  addIPadVariantToLaunchScreenImageset(iPadLogoPath) {
+    // Adds an idiom="ipad" entry to the launch-screen imageset so iOS
     // automatically picks the app owner's iPad splash on tablet devices.
-    // Restores parity with the pre-bootsplash flow that wrote a separate
-    // ipad-background.png alongside the iPhone image in Image.imageset.
+    // Restores parity with the previous launch-screen flow that wrote a
+    // separate ipad-background.png alongside the iPhone image in Image.imageset.
     const imagesetMatches = glob.sync(
       `${path.resolve(rootProjectDir, 'ios')}/**/Images.xcassets/BootSplashLogo*.imageset`,
       { ignore: ['**/Pods/**'] },
     );
 
     if (_.isEmpty(imagesetMatches)) {
-      console.log('[bootsplash] BootSplashLogo imageset not found, skipping iPad variant injection.');
+      console.log('[launch screen] BootSplashLogo imageset not found, skipping iPad variant injection.');
       return;
     }
 
@@ -412,11 +412,11 @@ class AppBinaryConfigurator {
     const contentsJsonPath = path.join(imagesetDir, 'Contents.json');
 
     if (!fs.existsSync(contentsJsonPath)) {
-      console.log('[bootsplash] BootSplashLogo imageset Contents.json not found, skipping iPad variant injection.');
+      console.log('[launch screen] BootSplashLogo imageset Contents.json not found, skipping iPad variant injection.');
       return;
     }
 
-    const iPadFilename = 'bootsplash_logo_ipad.png';
+    const iPadFilename = 'launch_screen_logo_ipad.png';
     fs.copyFileSync(iPadLogoPath, path.join(imagesetDir, iPadFilename));
 
     const contents = JSON.parse(fs.readFileSync(contentsJsonPath, 'utf8'));
@@ -428,7 +428,7 @@ class AppBinaryConfigurator {
     });
     fs.writeFileSync(contentsJsonPath, JSON.stringify(contents, null, 2));
 
-    console.log('[bootsplash] iPad variant injected into BootSplashLogo imageset.');
+    console.log('[launch screen] iPad variant injected into BootSplashLogo imageset.');
   }
 
   configureAppIcon(settings, platform) {
@@ -630,7 +630,7 @@ class AppBinaryConfigurator {
   configureApp() {
     return this.getPublishingProperties()
       .then(() => this.getPublishSettings())
-      .then(() => this.configureBootsplash())
+      .then(() => this.configureLaunchScreen())
       .then(() => this.runForAllPlatforms(this.configureAppIcon))
       .then(() => this.runForAllPlatforms(this.configureAppInfo));
   }
