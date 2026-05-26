@@ -3,34 +3,12 @@
 const findFileOnPath = require('../helpers/find-file-on-path');
 
 module.exports = function() {
-  const iosLaunchScreenDirectory = findFileOnPath(
-    'Images.xcassets/Image.imageset/',
-    'ios',
-  );
   const iosAppIconDirectory = findFileOnPath(
     'Images.xcassets/AppIcon.appiconset/',
     'ios',
   );
 
   return {
-    launchScreen: {
-      images: [
-        {
-          savePath: `${iosLaunchScreenDirectory}background.png`,
-          width: 1080,
-          height: 1920,
-        },
-      ],
-    },
-    iPadLaunchScreen: {
-      images: [
-        {
-          savePath: `${iosLaunchScreenDirectory}ipad-background.png`,
-          width: 1536,
-          height: 2048,
-        },
-      ],
-    },
     appIcon: {
       images: [
         {
