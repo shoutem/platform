@@ -1,5 +1,5 @@
 {
-  "version": "17.0.7",
+  "version": "17.0.8-rc.0",
   "releaseNotes": "Release notes\n* 📱 Fixed issues with splash screen on iOS.\n* 🛜 Improved connectivity UX/UI",
   "builds": {
     "live": {
