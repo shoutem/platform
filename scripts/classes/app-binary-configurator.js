@@ -303,9 +303,23 @@ class AppBinaryConfigurator {
 
         // iOS: the launch-screen CLI generates the image asset and storyboard;
         // we override the storyboard to display it edge-to-edge (scaleAspectFill).
+        // INIT_CWD / PWD are overridden because bootsplash 6.x resolves its
+        // project root from `process.env.INIT_CWD ?? process.env.PWD ?? cwd()`
+        // (see generate.js), and yarn sets INIT_CWD to wherever the user invoked
+        // it. On build machines yarn is invoked from a parent dir, so without
+        // this override bootsplash walks up past our project root and fails
+        // with "Failed to locate the ios/*.xcodeproj files".
         execSync(
           `${launchScreenCli} generate ${logoPath} --background "${backgroundColor}" --logo-width 1200 --platforms ios`,
-          { stdio: 'inherit', cwd: rootProjectDir },
+          {
+            stdio: 'inherit',
+            cwd: rootProjectDir,
+            env: {
+              ...process.env,
+              INIT_CWD: rootProjectDir,
+              PWD: rootProjectDir,
+            },
+          },
         );
 
         this.writeFullScreenIosStoryboard();
