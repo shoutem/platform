@@ -12,7 +12,15 @@ class MainActivity : ReactActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
       //NativeModuleInjectionMark-mainActivity-onCreate
-      super.onCreate(savedInstanceState)
+      // Pass null instead of savedInstanceState — canonical react-native-screens
+      // workaround for Fragment$InstantiationException. ScreenFragment has a
+      // guard ("Screen fragments should never be restored") that fires whenever
+      // the FragmentManager tries to re-instantiate a saved ScreenFragment from
+      // savedInstanceState. Android 16 recreates activities much more
+      // aggressively, making this fire at scale (and visibly across all Android
+      // versions, with Android 16 the worst).
+      // See https://github.com/software-mansion/react-native-screens/issues/17
+      super.onCreate(null)
   }
 
   override fun invokeDefaultOnBackPressed() {
