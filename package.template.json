@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/platform",
-  "version": "17.0.10",
+  "version": "17.0.11",
   "scripts": {
     "android": "react-native run-android",
     "build": "node scripts/build",
@@ -35,6 +35,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
+    "@babel/eslint-parser": "7.28.5",
     "@babel/preset-env": "^7.25.3",
     "@babel/runtime": "^7.25.0",
     "@babel/plugin-proposal-decorators": "7.20.13",
@@ -71,7 +72,7 @@
       "**/webpack.config*.js",
       "**/test-utils/setup.js"
     ],
-    "parser": "babel-eslint",
+    "parser": "@babel/eslint-parser",
     "parserOptions": {
       "ecmaVersion": 6,
       "sourceType": "module"
@@ -87,7 +88,8 @@
             "Title"
           ]
         }
-      ]
+      ],
+      "react/prop-types": 0
     }
   },
   "prettier": {
