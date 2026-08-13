@@ -1,5 +1,5 @@
 {
-  "version": "17.0.11-rc.0",
+  "version": "17.0.11",
   "releaseNotes": "Builder release notes\n* 🐛 Fixed the app's web preview failing to build.\n\nDeveloper notes\n* 📦 Pinned react-native to 0.85.3 via resolutions and added @react-native/assets-registry as an explicit dependency in the web package template — react-native 0.87.0 (new npm latest) dropped @react-native/assets-registry, which broke web bundle builds.",
   "builds": {
     "live": {
