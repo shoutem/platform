@@ -1,6 +1,6 @@
 {
-  "version": "17.0.10",
-  "releaseNotes": "Release notes\n* 📍 Improved location permission request for better UX/UI and to comply with Apple guidelines.\n* 🔔 The app icon badge now clears as soon as the app is opened.\n\nBuilder release notes\n* 🎨 Added a new \"Banners\" section to the Style page for setting the colors of informational, warning and error banners shown in the app.",
+  "version": "17.0.11",
+  "releaseNotes": "Builder release notes\n* 🐛 Fixed the app's web preview failing to build.\n\nDeveloper notes\n* 📦 Pinned react-native to 0.85.3 via resolutions and added @react-native/assets-registry as an explicit dependency in the web package template — react-native 0.87.0 (new npm latest) dropped @react-native/assets-registry, which broke web bundle builds.",
   "builds": {
     "live": {
       "excludedPackages": []
@@ -42,7 +42,7 @@
     "shoutem.live-update": "~2.1.1",
     "shoutem.loyalty": "~8.1.0",
     "shoutem.menu": "~6.1.0",
-    "shoutem.navigation": "~7.4.5",
+    "shoutem.navigation": "~7.5.0",
     "shoutem.news": "~7.3.0",
     "shoutem.notification-center": "~12.2.2",
     "shoutem.onboarding": "~6.0.0",
@@ -64,7 +64,7 @@
     "shoutem.rss-monitoring": "~5.0.1",
     "shoutem.rss-news": "~6.0.0",
     "shoutem.rss-photos": "~6.0.1",
-    "shoutem.rss-videos": "~6.0.1",
+    "shoutem.rss-videos": "~6.0.2",
     "shoutem.rubicon-theme": "~7.1.0",
     "shoutem.sendbird": "~7.0.2",
     "shoutem.shopify": "~11.2.0",
@@ -81,7 +81,7 @@
     "shoutem.application": "~7.6.1",
     "shoutem.i18n": "~5.0.1",
     "shoutem.layouts": "~8.1.2",
-    "shoutem.navigation": "~7.4.5",
+    "shoutem.navigation": "~7.5.0",
     "shoutem.redux": "~5.0.3",
     "shoutem.sub-navigation": "~5.1.0",
     "shoutem.theme": "~9.1.10"
