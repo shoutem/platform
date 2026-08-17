@@ -22,8 +22,8 @@
     "lodash": "4.17.21",
     "moment": "2.29.4",
     "prop-types": "15.7.1",
-    "react": "19.0.0",
-    "react-native": "0.78.0",
+    "react": "19.1.4",
+    "react-native": "0.81.6",
     "react-redux": "7.2.6",
     "redux": "3.6.0",
     "redux-action-buffer": "1.0.1",
@@ -39,9 +39,9 @@
     "@babel/preset-env": "^7.25.3",
     "@babel/runtime": "^7.25.0",
     "@babel/plugin-proposal-decorators": "7.20.13",
-    "@react-native/babel-preset": "0.78.0",
-    "@react-native/eslint-config": "0.78.0",
-    "@react-native/metro-config": "0.78.0",
+    "@react-native/babel-preset": "0.81.6",
+    "@react-native/eslint-config": "0.81.6",
+    "@react-native/metro-config": "0.81.6",
     "@shoutem/build-tools": "file:scripts/helpers",
     "@shoutem/eslint-config-react-native": "~1.0.2",
     "@welldone-software/why-did-you-render": "10.0.1",
@@ -58,10 +58,10 @@
     "prettier": "2.8.8",
     "patch-package": "6.4.7",
     "react-native-asset": "2.1.1",
-    "react-test-renderer": "19.0.0",
-    "@react-native-community/cli": "15.0.1",
-    "@react-native-community/cli-platform-android": "15.0.1",
-    "@react-native-community/cli-platform-ios": "15.0.1"
+    "react-test-renderer": "19.1.0",
+    "@react-native-community/cli": "20.0.0",
+    "@react-native-community/cli-platform-android": "20.0.0",
+    "@react-native-community/cli-platform-ios": "20.0.0"
   },
   "eslintConfig": {
     "extends": "@shoutem/react-native",
@@ -102,6 +102,6 @@
     "preset": "module:react-native"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   }
 }

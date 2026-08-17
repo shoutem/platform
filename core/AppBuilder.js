@@ -1,6 +1,5 @@
 /* eslint-disable max-classes-per-file */
 import React, { Component, createContext } from 'react';
-import { YellowBox } from 'react-native';
 import {
   assertExtensionsExist,
   assertNotEmpty,
@@ -14,15 +13,6 @@ import {
 const APP_CONTEXT = Symbol('appContext');
 
 export let AppContextProvider;
-
-// Temporarily ignoring cyclic dependency warnings and deprecated lifecycle
-// methods until package maintainers can resolve these
-YellowBox.ignoreWarnings([
-  'Require cycle:',
-  'componentWillReceiveProps',
-  'componentWillUpdate',
-  'componentWillMount',
-]);
 
 /**
  * Creates an application class that represents a root
