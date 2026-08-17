@@ -1,5 +1,5 @@
 {
-  "version": "18.0.0-rc.0",
+  "version": "18.0.0-rc.1",
   "releaseNotes": "Developer notes\n* 🤖 Android now compiles against and targets API level 36 (Android 16), with updated Kotlin and Gradle tooling.\n* 📦 Upgraded the platform to React Native 0.81 with updated iOS and Android native projects, build tooling and dependencies.",
   "builds": {
     "live": {
@@ -7,7 +7,7 @@
     }
   },
   "nativeChanges": {
-    "lastVersion": "18.0.0-rc.0"
+    "lastVersion": "18.0.0-rc.1"
   },
   "dependencies": {
     "shoutem.about": "~9.1.0",
