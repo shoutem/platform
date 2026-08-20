@@ -43,7 +43,7 @@
     "@react-native/eslint-config": "0.81.6",
     "@react-native/metro-config": "0.81.6",
     "@shoutem/build-tools": "file:scripts/helpers",
-    "@shoutem/eslint-config-react-native": "~1.0.2",
+    "@shoutem/eslint-config-react-native": "~1.1.0-rc.0",
     "@welldone-software/why-did-you-render": "10.0.1",
     "babel-plugin-jest-hoist": "24.9.0",
     "eslint-plugin-import": "2.25.4",
