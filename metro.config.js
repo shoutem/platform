@@ -6,7 +6,11 @@
  */
 
 const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
-const exclusionList = require('metro-config/src/defaults/exclusionList');
+// Metro 0.83 (RN 0.81) gates `metro-config` behind an `exports` map, so `src/` is no
+// longer reachable - `private/*` is the supported subpath. The module is Babel-compiled,
+// hence `.default`.
+const exclusionList =
+  require('metro-config/private/defaults/exclusionList').default;
 const path = require('path');
 
 // parameters adjusted by CI scripts
