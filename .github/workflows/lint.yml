@@ -1,0 +1,38 @@
+name: Lint
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  eslint:
+    name: ESLint (extension app code)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      # Merge the platform template's and every extension's app dependencies into
+      # package.json (what `shoutem configure` would do) so the install below yields
+      # a complete tree — including packages babel.config.js needs (e.g. reanimated).
+      - name: Collect extension dependencies
+        run: node scripts/collect-ci-dependencies.js
+
+      # No root lockfile in this repo, so npm ci is not an option.
+      # --ignore-scripts skips the platform postinstall (extension patching,
+      # config.json-dependent steps) which linting does not need.
+      # --legacy-peer-deps is required because parts of the dependency tree still
+      # declare React 16/17 peer ranges (e.g. react-redux@7) while the platform is
+      # on React 19.
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps --ignore-scripts --no-audit --no-fund
+
+      - name: Run ESLint
+        run: npm run lint-extensions

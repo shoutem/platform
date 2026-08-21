@@ -5,13 +5,14 @@
     "build": "node scripts/build",
     "bundle": "node scripts/bundle",
     "configure": "node scripts/configure",
-    "lint": "eslint .",
+    "lint": "node scripts/lint.js",
     "lint-fix": "eslint . --fix",
     "list-dependencies": "node scripts/platform-dependencies",
     "postinstall": "node scripts/postinstall",
     "setup": "cd scripts && yarn install",
     "build-web": "NODE_ENV=production node web/esbuild.config.mjs",
-    "run-web": "NODE_ENV=development node web/esbuild.config.dev.mjs"
+    "run-web": "NODE_ENV=development node web/esbuild.config.dev.mjs",
+    "lint-extensions": "eslint extensions/*/app --max-warnings 0"
   },
   "dependencies": {
     "auto-bind": "4.0.0",
