@@ -380,7 +380,17 @@ class AppBinaryConfigurator {
       return Promise.resolve();
     }
 
-    console.log(`Configuring ${'launch screen'.bold} (iOS + Android)...`);
+    // Android-targeted builds only generate the Android drawable variants -
+    // the iOS bootsplash/storyboard generation below needs the ios project
+    // and is pointless on Android build machines.
+    const isAndroidOnlyBuild = this.config.platform === 'android';
+
+    const configuredPlatformsLabel = isAndroidOnlyBuild
+      ? 'Android'
+      : 'iOS + Android';
+    console.log(
+      `Configuring ${'launch screen'.bold} (${configuredPlatformsLabel})...`,
+    );
 
     const logoPath = path.resolve(rootProjectDir, 'assets/launchScreenLogo.png');
     const iPadLogoPath = path.resolve(
@@ -415,7 +425,7 @@ class AppBinaryConfigurator {
         // so we can inject it as an idiom="ipad" variant into the launch-screen
         // imageset. Without this, iPad falls back to the iPhone image via
         // scaleAspectFill, cropping app-owner art.
-        if (!iPadLaunchScreen) {
+        if (isAndroidOnlyBuild || !iPadLaunchScreen) {
           return null;
         }
 
@@ -426,6 +436,10 @@ class AppBinaryConfigurator {
           );
       })
       .then(() => {
+        if (isAndroidOnlyBuild) {
+          return;
+        }
+
         const launchScreenCli = path.resolve(
           rootProjectDir,
           'node_modules/.bin/react-native-bootsplash',
@@ -767,12 +781,21 @@ class AppBinaryConfigurator {
    * actually awaited - otherwise their failures surface much later, detached
    * from the step that started them.
    *
+   * Android-targeted builds (config.platform === 'android') run only the
+   * android step, so iOS-only work (icon download, Info.plist / xcodeproj
+   * edits) is skipped on Android build machines.
+   *
    * @param configureFunction Step to run, called with (settings, platform).
    * @returns {Promise<Array>} Resolves once every platform's step settles.
    */
   runForAllPlatforms(configureFunction) {
+    const isAndroidOnlyBuild = this.config.platform === 'android';
+    const platformSettings = isAndroidOnlyBuild
+      ? _.pick(binarySettings, 'android')
+      : binarySettings;
+
     return Promise.all(
-      _.map(binarySettings, (settings, platform) => {
+      _.map(platformSettings, (settings, platform) => {
         if (_.isFunction(configureFunction)) {
           return configureFunction(_.result(binarySettings, platform), platform);
         }
@@ -912,9 +935,21 @@ class AppBinaryConfigurator {
     return false;
   }
 
+  /**
+   * Renames the template project to the app's resolved project name. For
+   * Android-targeted builds only the shared renames run (root view name in
+   * AppDelegate / MainActivity / index.js) - the xcodeproj, xcworkspace,
+   * scheme, entitlements and Podfile renames are iOS-only and skipped.
+   */
   customizeProject() {
     if (this.config.skipIOSProjectCustomization) {
       return Promise.resolve();
+    }
+
+    if (this.config.platform === 'android') {
+      return this.getPublishingProperties()
+        .then(() => this.setProjectName(this.publishingProperties))
+        .then(() => this.renameRCTRootView());
     }
 
     return this.getPublishingProperties()

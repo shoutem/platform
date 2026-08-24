@@ -1,6 +1,6 @@
 {
   "version": "18.0.0",
-  "releaseNotes": "Developer notes\n* 🤖 Android now compiles against and targets API level 36 (Android 16), with updated Kotlin and Gradle tooling.\n* 📦 Upgraded the platform to React Native 0.81 and React 19.\n* 🧹 Platform-wide lint modernization and internal cleanup.",
+  "releaseNotes": "Developer notes\n* 🤖 Android now compiles against and targets API level 36 (Android 16), with updated Kotlin and Gradle tooling.\n* 📦 Upgraded the platform to React Native 0.81 and React 19.\n* 🧹 Platform-wide lint modernization and internal cleanup.\n* 📦 Android-targeted configure runs can now skip all iOS setup steps, removing the Xcode requirement on Android build machines.",
   "builds": {
     "live": {
       "excludedPackages": []
