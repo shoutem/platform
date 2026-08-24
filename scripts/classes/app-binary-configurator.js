@@ -765,8 +765,18 @@ class AppBinaryConfigurator {
     fs.writeFileSync(buildGradlePath, newBuildGradle);
   }
 
+  /**
+   * Configures the platform-specific app info (Info.plist / build.gradle).
+   * On Android-targeted builds the iOS step is skipped - it operates on the
+   * renamed Xcode project, which Android builds don't produce.
+   */
   configureAppInfo(settings, platform) {
     if (platform === 'ios') {
+      if (this.config.platform === 'android') {
+        console.log('Skipping Info.plist configuration: Android-targeted build.');
+        return Promise.resolve();
+      }
+
       this.configureAppInfoIOS();
     } else if (platform === 'android') {
       this.configureAppInfoAndroid();
@@ -781,21 +791,17 @@ class AppBinaryConfigurator {
    * actually awaited - otherwise their failures surface much later, detached
    * from the step that started them.
    *
-   * Android-targeted builds (config.platform === 'android') run only the
-   * android step, so iOS-only work (icon download, Info.plist / xcodeproj
-   * edits) is skipped on Android build machines.
+   * Note: this intentionally runs for every platform even on Android-targeted
+   * builds - extension JS statically requires assets produced by the iOS steps
+   * (e.g. assets/appIcon.png), so Metro needs them present regardless of the
+   * target platform. Per-step iOS skipping is handled inside the steps.
    *
    * @param configureFunction Step to run, called with (settings, platform).
    * @returns {Promise<Array>} Resolves once every platform's step settles.
    */
   runForAllPlatforms(configureFunction) {
-    const isAndroidOnlyBuild = this.config.platform === 'android';
-    const platformSettings = isAndroidOnlyBuild
-      ? _.pick(binarySettings, 'android')
-      : binarySettings;
-
     return Promise.all(
-      _.map(platformSettings, (settings, platform) => {
+      _.map(binarySettings, (settings, platform) => {
         if (_.isFunction(configureFunction)) {
           return configureFunction(_.result(binarySettings, platform), platform);
         }
