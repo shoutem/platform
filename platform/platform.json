@@ -1,5 +1,5 @@
 {
-  "version": "18.0.1-rc.0",
+  "version": "18.0.1",
   "releaseNotes": "Developer notes\n* 🤖 Android now compiles against and targets API level 36 (Android 16), with updated Kotlin and Gradle tooling.\n* 📦 Upgraded the platform to React Native 0.81 and React 19.\n* 🧹 Platform-wide lint modernization and internal cleanup.\n* 📦 Android-targeted configure runs can now skip all iOS setup steps, removing the Xcode requirement on Android build machines.\n* 🌐 Web preview build updated for the new React Native and Reanimated versions, including animation handler processing and app lifecycle handling.",
   "builds": {
     "live": {
@@ -18,7 +18,7 @@
     "shoutem.analytics": "~5.2.1",
     "shoutem.application": "~7.6.2",
     "shoutem.audio": "~9.0.3",
-    "shoutem.auth": "~11.0.5-rc.0",
+    "shoutem.auth": "~11.0.5",
     "shoutem.bands-in-town": "~2.0.1",
     "shoutem.besttime": "~6.0.2",
     "shoutem.books": "~7.1.1",
@@ -67,7 +67,7 @@
     "shoutem.rss-videos": "~6.0.3",
     "shoutem.rubicon-theme": "~7.1.1",
     "shoutem.sendbird": "~7.0.3",
-    "shoutem.shopify": "~11.2.2-rc.0",
+    "shoutem.shopify": "~11.2.2",
     "shoutem.social": "~16.0.2",
     "shoutem.sub-navigation": "~5.1.0",
     "shoutem.theme": "~9.1.11",
