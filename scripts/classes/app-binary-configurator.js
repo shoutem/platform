@@ -41,16 +41,146 @@ function renamePath(oldPath, newPath) {
   return fs.rename(oldPath, newPath);
 }
 
-function downloadImage(imageUrl, savePath) {
+const IMAGE_DOWNLOAD_ATTEMPTS = 3;
+const IMAGE_DOWNLOAD_RETRY_DELAY = 1000;
+
+/**
+ * Downloads a single image to disk. Rejects on transport errors (the `request`
+ * object is where connection-level failures such as ECONNRESET surface) as well
+ * as on write errors, and treats any non-2xx response as a failure instead of
+ * silently writing an error page to disk.
+ *
+ * @param imageUrl The image URL to download.
+ * @param savePath Destination path on disk. Removed if the download fails.
+ * @returns {Promise<string>} Resolves with savePath once fully written.
+ */
+function downloadImageOnce(imageUrl, savePath) {
+  return new Promise((resolve, reject) => {
+    let settled = false;
+
+    const fail = err => {
+      if (settled) {
+        return;
+      }
+
+      settled = true;
+      fs.remove(savePath, () => reject(err));
+    };
+
+    const req = request(imageUrl);
+
+    // Connection-level failures (ECONNRESET, socket hang up, DNS) are emitted
+    // on the request, not on the write stream it is piped into. Without this
+    // listener node treats them as an unhandled 'error' event and aborts the
+    // whole process.
+    req.on('error', fail);
+
+    req.on('response', response => {
+      if (response.statusCode < 200 || response.statusCode > 299) {
+        req.abort();
+        fail(
+          new Error(
+            `Download of ${imageUrl} failed with status ${response.statusCode}.`,
+          ),
+        );
+      }
+    });
+
+    req
+      .pipe(fs.createWriteStream(savePath))
+      .on('error', fail)
+      .on('finish', () => {
+        if (!settled) {
+          settled = true;
+          resolve(savePath);
+        }
+      });
+  });
+}
+
+const PNG_MAGIC_BYTES = Buffer.from([0x89, 0x50, 0x4e, 0x47]);
+
+/**
+ * Ensures a file saved under a `.png` path actually contains PNG-encoded
+ * bytes. The Builder lets app owners upload icons in any format (JPEG is
+ * common) but always serves them under a `.png` name, and release-mode
+ * AAPT2 rejects such misnamed files with "file failed to compile". If the
+ * bytes aren't a valid PNG, the file is re-encoded in place with Jimp.
+ *
+ * @param imagePath Path to the downloaded image on disk.
+ * @returns {Promise<string>} Resolves with imagePath once it's a valid PNG
+ * (or left untouched if it isn't a `.png` path, is already a valid PNG, or
+ * re-encoding fails).
+ */
+function ensurePngFormat(imagePath) {
+  if (!/\.png$/i.test(imagePath)) {
+    return Promise.resolve(imagePath);
+  }
+
+  return fs.readFile(imagePath).then(buffer => {
+    if (buffer.slice(0, 4).equals(PNG_MAGIC_BYTES)) {
+      return imagePath;
+    }
+
+    return Jimp.read(imagePath)
+      .then(
+        image =>
+          new Promise((resolve, reject) => {
+            image.write(imagePath, err => {
+              if (err) {
+                reject(err);
+                return;
+              }
+
+              resolve(imagePath);
+            });
+          }),
+      )
+      .catch(error => {
+        // eslint-disable-next-line no-console
+        console.warn(
+          '[platform] app-binary-configurator.ensurePngFormat: could not re-encode image as PNG, leaving file as downloaded.',
+          error,
+        );
+
+        return imagePath;
+      });
+  });
+}
+
+/**
+ * Downloads an image, retrying a few times when the failure looks transient.
+ *
+ * @param imageUrl The image URL to download.
+ * @param savePath Destination path on disk.
+ * @param attemptsLeft Remaining attempts, including the current one.
+ * @returns {Promise<string>} Resolves with savePath once fully written.
+ */
+function downloadImage(
+  imageUrl,
+  savePath,
+  attemptsLeft = IMAGE_DOWNLOAD_ATTEMPTS,
+) {
   const assetsDir = path.resolve(rootProjectDir, 'assets');
   fs.ensureDirSync(assetsDir);
 
-  return new Promise((resolve, reject) => {
-    request(imageUrl)
-      .pipe(fs.createWriteStream(savePath))
-      .on('error', () => reject())
-      .on('finish', () => resolve(savePath));
-  });
+  return downloadImageOnce(imageUrl, savePath)
+    .then(ensurePngFormat)
+    .catch(err => {
+      if (attemptsLeft <= 1) {
+        throw err;
+      }
+
+      // eslint-disable-next-line no-console
+      console.warn(
+        `[platform] app-binary-configurator.downloadImage: download of ${imageUrl} failed, retrying.`,
+        err,
+      );
+
+      return new Promise(resolve =>
+        setTimeout(resolve, IMAGE_DOWNLOAD_RETRY_DELAY),
+      ).then(() => downloadImage(imageUrl, savePath, attemptsLeft - 1));
+    });
 }
 
 function parsePlist(plistPath) {
@@ -250,7 +380,17 @@ class AppBinaryConfigurator {
       return Promise.resolve();
     }
 
-    console.log(`Configuring ${'launch screen'.bold} (iOS + Android)...`);
+    // Android-targeted builds only generate the Android drawable variants -
+    // the iOS bootsplash/storyboard generation below needs the ios project
+    // and is pointless on Android build machines.
+    const isAndroidOnlyBuild = this.config.platform === 'android';
+
+    const configuredPlatformsLabel = isAndroidOnlyBuild
+      ? 'Android'
+      : 'iOS + Android';
+    console.log(
+      `Configuring ${'launch screen'.bold} (${configuredPlatformsLabel})...`,
+    );
 
     const logoPath = path.resolve(rootProjectDir, 'assets/launchScreenLogo.png');
     const iPadLogoPath = path.resolve(
@@ -285,7 +425,7 @@ class AppBinaryConfigurator {
         // so we can inject it as an idiom="ipad" variant into the launch-screen
         // imageset. Without this, iPad falls back to the iPhone image via
         // scaleAspectFill, cropping app-owner art.
-        if (!iPadLaunchScreen) {
+        if (isAndroidOnlyBuild || !iPadLaunchScreen) {
           return null;
         }
 
@@ -296,6 +436,10 @@ class AppBinaryConfigurator {
           );
       })
       .then(() => {
+        if (isAndroidOnlyBuild) {
+          return;
+        }
+
         const launchScreenCli = path.resolve(
           rootProjectDir,
           'node_modules/.bin/react-native-bootsplash',
@@ -621,8 +765,18 @@ class AppBinaryConfigurator {
     fs.writeFileSync(buildGradlePath, newBuildGradle);
   }
 
+  /**
+   * Configures the platform-specific app info (Info.plist / build.gradle).
+   * On Android-targeted builds the iOS step is skipped - it operates on the
+   * renamed Xcode project, which Android builds don't produce.
+   */
   configureAppInfo(settings, platform) {
     if (platform === 'ios') {
+      if (this.config.platform === 'android') {
+        console.log('Skipping Info.plist configuration: Android-targeted build.');
+        return Promise.resolve();
+      }
+
       this.configureAppInfoIOS();
     } else if (platform === 'android') {
       this.configureAppInfoAndroid();
@@ -631,12 +785,28 @@ class AppBinaryConfigurator {
     return Promise.resolve();
   }
 
+  /**
+   * Runs the given configure step once per platform and waits for all of them.
+   * The per-platform result is returned so async steps (asset downloads) are
+   * actually awaited - otherwise their failures surface much later, detached
+   * from the step that started them.
+   *
+   * Note: this intentionally runs for every platform even on Android-targeted
+   * builds - extension JS statically requires assets produced by the iOS steps
+   * (e.g. assets/appIcon.png), so Metro needs them present regardless of the
+   * target platform. Per-step iOS skipping is handled inside the steps.
+   *
+   * @param configureFunction Step to run, called with (settings, platform).
+   * @returns {Promise<Array>} Resolves once every platform's step settles.
+   */
   runForAllPlatforms(configureFunction) {
     return Promise.all(
       _.map(binarySettings, (settings, platform) => {
         if (_.isFunction(configureFunction)) {
-          configureFunction(_.result(binarySettings, platform), platform);
+          return configureFunction(_.result(binarySettings, platform), platform);
         }
+
+        return Promise.resolve();
       }),
     );
   }
@@ -771,9 +941,21 @@ class AppBinaryConfigurator {
     return false;
   }
 
+  /**
+   * Renames the template project to the app's resolved project name. For
+   * Android-targeted builds only the shared renames run (root view name in
+   * AppDelegate / MainActivity / index.js) - the xcodeproj, xcworkspace,
+   * scheme, entitlements and Podfile renames are iOS-only and skipped.
+   */
   customizeProject() {
     if (this.config.skipIOSProjectCustomization) {
       return Promise.resolve();
+    }
+
+    if (this.config.platform === 'android') {
+      return this.getPublishingProperties()
+        .then(() => this.setProjectName(this.publishingProperties))
+        .then(() => this.renameRCTRootView());
     }
 
     return this.getPublishingProperties()

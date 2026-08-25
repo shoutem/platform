@@ -188,7 +188,20 @@ class ExtensionsInstaller {
     console.timeEnd('Cocoapods installation took');
   }
 
+  /**
+   * Installs native (iOS) dependencies by running 'pod install'. Skipped
+   * entirely for Android-targeted builds so build machines don't need the
+   * Xcode/CocoaPods toolchain, and on non-macOS hosts where CocoaPods
+   * isn't available.
+   */
   async installNativeDependencies() {
+    if (this.platform === 'android') {
+      console.log(
+        'Skipping CocoaPods installation: Android-targeted build.'.bold,
+      );
+      return;
+    }
+
     // If the process is running on OSX, then run 'pod install' to configure
     // iOS native dependencies
     if (process.platform === 'darwin') {
