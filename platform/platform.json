@@ -1,13 +1,13 @@
 {
-  "version": "18.0.1",
-  "releaseNotes": "Developer notes\n* 🤖 Android now compiles against and targets API level 36 (Android 16), with updated Kotlin and Gradle tooling.\n* 📦 Upgraded the platform to React Native 0.81 and React 19.\n* 🧹 Platform-wide lint modernization and internal cleanup.\n* 📦 Android-targeted configure runs can now skip all iOS setup steps, removing the Xcode requirement on Android build machines.\n* 🌐 Web preview build updated for the new React Native and Reanimated versions, including animation handler processing and app lifecycle handling.",
+  "version": "18.0.2-rc.0",
+  "releaseNotes": "Release notes\n* 🐛 Fixed a crash on launch for apps that don't use Facebook login.\n\nDeveloper notes\n* 🤖 Android now compiles against and targets API level 36 (Android 16), with updated Kotlin and Gradle tooling.\n* 📦 Upgraded the platform to React Native 0.81 and React 19.\n* 🧹 Platform-wide lint modernization and internal cleanup.\n* 📦 Android-targeted configure runs can now skip all iOS setup steps, removing the Xcode requirement on Android build machines.\n* 🌐 Web preview build updated for the new React Native and Reanimated versions, including animation handler processing and app lifecycle handling.",
   "builds": {
     "live": {
       "excludedPackages": []
     }
   },
   "nativeChanges": {
-    "lastVersion": "18.0.0"
+    "lastVersion": "18.0.2-rc.0"
   },
   "dependencies": {
     "shoutem.about": "~9.1.1",
@@ -18,7 +18,7 @@
     "shoutem.analytics": "~5.2.1",
     "shoutem.application": "~7.6.2",
     "shoutem.audio": "~9.0.3",
-    "shoutem.auth": "~11.0.5",
+    "shoutem.auth": "~11.0.6-rc.0",
     "shoutem.bands-in-town": "~2.0.1",
     "shoutem.besttime": "~6.0.2",
     "shoutem.books": "~7.1.1",
