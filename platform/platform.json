@@ -1,13 +1,13 @@
 {
-  "version": "18.0.2",
-  "releaseNotes": "Release notes\n* 🐛 Fixed a crash on launch for apps that don't use Facebook login.\n\nDeveloper notes\n* 🤖 Android now compiles against and targets API level 36 (Android 16), with updated Kotlin and Gradle tooling.\n* 📦 Upgraded the platform to React Native 0.81 and React 19.\n* 🧹 Platform-wide lint modernization and internal cleanup.\n* 📦 Android-targeted configure runs can now skip all iOS setup steps, removing the Xcode requirement on Android build machines.\n* 🌐 Web preview build updated for the new React Native and Reanimated versions, including animation handler processing and app lifecycle handling.",
+  "version": "18.0.3-rc.0",
+  "releaseNotes": "Builder release notes\n* 🔒 Apps that don't show ads no longer declare the Android advertising ID permission, clearing the related Google Play warning.",
   "builds": {
     "live": {
       "excludedPackages": []
     }
   },
   "nativeChanges": {
-    "lastVersion": "18.0.2"
+    "lastVersion": "18.0.3-rc.0"
   },
   "dependencies": {
     "shoutem.about": "~9.1.1",
@@ -32,7 +32,7 @@
     "shoutem.firebase": "~7.0.1",
     "shoutem.fonts": "~3.0.1",
     "shoutem.geo-restrictions": "~5.1.4",
-    "shoutem.google-analytics": "~4.1.1",
+    "shoutem.google-analytics": "~4.1.2-rc.0",
     "shoutem.i18n": "~5.0.2",
     "shoutem.ical-events": "~6.0.3",
     "shoutem.importers": "~1.0.1",
