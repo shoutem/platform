@@ -1,5 +1,5 @@
 {
-  "version": "18.0.3-rc.0",
+  "version": "18.0.3",
   "releaseNotes": "Builder release notes\n* 🔒 Apps that don't show ads no longer declare the Android advertising ID permission, clearing the related Google Play warning.",
   "builds": {
     "live": {
@@ -7,7 +7,7 @@
     }
   },
   "nativeChanges": {
-    "lastVersion": "18.0.3-rc.0"
+    "lastVersion": "18.0.3"
   },
   "dependencies": {
     "shoutem.about": "~9.1.1",
@@ -32,7 +32,7 @@
     "shoutem.firebase": "~7.0.1",
     "shoutem.fonts": "~3.0.1",
     "shoutem.geo-restrictions": "~5.1.4",
-    "shoutem.google-analytics": "~4.1.2-rc.0",
+    "shoutem.google-analytics": "~4.1.2",
     "shoutem.i18n": "~5.0.2",
     "shoutem.ical-events": "~6.0.3",
     "shoutem.importers": "~1.0.1",
