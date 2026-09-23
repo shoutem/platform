@@ -1,6 +1,6 @@
 {
-  "version": "18.0.3",
-  "releaseNotes": "Builder release notes\n* 🔒 Apps that don't show ads no longer declare the Android advertising ID permission, clearing the related Google Play warning.",
+  "version": "18.0.4",
+  "releaseNotes": "**Builder release notes**\n* ✨ Analytics data can now be downloaded as a CSV report from the Builder.\n* 🐛 The web preview no longer shows a blank screen for shops that are not yet set up in Shopify, and explains how to finish the setup.\n\n**Developer notes**\n* 🧹 Removed obsolete CMS session handling from the loyalty, CMS and Firebase extensions.",
   "builds": {
     "live": {
       "excludedPackages": []
@@ -15,7 +15,7 @@
     "shoutem.affiliate": "~4.0.1",
     "shoutem.age-restriction": "~2.0.2",
     "shoutem.agora": "~7.1.1",
-    "shoutem.analytics": "~5.2.1",
+    "shoutem.analytics": "~5.3.0",
     "shoutem.application": "~7.6.2",
     "shoutem.audio": "~9.0.3",
     "shoutem.auth": "~11.0.6",
@@ -25,11 +25,11 @@
     "shoutem.camera": "~6.3.1",
     "shoutem.carplay": "~2.0.1",
     "shoutem.checklist": "~6.1.1",
-    "shoutem.cms": "~8.2.2",
+    "shoutem.cms": "~9.0.0",
     "shoutem.deals": "~8.1.2",
     "shoutem.events": "~6.2.2",
     "shoutem.favorites": "~7.0.2",
-    "shoutem.firebase": "~7.0.1",
+    "shoutem.firebase": "~7.0.2",
     "shoutem.fonts": "~3.0.1",
     "shoutem.geo-restrictions": "~5.1.4",
     "shoutem.google-analytics": "~4.1.2",
@@ -40,7 +40,7 @@
     "shoutem.interactive-faq": "~8.1.1",
     "shoutem.layouts": "~8.1.3",
     "shoutem.live-update": "~2.1.2",
-    "shoutem.loyalty": "~8.1.1",
+    "shoutem.loyalty": "~9.0.0",
     "shoutem.menu": "~6.1.1",
     "shoutem.navigation": "~7.5.1",
     "shoutem.news": "~7.3.1",
@@ -67,10 +67,10 @@
     "shoutem.rss-videos": "~6.0.3",
     "shoutem.rubicon-theme": "~7.1.1",
     "shoutem.sendbird": "~7.0.3",
-    "shoutem.shopify": "~11.2.2",
+    "shoutem.shopify": "~11.2.3",
     "shoutem.social": "~16.0.2",
     "shoutem.sub-navigation": "~5.1.0",
-    "shoutem.theme": "~9.1.11",
+    "shoutem.theme": "~9.1.12",
     "shoutem.user-profile": "~6.3.4",
     "shoutem.video": "~8.1.1",
     "shoutem.web-view": "~10.1.2",
@@ -84,7 +84,7 @@
     "shoutem.navigation": "~7.5.1",
     "shoutem.redux": "~5.0.4",
     "shoutem.sub-navigation": "~5.1.0",
-    "shoutem.theme": "~9.1.11"
+    "shoutem.theme": "~9.1.12"
   },
   "archivedDependencies": [
     "shoutem.flurry-analytics",
