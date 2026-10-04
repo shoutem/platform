@@ -21,7 +21,7 @@
     "auto-bind": "4.0.0",
     "es6-symbol": "3.1.1",
     "lodash": "4.17.21",
-    "moment": "2.29.4",
+    "moment": "2.31.0",
     "prop-types": "15.7.1",
     "react": "19.1.4",
     "react-native": "0.81.6",
