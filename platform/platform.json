@@ -70,7 +70,7 @@
     "shoutem.shopify": "~11.2.3",
     "shoutem.social": "~16.0.2",
     "shoutem.sub-navigation": "~5.1.0",
-    "shoutem.theme": "~9.1.12",
+    "shoutem.theme": "~9.1.13",
     "shoutem.user-profile": "~6.3.4",
     "shoutem.video": "~8.1.1",
     "shoutem.web-view": "~10.1.2",
@@ -84,7 +84,7 @@
     "shoutem.navigation": "~7.5.1",
     "shoutem.redux": "~5.0.4",
     "shoutem.sub-navigation": "~5.1.0",
-    "shoutem.theme": "~9.1.12"
+    "shoutem.theme": "~9.1.13"
   },
   "archivedDependencies": [
     "shoutem.flurry-analytics",
