@@ -1,6 +1,6 @@
 {
   "version": "18.0.5-rc.0",
-  "releaseNotes": "**Release notes**\n* ✨ Added a Widgets screen that combines content from other features — places, about info, custom HTML and an image carousel — in one place, with colors the app owner can customize.\n\n**Builder release notes**\n* ✨ Widgets is now a folder in the Builder: add widgets inside it, drag them into order, and set up each one's content, options and style on its own tabs.\n\n**Developer notes**\n* ✨ Extensions can provide widgets and register extra screens for another extension's navigation stacks.",
+  "releaseNotes": "**Release notes**\n* ✨ Added a Widgets screen that combines content from other features — places, about info, custom HTML and an image carousel — in one place, with colors the app owner can customize.\n\n**Builder release notes**\n* ✨ The Widgets screen’s settings now have a Widgets tab: add widgets, drag them into the order you want, and open each one with Manage to edit its content, options and style on its own tabs.\n\n**Developer notes**\n* ✨ Extensions can provide widgets and register extra screens for another extension’s navigation stacks.",
   "builds": {
     "live": {
       "excludedPackages": []
@@ -42,7 +42,7 @@
     "shoutem.live-update": "~2.1.2",
     "shoutem.loyalty": "~9.0.1",
     "shoutem.menu": "~6.1.1",
-    "shoutem.navigation": "~7.6.0-rc.1",
+    "shoutem.navigation": "~7.6.0-rc.2",
     "shoutem.news": "~7.3.1",
     "shoutem.notification-center": "~12.2.3",
     "shoutem.onboarding": "~6.0.1",
@@ -82,7 +82,7 @@
     "shoutem.application": "~7.6.3-rc.1",
     "shoutem.i18n": "~5.0.2",
     "shoutem.layouts": "~8.1.3",
-    "shoutem.navigation": "~7.6.0-rc.1",
+    "shoutem.navigation": "~7.6.0-rc.2",
     "shoutem.redux": "~5.0.4",
     "shoutem.sub-navigation": "~5.1.0",
     "shoutem.theme": "~9.1.12"
