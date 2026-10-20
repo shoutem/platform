@@ -1,5 +1,5 @@
 {
-  "version": "18.0.4",
+  "version": "18.0.5-rc.5",
   "releaseNotes": "**Builder release notes**\n* ✨ Analytics data can now be downloaded as a CSV report from the Builder.\n* 🐛 The web preview no longer shows a blank screen for shops that are not yet set up in Shopify, and explains how to finish the setup.\n\n**Developer notes**\n* 🧹 Removed obsolete CMS session handling from the loyalty, CMS and Firebase extensions.",
   "builds": {
     "live": {
