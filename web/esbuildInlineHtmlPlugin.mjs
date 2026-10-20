@@ -9,8 +9,16 @@ const inlineAssetsPlugin = options => {
   return {
     name: 'inline-assets',
     setup(build) {
-      build.onEnd(async () => {
+      build.onEnd(async result => {
+        // A failed bundle wrote nothing to outputDir - bail so the real esbuild
+        // errors are not followed by a misleading ENOENT from this plugin.
+        if (result.errors.length > 0) {
+          return;
+        }
+
         try {
+          fs.mkdirSync(outputDir, { recursive: true });
+
           const jsFilePath = path.join(outputDir, 'index.web.js');
           const cssFilePath = path.join(outputDir, 'index.web.css');
 
