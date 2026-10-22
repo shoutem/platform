@@ -96,12 +96,7 @@ export function createAppContextConsumer(extensions) {
         (res, Context) => {
           return value => (
             <Context.Consumer>
-              {contextValue =>
-                res({
-                  ...value,
-                  ...contextValue,
-                })
-              }
+              {contextValue => res({ ...value, ...contextValue })}
             </Context.Consumer>
           );
         },
