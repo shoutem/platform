@@ -1,6 +1,6 @@
 {
-  "version": "18.0.5",
-  "releaseNotes": "**Builder release notes**\n* 🐛 Fixed the web preview failing to build after a recent change in a third-party dependency, so app previews in the Builder keep working.\n\n**Developer notes**\n* 📦 Pinned the Expo dependency used by the web map library so web preview installs are deterministic and bundle with esbuild again.\n* 🧹 The web build no longer reports a misleading missing-file error when the bundle itself has failed.",
+  "version": "18.0.6-rc.0",
+  "releaseNotes": "**Builder release notes**\n* 🐛 Fixed app preview in the Builder: pop-up messages and confirmation dialogs now appear and work as expected.\n\n**Developer notes**\n* 📦 Added the missing `react-native-web` 0.21.2 patch (Alert implementation and related web fixes) to the platform.\n* 📦 Re-targeted the `@react-native-firebase/app` web patch from 19.2.2 to the installed 21.14.0 so patch-package applies it again.\n* 🧹 Synced platform-level files between the mobile and platform repos: `eslint-plugin-react-hooks` 4.6.2, `@react-native/assets-registry` in the web template, Ruby 3.4 gems in the Gemfile, editor and gitignore config, and the configure scripts (extension dependencies are now hoisted into the root package.json during configure).",
   "builds": {
     "live": {
       "excludedPackages": []
