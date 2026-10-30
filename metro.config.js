@@ -16,8 +16,8 @@ const path = require('path');
 // parameters adjusted by CI scripts
 const ciMetroParams = require('./ci-metro-params');
 
-// Packages that create React contexts and must exist exactly once in the
-// bundle. Must match SINGLETON_PACKAGES in
+// Packages that create React contexts or register native views and must exist
+// exactly once in the bundle. Must match SINGLETON_PACKAGES in
 // extensions/shoutem.theme/app/build/const.js (the web/esbuild alias). The list
 // lives here as well because the platform cannot require from an extension
 // that may not be installed in a given app.
@@ -25,6 +25,7 @@ const SINGLETON_PACKAGES = [
   '@shoutem/animation',
   '@shoutem/theme',
   '@shoutem/ui',
+  'react-native-svg',
 ];
 const ROOT_ORIGIN_MODULE = path.join(__dirname, 'index.js');
 
@@ -35,9 +36,9 @@ const ROOT_ORIGIN_MODULE = path.join(__dirname, 'index.js');
  * @param {string} moduleName The bare module specifier being resolved.
  * @returns {boolean} True for a singleton package or one of its subpaths.
  */
-const isSingletonRequest = moduleName =>
+const isSingletonRequest = (moduleName) =>
   SINGLETON_PACKAGES.some(
-    pkg => moduleName === pkg || moduleName.startsWith(`${pkg}/`),
+    (pkg) => moduleName === pkg || moduleName.startsWith(`${pkg}/`),
   );
 
 /**
@@ -83,7 +84,7 @@ module.exports = (async () => {
       babelTransformerPath: require.resolve('react-native-svg-transformer'),
     },
     resolver: {
-      assetExts: assetExts.filter(ext => ext !== 'svg'),
+      assetExts: assetExts.filter((ext) => ext !== 'svg'),
       sourceExts: [...sourceExts, 'svg'],
       /**
        * Returns a regular expression for modules that should be ignored by the
