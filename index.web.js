@@ -17,7 +17,11 @@ const SUPPRESSED_WARNINGS = [
 ];
 
 console.error = function filterWarnings(msg, ...args) {
-  if (!SUPPRESSED_WARNINGS.some(entry => msg.includes(entry))) {
+  const isSuppressed =
+    typeof msg === 'string' &&
+    SUPPRESSED_WARNINGS.some(entry => msg.includes(entry));
+
+  if (!isSuppressed) {
     consoleError(msg, ...args);
   }
 };
