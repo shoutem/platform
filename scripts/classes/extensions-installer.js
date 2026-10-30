@@ -1,5 +1,4 @@
-'use strict';
-
+/* eslint-disable no-console */
 const Promise = require('bluebird');
 const fs = require('fs-extra');
 const path = require('path');
@@ -71,7 +70,7 @@ class ExtensionsInstaller {
     extensions = [],
     extensionsJsPath = '',
     packageJsonTemplateFileName = 'package.template.json',
-    platform
+    platform,
   ) {
     this.localExtensions = localExtensions;
     this.extensionsJsPath = extensionsJsPath;
@@ -95,9 +94,10 @@ class ExtensionsInstaller {
       extension,
       'attributes.location.app.package',
     );
-    const extensionPackageURL = isWeb && !!webExtensionPackageURL
-      ? webExtensionPackageURL
-      : mobileExtensionPackageURL;
+    const extensionPackageURL =
+      isWeb && !!webExtensionPackageURL
+        ? webExtensionPackageURL
+        : mobileExtensionPackageURL;
     const packageName = extension.id;
 
     addDependencyToPackageJson(
@@ -107,23 +107,56 @@ class ExtensionsInstaller {
     );
   }
 
-  installExtensions() {
+  installExtensionsAndDependencies() {
     const workingDir = process.cwd();
 
-    this.extensionsToInstall.forEach(extension => this.installNpmExtension(extension, this.platform));
-
-    this.localExtensions.forEach(extension =>
-      addDependencyToPackageJson(
-      this.packageJsonTemplate,
-      extension.id,
-      `file:${extension.path}`,
-    ),
+    this.extensionsToInstall.forEach(extension =>
+      this.installNpmExtension(extension, this.platform),
     );
+
+    // Map all extensions to root package.json for symlink / npm install.
+    this.localExtensions.forEach(extension => {
+      addDependencyToPackageJson(
+        this.packageJsonTemplate,
+        extension.id,
+        `file:${extension.path}`,
+      );
+    });
+
+    // Map all dependencies defined inside extensions, into root package.json for npm installation.
+    this.localExtensions.forEach(extension => {
+      _.map(_.keys(extension.dependencies), dependency =>
+        addDependencyToPackageJson(
+          this.packageJsonTemplate,
+          dependency,
+          extension.dependencies[dependency],
+        ),
+      );
+    });
 
     const installedExtensions = [
       ...this.localExtensions,
       ...this.extensionsToInstall,
     ];
+
+    // Sort deps alphabetically.
+    this.packageJsonTemplate.dependencies = Object.keys(
+      this.packageJsonTemplate.dependencies,
+    )
+      .sort()
+      .reduce((acc, key) => {
+        acc[key] = this.packageJsonTemplate.dependencies[key];
+        return acc;
+      }, {});
+
+    this.packageJsonTemplate.devDependencies = Object.keys(
+      this.packageJsonTemplate.devDependencies,
+    )
+      .sort()
+      .reduce((acc, key) => {
+        acc[key] = this.packageJsonTemplate.devDependencies[key];
+        return acc;
+      }, {});
 
     return writePackageJson(this.packageJsonTemplate)
       .then(() => installJsDependencies())

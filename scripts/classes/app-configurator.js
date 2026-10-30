@@ -1,8 +1,8 @@
+/* eslint-disable import/no-dynamic-require */
+/* eslint-disable consistent-return */
 /* eslint-disable global-require, no-console */
 // global-require needs to be enabled because files to be required are
 // determined dynamically
-
-'use strict';
 
 const { execFileSync } = require('child_process');
 const fs = require('fs-extra');
@@ -191,40 +191,45 @@ class AppConfigurator {
       platform,
     );
 
-    return installer.installExtensions().then(installedExtensions => {
-      const appBinaryConfigurator = new AppBinaryConfigurator({ ...buildConfig, installedExtensions });
-      const extensionsJs = installer.createExtensionsJs(installedExtensions);
-
-      if (!_.isEmpty(installedExtensions) && !skipNativeDependencies) {
-        installedExtensions.map(ext => {
-          this.insertNativeDependencies(ext.id);
+    return installer
+      .installExtensionsAndDependencies()
+      .then(installedExtensions => {
+        const appBinaryConfigurator = new AppBinaryConfigurator({
+          ...buildConfig,
+          installedExtensions,
         });
-      }
+        const extensionsJs = installer.createExtensionsJs(installedExtensions);
 
-      const lifeCycleHook = isWeb ? 'previewBuild' : 'preBuild';
-      const preBuild = this.executeBuildLifecycleHook(
-        installedExtensions,
-        lifeCycleHook,
-      );
+        if (!_.isEmpty(installedExtensions) && !skipNativeDependencies) {
+          installedExtensions.map(ext => {
+            this.insertNativeDependencies(ext.id);
+          });
+        }
 
-      let configureProject;
+        const lifeCycleHook = isWeb ? 'previewBuild' : 'preBuild';
+        const preBuild = this.executeBuildLifecycleHook(
+          installedExtensions,
+          lifeCycleHook,
+        );
 
-      if (!skipNativeDependencies) {
-        configureProject = appBinaryConfigurator
-          .customizeProject()
-          .then(() => {
-            if (!isWeb) {
-              return installer.installNativeDependencies(installedExtensions);
-            }
-          })
-          .then(() => appBinaryConfigurator.configureApp());
-      } else if (isProduction) {
-        // rename the root view for republish build
-        configureProject = appBinaryConfigurator.customizeProject();
-      }
+        let configureProject;
 
-      return Promise.all([extensionsJs, preBuild, configureProject]);
-    });
+        if (!skipNativeDependencies) {
+          configureProject = appBinaryConfigurator
+            .customizeProject()
+            .then(() => {
+              if (!isWeb) {
+                return installer.installNativeDependencies(installedExtensions);
+              }
+            })
+            .then(() => appBinaryConfigurator.configureApp());
+        } else if (isProduction) {
+          // rename the root view for republish build
+          configureProject = appBinaryConfigurator.customizeProject();
+        }
+
+        return Promise.all([extensionsJs, preBuild, configureProject]);
+      });
   }
 
   runPostConfigurationStep() {

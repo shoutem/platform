@@ -22,10 +22,11 @@ const SUPPRESSED_WARNINGS = [
 ];
 
 console.error = function filterWarnings(msg, ...args) {
-  // The first argument isn't always a string (errors, objects, undefined).
-  const message = typeof msg === 'string' ? msg : String(msg);
+  const isSuppressed =
+    typeof msg === 'string' &&
+    SUPPRESSED_WARNINGS.some((entry) => msg.includes(entry));
 
-  if (!SUPPRESSED_WARNINGS.some((entry) => message.includes(entry))) {
+  if (!isSuppressed) {
     originalConsoleError(msg, ...args);
   }
 };
