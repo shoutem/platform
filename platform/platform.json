@@ -17,7 +17,7 @@
     "shoutem.agora": "~7.1.1",
     "shoutem.analytics": "~5.3.0",
     "shoutem.application": "~7.6.2",
-    "shoutem.audio": "~9.0.3",
+    "shoutem.audio": "~9.1.0-rc.1",
     "shoutem.auth": "~11.0.6",
     "shoutem.bands-in-town": "~2.0.1",
     "shoutem.besttime": "~6.0.2",
@@ -68,9 +68,9 @@
     "shoutem.rubicon-theme": "~7.1.1",
     "shoutem.sendbird": "~7.0.3",
     "shoutem.shopify": "~11.2.4",
-    "shoutem.social": "~16.0.2",
+    "shoutem.social": "~16.0.3-rc.1",
     "shoutem.sub-navigation": "~5.1.0",
-    "shoutem.theme": "~9.1.13",
+    "shoutem.theme": "~9.1.14",
     "shoutem.user-profile": "~6.3.4",
     "shoutem.video": "~8.1.1",
     "shoutem.web-view": "~10.1.2",
@@ -84,7 +84,7 @@
     "shoutem.navigation": "~7.5.1",
     "shoutem.redux": "~5.0.4",
     "shoutem.sub-navigation": "~5.1.0",
-    "shoutem.theme": "~9.1.13"
+    "shoutem.theme": "~9.1.14"
   },
   "archivedDependencies": [
     "shoutem.flurry-analytics",
