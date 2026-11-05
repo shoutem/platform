@@ -30,12 +30,15 @@ function substituteWebDependencies(isWeb = false, packageJson = {}) {
   }
 
   const resultPackageJson = { ...packageJson };
-  const { webDependencies } = packageJson;
+  const { webDependencies, webPeerDependencies } = packageJson;
 
-  if (!webDependencies) {
-    return resultPackageJson;
-  } else {
+  if (webDependencies) {
     resultPackageJson.dependencies = webDependencies;
+  }
+
+  // Same rule for peers, so Bun does not auto-install mobile-only peers on web.
+  if (webPeerDependencies) {
+    resultPackageJson.peerDependencies = webPeerDependencies;
   }
 
   return resultPackageJson;
