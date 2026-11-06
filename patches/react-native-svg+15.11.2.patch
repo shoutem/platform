@@ -1,0 +1,23 @@
+diff --git a/node_modules/react-native-svg/common/cpp/react/renderer/components/rnsvg/RNSVGConcreteShadowNode.h b/node_modules/react-native-svg/common/cpp/react/renderer/components/rnsvg/RNSVGConcreteShadowNode.h
+index afbd565..0ab0298 100644
+--- a/node_modules/react-native-svg/common/cpp/react/renderer/components/rnsvg/RNSVGConcreteShadowNode.h
++++ b/node_modules/react-native-svg/common/cpp/react/renderer/components/rnsvg/RNSVGConcreteShadowNode.h
+@@ -13,16 +13,14 @@ class RNSVGConcreteShadowNode : public ConcreteShadowNode<
+                                     RNSVGLayoutableShadowNode,
+                                     PropsT,
+                                     ViewEventEmitter,
+-                                    StateData,
+-                                    false> {
++                                    StateData> {
+  public:
+   using BaseShadowNode = ConcreteShadowNode<
+       concreteComponentName,
+       RNSVGLayoutableShadowNode,
+       PropsT,
+       ViewEventEmitter,
+-      StateData,
+-      false>;
++      StateData>;
+ 
+   using ConcreteViewProps = PropsT;
+ 
