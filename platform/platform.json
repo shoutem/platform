@@ -70,7 +70,7 @@
     "shoutem.shopify": "~11.2.4",
     "shoutem.social": "~16.0.3",
     "shoutem.sub-navigation": "~5.1.0",
-    "shoutem.theme": "~9.1.16-rc.7",
+    "shoutem.theme": "~9.1.16-rc.9",
     "shoutem.user-profile": "~6.3.4",
     "shoutem.video": "~8.1.1",
     "shoutem.web-view": "~10.1.2",
@@ -85,7 +85,7 @@
     "shoutem.navigation": "~7.6.0-rc.4",
     "shoutem.redux": "~5.0.4",
     "shoutem.sub-navigation": "~5.1.0",
-    "shoutem.theme": "~9.1.16-rc.7"
+    "shoutem.theme": "~9.1.16-rc.9"
   },
   "archivedDependencies": [
     "shoutem.flurry-analytics",
