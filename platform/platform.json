@@ -51,7 +51,7 @@
     "shoutem.permissions": "~7.2.1",
     "shoutem.persist": "~5.0.1",
     "shoutem.photos": "~6.1.1",
-    "shoutem.places": "~8.5.0-rc.24",
+    "shoutem.places": "~8.5.0-rc.25",
     "shoutem.podcast": "~13.1.4",
     "shoutem.preview": "~7.1.2",
     "shoutem.products": "~6.1.1",
@@ -74,7 +74,7 @@
     "shoutem.user-profile": "~6.3.4",
     "shoutem.video": "~8.1.1",
     "shoutem.web-view": "~10.1.2",
-    "shoutem.widgets": "~1.0.0-rc.60",
+    "shoutem.widgets": "~1.0.0-rc.62",
     "shoutem.wordpress": "~6.0.2",
     "shoutem.youtube": "~6.0.2"
   },
