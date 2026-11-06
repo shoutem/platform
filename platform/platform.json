@@ -42,7 +42,7 @@
     "shoutem.live-update": "~2.1.2",
     "shoutem.loyalty": "~9.0.1",
     "shoutem.menu": "~6.1.1",
-    "shoutem.navigation": "~7.6.0-rc.3",
+    "shoutem.navigation": "~7.6.0-rc.4",
     "shoutem.news": "~7.3.1",
     "shoutem.notification-center": "~12.2.3",
     "shoutem.onboarding": "~6.0.1",
@@ -82,7 +82,7 @@
     "shoutem.application": "~7.6.3-rc.3",
     "shoutem.i18n": "~5.0.3",
     "shoutem.layouts": "~8.1.4",
-    "shoutem.navigation": "~7.6.0-rc.3",
+    "shoutem.navigation": "~7.6.0-rc.4",
     "shoutem.redux": "~5.0.4",
     "shoutem.sub-navigation": "~5.1.0",
     "shoutem.theme": "~9.1.16-rc.5"
