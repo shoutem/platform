@@ -1,0 +1,44 @@
+diff --git a/node_modules/react-native-svg/android/src/main/jni/CMakeLists.txt b/node_modules/react-native-svg/android/src/main/jni/CMakeLists.txt
+index 21352d2..7c5ff8f 100644
+--- a/node_modules/react-native-svg/android/src/main/jni/CMakeLists.txt
++++ b/node_modules/react-native-svg/android/src/main/jni/CMakeLists.txt
+@@ -85,6 +85,16 @@ target_compile_options(
+   -Wall
+ )
+ 
++if(ReactAndroid_VERSION_MINOR GREATER_EQUAL 80)
++  target_compile_reactnative_options(react_codegen_rnsvg PUBLIC)
++endif()
++
++target_compile_options(
++  react_codegen_rnsvg
++  PRIVATE
++  -Wno-dollar-in-identifier-extension
++)
++
+ target_include_directories(
+  ${CMAKE_PROJECT_NAME}
+  PUBLIC
+diff --git a/node_modules/react-native-svg/common/cpp/react/renderer/components/rnsvg/RNSVGConcreteShadowNode.h b/node_modules/react-native-svg/common/cpp/react/renderer/components/rnsvg/RNSVGConcreteShadowNode.h
+index afbd565..0ab0298 100644
+--- a/node_modules/react-native-svg/common/cpp/react/renderer/components/rnsvg/RNSVGConcreteShadowNode.h
++++ b/node_modules/react-native-svg/common/cpp/react/renderer/components/rnsvg/RNSVGConcreteShadowNode.h
+@@ -13,16 +13,14 @@ class RNSVGConcreteShadowNode : public ConcreteShadowNode<
+                                     RNSVGLayoutableShadowNode,
+                                     PropsT,
+                                     ViewEventEmitter,
+-                                    StateData,
+-                                    false> {
++                                    StateData> {
+  public:
+   using BaseShadowNode = ConcreteShadowNode<
+       concreteComponentName,
+       RNSVGLayoutableShadowNode,
+       PropsT,
+       ViewEventEmitter,
+-      StateData,
+-      false>;
++      StateData>;
+ 
+   using ConcreteViewProps = PropsT;
+ 
