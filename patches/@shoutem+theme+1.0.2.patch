@@ -1,0 +1,72 @@
+diff --git a/node_modules/@shoutem/theme/src/StyleProvider.js b/node_modules/@shoutem/theme/src/StyleProvider.js
+index 133b617..0a3cec0 100644
+--- a/node_modules/@shoutem/theme/src/StyleProvider.js
++++ b/node_modules/@shoutem/theme/src/StyleProvider.js
+@@ -1,4 +1,4 @@
+-import React, { useEffect, useRef } from 'react';
++import React, { useMemo } from 'react';
+ import PropTypes from 'prop-types';
+ import Theme from './Theme';
+ 
+@@ -6,15 +6,21 @@ export const ThemeContext = React.createContext({
+   theme: null,
+ });
+ 
+-const StyleProvider = ({ children, style }) => {
+-  const theme = useRef(new Theme(style));
++// Stable default so an omitted style prop doesn't create a fresh object -
++// and with it a fresh Theme - on every render.
++const DEFAULT_STYLE = {};
+ 
+-  useEffect(() => {
+-    theme.current?.setTheme(style);
+-  }, [style]);
++const StyleProvider = ({ children, style = DEFAULT_STYLE }) => {
++  // A new Theme instance (with a new id) is created whenever the style
++  // changes, so connectStyle consumers re-resolve against the new theme and
++  // their per-instance style caches miss. Mutating one shared instance in an
++  // effect would update the theme only after consumers have already rendered
++  // against the old one, without ever re-rendering them.
++  const theme = useMemo(() => new Theme(style), [style]);
++  const contextValue = useMemo(() => ({ theme }), [theme]);
+ 
+   return (
+-    <ThemeContext.Provider value={{ theme: theme.current }}>
++    <ThemeContext.Provider value={contextValue}>
+       {children}
+     </ThemeContext.Provider>
+   );
+@@ -25,9 +31,4 @@ StyleProvider.propTypes = {
+   style: PropTypes.object,
+ };
+ 
+-StyleProvider.defaultProps = {
+-  children: undefined,
+-  style: {},
+-};
+-
+ export default StyleProvider;
+diff --git a/node_modules/@shoutem/theme/src/Theme.js b/node_modules/@shoutem/theme/src/Theme.js
+index d5053a1..aaca5c8 100644
+--- a/node_modules/@shoutem/theme/src/Theme.js
++++ b/node_modules/@shoutem/theme/src/Theme.js
+@@ -10,6 +10,11 @@ const THEME_STYLE_CACHE = '@@shoutem.theme/themeCachedStyle';
+ 
+ let defaultTheme;
+ 
++// Monotonically increasing Theme instance id. connectStyle keys its style
++// caches by `theme.id`, so every instance must be distinguishable - reusing
++// an id would serve styles resolved against a previous theme.
++let themeIdCounter = 0;
++
+ const resolveStyle = (style, baseStyle) =>
+   normalizeStyle(resolveIncludes(style, baseStyle));
+ 
+@@ -40,6 +45,7 @@ const resolveStyle = (style, baseStyle) =>
+ export default class Theme {
+   constructor(themeStyle) {
+     this.subscriptions = [];
++    this.id = ++themeIdCounter;
+     this[THEME_STYLE] = resolveStyle(themeStyle);
+     this[THEME_STYLE_CACHE] = {};
+   }
