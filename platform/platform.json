@@ -1,6 +1,6 @@
 {
   "version": "18.0.8-rc.2",
-  "releaseNotes": "**Release notes**\n* ✨ Picking a theme in the app now applies it right away, with no restart — including screen headers and the status bar.\n\n**Developer notes**\n* 📦 Patched the styling library so theme changes reach already-mounted components and per-component style caches invalidate per theme.\n* ✨ Navigation header styles are now theme-aware and re-applied by screens when the theme changes, including screens in the background, with header animations bound to each screen's own scroll.\n* 🧹 Added developer scripts for release checks and version bookkeeping.\n* 📦 Extension manifests now list every extension they depend on.",
+  "releaseNotes": "**Release notes**\n* ✨ Picking a theme in the app now applies it right away, with no restart — including screen headers and the status bar.\n\n**Developer notes**\n* 📦 Patched the styling library so theme changes reach already-mounted components and per-component style caches invalidate per theme.\n* ✨ Navigation header styles are now theme-aware and re-applied by screens when the theme changes, including screens in the background, with header animations bound to each screen's own scroll.\n* 🧹 Added developer scripts for release checks and version bookkeeping.\n* 📦 Extension manifests now declare more of the extensions they depend on.",
   "builds": {
     "live": {
       "excludedPackages": []
