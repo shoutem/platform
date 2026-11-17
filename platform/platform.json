@@ -7,7 +7,7 @@
     }
   },
   "nativeChanges": {
-    "lastVersion": "18.0.7"
+    "lastVersion": "18.0.3"
   },
   "dependencies": {
     "shoutem.about": "~9.2.0",
