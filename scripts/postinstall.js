@@ -112,23 +112,34 @@ async function applyExtensionPatches() {
   console.timeEnd('Patching extension packages');
 }
 
+/**
+ * Applies the platform-level patch-package patches (`patches` or `patches-web`,
+ * depending on the configured platform). A missing patches directory is fine and
+ * skipped; a patch that fails to apply aborts the install with a non-zero exit so
+ * builds can't silently continue with unpatched packages.
+ */
 async function applyPlatformPatches() {
   const patchesDir = path.join(projectPath, `${platformPatchesDirectoryName}`);
 
   console.time('Patching platform packages');
   console.log('Checking for patch-package patches...');
 
-  try {
-    const pathExists = await fs.pathExists(patchesDir);
-    if (!pathExists) {
-      return;
-    }
+  const pathExists = await fs.pathExists(patchesDir);
+  if (!pathExists) {
+    return;
+  }
 
+  try {
     await exec(`node node_modules/patch-package --patch-dir ${platformPatchesDirectoryName}`, {
       cwd: projectPath,
     });
   } catch (error) {
-    console.log('Unable to scan patches directory: ', error);
+    console.error(
+      `Failed to apply platform patches from ${platformPatchesDirectoryName}:`,
+    );
+    console.error(error.stdout || '');
+    console.error(error.stderr || error);
+    process.exit(1);
   }
 
   console.timeEnd('Patching platform packages');
